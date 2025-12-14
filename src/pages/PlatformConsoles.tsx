@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
+import BackToTop from "@/components/BackToTop";
 import useScrollAnimation from "@/hooks/useScrollAnimation";
 import { ArrowUpRight } from "lucide-react";
 
@@ -23,7 +24,7 @@ const platformConsoles: PlatformConsole[] = [
     name: "ATLAS",
     tagline: "Workforce Operating System",
     description: "AI-enabled workforce management and productivity platform designed for enterprise teams requiring operational precision and scalable coordination.",
-    status: "Live / Beta",
+    status: "Beta",
     statusType: "beta",
     consoleUrl: "https://atlas.cropxon.com",
     overviewUrl: "/atlas",
@@ -47,7 +48,7 @@ const platformConsoles: PlatformConsole[] = [
     description: "Scalable cloud infrastructure platform designed for individuals, startups, and SMBs with enterprise-grade reliability and security.",
     status: "Live (SMB)",
     statusType: "live",
-    consoleUrl: "https://cloud.cropxon.com",
+    consoleUrl: "https://cropxoncloud.com",
     overviewUrl: "/cropxon-cloud",
     features: ["Compute Instances", "Managed Databases", "Object Storage", "Edge Functions"],
   },
@@ -63,13 +64,13 @@ const platformConsoles: PlatformConsole[] = [
     features: ["Research Publications", "Experimental APIs", "Dataset Access", "Collaboration Portal"],
   },
   {
-    id: "robotics",
-    name: "CROPXON ROBOTICS",
+    id: "opzenix",
+    name: "OPZENIX",
     tagline: "Advanced Robotics Systems",
     description: "Next-generation robotics and autonomous systems division focused on industrial automation and intelligent machine systems.",
     status: "R&D / Planning",
     statusType: "planned",
-    consoleUrl: "https://robotics.cropxon.com",
+    consoleUrl: "https://opzenix.com",
     overviewUrl: "/robotics",
     features: ["Autonomous Navigation", "Industrial Automation", "Machine Intelligence", "Sensor Fusion"],
   },
@@ -394,6 +395,7 @@ const PlatformConsoles = () => {
         </main>
 
         <Footer />
+        <BackToTop />
       </div>
     </>
   );

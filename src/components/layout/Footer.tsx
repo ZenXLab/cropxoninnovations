@@ -38,11 +38,11 @@ const Footer = () => {
       { label: "Contact", href: "/contact" },
     ],
     ecosystem: [
-      { label: "ATLAS", href: "/atlas" },
-      { label: "TRACEFLOW", href: "/traceflow" },
+      { label: "ATLAS", href: "https://atlas.cropxon.com", external: true },
+      { label: "TRACEFLOW", href: "https://traceflow.cropxon.com", external: true },
       { label: "OriginX Labs", href: "/originx-labs" },
-      { label: "CropXon Cloud", href: "/cropxon-cloud" },
-      { label: "Robotics", href: "/robotics" },
+      { label: "CropXon Cloud", href: "https://cropxoncloud.com", external: true },
+      { label: "OpZeniX", href: "https://opzenix.com", external: true },
     ],
     resources: [
       { label: "Philosophy", href: "/how-we-think" },
@@ -89,7 +89,20 @@ const Footer = () => {
               <ul className="space-y-2">
                 {links.map((link) => (
                   <li key={link.label}>
-                    {link.href.startsWith("/") && !link.href.includes("#") ? (
+                    {link.external ? (
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-muted-foreground hover:text-foreground transition-opacity duration-150 opacity-70 hover:opacity-100"
+                        style={{
+                          fontFamily: "Inter, system-ui, sans-serif",
+                          fontSize: "12px",
+                        }}
+                      >
+                        {link.label}
+                      </a>
+                    ) : link.href.startsWith("/") && !link.href.includes("#") ? (
                       <Link
                         to={link.href}
                         className="text-xs text-muted-foreground hover:text-foreground transition-opacity duration-150 opacity-70 hover:opacity-100"
@@ -139,7 +152,7 @@ const Footer = () => {
             aria-label="Official communication channels"
             className="flex flex-col sm:flex-row sm:flex-wrap gap-4 sm:gap-6"
           >
-            {officialChannels.map((channel, index) => (
+            {officialChannels.map((channel) => (
               <a
                 key={channel.label}
                 href={channel.href}

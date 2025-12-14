@@ -8,19 +8,26 @@ interface MobileMenuProps {
   onClose: () => void;
 }
 
+interface NavChild {
+  label: string;
+  href: string;
+  external?: boolean;
+}
+
 interface NavSection {
   label: string;
-  children: { label: string; href: string }[];
+  children: NavChild[];
 }
 
 const navSections: NavSection[] = [
   {
     label: "ECOSYSTEM",
     children: [
-      { label: "ATLAS", href: "/atlas" },
-      { label: "TRACEFLOW", href: "/traceflow" },
+      { label: "ATLAS", href: "https://atlas.cropxon.com", external: true },
+      { label: "TRACEFLOW", href: "https://traceflow.cropxon.com", external: true },
       { label: "OriginX Labs", href: "/originx-labs" },
-      { label: "CropXon Cloud", href: "/cropxon-cloud" },
+      { label: "CropXon Cloud", href: "https://cropxoncloud.com", external: true },
+      { label: "OpZeniX", href: "https://opzenix.com", external: true },
     ],
   },
   {
@@ -35,8 +42,8 @@ const navSections: NavSection[] = [
     label: "TECHNOLOGY",
     children: [
       { label: "Architecture", href: "/architecture" },
-      { label: "Security & Compliance", href: "/company#compliance" },
-      { label: "Research & Foundations", href: "/originx-labs" },
+      { label: "Security & Compliance", href: "/architecture#security" },
+      { label: "Research & Foundations", href: "/architecture#research" },
     ],
   },
   {
@@ -62,7 +69,8 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
   const location = useLocation();
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
 
-  const isActive = (href: string) => {
+  const isActive = (href: string, external?: boolean) => {
+    if (external) return false;
     const basePath = href.split("#")[0];
     return location.pathname === basePath;
   };
@@ -151,26 +159,45 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
 
                 {expandedSection === section.label && (
                   <div className="pb-4 pl-4 space-y-1">
-                    {section.children.map((child) => (
-                      <Link
-                        key={child.label}
-                        to={child.href}
-                        onClick={onClose}
-                        className={`block py-2.5 transition-opacity duration-[120ms] ${
-                          isActive(child.href)
-                            ? "text-[#0B0E14] dark:text-[#F5F7FA]"
-                            : "text-[#6B7280] hover:text-[#111827] dark:hover:text-[#E5E7EB]"
-                        }`}
-                        style={{
-                          fontFamily: "Inter, system-ui, sans-serif",
-                          fontWeight: 400,
-                          fontSize: "13px",
-                          letterSpacing: "0.01em",
-                        }}
-                      >
-                        {child.label}
-                      </Link>
-                    ))}
+                    {section.children.map((child) =>
+                      child.external ? (
+                        <a
+                          key={child.label}
+                          href={child.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={onClose}
+                          className="block py-2.5 text-[#6B7280] hover:text-[#111827] dark:hover:text-[#E5E7EB] transition-opacity duration-[120ms]"
+                          style={{
+                            fontFamily: "Inter, system-ui, sans-serif",
+                            fontWeight: 400,
+                            fontSize: "13px",
+                            letterSpacing: "0.01em",
+                          }}
+                        >
+                          {child.label}
+                        </a>
+                      ) : (
+                        <Link
+                          key={child.label}
+                          to={child.href}
+                          onClick={onClose}
+                          className={`block py-2.5 transition-opacity duration-[120ms] ${
+                            isActive(child.href)
+                              ? "text-[#0B0E14] dark:text-[#F5F7FA]"
+                              : "text-[#6B7280] hover:text-[#111827] dark:hover:text-[#E5E7EB]"
+                          }`}
+                          style={{
+                            fontFamily: "Inter, system-ui, sans-serif",
+                            fontWeight: 400,
+                            fontSize: "13px",
+                            letterSpacing: "0.01em",
+                          }}
+                        >
+                          {child.label}
+                        </Link>
+                      )
+                    )}
                   </div>
                 )}
               </div>

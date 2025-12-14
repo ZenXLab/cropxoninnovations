@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
+import BackToTop from "@/components/BackToTop";
 import useScrollAnimation from "@/hooks/useScrollAnimation";
 
 interface Principle {
@@ -150,6 +151,7 @@ const HowWeThink = () => {
         </main>
 
         <Footer />
+        <BackToTop />
       </div>
     </>
   );
