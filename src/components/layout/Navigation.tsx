@@ -7,17 +7,18 @@ import MobileMenu from "./MobileMenu";
 interface NavItem {
   label: string;
   href?: string;
-  children?: { label: string; href: string }[];
+  children?: { label: string; href: string; external?: boolean }[];
 }
 
 const navItems: NavItem[] = [
   {
     label: "ECOSYSTEM",
     children: [
-      { label: "ATLAS", href: "/atlas" },
-      { label: "TRACEFLOW", href: "/traceflow" },
+      { label: "ATLAS", href: "https://atlas.cropxon.com", external: true },
+      { label: "TRACEFLOW", href: "https://traceflow.cropxon.com", external: true },
       { label: "OriginX Labs", href: "/originx-labs" },
-      { label: "CropXon Cloud", href: "/cropxon-cloud" },
+      { label: "CropXon Cloud", href: "https://cropxoncloud.com", external: true },
+      { label: "OpZeniX", href: "https://opzenix.com", external: true },
     ],
   },
   {
@@ -32,8 +33,8 @@ const navItems: NavItem[] = [
     label: "TECHNOLOGY",
     children: [
       { label: "Architecture", href: "/architecture" },
-      { label: "Security & Compliance", href: "/company#compliance" },
-      { label: "Research & Foundations", href: "/originx-labs" },
+      { label: "Security & Compliance", href: "/architecture#security" },
+      { label: "Research & Foundations", href: "/architecture#research" },
     ],
   },
   {
@@ -86,6 +87,7 @@ const Navigation = () => {
   const isChildActive = (item: NavItem) => {
     if (!item.children) return false;
     return item.children.some((child) => {
+      if (child.external) return false;
       const basePath = child.href.split("#")[0];
       return location.pathname === basePath;
     });
@@ -176,22 +178,41 @@ const Navigation = () => {
                       onMouseEnter={() => handleMouseEnter(item.label)}
                       onMouseLeave={handleMouseLeave}
                     >
-                      {item.children.map((child) => (
-                        <Link
-                          key={child.label}
-                          to={child.href}
-                          className="block px-4 py-2.5 text-[#6B7280] hover:text-[#111827] dark:hover:text-[#F5F7FA] hover:bg-foreground/[0.04] transition-colors duration-[120ms]"
-                          style={{
-                            fontFamily: "Inter, system-ui, sans-serif",
-                            fontWeight: 400,
-                            fontSize: "13px",
-                            letterSpacing: "0.01em",
-                          }}
-                          onClick={() => setActiveDropdown(null)}
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
+                      {item.children.map((child) =>
+                        child.external ? (
+                          <a
+                            key={child.label}
+                            href={child.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block px-4 py-2.5 text-[#6B7280] hover:text-[#111827] dark:hover:text-[#F5F7FA] hover:bg-foreground/[0.04] transition-colors duration-[120ms]"
+                            style={{
+                              fontFamily: "Inter, system-ui, sans-serif",
+                              fontWeight: 400,
+                              fontSize: "13px",
+                              letterSpacing: "0.01em",
+                            }}
+                            onClick={() => setActiveDropdown(null)}
+                          >
+                            {child.label}
+                          </a>
+                        ) : (
+                          <Link
+                            key={child.label}
+                            to={child.href}
+                            className="block px-4 py-2.5 text-[#6B7280] hover:text-[#111827] dark:hover:text-[#F5F7FA] hover:bg-foreground/[0.04] transition-colors duration-[120ms]"
+                            style={{
+                              fontFamily: "Inter, system-ui, sans-serif",
+                              fontWeight: 400,
+                              fontSize: "13px",
+                              letterSpacing: "0.01em",
+                            }}
+                            onClick={() => setActiveDropdown(null)}
+                          >
+                            {child.label}
+                          </Link>
+                        )
+                      )}
                     </div>
                   )}
                 </div>

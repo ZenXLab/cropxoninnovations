@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import useScrollAnimation from "@/hooks/useScrollAnimation";
-import cropxonLogo from "@/assets/cropxon-logo.svg";
 
 interface Product {
   id: string;
@@ -10,7 +9,6 @@ interface Product {
   tagline: string;
   description: string;
   capabilities: string[];
-  accentColor: string;
   status: string;
   statusDate: string;
   link: string;
@@ -24,7 +22,6 @@ const products: Product[] = [
     tagline: "Workforce Operating System",
     description: "A unified platform for managing workforce operations, scheduling, and resource allocation.",
     capabilities: ["Workforce Analytics", "Resource Optimization", "Predictive Scheduling"],
-    accentColor: "#3b82f6",
     status: "BETA",
     statusDate: "Q1 2025",
     link: "/atlas",
@@ -36,23 +33,21 @@ const products: Product[] = [
     tagline: "Digital Cognition Infrastructure",
     description: "Infrastructure layer enabling intelligent decision-making and automated reasoning.",
     capabilities: ["Cognitive Mapping", "Decision Automation", "Process Intelligence"],
-    accentColor: "#f59e0b",
-    status: "BETA",
+    status: "LIVE",
     statusDate: "Q4 2024",
     link: "/traceflow",
-    externalUrl: "https://traceflow.io",
+    externalUrl: "https://traceflow.cropxon.com",
   },
   {
     id: "originx",
-    name: "ORIGIN X LABS",
+    name: "ORIGINX LABS",
     tagline: "Research & Development",
     description: "Our research division focused on pioneering new technologies and deep-tech innovations.",
     capabilities: ["AI/ML Research", "Prototype Development", "Tech Transfer"],
-    accentColor: "#a855f7",
-    status: "BETA",
+    status: "ACTIVE",
     statusDate: "Active R&D",
     link: "/originx-labs",
-    externalUrl: "https://labs.cropxon.com",
+    externalUrl: "https://originxlabs.com",
   },
   {
     id: "cloud",
@@ -60,23 +55,21 @@ const products: Product[] = [
     tagline: "Infrastructure as a Service",
     description: "Scalable infrastructure-as-a-service designed to grow from developers to enterprise.",
     capabilities: ["Compute Resources", "Storage Solutions", "Network Infrastructure"],
-    accentColor: "#64748b",
-    status: "BETA",
+    status: "LIVE",
     statusDate: "Live (SMB)",
     link: "/cropxon-cloud",
-    externalUrl: "https://cloud.cropxon.com",
+    externalUrl: "https://cropxoncloud.com",
   },
   {
-    id: "robotics",
-    name: "CROPXON ROBOTICS",
+    id: "opzenix",
+    name: "OPZENIX",
     tagline: "Autonomous Systems",
     description: "Advanced robotics and autonomous systems division for next-generation automation and intelligent machine systems.",
     capabilities: ["Autonomous Navigation", "Industrial Automation", "Machine Intelligence", "Sensor Fusion"],
-    accentColor: "#f97316",
     status: "PLANNED",
     statusDate: "Future Roadmap",
     link: "/robotics",
-    externalUrl: "https://robotics.cropxon.com",
+    externalUrl: "https://opzenix.com",
   },
 ];
 
@@ -99,7 +92,7 @@ const EcosystemSection = () => {
             THE CROPXON ECOSYSTEM
           </h2>
           <p className="text-sm lg:text-base max-w-2xl mx-auto text-muted-foreground">
-            Foundational Platforms in Beta Development
+            Foundational Platforms in Active Development
           </p>
         </div>
 
@@ -167,18 +160,16 @@ const EcosystemSection = () => {
                   <Button variant="outline" size="sm" className="text-xs flex-1" asChild>
                     <Link to={product.link}>Learn More</Link>
                   </Button>
-                  {product.externalUrl !== "#" && (
-                    <Button 
-                      variant="default"
-                      size="sm"
-                      className="text-xs flex-1"
-                      asChild
-                    >
-                      <a href={product.externalUrl} target="_blank" rel="noopener noreferrer">
-                        Access
-                      </a>
-                    </Button>
-                  )}
+                  <Button 
+                    variant="default"
+                    size="sm"
+                    className="text-xs flex-1"
+                    asChild
+                  >
+                    <a href={product.externalUrl} target="_blank" rel="noopener noreferrer">
+                      Access
+                    </a>
+                  </Button>
                 </div>
               </div>
             </div>

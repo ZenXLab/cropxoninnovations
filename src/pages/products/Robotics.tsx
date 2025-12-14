@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
+import BackToTop from "@/components/BackToTop";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Cpu, Eye, Cog, Shield, Zap, Radio } from "lucide-react";
 
@@ -49,10 +50,10 @@ const Robotics = () => {
   return (
     <>
       <Helmet>
-        <title>CropXon Robotics — Autonomous Systems Division | CropXon</title>
+        <title>OpZeniX — Autonomous Systems Division | CropXon Innovations</title>
         <meta
           name="description"
-          content="CropXon Robotics develops advanced autonomous systems and industrial automation solutions for enterprise and government applications."
+          content="OpZeniX develops advanced autonomous systems and industrial automation solutions for enterprise and government applications."
         />
       </Helmet>
 
@@ -87,7 +88,7 @@ const Robotics = () => {
                 </div>
 
                 <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground tracking-wide mb-6">
-                  CROPXON ROBOTICS
+                  OPZENIX
                 </h1>
                 <p className="font-mono text-lg text-accent uppercase tracking-wider mb-6">
                   Autonomous Systems Division
@@ -100,8 +101,8 @@ const Robotics = () => {
 
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button variant="hero" size="xl" asChild>
-                    <a href="mailto:robotics@cropxon.com">
-                      Express Interest
+                    <a href="https://opzenix.com" target="_blank" rel="noopener noreferrer">
+                      Visit OpZeniX
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </a>
                   </Button>
@@ -135,7 +136,7 @@ const Robotics = () => {
                   The Future of Autonomous Systems
                 </h2>
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  CropXon Robotics represents our commitment to building autonomous systems 
+                  OpZeniX represents our commitment to building autonomous systems 
                   that operate with precision, safety, and intelligence. We're not building 
                   robots—we're building infrastructure for the physical world.
                 </p>
@@ -216,14 +217,14 @@ const Robotics = () => {
                     Coming 2027+
                   </h2>
                   <p className="text-muted-foreground mb-8 leading-relaxed">
-                    CropXon Robotics is currently in the research and development phase. 
+                    OpZeniX is currently in the research and development phase. 
                     We're building foundational technologies that will power the next 
                     generation of autonomous systems. Stay informed about our progress.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4">
                     <Button variant="hero" size="lg" asChild>
-                      <a href="mailto:robotics@cropxon.com">
-                        Join Waitlist
+                      <a href="https://opzenix.com" target="_blank" rel="noopener noreferrer">
+                        Visit OpZeniX
                         <ArrowRight className="w-4 h-4 ml-2" />
                       </a>
                     </Button>
@@ -244,8 +245,8 @@ const Robotics = () => {
                 the future of industrial robotics with us.
               </p>
               <Button variant="heroPrimary" size="xl" asChild>
-                <a href="mailto:robotics@cropxon.com">
-                  Contact Robotics Team
+                <a href="https://opzenix.com" target="_blank" rel="noopener noreferrer">
+                  Explore OpZeniX
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </a>
               </Button>
@@ -254,6 +255,7 @@ const Robotics = () => {
         </main>
 
         <Footer />
+        <BackToTop />
       </div>
     </>
   );
