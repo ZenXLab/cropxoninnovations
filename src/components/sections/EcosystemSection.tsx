@@ -98,19 +98,19 @@ const EcosystemSection = () => {
   const { ref: contentRef, isVisible: contentVisible } = useScrollAnimation({ threshold: 0.1 });
 
   return (
-    <section id="ecosystem" className="py-24 lg:py-40 relative bg-background">
+    <section id="ecosystem" className="py-16 lg:py-24 relative bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-12">
         {/* Section Header */}
         <div
           ref={headerRef}
-          className={`text-center mb-16 lg:mb-24 transition-all duration-700 ${
+          className={`text-center mb-10 lg:mb-14 transition-all duration-700 ${
             headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-[0.08em] mb-4 text-foreground">
+          <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold tracking-[0.08em] mb-3 text-foreground">
             THE CROPXON ECOSYSTEM
           </h2>
-          <p className="text-base lg:text-lg max-w-2xl mx-auto text-muted-foreground">
+          <p className="text-sm lg:text-base max-w-2xl mx-auto text-muted-foreground">
             Foundational Platforms in Beta Development
           </p>
         </div>
@@ -118,7 +118,7 @@ const EcosystemSection = () => {
         {/* Products Grid */}
         <div 
           ref={contentRef}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6"
         >
           {products.map((product, index) => (
             <div
