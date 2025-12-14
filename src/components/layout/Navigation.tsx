@@ -57,7 +57,7 @@ const Navigation = () => {
                   <a
                     key={link.label}
                     href={link.href}
-                    className="text-[11px] font-medium text-muted-foreground hover:text-foreground transition-colors duration-300 uppercase"
+                    className="nav-link-glow text-[11px] font-medium text-muted-foreground hover:text-foreground transition-all duration-300 uppercase relative"
                     style={{ letterSpacing: "0.1em" }}
                   >
                     {link.label}
@@ -66,7 +66,7 @@ const Navigation = () => {
                   <Link
                     key={link.label}
                     to={link.href}
-                    className={`text-[11px] font-medium transition-colors duration-300 uppercase ${
+                    className={`nav-link-glow text-[11px] font-medium transition-all duration-300 uppercase relative ${
                       isActive(link.href) 
                         ? "text-foreground" 
                         : "text-muted-foreground hover:text-foreground"
@@ -86,7 +86,7 @@ const Navigation = () => {
               </div>
               <a
                 href="/#ecosystem"
-                className="hidden md:inline-flex items-center justify-center text-[11px] font-semibold uppercase bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 hover:scale-[1.02]"
+                className="btn-glow hidden md:inline-flex items-center justify-center text-[11px] font-semibold uppercase bg-primary text-primary-foreground transition-all duration-300 hover:scale-[1.02]"
                 style={{ 
                   letterSpacing: "0.05em",
                   padding: "12px 32px",
