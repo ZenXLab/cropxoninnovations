@@ -49,14 +49,13 @@ const HeroSection = () => {
                 {words.map((word, index) => (
                   <span
                     key={word}
-                    className={`block transition-all duration-700 ease-out absolute left-0 right-0 ${
+                    className={`block transition-all duration-700 ease-out absolute left-0 right-0 bg-clip-text text-transparent hero-gradient-text ${
                       index === wordIndex 
                         ? "translate-y-0 opacity-100" 
                         : index === (wordIndex - 1 + words.length) % words.length
                           ? "-translate-y-full opacity-0"
                           : "translate-y-full opacity-0"
                     }`}
-                    style={{ color: "hsl(var(--primary))" }}
                   >
                     {word}
                   </span>
@@ -155,6 +154,40 @@ const HeroSection = () => {
         }
         .animate-scroll-indicator {
           animation: scroll-indicator 2s ease-in-out infinite;
+        }
+        
+        /* Dark theme gradient - Electric blue to violet */
+        :root .hero-gradient-text,
+        .dark .hero-gradient-text {
+          background: linear-gradient(
+            135deg, 
+            hsl(234 85% 65%) 0%, 
+            hsl(249 90% 68%) 50%, 
+            hsl(280 80% 65%) 100%
+          );
+          background-size: 200% 200%;
+          animation: gradient-shift 4s ease-in-out infinite;
+        }
+        
+        /* Light theme gradient - Deep navy to indigo */
+        .light .hero-gradient-text {
+          background: linear-gradient(
+            135deg, 
+            hsl(222 75% 35%) 0%, 
+            hsl(234 65% 45%) 50%, 
+            hsl(249 60% 50%) 100%
+          );
+          background-size: 200% 200%;
+          animation: gradient-shift 4s ease-in-out infinite;
+        }
+        
+        @keyframes gradient-shift {
+          0%, 100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
         }
       `}</style>
     </>
