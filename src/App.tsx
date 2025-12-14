@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -22,47 +22,62 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-// Page transition wrapper
+// Page transition wrapper with loading screen
 const AnimatedRoutes = () => {
   const location = useLocation();
-  
+  const [isPageLoading, setIsPageLoading] = useState(false);
+  const [showContent, setShowContent] = useState(true);
+
+  useEffect(() => {
+    // Show loading screen on route change (except initial load)
+    setIsPageLoading(true);
+    setShowContent(false);
+  }, [location.pathname]);
+
+  const handleLoadingComplete = () => {
+    setIsPageLoading(false);
+    setShowContent(true);
+  };
+
   return (
-    <div 
-      key={location.pathname}
-      className="animate-fade-in"
-      style={{ animationDuration: '0.3s' }}
-    >
-      <Routes location={location}>
-        <Route path="/" element={<Index />} />
-        <Route path="/company" element={<CompanyProfile />} />
-        <Route path="/how-we-think" element={<HowWeThink />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/careers" element={<Careers />} />
-        <Route path="/atlas" element={<Atlas />} />
-        <Route path="/traceflow" element={<Traceflow />} />
-        <Route path="/originx-labs" element={<OriginxLabs />} />
-        <Route path="/cropxon-cloud" element={<CropxonCloud />} />
-        <Route path="/robotics" element={<Robotics />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </div>
+    <>
+      {isPageLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
+      <div 
+        key={location.pathname}
+        className={`transition-opacity duration-300 ${showContent ? 'opacity-100' : 'opacity-0'}`}
+      >
+        <Routes location={location}>
+          <Route path="/" element={<Index />} />
+          <Route path="/company" element={<CompanyProfile />} />
+          <Route path="/how-we-think" element={<HowWeThink />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/careers" element={<Careers />} />
+          <Route path="/atlas" element={<Atlas />} />
+          <Route path="/traceflow" element={<Traceflow />} />
+          <Route path="/originx-labs" element={<OriginxLabs />} />
+          <Route path="/cropxon-cloud" element={<CropxonCloud />} />
+          <Route path="/robotics" element={<Robotics />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
+    </>
   );
 };
 
 const App = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   return (
     <HelmetProvider>
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
         <QueryClientProvider client={queryClient}>
           <TooltipProvider>
-            {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
-            {!isLoading && <ScrollProgress />}
+            {isInitialLoading && <LoadingScreen onComplete={() => setIsInitialLoading(false)} />}
+            {!isInitialLoading && <ScrollProgress />}
             <Toaster />
             <Sonner />
             <BrowserRouter>
-              <AnimatedRoutes />
+              {!isInitialLoading && <AnimatedRoutes />}
             </BrowserRouter>
           </TooltipProvider>
         </QueryClientProvider>

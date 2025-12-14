@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import VisionModal from "@/components/modals/VisionModal";
 import SubtleMeshBackground from "@/components/visuals/SubtleMeshBackground";
+import AnimatedGradientBackground from "@/components/visuals/AnimatedGradientBackground";
 
 const HeroSection = () => {
   const [showContent, setShowContent] = useState(false);
@@ -24,6 +25,9 @@ const HeroSection = () => {
   return (
     <>
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
+        {/* Animated Gradient Background */}
+        <AnimatedGradientBackground />
+        
         {/* Animated Mesh Background */}
         <SubtleMeshBackground />
 
