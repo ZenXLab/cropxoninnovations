@@ -130,7 +130,7 @@ const Contact = () => {
 
         <main className="pt-20">
           {/* Hero */}
-          <section className="py-24 lg:py-32 relative overflow-hidden">
+          <section className="py-16 lg:py-20 relative overflow-hidden">
             <div className="absolute inset-0 opacity-[0.02]">
               <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
                 <defs>
@@ -156,7 +156,7 @@ const Contact = () => {
           </section>
 
           {/* Contact Form & Info */}
-          <section className="py-20 bg-card/50 border-y border-border">
+          <section className="py-14 bg-card/50 border-y border-border">
             <div className="container mx-auto px-6 lg:px-12">
               <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 max-w-6xl mx-auto">
                 {/* Contact Form */}
@@ -324,7 +324,7 @@ const Contact = () => {
           </section>
 
           {/* Response Time */}
-          <section className="py-20">
+          <section className="py-14">
             <div className="container mx-auto px-6 lg:px-12">
               <div className="max-w-3xl mx-auto text-center">
                 <h2 className="font-display text-2xl font-bold text-foreground mb-4">
