@@ -7,8 +7,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import LoadingScreen from "@/components/LoadingScreen";
+import ScrollProgress from "@/components/ScrollProgress";
 import Index from "./pages/Index";
 import CompanyProfile from "./pages/CompanyProfile";
+import HowWeThink from "./pages/HowWeThink";
 import Atlas from "./pages/products/Atlas";
 import Traceflow from "./pages/products/Traceflow";
 import OriginxLabs from "./pages/products/OriginxLabs";
@@ -26,12 +28,14 @@ const App = () => {
         <QueryClientProvider client={queryClient}>
           <TooltipProvider>
             {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
+            {!isLoading && <ScrollProgress />}
             <Toaster />
             <Sonner />
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/company" element={<CompanyProfile />} />
+                <Route path="/how-we-think" element={<HowWeThink />} />
                 <Route path="/atlas" element={<Atlas />} />
                 <Route path="/traceflow" element={<Traceflow />} />
                 <Route path="/originx-labs" element={<OriginxLabs />} />
