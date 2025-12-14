@@ -22,26 +22,29 @@ const Navigation = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
-        <nav className="container mx-auto px-4 sm:px-6 lg:px-12">
-          <div className="flex items-center justify-between h-16 sm:h-20">
-            {/* Logo */}
-            <Link to="/" className="flex items-center group">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/60 backdrop-blur-xl">
+        {/* Hairline divider */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-border/10" />
+        
+        <nav className="container mx-auto px-6 lg:px-16">
+          <div className="flex items-center justify-between h-14 lg:h-16">
+            {/* Logo - Clean, no container */}
+            <Link to="/" className="flex items-center">
               <img 
                 src={cropxonLogo} 
                 alt="Cropxon" 
-                className="h-8 sm:h-10 w-auto transition-all duration-300 ease-out group-hover:scale-105 group-hover:brightness-110" 
+                className="h-7 lg:h-8 w-auto" 
               />
             </Link>
 
             {/* Navigation Links - Desktop */}
-            <div className="hidden md:flex items-center gap-6 lg:gap-10">
+            <div className="hidden md:flex items-center gap-10 lg:gap-14">
               {navLinks.map((link) => (
                 link.href.startsWith("/#") ? (
                   <a
                     key={link.label}
                     href={link.href}
-                    className="text-xs lg:text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300 uppercase tracking-widest link-underline"
+                    className="text-[11px] font-medium text-muted-foreground/70 hover:text-foreground transition-colors duration-300 uppercase tracking-[0.2em]"
                   >
                     {link.label}
                   </a>
@@ -49,10 +52,10 @@ const Navigation = () => {
                   <Link
                     key={link.label}
                     to={link.href}
-                    className={`text-xs lg:text-sm font-medium transition-colors duration-300 uppercase tracking-widest link-underline ${
+                    className={`text-[11px] font-medium transition-colors duration-300 uppercase tracking-[0.2em] ${
                       isActive(link.href) 
                         ? "text-foreground" 
-                        : "text-muted-foreground hover:text-foreground"
+                        : "text-muted-foreground/70 hover:text-foreground"
                     }`}
                   >
                     {link.label}
@@ -62,14 +65,14 @@ const Navigation = () => {
             </div>
 
             {/* Right Side: Theme Toggle + CTA */}
-            <div className="flex items-center gap-2 sm:gap-4">
-              <div className="hidden sm:block">
+            <div className="flex items-center gap-6">
+              <div className="hidden sm:block opacity-60 hover:opacity-100 transition-opacity">
                 <ThemeToggle />
               </div>
               <div className="hidden md:block">
                 <a
                   href="/#ecosystem"
-                  className="text-xs lg:text-sm font-medium text-foreground uppercase tracking-widest hover:text-accent transition-colors duration-300"
+                  className="text-[11px] font-medium text-muted-foreground/70 hover:text-foreground uppercase tracking-[0.2em] transition-colors duration-300"
                 >
                   Enter
                 </a>
@@ -77,11 +80,11 @@ const Navigation = () => {
 
               {/* Mobile Menu Button */}
               <button 
-                className="md:hidden text-foreground p-2"
+                className="md:hidden text-foreground/70 hover:text-foreground transition-colors p-1"
                 onClick={() => setMobileMenuOpen(true)}
               >
                 <svg
-                  className="w-6 h-6"
+                  className="w-5 h-5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -89,7 +92,7 @@ const Navigation = () => {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={1.5}
+                    strokeWidth={1}
                     d="M4 6h16M4 12h16M4 18h16"
                   />
                 </svg>
