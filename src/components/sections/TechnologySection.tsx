@@ -1,4 +1,10 @@
+import useScrollAnimation from "@/hooks/useScrollAnimation";
+
 const TechnologySection = () => {
+  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation({ threshold: 0.3 });
+  const { ref: flowRef, isVisible: flowVisible } = useScrollAnimation({ threshold: 0.2 });
+  const { ref: statsRef, isVisible: statsVisible } = useScrollAnimation({ threshold: 0.3 });
+
   const flowSteps = [
     { label: "Research", description: "Foundational R&D" },
     { label: "Primitive", description: "Core building blocks" },
@@ -35,7 +41,12 @@ const TechnologySection = () => {
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-24">
+        <div
+          ref={headerRef}
+          className={`text-center mb-24 transition-all duration-700 ease-out ${
+            headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
           <span className="font-mono text-sm text-accent uppercase tracking-widest mb-4 block">
             Technology & Research
           </span>
@@ -49,10 +60,16 @@ const TechnologySection = () => {
         </div>
 
         {/* Flow Diagram */}
-        <div className="max-w-4xl mx-auto">
+        <div ref={flowRef} className="max-w-4xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4">
             {flowSteps.map((step, index) => (
-              <div key={index} className="flex items-center gap-4 md:gap-2">
+              <div
+                key={index}
+                className={`flex items-center gap-4 md:gap-2 transition-all duration-700 ease-out ${
+                  flowVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                }`}
+                style={{ transitionDelay: `${index * 100}ms` }}
+              >
                 {/* Step */}
                 <div className="flex flex-col items-center text-center">
                   <div className="w-20 h-20 rounded-full border border-border bg-card flex items-center justify-center mb-4 group hover:border-accent/50 transition-colors duration-300">
@@ -90,14 +107,20 @@ const TechnologySection = () => {
         </div>
 
         {/* Stats */}
-        <div className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+        <div ref={statsRef} className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
           {[
             { value: "∞", label: "Scalability" },
             { value: "24/7", label: "Availability" },
             { value: "100%", label: "Compliance" },
             { value: "0", label: "Vendor Lock-in" },
           ].map((stat, index) => (
-            <div key={index} className="text-center">
+            <div
+              key={index}
+              className={`text-center transition-all duration-700 ease-out ${
+                statsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+              style={{ transitionDelay: `${index * 100}ms` }}
+            >
               <div className="font-display text-3xl md:text-4xl font-bold text-foreground mb-2">
                 {stat.value}
               </div>
