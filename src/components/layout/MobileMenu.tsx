@@ -17,10 +17,11 @@ const navLinks = [
 ];
 
 const productLinks = [
-  { label: "ATLAS", href: "/atlas" },
-  { label: "TRACEFLOW", href: "/traceflow" },
-  { label: "OriginX Labs", href: "/originx-labs" },
-  { label: "Cropxon Cloud", href: "/cropxon-cloud" },
+  { label: "ATLAS", href: "/atlas", status: "Beta" },
+  { label: "TRACEFLOW", href: "/traceflow", status: "Beta" },
+  { label: "OriginX Labs", href: "/originx-labs", status: "Beta" },
+  { label: "Cropxon Cloud", href: "/cropxon-cloud", status: "Beta" },
+  { label: "Robotics", href: "/robotics", status: "Planned" },
 ];
 
 const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
@@ -108,8 +109,12 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
                     }`}
                   >
                     {link.label}
-                    <span className="ml-2 text-xs px-1.5 py-0.5 rounded bg-accent/20 text-accent font-mono">
-                      Beta
+                    <span className={`ml-2 text-xs px-1.5 py-0.5 rounded font-mono ${
+                      link.status === "Planned" 
+                        ? "bg-muted text-muted-foreground" 
+                        : "bg-accent/20 text-accent"
+                    }`}>
+                      {link.status}
                     </span>
                   </Link>
                 </li>

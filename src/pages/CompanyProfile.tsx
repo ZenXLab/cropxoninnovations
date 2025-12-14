@@ -11,8 +11,10 @@ import {
   Heart,
   Mail,
   MapPin,
-  ExternalLink
+  ExternalLink,
+  Rocket
 } from "lucide-react";
+import InteractiveTimeline from "@/components/sections/InteractiveTimeline";
 
 // Company Details Data
 const companyDetails = [
@@ -72,7 +74,7 @@ const divisions = [
     industries: null,
     status: "Planned (Future)",
     statusColor: "bg-muted text-muted-foreground",
-    link: null,
+    link: "/robotics",
   },
 ];
 
@@ -411,41 +413,18 @@ const CompanyProfile = () => {
           <section className="py-20">
             <div className="container mx-auto px-6 lg:px-12">
               <div className="flex items-center gap-3 mb-10">
-                <Calendar className="w-6 h-6 text-accent" />
+                <Rocket className="w-6 h-6 text-accent" />
                 <h2 className="font-display text-2xl font-bold text-foreground uppercase tracking-wider">
-                  Innovation & Roadmap
+                  Innovation Roadmap
                 </h2>
               </div>
 
-              <div className="max-w-5xl">
-                <div className="relative">
-                  {/* Timeline Line */}
-                  <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-border md:-translate-x-px" />
-
-                  {/* Timeline Items */}
-                  <div className="space-y-8">
-                    {timeline.map((item, index) => (
-                      <div
-                        key={index}
-                        className={`relative flex items-center gap-6 ${
-                          index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                        }`}
-                      >
-                        {/* Content */}
-                        <div className={`flex-1 pl-8 md:pl-0 ${index % 2 === 0 ? "md:text-right md:pr-12" : "md:text-left md:pl-12"}`}>
-                          <span className="font-mono text-sm text-accent block mb-1">{item.date}</span>
-                          <h4 className="font-display text-foreground font-medium">{item.event}</h4>
-                        </div>
-
-                        {/* Node */}
-                        <div className="absolute left-0 md:left-1/2 w-3 h-3 rounded-full bg-accent border-4 border-background md:-translate-x-1.5" />
-
-                        {/* Spacer for alternating layout */}
-                        <div className="hidden md:block flex-1" />
-                      </div>
-                    ))}
-                  </div>
-                </div>
+              <div className="max-w-6xl">
+                <p className="text-muted-foreground mb-8 max-w-2xl">
+                  Our strategic roadmap outlines key milestones from Q1 2026 onwards, 
+                  charting the growth trajectory across all CropXon divisions.
+                </p>
+                <InteractiveTimeline />
               </div>
             </div>
           </section>

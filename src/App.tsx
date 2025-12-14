@@ -15,6 +15,7 @@ import Atlas from "./pages/products/Atlas";
 import Traceflow from "./pages/products/Traceflow";
 import OriginxLabs from "./pages/products/OriginxLabs";
 import CropxonCloud from "./pages/products/CropxonCloud";
+import Robotics from "./pages/products/Robotics";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -37,6 +38,7 @@ const AnimatedRoutes = () => {
         <Route path="/traceflow" element={<Traceflow />} />
         <Route path="/originx-labs" element={<OriginxLabs />} />
         <Route path="/cropxon-cloud" element={<CropxonCloud />} />
+        <Route path="/robotics" element={<Robotics />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
