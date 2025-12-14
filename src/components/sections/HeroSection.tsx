@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import ComputationalBackground from "@/components/visuals/ComputationalBackground";
 import VisionModal from "@/components/modals/VisionModal";
-import cropxonLogo from "@/assets/cropxon-logo-full.png";
+import useParallax from "@/hooks/useParallax";
 
 const HeroSection = () => {
   const [showContent, setShowContent] = useState(false);
   const [visionModalOpen, setVisionModalOpen] = useState(false);
+  const { parallaxOffset } = useParallax();
 
   useEffect(() => {
     const timer = setTimeout(() => setShowContent(true), 300);
@@ -16,23 +17,38 @@ const HeroSection = () => {
   return (
     <>
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background */}
-        <ComputationalBackground />
+        {/* Background with parallax */}
+        <div
+          className="absolute inset-0"
+          style={{ transform: `translateY(${parallaxOffset(0.3)}px)` }}
+        >
+          <ComputationalBackground />
+        </div>
 
         {/* Content Container */}
-        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-12 text-center">
-          {/* Logo */}
+        <div
+          className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-12 text-center"
+          style={{ transform: `translateY(${parallaxOffset(0.1)}px)` }}
+        >
+          {/* Brand Mark */}
           <div
-            className={`mb-6 sm:mb-8 flex justify-center transition-all duration-1000 ${
+            className={`mb-8 sm:mb-10 flex justify-center transition-all duration-1000 ${
               showContent ? "opacity-100 scale-100" : "opacity-0 scale-95"
             }`}
           >
-            <div className="relative">
-              <img
-                src={cropxonLogo}
-                alt="Cropxon Innovations"
-                className="w-48 h-auto sm:w-56 md:w-72 lg:w-80 object-contain drop-shadow-lg"
-              />
+            <div className="relative group">
+              {/* Subtle glow behind */}
+              <div className="absolute inset-0 blur-2xl opacity-20 bg-gradient-to-r from-primary via-accent to-primary scale-150 group-hover:opacity-30 transition-opacity duration-500" />
+              
+              {/* Brand Identity Text */}
+              <div className="relative z-10 flex flex-col items-center">
+                <span className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground">
+                  Crop<span className="text-gradient">X</span>on
+                </span>
+                <span className="text-xs sm:text-sm tracking-[0.4em] uppercase text-muted-foreground mt-2">
+                  Innovations
+                </span>
+              </div>
             </div>
           </div>
 
@@ -42,7 +58,7 @@ const HeroSection = () => {
               showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            <h1 className="font-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-wide mb-4 sm:mb-6 text-foreground px-2">
+            <h1 className="font-display text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-wide mb-4 sm:mb-6 text-foreground px-2">
               BUILDING THE FOUNDATIONAL SYSTEMS.
             </h1>
 
