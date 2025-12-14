@@ -27,41 +27,40 @@ const Footer = () => {
   };
 
   return (
-    <footer className="py-20 border-t border-border">
+    <footer className="py-12 border-t border-border">
       <div className="container mx-auto px-6 lg:px-12">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-12 mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-10">
           {/* Logo Column */}
           <div className="col-span-2 md:col-span-1">
-            <Link to="/" className="inline-block mb-6">
-              <img src={cropxonLogo} alt="Cropxon" className="h-10 w-auto" />
+            <Link to="/" className="inline-block mb-4">
+              <img src={cropxonLogo} alt="Cropxon" className="h-8 w-auto" />
             </Link>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Building foundational technology for work, intelligence, and
-              infrastructure.
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Building foundational technology for work, intelligence, and infrastructure.
             </p>
           </div>
 
           {/* Links */}
           {Object.entries(footerLinks).map(([category, links]) => (
             <div key={category}>
-              <h4 className="font-display text-sm font-bold text-foreground uppercase tracking-wider mb-4">
+              <h4 className="font-display text-xs font-bold text-foreground uppercase tracking-wider mb-3">
                 {category}
               </h4>
-              <ul className="space-y-3">
+              <ul className="space-y-2">
                 {links.map((link) => (
                   <li key={link.label}>
                     {link.href.startsWith("/") && !link.href.includes("#") ? (
                       <Link
                         to={link.href}
-                        className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300"
+                        className="text-xs text-muted-foreground hover:text-foreground transition-colors duration-300"
                       >
                         {link.label}
                       </Link>
                     ) : (
                       <a
                         href={link.href}
-                        className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300"
+                        className="text-xs text-muted-foreground hover:text-foreground transition-colors duration-300"
                       >
                         {link.label}
                       </a>

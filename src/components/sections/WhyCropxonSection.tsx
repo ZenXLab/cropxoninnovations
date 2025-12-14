@@ -88,40 +88,40 @@ const WhyCropxonSection = () => {
   const { ref: gridRef, isVisible: gridVisible } = useScrollAnimation({ threshold: 0.1 });
 
   return (
-    <section className="py-32 lg:py-48 relative">
+    <section className="py-16 lg:py-24 relative">
       <div className="container mx-auto px-6 lg:px-12">
         {/* Section Header */}
         <div
           ref={headerRef}
-          className={`text-center mb-20 transition-all duration-700 ease-out ${
+          className={`text-center mb-10 transition-all duration-700 ease-out ${
             headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <span className="font-mono text-sm text-accent uppercase tracking-widest mb-4 block">
+          <span className="font-mono text-xs text-accent uppercase tracking-widest mb-3 block">
             Why Cropxon
           </span>
-          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-wide">
+          <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-foreground tracking-wide">
             FOUNDATIONAL PRINCIPLES
           </h2>
         </div>
 
         {/* Features Grid */}
-        <div ref={gridRef} className="grid md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
+        <div ref={gridRef} className="grid md:grid-cols-2 gap-4 lg:gap-6 max-w-5xl mx-auto">
           {features.map((feature, index) => (
             <div
               key={index}
-              className={`group p-8 lg:p-10 bg-card border border-border rounded-sm hover:border-muted-foreground/30 transition-all duration-500 ${
+              className={`group p-5 lg:p-6 bg-card border border-border rounded-sm hover:border-muted-foreground/30 transition-all duration-500 ${
                 gridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
-              <div className="text-accent mb-6 transition-transform duration-300 group-hover:scale-110">
+              <div className="text-accent mb-4 transition-transform duration-300 group-hover:scale-110">
                 {feature.icon}
               </div>
-              <h3 className="font-display text-xl lg:text-2xl font-bold text-foreground mb-4">
+              <h3 className="font-display text-lg lg:text-xl font-bold text-foreground mb-2">
                 {feature.title}
               </h3>
-              <p className="text-muted-foreground leading-relaxed">
+              <p className="text-sm text-muted-foreground leading-relaxed">
                 {feature.description}
               </p>
             </div>

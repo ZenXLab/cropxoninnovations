@@ -15,7 +15,7 @@ const TechnologySection = () => {
   return (
     <section
       id="technology"
-      className="py-32 lg:py-48 relative bg-gradient-subtle overflow-hidden"
+      className="py-16 lg:py-24 relative bg-gradient-subtle overflow-hidden"
     >
       {/* Subtle line pattern */}
       <div className="absolute inset-0 opacity-[0.02]">
@@ -43,25 +43,24 @@ const TechnologySection = () => {
         {/* Section Header */}
         <div
           ref={headerRef}
-          className={`text-center mb-24 transition-all duration-700 ease-out ${
+          className={`text-center mb-12 transition-all duration-700 ease-out ${
             headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <span className="font-mono text-sm text-accent uppercase tracking-widest mb-4 block">
+          <span className="font-mono text-xs text-accent uppercase tracking-widest mb-3 block">
             Technology & Research
           </span>
-          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-wide mb-6">
+          <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-foreground tracking-wide mb-4">
             FROM RESEARCH TO PRODUCT
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Our systematic approach to building foundational technology that
-            scales from research to production.
+          <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
+            Our systematic approach to building foundational technology.
           </p>
         </div>
 
         {/* Flow Diagram */}
         <div ref={flowRef} className="max-w-4xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-4">
             {flowSteps.map((step, index) => (
               <div
                 key={index}
@@ -72,15 +71,15 @@ const TechnologySection = () => {
               >
                 {/* Step */}
                 <div className="flex flex-col items-center text-center">
-                  <div className="w-20 h-20 rounded-full border border-border bg-card flex items-center justify-center mb-4 group hover:border-accent/50 transition-colors duration-300">
+                  <div className="w-14 h-14 rounded-full border border-border bg-card flex items-center justify-center mb-3 group hover:border-accent/50 transition-colors duration-300">
                     <span className="font-mono text-xs text-accent">
                       0{index + 1}
                     </span>
                   </div>
-                  <h4 className="font-display text-lg font-bold text-foreground mb-1">
+                  <h4 className="font-display text-sm font-bold text-foreground mb-1">
                     {step.label}
                   </h4>
-                  <p className="font-mono text-xs text-muted-foreground">
+                  <p className="font-mono text-[10px] text-muted-foreground">
                     {step.description}
                   </p>
                 </div>
@@ -89,7 +88,7 @@ const TechnologySection = () => {
                 {index < flowSteps.length - 1 && (
                   <div className="hidden md:block">
                     <svg
-                      className="w-12 h-4 text-border"
+                      className="w-10 h-4 text-border"
                       viewBox="0 0 48 16"
                       fill="none"
                     >
@@ -107,7 +106,7 @@ const TechnologySection = () => {
         </div>
 
         {/* Stats */}
-        <div ref={statsRef} className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+        <div ref={statsRef} className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
           {[
             { value: "∞", label: "Scalability" },
             { value: "24/7", label: "Availability" },
