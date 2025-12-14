@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import LoadingScreen from "@/components/LoadingScreen";
@@ -14,6 +14,7 @@ import HowWeThink from "./pages/HowWeThink";
 import DesignPrinciples from "./pages/DesignPrinciples";
 import SystemsNotProducts from "./pages/SystemsNotProducts";
 import Architecture from "./pages/Architecture";
+import PlatformConsoles from "./pages/PlatformConsoles";
 import Contact from "./pages/Contact";
 import Careers from "./pages/Careers";
 import Atlas from "./pages/products/Atlas";
@@ -56,7 +57,7 @@ const AnimatedRoutes = () => {
           <Route path="/design-principles" element={<DesignPrinciples />} />
           <Route path="/systems-not-products" element={<SystemsNotProducts />} />
           <Route path="/architecture" element={<Architecture />} />
-          <Route path="/platforms" element={<Navigate to="/" replace />} />
+          <Route path="/platforms" element={<PlatformConsoles />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/atlas" element={<Atlas />} />
