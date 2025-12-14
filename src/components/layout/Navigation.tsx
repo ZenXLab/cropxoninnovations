@@ -31,25 +31,19 @@ const Navigation = () => {
   return (
     <>
       <header 
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled ? "backdrop-blur-xl bg-[#0a0a0f]/90" : "bg-[#0a0a0f]"
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background ${
+          scrolled ? "backdrop-blur-xl bg-background/90" : ""
         }`}
-        style={{ borderBottom: "1px solid #1a1a24" }}
+        style={{ borderBottom: "1px solid hsl(var(--border) / 0.3)" }}
       >
         <nav className="container mx-auto px-6 lg:px-16">
           <div className="flex items-center justify-between h-20">
             {/* Wordmark Logo */}
-            <Link to="/" className="flex items-center gap-3 group">
-              <span 
-                className="font-display text-xl lg:text-2xl font-bold tracking-wide"
-                style={{ color: "#f8fafc" }}
-              >
+            <Link to="/" className="flex items-center gap-2 group">
+              <span className="font-display text-xl lg:text-2xl font-bold tracking-wide text-foreground">
                 Cropxon
               </span>
-              <span 
-                className="font-display text-xl lg:text-2xl font-light tracking-wide"
-                style={{ color: "#94a3b8" }}
-              >
+              <span className="font-display text-xl lg:text-2xl font-light tracking-wide text-muted-foreground">
                 Innovations
               </span>
             </Link>
@@ -61,13 +55,8 @@ const Navigation = () => {
                   <a
                     key={link.label}
                     href={link.href}
-                    className="text-[11px] font-medium transition-colors duration-300 uppercase"
-                    style={{ 
-                      letterSpacing: "0.1em",
-                      color: "#94a3b8"
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.color = "#f8fafc"}
-                    onMouseLeave={(e) => e.currentTarget.style.color = "#94a3b8"}
+                    className="text-[11px] font-medium text-muted-foreground hover:text-foreground transition-colors duration-300 uppercase"
+                    style={{ letterSpacing: "0.1em" }}
                   >
                     {link.label}
                   </a>
@@ -75,13 +64,12 @@ const Navigation = () => {
                   <Link
                     key={link.label}
                     to={link.href}
-                    className="text-[11px] font-medium transition-colors duration-300 uppercase"
-                    style={{ 
-                      letterSpacing: "0.1em",
-                      color: isActive(link.href) ? "#f8fafc" : "#94a3b8"
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.color = "#f8fafc"}
-                    onMouseLeave={(e) => e.currentTarget.style.color = isActive(link.href) ? "#f8fafc" : "#94a3b8"}
+                    className={`text-[11px] font-medium transition-colors duration-300 uppercase ${
+                      isActive(link.href) 
+                        ? "text-foreground" 
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                    style={{ letterSpacing: "0.1em" }}
                   >
                     {link.label}
                   </Link>
@@ -91,26 +79,16 @@ const Navigation = () => {
 
             {/* Right Side: Theme Toggle + CTA */}
             <div className="flex items-center gap-6">
-              <div className="hidden sm:block opacity-50 hover:opacity-100 transition-opacity">
+              <div className="hidden sm:block">
                 <ThemeToggle />
               </div>
               <a
                 href="/#ecosystem"
-                className="hidden md:inline-flex items-center justify-center text-[11px] font-semibold uppercase transition-all duration-300"
+                className="hidden md:inline-flex items-center justify-center text-[11px] font-semibold uppercase bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 hover:scale-[1.02]"
                 style={{ 
                   letterSpacing: "0.05em",
-                  backgroundColor: "#0d9488",
-                  color: "#f8fafc",
                   padding: "12px 32px",
                   borderRadius: "4px"
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = "#0f766e";
-                  e.currentTarget.style.transform = "scale(1.02)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = "#0d9488";
-                  e.currentTarget.style.transform = "scale(1)";
                 }}
               >
                 Enter
@@ -118,8 +96,7 @@ const Navigation = () => {
 
               {/* Mobile Menu Button */}
               <button 
-                className="md:hidden p-1 transition-colors"
-                style={{ color: "#94a3b8" }}
+                className="md:hidden p-1 text-muted-foreground hover:text-foreground transition-colors"
                 onClick={() => setMobileMenuOpen(true)}
               >
                 <svg

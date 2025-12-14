@@ -22,6 +22,13 @@ const SubtleMeshBackground = () => {
     let animationFrameId: number;
     let points: Point[] = [];
 
+    // Get theme colors from CSS variables
+    const getComputedColor = (variable: string) => {
+      const root = document.documentElement;
+      const style = getComputedStyle(root);
+      return style.getPropertyValue(variable).trim();
+    };
+
     const resize = () => {
       const dpr = window.devicePixelRatio || 1;
       canvas.width = window.innerWidth * dpr;
@@ -34,7 +41,7 @@ const SubtleMeshBackground = () => {
 
     const initPoints = () => {
       points = [];
-      const gridSize = 120;
+      const gridSize = 100;
       const cols = Math.ceil(window.innerWidth / gridSize) + 2;
       const rows = Math.ceil(window.innerHeight / gridSize) + 2;
 
@@ -45,8 +52,8 @@ const SubtleMeshBackground = () => {
           points.push({
             x,
             y,
-            vx: (Math.random() - 0.5) * 0.15,
-            vy: (Math.random() - 0.5) * 0.15,
+            vx: (Math.random() - 0.5) * 0.12,
+            vy: (Math.random() - 0.5) * 0.12,
             originX: x,
             originY: y,
           });
@@ -55,7 +62,13 @@ const SubtleMeshBackground = () => {
     };
 
     const animate = () => {
-      ctx.fillStyle = "#0a0a0f";
+      // Get background color from theme
+      const bgColor = getComputedColor("--background");
+      const isDark = document.documentElement.classList.contains("dark") || 
+                     !document.documentElement.classList.contains("light");
+      
+      // Clear with background color
+      ctx.fillStyle = `hsl(${bgColor})`;
       ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
       // Update points with very slow organic movement
@@ -74,16 +87,21 @@ const SubtleMeshBackground = () => {
         point.vy *= 0.995;
       });
 
+      // Colors based on theme
+      const lineColor = isDark ? "rgba(55, 55, 70, 0.4)" : "rgba(180, 180, 195, 0.4)";
+      const pointColor = isDark ? "rgba(75, 75, 90, 0.5)" : "rgba(160, 160, 175, 0.5)";
+
       // Draw connections
-      ctx.strokeStyle = "#2d2d3a";
       ctx.lineWidth = 0.5;
 
       points.forEach((point, i) => {
         points.slice(i + 1).forEach((other) => {
           const dist = Math.hypot(point.x - other.x, point.y - other.y);
-          if (dist < 180) {
-            const opacity = (1 - dist / 180) * 0.3;
-            ctx.strokeStyle = `rgba(45, 45, 58, ${opacity})`;
+          if (dist < 160) {
+            const opacity = (1 - dist / 160) * 0.25;
+            ctx.strokeStyle = isDark 
+              ? `rgba(55, 55, 70, ${opacity})` 
+              : `rgba(180, 180, 195, ${opacity})`;
             ctx.beginPath();
             ctx.moveTo(point.x, point.y);
             ctx.lineTo(other.x, other.y);
@@ -94,9 +112,9 @@ const SubtleMeshBackground = () => {
 
       // Draw points
       points.forEach((point) => {
-        ctx.fillStyle = "rgba(63, 63, 74, 0.4)";
+        ctx.fillStyle = pointColor;
         ctx.beginPath();
-        ctx.arc(point.x, point.y, 1.5, 0, Math.PI * 2);
+        ctx.arc(point.x, point.y, 1.2, 0, Math.PI * 2);
         ctx.fill();
       });
 
@@ -108,8 +126,15 @@ const SubtleMeshBackground = () => {
 
     window.addEventListener("resize", resize);
 
+    // Watch for theme changes
+    const observer = new MutationObserver(() => {
+      // Theme changed, colors will update on next frame
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+
     return () => {
       window.removeEventListener("resize", resize);
+      observer.disconnect();
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
@@ -118,7 +143,7 @@ const SubtleMeshBackground = () => {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 pointer-events-none"
-      style={{ opacity: 0.6 }}
+      style={{ opacity: 0.5 }}
     />
   );
 };
