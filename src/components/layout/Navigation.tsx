@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import MobileMenu from "./MobileMenu";
+import PlatformsModal from "@/components/modals/PlatformsModal";
 
 interface NavItem {
   label: string;
@@ -58,6 +59,7 @@ const navItems: NavItem[] = [
 const Navigation = () => {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [platformsModalOpen, setPlatformsModalOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -172,7 +174,7 @@ const Navigation = () => {
                   {/* Dropdown */}
                   {activeDropdown === item.label && item.children && (
                     <div
-                      className="absolute top-full left-0 mt-2 py-2 min-w-[200px] bg-background/95 dark:bg-[rgba(10,10,15,0.95)] backdrop-blur-[16px] border border-foreground/[0.08] dark:border-white/[0.08] rounded-md shadow-lg"
+                      className="absolute top-full left-0 mt-2 py-2 min-w-[200px] bg-background dark:bg-[#0f0f14] backdrop-blur-[16px] border border-foreground/[0.08] dark:border-white/[0.08] rounded-md z-[60]"
                       onMouseEnter={() => handleMouseEnter(item.label)}
                       onMouseLeave={handleMouseLeave}
                     >
@@ -204,9 +206,9 @@ const Navigation = () => {
                 <ThemeToggle />
               </div>
 
-              {/* PLATFORMS CTA */}
-              <Link
-                to="/platforms"
+              {/* PLATFORMS CTA - Opens Modal */}
+              <button
+                onClick={() => setPlatformsModalOpen(true)}
                 className="hidden lg:inline-flex items-center justify-center text-white transition-colors duration-[120ms]"
                 style={{
                   fontFamily: "Inter, system-ui, sans-serif",
@@ -221,7 +223,7 @@ const Navigation = () => {
                 onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#0B1A3A")}
               >
                 PLATFORMS
-              </Link>
+              </button>
 
               {/* Mobile Menu Button */}
               <button
@@ -243,7 +245,20 @@ const Navigation = () => {
       </header>
 
       {/* Mobile Menu */}
-      <MobileMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
+      <MobileMenu 
+        isOpen={mobileMenuOpen} 
+        onClose={() => setMobileMenuOpen(false)} 
+        onOpenPlatforms={() => {
+          setMobileMenuOpen(false);
+          setPlatformsModalOpen(true);
+        }}
+      />
+
+      {/* Platforms Modal */}
+      <PlatformsModal 
+        isOpen={platformsModalOpen} 
+        onClose={() => setPlatformsModalOpen(false)} 
+      />
     </>
   );
 };
