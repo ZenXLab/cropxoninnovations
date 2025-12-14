@@ -24,14 +24,14 @@ const navItems: NavItem[] = [
     label: "PHILOSOPHY",
     children: [
       { label: "How We Think", href: "/how-we-think" },
-      { label: "Design Principles", href: "/how-we-think#design-principles" },
-      { label: "Systems, Not Products", href: "/how-we-think#systems" },
+      { label: "Design Principles", href: "/design-principles" },
+      { label: "Systems, Not Products", href: "/systems-not-products" },
     ],
   },
   {
     label: "TECHNOLOGY",
     children: [
-      { label: "Architecture", href: "/how-we-think#architecture" },
+      { label: "Architecture", href: "/architecture" },
       { label: "Security & Compliance", href: "/company#compliance" },
       { label: "Research & Foundations", href: "/originx-labs" },
     ],
@@ -206,7 +206,7 @@ const Navigation = () => {
 
               {/* PLATFORMS CTA */}
               <Link
-                to="/atlas"
+                to="/platforms"
                 className="hidden lg:inline-flex items-center justify-center text-white transition-colors duration-[120ms]"
                 style={{
                   fontFamily: "Inter, system-ui, sans-serif",

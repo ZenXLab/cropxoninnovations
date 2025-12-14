@@ -27,14 +27,14 @@ const navSections: NavSection[] = [
     label: "PHILOSOPHY",
     children: [
       { label: "How We Think", href: "/how-we-think" },
-      { label: "Design Principles", href: "/how-we-think#design-principles" },
-      { label: "Systems, Not Products", href: "/how-we-think#systems" },
+      { label: "Design Principles", href: "/design-principles" },
+      { label: "Systems, Not Products", href: "/systems-not-products" },
     ],
   },
   {
     label: "TECHNOLOGY",
     children: [
-      { label: "Architecture", href: "/how-we-think#architecture" },
+      { label: "Architecture", href: "/architecture" },
       { label: "Security & Compliance", href: "/company#compliance" },
       { label: "Research & Foundations", href: "/originx-labs" },
     ],
@@ -180,7 +180,7 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
           {/* PLATFORMS CTA */}
           <div className="mt-8 pt-6 border-t border-foreground/[0.06]">
             <Link
-              to="/atlas"
+              to="/platforms"
               onClick={onClose}
               className="block w-full text-center text-white transition-colors duration-[120ms]"
               style={{

@@ -11,6 +11,10 @@ import ScrollProgress from "@/components/ScrollProgress";
 import Index from "./pages/Index";
 import CompanyProfile from "./pages/CompanyProfile";
 import HowWeThink from "./pages/HowWeThink";
+import DesignPrinciples from "./pages/DesignPrinciples";
+import SystemsNotProducts from "./pages/SystemsNotProducts";
+import Architecture from "./pages/Architecture";
+import Platforms from "./pages/Platforms";
 import Contact from "./pages/Contact";
 import Careers from "./pages/Careers";
 import Atlas from "./pages/products/Atlas";
@@ -50,6 +54,10 @@ const AnimatedRoutes = () => {
           <Route path="/" element={<Index />} />
           <Route path="/company" element={<CompanyProfile />} />
           <Route path="/how-we-think" element={<HowWeThink />} />
+          <Route path="/design-principles" element={<DesignPrinciples />} />
+          <Route path="/systems-not-products" element={<SystemsNotProducts />} />
+          <Route path="/architecture" element={<Architecture />} />
+          <Route path="/platforms" element={<Platforms />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/atlas" element={<Atlas />} />
