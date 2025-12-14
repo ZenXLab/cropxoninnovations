@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { X, ChevronDown } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import officialLogo from "@/assets/cropxon-logo-official.png";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -96,29 +97,23 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
           className="flex items-center justify-between px-6 border-b border-foreground/[0.06]"
           style={{ height: "56px" }}
         >
-          {/* Brand Lockup */}
-          <Link to="/" onClick={onClose} className="flex items-center" style={{ gap: "6px" }}>
+          {/* Brand Lockup - Official Logo */}
+          <Link to="/" onClick={onClose} className="flex items-center gap-2">
+            <img 
+              src={officialLogo} 
+              alt="CropXon Innovations logo" 
+              className="h-6 w-auto dark:invert dark:brightness-200"
+            />
             <span
-              className="text-[#0B0E14] dark:text-[#F5F7FA]"
+              className="text-foreground"
               style={{
                 fontFamily: "Inter, system-ui, sans-serif",
                 fontWeight: 600,
-                fontSize: "16px",
+                fontSize: "15px",
                 letterSpacing: "-0.01em",
               }}
             >
               CropXon
-            </span>
-            <span
-              className="text-[#6B7280] dark:text-[#9CA3AF]"
-              style={{
-                fontFamily: "Inter, system-ui, sans-serif",
-                fontWeight: 400,
-                fontSize: "16px",
-                letterSpacing: "0.02em",
-              }}
-            >
-              Innovations
             </span>
           </Link>
 
