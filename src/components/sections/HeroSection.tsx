@@ -60,26 +60,26 @@ const HeroSection = () => {
 
         {/* Content Container */}
         <div className="relative z-10 container mx-auto px-6 lg:px-16 text-center">
-          {/* Logo - Clean, no container, optional subtle external glow */}
+          {/* Logo - Transparent, no container, premium presentation */}
           <div
-            className={`mb-12 lg:mb-16 flex justify-center transition-all duration-1000 ease-out ${
+            className={`mb-14 sm:mb-16 lg:mb-20 flex justify-center transition-all duration-1000 ease-out ${
               showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
             <div className="relative">
-              {/* Very subtle CSS glow - external, not baked into logo */}
+              {/* Very subtle CSS glow - external, professional */}
               <div 
-                className="absolute inset-0 opacity-20"
+                className="absolute inset-0 opacity-15"
                 style={{
-                  background: "radial-gradient(ellipse at center, hsl(var(--primary) / 0.3) 0%, transparent 60%)",
-                  filter: "blur(50px)",
-                  transform: "scale(2)",
+                  background: "radial-gradient(ellipse at center, hsl(var(--primary) / 0.25) 0%, transparent 55%)",
+                  filter: "blur(60px)",
+                  transform: "scale(2.5)",
                 }}
               />
               <img 
                 src={cropxonLogo} 
                 alt="CropXon Innovations" 
-                className="relative h-20 sm:h-24 lg:h-28 w-auto"
+                className="relative h-28 sm:h-36 md:h-44 lg:h-52 xl:h-60 w-auto"
               />
             </div>
           </div>
