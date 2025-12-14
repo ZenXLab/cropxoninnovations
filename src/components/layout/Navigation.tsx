@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const CropxonLogo = ({ className = "h-10" }: { className?: string }) => (
   <svg
@@ -54,11 +55,19 @@ const CropxonLogo = ({ className = "h-10" }: { className?: string }) => (
 );
 
 const Navigation = () => {
+  const location = useLocation();
+  
   const navLinks = [
-    { label: "Ecosystem", href: "#ecosystem" },
-    { label: "Vision", href: "#vision" },
-    { label: "Technology", href: "#technology" },
+    { label: "Ecosystem", href: "/#ecosystem" },
+    { label: "Vision", href: "/#vision" },
+    { label: "Technology", href: "/#technology" },
+    { label: "Company", href: "/company" },
   ];
+
+  const isActive = (href: string) => {
+    if (href.startsWith("/#")) return false;
+    return location.pathname === href;
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
@@ -72,24 +81,41 @@ const Navigation = () => {
           {/* Navigation Links */}
           <div className="hidden md:flex items-center gap-10">
             {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300 uppercase tracking-widest link-underline"
-              >
-                {link.label}
-              </a>
+              link.href.startsWith("/#") ? (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300 uppercase tracking-widest link-underline"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.label}
+                  to={link.href}
+                  className={`text-sm font-medium transition-colors duration-300 uppercase tracking-widest link-underline ${
+                    isActive(link.href) 
+                      ? "text-foreground" 
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              )
             ))}
           </div>
 
-          {/* CTA */}
-          <div className="hidden md:block">
-            <a
-              href="#ecosystem"
-              className="text-sm font-medium text-foreground uppercase tracking-widest hover:text-accent transition-colors duration-300"
-            >
-              Enter
-            </a>
+          {/* Right Side: Theme Toggle + CTA */}
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+            <div className="hidden md:block">
+              <a
+                href="/#ecosystem"
+                className="text-sm font-medium text-foreground uppercase tracking-widest hover:text-accent transition-colors duration-300"
+              >
+                Enter
+              </a>
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
