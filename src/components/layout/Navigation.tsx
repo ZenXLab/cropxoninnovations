@@ -1,12 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import MobileMenu from "./MobileMenu";
-import cropxonLogo from "@/assets/cropxon-logo.svg";
 
 const Navigation = () => {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 100);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   
   const navLinks = [
     { label: "Ecosystem", href: "/#ecosystem" },
@@ -22,19 +30,28 @@ const Navigation = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/60 backdrop-blur-xl">
-        {/* Hairline divider */}
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-border/10" />
-        
+      <header 
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled ? "backdrop-blur-xl bg-[#0a0a0f]/90" : "bg-[#0a0a0f]"
+        }`}
+        style={{ borderBottom: "1px solid #1a1a24" }}
+      >
         <nav className="container mx-auto px-6 lg:px-16">
-          <div className="flex items-center justify-between h-14 lg:h-16">
-            {/* Logo - Clean, no container */}
-            <Link to="/" className="flex items-center">
-              <img 
-                src={cropxonLogo} 
-                alt="Cropxon" 
-                className="h-7 lg:h-8 w-auto" 
-              />
+          <div className="flex items-center justify-between h-20">
+            {/* Wordmark Logo */}
+            <Link to="/" className="flex items-center gap-3 group">
+              <span 
+                className="font-display text-xl lg:text-2xl font-bold tracking-wide"
+                style={{ color: "#f8fafc" }}
+              >
+                Cropxon
+              </span>
+              <span 
+                className="font-display text-xl lg:text-2xl font-light tracking-wide"
+                style={{ color: "#94a3b8" }}
+              >
+                Innovations
+              </span>
             </Link>
 
             {/* Navigation Links - Desktop */}
@@ -44,7 +61,13 @@ const Navigation = () => {
                   <a
                     key={link.label}
                     href={link.href}
-                    className="text-[11px] font-medium text-muted-foreground/70 hover:text-foreground transition-colors duration-300 uppercase tracking-[0.2em]"
+                    className="text-[11px] font-medium transition-colors duration-300 uppercase"
+                    style={{ 
+                      letterSpacing: "0.1em",
+                      color: "#94a3b8"
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = "#f8fafc"}
+                    onMouseLeave={(e) => e.currentTarget.style.color = "#94a3b8"}
                   >
                     {link.label}
                   </a>
@@ -52,11 +75,13 @@ const Navigation = () => {
                   <Link
                     key={link.label}
                     to={link.href}
-                    className={`text-[11px] font-medium transition-colors duration-300 uppercase tracking-[0.2em] ${
-                      isActive(link.href) 
-                        ? "text-foreground" 
-                        : "text-muted-foreground/70 hover:text-foreground"
-                    }`}
+                    className="text-[11px] font-medium transition-colors duration-300 uppercase"
+                    style={{ 
+                      letterSpacing: "0.1em",
+                      color: isActive(link.href) ? "#f8fafc" : "#94a3b8"
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = "#f8fafc"}
+                    onMouseLeave={(e) => e.currentTarget.style.color = isActive(link.href) ? "#f8fafc" : "#94a3b8"}
                   >
                     {link.label}
                   </Link>
@@ -66,21 +91,35 @@ const Navigation = () => {
 
             {/* Right Side: Theme Toggle + CTA */}
             <div className="flex items-center gap-6">
-              <div className="hidden sm:block opacity-60 hover:opacity-100 transition-opacity">
+              <div className="hidden sm:block opacity-50 hover:opacity-100 transition-opacity">
                 <ThemeToggle />
               </div>
-              <div className="hidden md:block">
-                <a
-                  href="/#ecosystem"
-                  className="text-[11px] font-medium text-muted-foreground/70 hover:text-foreground uppercase tracking-[0.2em] transition-colors duration-300"
-                >
-                  Enter
-                </a>
-              </div>
+              <a
+                href="/#ecosystem"
+                className="hidden md:inline-flex items-center justify-center text-[11px] font-semibold uppercase transition-all duration-300"
+                style={{ 
+                  letterSpacing: "0.05em",
+                  backgroundColor: "#0d9488",
+                  color: "#f8fafc",
+                  padding: "12px 32px",
+                  borderRadius: "4px"
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = "#0f766e";
+                  e.currentTarget.style.transform = "scale(1.02)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "#0d9488";
+                  e.currentTarget.style.transform = "scale(1)";
+                }}
+              >
+                Enter
+              </a>
 
               {/* Mobile Menu Button */}
               <button 
-                className="md:hidden text-foreground/70 hover:text-foreground transition-colors p-1"
+                className="md:hidden p-1 transition-colors"
+                style={{ color: "#94a3b8" }}
                 onClick={() => setMobileMenuOpen(true)}
               >
                 <svg
