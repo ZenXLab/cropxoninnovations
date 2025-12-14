@@ -102,19 +102,34 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
             <img 
               src={officialLogo} 
               alt="CropXon Innovations logo" 
-              className="h-6 w-auto dark:invert dark:brightness-200"
+              className="h-7 w-auto dark:brightness-0 dark:invert"
             />
-            <span
-              className="text-foreground"
-              style={{
-                fontFamily: "Inter, system-ui, sans-serif",
-                fontWeight: 600,
-                fontSize: "15px",
-                letterSpacing: "-0.01em",
-              }}
-            >
-              CropXon
-            </span>
+            <div className="flex flex-col leading-none">
+              <span
+                className="text-foreground"
+                style={{
+                  fontFamily: "'Space Grotesk', Inter, system-ui, sans-serif",
+                  fontWeight: 700,
+                  fontSize: "13px",
+                  letterSpacing: "0.02em",
+                }}
+              >
+                CropXon
+              </span>
+              <span
+                className="text-muted-foreground"
+                style={{
+                  fontFamily: "Inter, system-ui, sans-serif",
+                  fontWeight: 400,
+                  fontSize: "8px",
+                  letterSpacing: "0.06em",
+                  textTransform: "uppercase",
+                  marginTop: "1px",
+                }}
+              >
+                Innovations Pvt. Ltd.
+              </span>
+            </div>
           </Link>
 
           <button

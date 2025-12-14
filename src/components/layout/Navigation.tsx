@@ -109,26 +109,38 @@ const Navigation = () => {
         <nav className="h-full max-w-[1200px] mx-auto px-8">
           <div className="flex items-center justify-between h-full">
             {/* Brand Lockup - Official Logo */}
-            <Link to="/" className="flex items-center gap-2">
+            <Link to="/" className="flex items-center gap-3">
               <img 
                 src={officialLogo} 
                 alt="CropXon Innovations logo" 
-                className="h-7 w-auto dark:invert dark:brightness-200"
-                style={{ 
-                  filter: "var(--logo-filter, none)"
-                }}
+                className="h-8 w-auto dark:brightness-0 dark:invert"
               />
-              <span
-                className="text-foreground hidden sm:inline"
-                style={{
-                  fontFamily: "Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
-                  fontWeight: 600,
-                  fontSize: "15px",
-                  letterSpacing: "-0.01em",
-                }}
-              >
-                CropXon
-              </span>
+              <div className="hidden sm:flex flex-col leading-none">
+                <span
+                  className="text-foreground"
+                  style={{
+                    fontFamily: "'Space Grotesk', Inter, system-ui, sans-serif",
+                    fontWeight: 700,
+                    fontSize: "14px",
+                    letterSpacing: "0.02em",
+                  }}
+                >
+                  CropXon
+                </span>
+                <span
+                  className="text-muted-foreground"
+                  style={{
+                    fontFamily: "Inter, system-ui, sans-serif",
+                    fontWeight: 400,
+                    fontSize: "9px",
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    marginTop: "2px",
+                  }}
+                >
+                  Innovations Pvt. Ltd.
+                </span>
+              </div>
             </Link>
 
             {/* Navigation Items - Desktop */}

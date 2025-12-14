@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import InteractiveTimeline from "@/components/sections/InteractiveTimeline";
 import AnimatedCounter from "@/components/sections/AnimatedCounter";
+import officialLogo from "@/assets/cropxon-logo-official.png";
 
 // Company Details Data
 const companyDetails = [
@@ -132,39 +133,15 @@ const contacts = [
   { label: "Support", email: "support@cropxon.com" },
 ];
 
-// SVG Logo Mark Component
-const CropxonMark = ({ className = "w-16 h-16" }: { className?: string }) => (
-  <svg
-    viewBox="0 0 60 60"
-    className={className}
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M15 15L30 30M30 30L45 45M45 15L30 30M30 30L15 45"
-      stroke="url(#profileGradient)"
-      strokeWidth="4"
-      strokeLinecap="round"
+// Official Logo Component - Theme Aware
+const OfficialLogoMark = ({ className = "w-20 h-20" }: { className?: string }) => (
+  <div className={`${className} flex items-center justify-center`}>
+    <img 
+      src={officialLogo} 
+      alt="CropXon Innovations logo" 
+      className="w-full h-full object-contain dark:brightness-0 dark:invert"
     />
-    <circle cx="15" cy="15" r="3" fill="hsl(234, 55%, 50%)" />
-    <circle cx="45" cy="15" r="3" fill="hsl(234, 55%, 50%)" />
-    <circle cx="15" cy="45" r="3" fill="hsl(249, 90%, 68%)" />
-    <circle cx="45" cy="45" r="3" fill="hsl(249, 90%, 68%)" />
-    <circle cx="30" cy="30" r="5" fill="hsl(234, 55%, 50%)" />
-    <path
-      d="M48 12L55 5M55 5L55 12M55 5L48 5"
-      stroke="hsl(249, 90%, 68%)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <circle cx="55" cy="5" r="2" fill="hsl(249, 90%, 68%)" />
-    <defs>
-      <linearGradient id="profileGradient" x1="15" y1="15" x2="45" y2="45" gradientUnits="userSpaceOnUse">
-        <stop stopColor="hsl(234, 55%, 50%)" />
-        <stop offset="1" stopColor="hsl(249, 90%, 68%)" />
-      </linearGradient>
-    </defs>
-  </svg>
+  </div>
 );
 
 const CompanyProfile = () => {
@@ -197,17 +174,17 @@ const CompanyProfile = () => {
             </div>
 
             <div className="container mx-auto px-6 lg:px-12 relative z-10">
-              <div className="max-w-4xl mx-auto text-center">
-                <div className="flex justify-center mb-8">
-                  <CropxonMark className="w-20 h-20 md:w-24 md:h-24" />
-                </div>
-                <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-wide mb-6">
-                  CropXon Innovations Private Limited
-                </h1>
-                <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                  A multi-division technology company building foundational platforms across digital cognition, workforce systems, cloud infrastructure, and advanced research.
-                </p>
+            <div className="max-w-4xl mx-auto text-center">
+              <div className="flex justify-center mb-8">
+                <OfficialLogoMark className="w-24 h-24 md:w-28 md:h-28" />
               </div>
+              <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-wide mb-6">
+                CropXon Innovations Private Limited
+              </h1>
+              <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                A multi-division technology company building foundational platforms across digital cognition, workforce systems, cloud infrastructure, and advanced research.
+              </p>
+            </div>
             </div>
           </section>
 
@@ -315,7 +292,7 @@ const CompanyProfile = () => {
                 {/* Central Node */}
                 <div className="flex justify-center mb-12">
                   <div className="px-8 py-4 bg-card border border-border rounded-sm inline-flex items-center gap-4">
-                    <CropxonMark className="w-10 h-10" />
+                    <OfficialLogoMark className="w-10 h-10" />
                     <div>
                       <h3 className="font-display font-bold text-foreground">CropXon Innovations</h3>
                       <span className="font-mono text-xs text-muted-foreground">Parent Company</span>
