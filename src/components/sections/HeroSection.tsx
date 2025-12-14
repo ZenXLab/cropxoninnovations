@@ -2,11 +2,13 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import SubtleMeshBackground from "@/components/visuals/SubtleMeshBackground";
 import AnimatedGradientBackground from "@/components/visuals/AnimatedGradientBackground";
-import logoAnimationVideo from "@/assets/cropxon-logo-animation.mp4";
+import loadingVideo from "@/assets/cropxon-loading-video.mp4";
 
 const HeroSection = () => {
   const [showContent, setShowContent] = useState(false);
   const [showVideoOverlay, setShowVideoOverlay] = useState(false);
+  const [fadeOut, setFadeOut] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [wordIndex, setWordIndex] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
   const navigate = useNavigate();
@@ -27,15 +29,38 @@ const HeroSection = () => {
 
   const handleViewVision = () => {
     setShowVideoOverlay(true);
-    // Disable body scroll
+    setProgress(0);
+    setFadeOut(false);
     document.body.style.overflow = 'hidden';
   };
 
-  const handleVideoEnd = () => {
-    document.body.style.overflow = '';
-    setShowVideoOverlay(false);
-    navigate('/how-we-think');
-  };
+  useEffect(() => {
+    if (!showVideoOverlay) return;
+
+    const progressInterval = setInterval(() => {
+      setProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(progressInterval);
+          return 100;
+        }
+        return prev + 4;
+      });
+    }, 50);
+
+    const timer = setTimeout(() => {
+      setFadeOut(true);
+      setTimeout(() => {
+        document.body.style.overflow = '';
+        setShowVideoOverlay(false);
+        navigate('/how-we-think');
+      }, 400);
+    }, 1500);
+
+    return () => {
+      clearTimeout(timer);
+      clearInterval(progressInterval);
+    };
+  }, [showVideoOverlay, navigate]);
 
   const handleSkipVideo = () => {
     if (videoRef.current) {
@@ -45,12 +70,6 @@ const HeroSection = () => {
     setShowVideoOverlay(false);
     navigate('/how-we-think');
   };
-
-  useEffect(() => {
-    if (showVideoOverlay && videoRef.current) {
-      videoRef.current.play().catch(console.error);
-    }
-  }, [showVideoOverlay]);
 
   return (
     <>
@@ -173,9 +192,13 @@ const HeroSection = () => {
         </div>
       </section>
 
-      {/* Video Overlay */}
+      {/* Video Overlay - Same as Loading Screen */}
       {showVideoOverlay && (
-        <div className="fixed inset-0 z-[100] bg-background flex items-center justify-center">
+        <div
+          className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background transition-opacity duration-400 ${
+            fadeOut ? "opacity-0 pointer-events-none" : "opacity-100"
+          }`}
+        >
           {/* Skip Button */}
           <button
             onClick={handleSkipVideo}
@@ -184,15 +207,31 @@ const HeroSection = () => {
             Skip →
           </button>
 
-          {/* Video */}
-          <video
-            ref={videoRef}
-            src={logoAnimationVideo}
-            className="w-full h-full object-contain max-w-4xl"
-            muted
-            playsInline
-            onEnded={handleVideoEnd}
-          />
+          {/* Video container with dark mode blend */}
+          <div className="relative w-64 h-64 sm:w-80 sm:h-80 flex items-center justify-center">
+            <video
+              ref={videoRef}
+              src={loadingVideo}
+              autoPlay
+              muted
+              playsInline
+              loop
+              className="w-full h-full object-contain mix-blend-multiply dark:mix-blend-screen dark:invert"
+            />
+          </div>
+
+          {/* Progress bar */}
+          <div className="mt-8 w-48 sm:w-64">
+            <div className="h-[2px] bg-border/30 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-primary transition-all duration-100"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+            <p className="text-[10px] text-muted-foreground uppercase tracking-[0.3em] text-center mt-4 font-mono">
+              Loading Philosophy
+            </p>
+          </div>
         </div>
       )}
 
