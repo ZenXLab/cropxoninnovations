@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
-import VisionModal from "@/components/modals/VisionModal";
+import { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import SubtleMeshBackground from "@/components/visuals/SubtleMeshBackground";
 import AnimatedGradientBackground from "@/components/visuals/AnimatedGradientBackground";
+import logoAnimationVideo from "@/assets/cropxon-logo-animation.mp4";
 
 const HeroSection = () => {
   const [showContent, setShowContent] = useState(false);
-  const [visionModalOpen, setVisionModalOpen] = useState(false);
+  const [showVideoOverlay, setShowVideoOverlay] = useState(false);
   const [wordIndex, setWordIndex] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const navigate = useNavigate();
 
   const words = ["FOUNDATIONAL", "INTELLIGENT", "RESILIENT", "SCALABLE"];
 
@@ -21,6 +24,33 @@ const HeroSection = () => {
     }, 3000);
     return () => clearInterval(interval);
   }, []);
+
+  const handleViewVision = () => {
+    setShowVideoOverlay(true);
+    // Disable body scroll
+    document.body.style.overflow = 'hidden';
+  };
+
+  const handleVideoEnd = () => {
+    document.body.style.overflow = '';
+    setShowVideoOverlay(false);
+    navigate('/how-we-think');
+  };
+
+  const handleSkipVideo = () => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+    }
+    document.body.style.overflow = '';
+    setShowVideoOverlay(false);
+    navigate('/how-we-think');
+  };
+
+  useEffect(() => {
+    if (showVideoOverlay && videoRef.current) {
+      videoRef.current.play().catch(console.error);
+    }
+  }, [showVideoOverlay]);
 
   return (
     <>
@@ -104,7 +134,7 @@ const HeroSection = () => {
               
               {/* Secondary CTA */}
               <button
-                onClick={() => setVisionModalOpen(true)}
+                onClick={handleViewVision}
                 className="inline-flex items-center justify-center font-semibold uppercase bg-transparent text-muted-foreground hover:text-foreground border border-border hover:border-muted-foreground transition-all duration-300"
                 style={{ 
                   padding: "1.125rem 2.5rem",
@@ -143,8 +173,28 @@ const HeroSection = () => {
         </div>
       </section>
 
-      {/* Vision Modal */}
-      <VisionModal isOpen={visionModalOpen} onClose={() => setVisionModalOpen(false)} />
+      {/* Video Overlay */}
+      {showVideoOverlay && (
+        <div className="fixed inset-0 z-[100] bg-background flex items-center justify-center">
+          {/* Skip Button */}
+          <button
+            onClick={handleSkipVideo}
+            className="absolute top-8 right-8 text-muted-foreground hover:text-foreground text-xs uppercase tracking-widest transition-colors z-10"
+          >
+            Skip →
+          </button>
+
+          {/* Video */}
+          <video
+            ref={videoRef}
+            src={logoAnimationVideo}
+            className="w-full h-full object-contain max-w-4xl"
+            muted
+            playsInline
+            onEnded={handleVideoEnd}
+          />
+        </div>
+      )}
 
       <style>{`
         @keyframes scroll-indicator {
