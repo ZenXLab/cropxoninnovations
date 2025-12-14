@@ -76,8 +76,7 @@ const HeroSection = () => {
           {/* Scroll Indicator */}
           <div className={`absolute bottom-8 sm:bottom-12 left-1/2 -translate-x-1/2 transition-all duration-1000 delay-700 ${showContent ? "opacity-100" : "opacity-0"}`}>
             <div className="flex flex-col items-center gap-2">
-              <span className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-widest">SCRTHIS LOOGS UGLY ON THIS AS IT OVERLAPS , PLEAE FIX THIS
-OLL</span>
+              <span className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-widest">SCROLL</span>
               <div className="w-px h-8 sm:h-12 bg-gradient-to-b from-muted-foreground/50 to-transparent" />
             </div>
           </div>
