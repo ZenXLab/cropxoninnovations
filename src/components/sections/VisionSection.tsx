@@ -1,7 +1,9 @@
 import useScrollAnimation from "@/hooks/useScrollAnimation";
+import useParallax from "@/hooks/useParallax";
 
 const VisionSection = () => {
   const { ref, isVisible } = useScrollAnimation({ threshold: 0.2 });
+  const { parallaxOffset, scrollY } = useParallax();
 
   const statements = [
     {
@@ -20,8 +22,11 @@ const VisionSection = () => {
 
   return (
     <section id="vision" className="py-32 lg:py-48 relative overflow-hidden">
-      {/* Subtle background pattern */}
-      <div className="absolute inset-0 opacity-5">
+      {/* Parallax background pattern */}
+      <div 
+        className="absolute inset-0 opacity-5"
+        style={{ transform: `translateY(${parallaxOffset(0.15)}px)` }}
+      >
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern
@@ -43,7 +48,21 @@ const VisionSection = () => {
         </svg>
       </div>
 
-      <div ref={ref} className="container mx-auto px-6 lg:px-12 relative z-10">
+      {/* Floating accent elements with parallax */}
+      <div
+        className="absolute top-1/4 left-10 w-64 h-64 rounded-full bg-primary/5 blur-3xl"
+        style={{ transform: `translateY(${parallaxOffset(-0.1)}px)` }}
+      />
+      <div
+        className="absolute bottom-1/4 right-10 w-80 h-80 rounded-full bg-accent/5 blur-3xl"
+        style={{ transform: `translateY(${parallaxOffset(0.2)}px)` }}
+      />
+
+      <div 
+        ref={ref} 
+        className="container mx-auto px-6 lg:px-12 relative z-10"
+        style={{ transform: `translateY(${parallaxOffset(0.05)}px)` }}
+      >
         <div className="max-w-4xl mx-auto text-center space-y-16">
           {statements.map((statement, index) => (
             <p
