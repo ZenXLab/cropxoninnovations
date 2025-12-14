@@ -197,12 +197,6 @@ const EcosystemSection = () => {
           ))}
         </div>
 
-        {/* Center Logo */}
-        <div className="flex justify-center mt-16 lg:mt-24">
-          <div className="w-20 h-20 rounded-full bg-card border border-border flex items-center justify-center shadow-lg">
-            <img src={cropxonLogo} alt="CropXon" className="w-10 h-10 object-contain" />
-          </div>
-        </div>
       </div>
     </section>
   );
