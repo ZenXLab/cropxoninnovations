@@ -11,6 +11,8 @@ import ScrollProgress from "@/components/ScrollProgress";
 import Index from "./pages/Index";
 import CompanyProfile from "./pages/CompanyProfile";
 import HowWeThink from "./pages/HowWeThink";
+import Contact from "./pages/Contact";
+import Careers from "./pages/Careers";
 import Atlas from "./pages/products/Atlas";
 import Traceflow from "./pages/products/Traceflow";
 import OriginxLabs from "./pages/products/OriginxLabs";
@@ -34,6 +36,8 @@ const AnimatedRoutes = () => {
         <Route path="/" element={<Index />} />
         <Route path="/company" element={<CompanyProfile />} />
         <Route path="/how-we-think" element={<HowWeThink />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/careers" element={<Careers />} />
         <Route path="/atlas" element={<Atlas />} />
         <Route path="/traceflow" element={<Traceflow />} />
         <Route path="/originx-labs" element={<OriginxLabs />} />
