@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
 import { 
@@ -33,8 +34,9 @@ const divisions = [
     tagline: "Digital Cognition Infrastructure",
     description: "Enterprise observability and experience intelligence",
     industries: "Banking, Healthcare, Insurance, Telecom",
-    status: "Live & Scaling",
-    statusColor: "bg-green-500/20 text-green-400",
+    status: "Beta / Early Access",
+    statusColor: "bg-accent/20 text-accent",
+    link: "/traceflow",
   },
   {
     name: "ATLAS",
@@ -42,23 +44,26 @@ const divisions = [
     description: "AI-enabled workforce management and productivity platform",
     industries: null,
     status: "Beta / Early Access",
-    statusColor: "bg-yellow-500/20 text-yellow-400",
+    statusColor: "bg-accent/20 text-accent",
+    link: "/atlas",
   },
   {
     name: "OriginX Labs",
     tagline: "Research & Product Innovation Division",
     description: "Focus: AI/ML, advanced computing, emerging technologies",
     industries: null,
-    status: "Active R&D",
-    statusColor: "bg-blue-500/20 text-blue-400",
+    status: "Beta / Early Access",
+    statusColor: "bg-accent/20 text-accent",
+    link: "/originx-labs",
   },
   {
     name: "CropXon Cloud",
     tagline: "Infrastructure as a Service (IaaS)",
     description: "Target: Individuals, startups, and SMBs",
     industries: null,
-    status: "Live (SMB)",
-    statusColor: "bg-green-500/20 text-green-400",
+    status: "Beta / Early Access",
+    statusColor: "bg-accent/20 text-accent",
+    link: "/cropxon-cloud",
   },
   {
     name: "CropXon Robotics",
@@ -67,6 +72,7 @@ const divisions = [
     industries: null,
     status: "Planned (Future)",
     statusColor: "bg-muted text-muted-foreground",
+    link: null,
   },
 ];
 
@@ -282,29 +288,45 @@ const CompanyProfile = () => {
                 </div>
 
                 {/* Divisions Grid */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {divisions.map((division, index) => (
-                    <div
-                      key={index}
-                      className="p-6 bg-card border border-border rounded-sm hover:border-muted-foreground/30 transition-colors duration-300"
-                    >
-                      <div className="flex items-start justify-between mb-4">
-                        <h3 className="font-display text-lg font-bold text-foreground">
-                          {division.name}
-                        </h3>
-                        <span className={`text-xs px-2 py-1 rounded-sm font-mono ${division.statusColor}`}>
-                          {division.status}
-                        </span>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                  {divisions.map((division, index) => {
+                    const content = (
+                      <>
+                        <div className="flex items-start justify-between mb-4">
+                          <h3 className="font-display text-base sm:text-lg font-bold text-foreground">
+                            {division.name}
+                          </h3>
+                          <span className={`text-[10px] sm:text-xs px-2 py-1 rounded-sm font-mono ${division.statusColor}`}>
+                            {division.status}
+                          </span>
+                        </div>
+                        <p className="font-mono text-xs text-accent mb-2">{division.tagline}</p>
+                        <p className="text-sm text-muted-foreground mb-3">{division.description}</p>
+                        {division.industries && (
+                          <p className="text-xs text-muted-foreground/70">
+                            <span className="font-medium">Industries:</span> {division.industries}
+                          </p>
+                        )}
+                      </>
+                    );
+                    
+                    return division.link ? (
+                      <Link
+                        key={index}
+                        to={division.link}
+                        className="block p-4 sm:p-6 bg-card border border-border rounded-sm hover:border-muted-foreground/30 transition-colors duration-300"
+                      >
+                        {content}
+                      </Link>
+                    ) : (
+                      <div
+                        key={index}
+                        className="p-4 sm:p-6 bg-card border border-border rounded-sm"
+                      >
+                        {content}
                       </div>
-                      <p className="font-mono text-xs text-accent mb-2">{division.tagline}</p>
-                      <p className="text-sm text-muted-foreground mb-3">{division.description}</p>
-                      {division.industries && (
-                        <p className="text-xs text-muted-foreground/70">
-                          <span className="font-medium">Industries:</span> {division.industries}
-                        </p>
-                      )}
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             </div>
