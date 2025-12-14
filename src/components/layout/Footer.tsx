@@ -63,12 +63,38 @@ const Footer = () => {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-10">
           {/* Logo Column - Institutional Seal */}
           <div className="col-span-2 md:col-span-1">
-            <Link to="/" className="inline-block mb-4">
+            <Link to="/" className="inline-flex items-center gap-3 mb-4">
               <img 
                 src={officialLogo} 
                 alt="CropXon Innovations logo" 
-                className="h-10 w-auto dark:invert dark:brightness-200"
+                className="h-11 w-auto dark:brightness-0 dark:invert"
               />
+              <div className="flex flex-col leading-none">
+                <span
+                  className="text-foreground"
+                  style={{
+                    fontFamily: "'Space Grotesk', Inter, system-ui, sans-serif",
+                    fontWeight: 700,
+                    fontSize: "15px",
+                    letterSpacing: "0.02em",
+                  }}
+                >
+                  CropXon
+                </span>
+                <span
+                  className="text-muted-foreground"
+                  style={{
+                    fontFamily: "Inter, system-ui, sans-serif",
+                    fontWeight: 400,
+                    fontSize: "9px",
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    marginTop: "2px",
+                  }}
+                >
+                  Innovations Pvt. Ltd.
+                </span>
+              </div>
             </Link>
             <p className="text-xs text-muted-foreground leading-relaxed max-w-[200px]">
               Building foundational technology for work, intelligence, and infrastructure.
