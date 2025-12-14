@@ -2,59 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import MobileMenu from "./MobileMenu";
-
-const CropxonLogo = ({ className = "h-10" }: { className?: string }) => (
-  <svg
-    viewBox="0 0 180 50"
-    className={className}
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    {/* X mark with circuit */}
-    <g transform="translate(0, 5)">
-      <path
-        d="M8 8L20 20M20 20L32 32M32 8L20 20M20 20L8 32"
-        stroke="url(#logoGradient)"
-        strokeWidth="3"
-        strokeLinecap="round"
-      />
-      <circle cx="8" cy="8" r="2.5" fill="hsl(234, 55%, 50%)" />
-      <circle cx="32" cy="8" r="2.5" fill="hsl(234, 55%, 50%)" />
-      <circle cx="8" cy="32" r="2.5" fill="hsl(249, 90%, 68%)" />
-      <circle cx="32" cy="32" r="2.5" fill="hsl(249, 90%, 68%)" />
-      <circle cx="20" cy="20" r="4" fill="hsl(234, 55%, 50%)" />
-      {/* Circuit traces */}
-      <path
-        d="M35 6L42 0M42 0L42 8M42 0L36 0"
-        stroke="hsl(249, 90%, 68%)"
-        strokeWidth="1.2"
-        strokeLinecap="round"
-      />
-      <circle cx="42" cy="0" r="1.5" fill="hsl(249, 90%, 68%)" />
-    </g>
-    {/* Text */}
-    <text
-      x="52"
-      y="32"
-      fill="currentColor"
-      className="text-foreground"
-      style={{
-        fontFamily: 'Space Grotesk, system-ui, sans-serif',
-        fontSize: '24px',
-        fontWeight: 700,
-        letterSpacing: '0.05em'
-      }}
-    >
-      CROPXON
-    </text>
-    <defs>
-      <linearGradient id="logoGradient" x1="8" y1="8" x2="32" y2="32" gradientUnits="userSpaceOnUse">
-        <stop stopColor="hsl(234, 55%, 50%)" />
-        <stop offset="1" stopColor="hsl(249, 90%, 68%)" />
-      </linearGradient>
-    </defs>
-  </svg>
-);
+import cropxonLogo from "@/assets/cropxon-logo.png";
 
 const Navigation = () => {
   const location = useLocation();
@@ -78,8 +26,8 @@ const Navigation = () => {
         <nav className="container mx-auto px-4 sm:px-6 lg:px-12">
           <div className="flex items-center justify-between h-16 sm:h-20">
             {/* Logo */}
-            <Link to="/" className="flex items-center text-foreground">
-              <CropxonLogo className="h-6 sm:h-8 w-auto" />
+            <Link to="/" className="flex items-center">
+              <img src={cropxonLogo} alt="Cropxon" className="h-8 sm:h-10 w-auto" />
             </Link>
 
             {/* Navigation Links - Desktop */}
