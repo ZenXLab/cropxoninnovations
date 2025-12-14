@@ -81,12 +81,22 @@ const features = [
   },
 ];
 
+import useScrollAnimation from "@/hooks/useScrollAnimation";
+
 const WhyCropxonSection = () => {
+  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation({ threshold: 0.3 });
+  const { ref: gridRef, isVisible: gridVisible } = useScrollAnimation({ threshold: 0.1 });
+
   return (
     <section className="py-32 lg:py-48 relative">
       <div className="container mx-auto px-6 lg:px-12">
         {/* Section Header */}
-        <div className="text-center mb-20">
+        <div
+          ref={headerRef}
+          className={`text-center mb-20 transition-all duration-700 ease-out ${
+            headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
           <span className="font-mono text-sm text-accent uppercase tracking-widest mb-4 block">
             Why Cropxon
           </span>
@@ -96,11 +106,14 @@ const WhyCropxonSection = () => {
         </div>
 
         {/* Features Grid */}
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
+        <div ref={gridRef} className="grid md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
           {features.map((feature, index) => (
             <div
               key={index}
-              className="group p-8 lg:p-10 bg-card border border-border rounded-sm hover:border-muted-foreground/30 transition-all duration-500"
+              className={`group p-8 lg:p-10 bg-card border border-border rounded-sm hover:border-muted-foreground/30 transition-all duration-500 ${
+                gridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+              style={{ transitionDelay: `${index * 100}ms` }}
             >
               <div className="text-accent mb-6 transition-transform duration-300 group-hover:scale-110">
                 {feature.icon}

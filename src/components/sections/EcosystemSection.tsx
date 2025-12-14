@@ -97,8 +97,12 @@ const CropxonMark = () => (
   </svg>
 );
 
+import useScrollAnimation from "@/hooks/useScrollAnimation";
+
 const EcosystemSection = () => {
   const [activeProduct, setActiveProduct] = useState<Product | null>(null);
+  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation({ threshold: 0.3 });
+  const { ref: contentRef, isVisible: contentVisible } = useScrollAnimation({ threshold: 0.1 });
 
   return (
     <section
@@ -107,7 +111,12 @@ const EcosystemSection = () => {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-12">
         {/* Section Header */}
-        <div className="text-center mb-12 sm:mb-20">
+        <div
+          ref={headerRef}
+          className={`text-center mb-12 sm:mb-20 transition-all duration-700 ease-out ${
+            headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
           <span className="font-mono text-xs sm:text-sm text-accent uppercase tracking-widest mb-4 block">
             The Ecosystem
           </span>
@@ -117,12 +126,16 @@ const EcosystemSection = () => {
         </div>
 
         {/* Mobile Layout - Stacked Cards */}
+        <div ref={contentRef}>
         <div className="md:hidden space-y-4">
-          {products.map((product) => (
+          {products.map((product, index) => (
             <Link
               key={product.id}
               to={product.link}
-              className="block p-6 bg-card border border-border rounded-sm hover:border-muted-foreground/30 transition-colors duration-300"
+              className={`block p-6 bg-card border border-border rounded-sm hover:border-muted-foreground/30 transition-all duration-500 ${
+                contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+              style={{ transitionDelay: `${index * 100}ms` }}
             >
               <div className="flex items-start justify-between mb-3">
                 <h3 className="font-display text-lg font-bold text-foreground">
@@ -136,6 +149,8 @@ const EcosystemSection = () => {
               <p className="text-sm text-muted-foreground">{product.description}</p>
             </Link>
           ))}
+        </div>
+
         </div>
 
         {/* Desktop Constellation */}

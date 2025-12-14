@@ -1,4 +1,8 @@
+import useScrollAnimation from "@/hooks/useScrollAnimation";
+
 const VisionSection = () => {
+  const { ref, isVisible } = useScrollAnimation({ threshold: 0.2 });
+
   const statements = [
     {
       text: "We build primitives, not products.",
@@ -39,15 +43,18 @@ const VisionSection = () => {
         </svg>
       </div>
 
-      <div className="container mx-auto px-6 lg:px-12 relative z-10">
+      <div ref={ref} className="container mx-auto px-6 lg:px-12 relative z-10">
         <div className="max-w-4xl mx-auto text-center space-y-16">
           {statements.map((statement, index) => (
             <p
               key={index}
-              className="text-2xl md:text-3xl lg:text-4xl font-display font-medium text-foreground leading-relaxed opacity-0 animate-fade-in"
+              className={`text-2xl md:text-3xl lg:text-4xl font-display font-medium text-foreground leading-relaxed transition-all duration-700 ease-out ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
+              }`}
               style={{
-                animationDelay: `${index * 200}ms`,
-                animationFillMode: "forwards",
+                transitionDelay: `${index * 150}ms`,
               }}
             >
               {statement.text.split(statement.emphasis).map((part, i, arr) =>
