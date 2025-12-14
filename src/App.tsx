@@ -24,6 +24,12 @@ import OriginxLabs from "./pages/products/OriginxLabs";
 import CropxonCloud from "./pages/products/CropxonCloud";
 import Robotics from "./pages/products/Robotics";
 import NotFound from "./pages/NotFound";
+import TermsAndConditions from "./pages/policies/TermsAndConditions";
+import PrivacyPolicy from "./pages/policies/PrivacyPolicy";
+import RefundPolicy from "./pages/policies/RefundPolicy";
+import CookiePolicy from "./pages/policies/CookiePolicy";
+import SecurityPolicy from "./pages/policies/SecurityPolicy";
+import AcceptableUsePolicy from "./pages/policies/AcceptableUsePolicy";
 
 const queryClient = new QueryClient();
 
@@ -72,6 +78,12 @@ const AnimatedRoutes = () => {
           <Route path="/originx-labs" element={<OriginxLabs />} />
           <Route path="/cropxon-cloud" element={<CropxonCloud />} />
           <Route path="/robotics" element={<Robotics />} />
+          <Route path="/terms" element={<TermsAndConditions />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/refund-policy" element={<RefundPolicy />} />
+          <Route path="/cookies" element={<CookiePolicy />} />
+          <Route path="/security" element={<SecurityPolicy />} />
+          <Route path="/acceptable-use" element={<AcceptableUsePolicy />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
