@@ -5,6 +5,7 @@ import VisionSection from "@/components/sections/VisionSection";
 import EcosystemSection from "@/components/sections/EcosystemSection";
 import WhyCropxonSection from "@/components/sections/WhyCropxonSection";
 import TechnologySection from "@/components/sections/TechnologySection";
+import PartnersSection from "@/components/sections/PartnersSection";
 import Footer from "@/components/layout/Footer";
 
 const Index = () => {
@@ -30,6 +31,7 @@ const Index = () => {
           <HeroSection />
           <VisionSection />
           <EcosystemSection />
+          <PartnersSection />
           <WhyCropxonSection />
           <TechnologySection />
         </main>
