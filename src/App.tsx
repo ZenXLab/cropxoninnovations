@@ -51,7 +51,11 @@ const AnimatedRoutes = () => {
       {isPageLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
       <div 
         key={location.pathname}
-        className={`transition-opacity duration-300 ${showContent ? 'opacity-100' : 'opacity-0'}`}
+        className={`transition-all duration-500 ease-[cubic-bezier(0.645,0.045,0.355,1)] ${
+          showContent 
+            ? 'opacity-100 translate-y-0 scale-100' 
+            : 'opacity-0 translate-y-3 scale-[0.995]'
+        }`}
       >
         <Routes location={location}>
           <Route path="/" element={<Index />} />
