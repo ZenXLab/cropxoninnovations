@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import MobileMenu from "./MobileMenu";
-import PlatformsModal from "@/components/modals/PlatformsModal";
 
 interface NavItem {
   label: string;
@@ -59,7 +58,6 @@ const navItems: NavItem[] = [
 const Navigation = () => {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [platformsModalOpen, setPlatformsModalOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -206,9 +204,9 @@ const Navigation = () => {
                 <ThemeToggle />
               </div>
 
-              {/* PLATFORMS CTA - Opens Modal */}
-              <button
-                onClick={() => setPlatformsModalOpen(true)}
+              {/* PLATFORMS CTA - Links to Consoles Page */}
+              <Link
+                to="/platforms"
                 className="hidden lg:inline-flex items-center justify-center text-white transition-colors duration-[120ms]"
                 style={{
                   fontFamily: "Inter, system-ui, sans-serif",
@@ -223,7 +221,7 @@ const Navigation = () => {
                 onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#0B1A3A")}
               >
                 PLATFORMS
-              </button>
+              </Link>
 
               {/* Mobile Menu Button */}
               <button
@@ -248,16 +246,6 @@ const Navigation = () => {
       <MobileMenu 
         isOpen={mobileMenuOpen} 
         onClose={() => setMobileMenuOpen(false)} 
-        onOpenPlatforms={() => {
-          setMobileMenuOpen(false);
-          setPlatformsModalOpen(true);
-        }}
-      />
-
-      {/* Platforms Modal */}
-      <PlatformsModal 
-        isOpen={platformsModalOpen} 
-        onClose={() => setPlatformsModalOpen(false)} 
       />
     </>
   );
