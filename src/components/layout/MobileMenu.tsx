@@ -6,6 +6,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
+  onOpenPlatforms?: () => void;
 }
 
 interface NavSection {
@@ -58,7 +59,7 @@ const navSections: NavSection[] = [
   },
 ];
 
-const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
+const MobileMenu = ({ isOpen, onClose, onOpenPlatforms }: MobileMenuProps) => {
   const location = useLocation();
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
 
@@ -177,11 +178,10 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
             ))}
           </div>
 
-          {/* PLATFORMS CTA */}
+          {/* PLATFORMS CTA - Opens Modal */}
           <div className="mt-8 pt-6 border-t border-foreground/[0.06]">
-            <Link
-              to="/platforms"
-              onClick={onClose}
+            <button
+              onClick={onOpenPlatforms}
               className="block w-full text-center text-white transition-colors duration-[120ms]"
               style={{
                 fontFamily: "Inter, system-ui, sans-serif",
@@ -194,7 +194,7 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
               }}
             >
               PLATFORMS
-            </Link>
+            </button>
           </div>
 
           {/* Theme Toggle */}
