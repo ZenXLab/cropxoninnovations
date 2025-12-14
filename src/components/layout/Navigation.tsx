@@ -19,7 +19,7 @@ const Navigation = () => {
   const navLinks = [
     { label: "Ecosystem", href: "/#ecosystem" },
     { label: "Vision", href: "/#vision" },
-    { label: "Technology", href: "/#technology" },
+    { label: "Philosophy", href: "/how-we-think" },
     { label: "Company", href: "/company" },
   ];
 
