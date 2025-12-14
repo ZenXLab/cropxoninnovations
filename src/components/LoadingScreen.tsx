@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import logoAnimation from "@/assets/cropxon-logo-animation.mp4";
+import cropxonLogo from "@/assets/cropxon-logo.svg";
 
 interface LoadingScreenProps {
   onComplete: () => void;
@@ -8,13 +8,12 @@ interface LoadingScreenProps {
 const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
   const [fadeOut, setFadeOut] = useState(false);
   const [progress, setProgress] = useState(0);
-
-  const handleVideoEnd = () => {
-    setFadeOut(true);
-    setTimeout(onComplete, 800);
-  };
+  const [logoVisible, setLogoVisible] = useState(false);
 
   useEffect(() => {
+    // Delay logo fade-in for dramatic effect
+    const logoTimer = setTimeout(() => setLogoVisible(true), 200);
+
     // Animate progress bar
     const interval = setInterval(() => {
       setProgress((prev) => {
@@ -22,19 +21,20 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           clearInterval(interval);
           return 100;
         }
-        return prev + 2;
+        return prev + 1.5;
       });
-    }, 80);
+    }, 40);
 
-    // Fallback timeout in case video doesn't load
-    const fallbackTimer = setTimeout(() => {
+    // Complete loading
+    const completeTimer = setTimeout(() => {
       setFadeOut(true);
       setTimeout(onComplete, 800);
-    }, 6000);
+    }, 3500);
 
     return () => {
+      clearTimeout(logoTimer);
       clearInterval(interval);
-      clearTimeout(fallbackTimer);
+      clearTimeout(completeTimer);
     };
   }, [onComplete]);
 
@@ -45,31 +45,32 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
       }`}
     >
       {/* Subtle radial gradient background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(var(--accent)/0.1)_0%,transparent_70%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.08)_0%,transparent_70%)]" />
       
-      {/* Video container with glow effect */}
-      <div className="relative">
-        <div className="absolute inset-0 blur-3xl opacity-30 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 scale-150" />
-        <video
-          src={logoAnimation}
-          autoPlay
-          muted
-          playsInline
-          onEnded={handleVideoEnd}
-          className="relative z-10 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 object-contain"
+      {/* Logo container with glow effect */}
+      <div className={`relative transition-all duration-1000 ease-out ${
+        logoVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
+      }`}>
+        <div className="absolute inset-0 blur-3xl opacity-20 bg-gradient-to-r from-primary/30 via-accent/20 to-primary/30 scale-150" />
+        <img
+          src={cropxonLogo}
+          alt="CropXon"
+          className="relative z-10 w-40 sm:w-56 md:w-72 h-auto object-contain"
         />
       </div>
 
       {/* Progress bar */}
-      <div className="relative z-10 mt-12 w-48 sm:w-64">
-        <div className="h-px bg-border/30 rounded-full overflow-hidden">
+      <div className={`relative z-10 mt-16 w-48 sm:w-64 transition-all duration-700 delay-300 ${
+        logoVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+      }`}>
+        <div className="h-[2px] bg-border/20 rounded-full overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-primary/60 to-accent/60 transition-all duration-100 ease-out"
+            className="h-full bg-gradient-to-r from-primary/80 to-accent/60 transition-all duration-100 ease-out"
             style={{ width: `${progress}%` }}
           />
         </div>
-        <p className="text-[10px] text-muted-foreground/60 uppercase tracking-[0.3em] text-center mt-4 font-medium">
-          Initializing
+        <p className="text-[10px] text-muted-foreground/50 uppercase tracking-[0.4em] text-center mt-6 font-medium">
+          Building Foundational Systems
         </p>
       </div>
     </div>

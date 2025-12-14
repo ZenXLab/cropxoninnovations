@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import cropxonLogo from "@/assets/cropxon-logo-full.png";
+import cropxonLogo from "@/assets/cropxon-logo.svg";
 
 const Footer = () => {
   const footerLinks = {
