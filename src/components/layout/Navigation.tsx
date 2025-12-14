@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import MobileMenu from "./MobileMenu";
-import cropxonLogo from "@/assets/cropxon-logo.png";
+import CropxonLogo from "@/components/brand/CropxonLogo";
 
 const Navigation = () => {
   const location = useLocation();
@@ -26,8 +26,8 @@ const Navigation = () => {
         <nav className="container mx-auto px-4 sm:px-6 lg:px-12">
           <div className="flex items-center justify-between h-16 sm:h-20">
             {/* Logo */}
-            <Link to="/" className="flex items-center">
-              <img src={cropxonLogo} alt="Cropxon" className="h-8 sm:h-10 w-auto" />
+            <Link to="/" className="flex items-center text-foreground">
+              <CropxonLogo variant="full" size="sm" colorMode="auto" />
             </Link>
 
             {/* Navigation Links - Desktop */}

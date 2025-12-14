@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import cropxonLogo from "@/assets/cropxon-logo.png";
+import CropxonLogo from "@/components/brand/CropxonLogo";
 
 const Footer = () => {
   const footerLinks = {
@@ -32,8 +32,8 @@ const Footer = () => {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-12 mb-16">
           {/* Logo Column */}
           <div className="col-span-2 md:col-span-1">
-            <Link to="/" className="inline-block mb-6">
-              <img src={cropxonLogo} alt="Cropxon" className="h-10 w-auto" />
+            <Link to="/" className="inline-block mb-6 text-foreground">
+              <CropxonLogo variant="full" size="sm" colorMode="auto" />
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Building foundational technology for work, intelligence, and
