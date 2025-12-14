@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import { X } from "lucide-react";
 
@@ -74,6 +74,15 @@ const platforms: Platform[] = [
 const PlatformsModal = ({ isOpen, onClose }: PlatformsModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  
+  // Swipe gesture state
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [swipeOffset, setSwipeOffset] = useState(0);
+  const [isClosing, setIsClosing] = useState(false);
+
+  // Minimum swipe distance to trigger close (in pixels)
+  const minSwipeDistance = 100;
 
   // Handle ESC key
   const handleKeyDown = useCallback(
@@ -84,6 +93,49 @@ const PlatformsModal = ({ isOpen, onClose }: PlatformsModalProps) => {
     },
     [onClose]
   );
+
+  // Touch handlers for swipe gesture
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientY);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (touchStart === null) return;
+    
+    const currentY = e.targetTouches[0].clientY;
+    const diff = currentY - touchStart;
+    
+    // Only allow downward swipe
+    if (diff > 0) {
+      setSwipeOffset(diff);
+      setTouchEnd(currentY);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) {
+      setSwipeOffset(0);
+      return;
+    }
+    
+    const distance = touchEnd - touchStart;
+    const isDownSwipe = distance > minSwipeDistance;
+    
+    if (isDownSwipe) {
+      setIsClosing(true);
+      setTimeout(() => {
+        onClose();
+        setIsClosing(false);
+        setSwipeOffset(0);
+      }, 150);
+    } else {
+      setSwipeOffset(0);
+    }
+    
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
 
   // Focus trap and keyboard handling
   useEffect(() => {
@@ -99,6 +151,16 @@ const PlatformsModal = ({ isOpen, onClose }: PlatformsModalProps) => {
     }
   }, [isOpen, handleKeyDown]);
 
+  // Reset state when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setSwipeOffset(0);
+      setIsClosing(false);
+      setTouchStart(null);
+      setTouchEnd(null);
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
@@ -110,7 +172,9 @@ const PlatformsModal = ({ isOpen, onClose }: PlatformsModalProps) => {
     >
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-[#0a0a0f]/90 backdrop-blur-sm"
+        className={`absolute inset-0 bg-[#0a0a0f]/90 backdrop-blur-sm transition-opacity duration-150 ${
+          isClosing ? "opacity-0" : "opacity-100"
+        }`}
         onClick={onClose}
         aria-hidden="true"
       />
@@ -118,15 +182,26 @@ const PlatformsModal = ({ isOpen, onClose }: PlatformsModalProps) => {
       {/* Modal Content */}
       <div
         ref={modalRef}
-        className="relative w-full h-full overflow-y-auto bg-[#0a0a0f] animate-fade-in"
+        className={`relative w-full h-full overflow-y-auto bg-[#0a0a0f] transition-all duration-150 ${
+          isClosing ? "opacity-0" : "animate-fade-in"
+        }`}
         style={{
-          animationDuration: "200ms",
+          transform: swipeOffset > 0 ? `translateY(${swipeOffset}px)` : undefined,
+          opacity: swipeOffset > 0 ? Math.max(0.5, 1 - swipeOffset / 300) : undefined,
         }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
+        {/* Swipe Indicator (Mobile) */}
+        <div className="lg:hidden flex justify-center pt-3 pb-1">
+          <div className="w-10 h-1 rounded-full bg-[#3a3a44]" />
+        </div>
+
         {/* Header */}
         <header className="sticky top-0 z-10 bg-[#0a0a0f] border-b border-[#1a1a24]">
           <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
-            <div className="flex items-center justify-between h-16 lg:h-20">
+            <div className="flex items-center justify-between h-14 lg:h-20">
               <div>
                 <h1
                   id="platforms-title"
@@ -167,14 +242,14 @@ const PlatformsModal = ({ isOpen, onClose }: PlatformsModalProps) => {
         </header>
 
         {/* Platform Grid */}
-        <main className="max-w-[1200px] mx-auto px-6 lg:px-8 py-12 lg:py-16">
+        <main className="max-w-[1200px] mx-auto px-6 lg:px-8 py-8 lg:py-16">
           <div className="grid gap-0 divide-y divide-[#1a1a24]">
             {platforms.map((platform) => (
               <div
                 key={platform.name}
-                className="py-8 lg:py-10 group"
+                className="py-6 lg:py-10 group"
               >
-                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 lg:gap-12">
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 lg:gap-12">
                   {/* Platform Info */}
                   <div className="flex-1 min-w-0">
                     <h2
@@ -182,18 +257,18 @@ const PlatformsModal = ({ isOpen, onClose }: PlatformsModalProps) => {
                       style={{
                         fontFamily: "Inter, system-ui, sans-serif",
                         fontWeight: 600,
-                        fontSize: "16px",
+                        fontSize: "15px",
                         letterSpacing: "0.05em",
                       }}
                     >
                       {platform.name}
                     </h2>
                     <p
-                      className="text-[#9ca3af] mb-2"
+                      className="text-[#9ca3af] mb-1.5"
                       style={{
                         fontFamily: "Inter, system-ui, sans-serif",
                         fontWeight: 400,
-                        fontSize: "14px",
+                        fontSize: "13px",
                         letterSpacing: "0.01em",
                       }}
                     >
@@ -214,13 +289,13 @@ const PlatformsModal = ({ isOpen, onClose }: PlatformsModalProps) => {
                   </div>
 
                   {/* Actions */}
-                  <div className="flex flex-col sm:flex-row gap-3 lg:gap-4 flex-shrink-0">
+                  <div className="flex flex-col sm:flex-row gap-2 lg:gap-4 flex-shrink-0">
                     {platform.isExternal ? (
                       <a
                         href={platform.primaryRoute}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center px-5 py-2.5 bg-[#f5f7fa] text-[#0a0a0f] hover:bg-[#e5e7eb] transition-colors duration-100 focus:outline-none focus:ring-1 focus:ring-[#f5f7fa]"
+                        className="inline-flex items-center justify-center px-4 py-2 bg-[#f5f7fa] text-[#0a0a0f] hover:bg-[#e5e7eb] transition-colors duration-100 focus:outline-none focus:ring-1 focus:ring-[#f5f7fa]"
                         style={{
                           fontFamily: "Inter, system-ui, sans-serif",
                           fontWeight: 500,
@@ -235,7 +310,7 @@ const PlatformsModal = ({ isOpen, onClose }: PlatformsModalProps) => {
                       <Link
                         to={platform.primaryRoute}
                         onClick={onClose}
-                        className="inline-flex items-center justify-center px-5 py-2.5 bg-[#f5f7fa] text-[#0a0a0f] hover:bg-[#e5e7eb] transition-colors duration-100 focus:outline-none focus:ring-1 focus:ring-[#f5f7fa]"
+                        className="inline-flex items-center justify-center px-4 py-2 bg-[#f5f7fa] text-[#0a0a0f] hover:bg-[#e5e7eb] transition-colors duration-100 focus:outline-none focus:ring-1 focus:ring-[#f5f7fa]"
                         style={{
                           fontFamily: "Inter, system-ui, sans-serif",
                           fontWeight: 500,
@@ -251,7 +326,7 @@ const PlatformsModal = ({ isOpen, onClose }: PlatformsModalProps) => {
                     <Link
                       to={platform.secondaryRoute}
                       onClick={onClose}
-                      className="inline-flex items-center justify-center px-5 py-2.5 border border-[#2a2a34] text-[#9ca3af] hover:text-[#f5f7fa] hover:border-[#3a3a44] transition-colors duration-100 focus:outline-none focus:ring-1 focus:ring-[#6b7280]"
+                      className="inline-flex items-center justify-center px-4 py-2 border border-[#2a2a34] text-[#9ca3af] hover:text-[#f5f7fa] hover:border-[#3a3a44] transition-colors duration-100 focus:outline-none focus:ring-1 focus:ring-[#6b7280]"
                       style={{
                         fontFamily: "Inter, system-ui, sans-serif",
                         fontWeight: 400,
@@ -271,7 +346,7 @@ const PlatformsModal = ({ isOpen, onClose }: PlatformsModalProps) => {
 
         {/* Footer */}
         <footer className="border-t border-[#1a1a24] mt-auto">
-          <div className="max-w-[1200px] mx-auto px-6 lg:px-8 py-8">
+          <div className="max-w-[1200px] mx-auto px-6 lg:px-8 py-6">
             <p
               className="text-[#6b7280] text-center"
               style={{
