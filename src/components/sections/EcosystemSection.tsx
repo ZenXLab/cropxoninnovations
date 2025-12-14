@@ -12,6 +12,7 @@ interface Product {
   capabilities: string[];
   icon: "cube" | "brain" | "flask" | "cloud" | "robot" | "question";
   accentColor: string;
+  accentColorLight: string;
   status: string;
   statusDate: string;
   link: string;
@@ -27,7 +28,8 @@ const products: Product[] = [
     description: "A unified platform for managing workforce operations, scheduling, and resource allocation across enterprise organizations.",
     capabilities: ["Workforce Analytics", "Resource Optimization", "Predictive Scheduling"],
     icon: "cube",
-    accentColor: "#1e40af",
+    accentColor: "#3b82f6",
+    accentColorLight: "#2563eb",
     status: "BETA",
     statusDate: "Q1 2025",
     link: "/atlas",
@@ -41,7 +43,8 @@ const products: Product[] = [
     description: "Infrastructure layer enabling intelligent decision-making and automated reasoning across complex business processes.",
     capabilities: ["Cognitive Mapping", "Decision Automation", "Process Intelligence"],
     icon: "brain",
-    accentColor: "#92400e",
+    accentColor: "#f59e0b",
+    accentColorLight: "#d97706",
     status: "BETA",
     statusDate: "Q4 2024",
     link: "/traceflow",
@@ -55,7 +58,8 @@ const products: Product[] = [
     description: "Our research division focused on pioneering new technologies and bringing deep-tech innovations to market.",
     capabilities: ["AI/ML Research", "Prototype Development", "Tech Transfer"],
     icon: "flask",
-    accentColor: "#7c3aed",
+    accentColor: "#a855f7",
+    accentColorLight: "#9333ea",
     status: "BETA",
     statusDate: "Active R&D",
     link: "/originx-labs",
@@ -69,7 +73,8 @@ const products: Product[] = [
     description: "Scalable infrastructure-as-a-service designed to grow with businesses from individual developers to enterprise scale.",
     capabilities: ["Compute Resources", "Storage Solutions", "Network Infrastructure"],
     icon: "cloud",
-    accentColor: "#475569",
+    accentColor: "#64748b",
+    accentColorLight: "#475569",
     status: "BETA",
     statusDate: "Live (SMB)",
     link: "/cropxon-cloud",
@@ -83,7 +88,8 @@ const products: Product[] = [
     description: "Advanced robotics and autonomous systems division focused on next-generation automation solutions.",
     capabilities: ["Autonomous Navigation", "Industrial Automation", "Sensor Fusion"],
     icon: "robot",
-    accentColor: "#b45309",
+    accentColor: "#f97316",
+    accentColorLight: "#ea580c",
     status: "BETA",
     statusDate: "Planned",
     link: "/robotics",
@@ -97,7 +103,8 @@ const products: Product[] = [
     description: "A new platform in stealth development, addressing critical gaps in modern enterprise infrastructure.",
     capabilities: ["Coming Soon", "Stealth Mode", "Strategic Initiative"],
     icon: "question",
-    accentColor: "#6b7280",
+    accentColor: "#94a3b8",
+    accentColorLight: "#64748b",
     status: "BETA",
     statusDate: "TBA",
     link: "#",
@@ -106,7 +113,6 @@ const products: Product[] = [
   },
 ];
 
-// Product icon render function (not a component to avoid ref issues)
 const renderProductIcon = (icon: Product["icon"], color: string, size: number = 24) => {
   const style = { width: size, height: size };
   
@@ -168,7 +174,6 @@ const EcosystemSection = () => {
   const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation({ threshold: 0.3 });
   const { ref: contentRef, isVisible: contentVisible } = useScrollAnimation({ threshold: 0.1 });
 
-  // Random pulse intervals for neural pathways
   useEffect(() => {
     const interval = setInterval(() => {
       const randomProduct = products[Math.floor(Math.random() * products.length)];
@@ -194,12 +199,6 @@ const EcosystemSection = () => {
       id="ecosystem"
       className="py-32 lg:py-48 relative overflow-hidden bg-background"
     >
-      {/* Darker background overlay for constellation */}
-      <div 
-        className="absolute inset-0" 
-        style={{ background: 'linear-gradient(180deg, hsl(222 30% 4%) 0%, hsl(222 30% 3%) 50%, hsl(222 30% 4%) 100%)' }} 
-      />
-      
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
         {/* Section Header */}
         <div
@@ -208,9 +207,7 @@ const EcosystemSection = () => {
             headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <h2 
-            className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-[0.1em] mb-6 text-foreground"
-          >
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-[0.1em] mb-6 text-foreground">
             THE CROPXON ECOSYSTEM
           </h2>
           <p className="text-base lg:text-lg max-w-2xl mx-auto text-muted-foreground">
@@ -224,7 +221,7 @@ const EcosystemSection = () => {
             <Link
               key={product.id}
               to={product.link}
-              className={`block p-6 rounded-sm border bg-card border-border transition-all duration-500 hover:border-accent/30 ${
+              className={`block p-6 rounded-sm border bg-card border-border transition-all duration-500 hover:border-primary/50 ${
                 contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
               style={{ transitionDelay: `${index * 100}ms` }}
@@ -237,7 +234,7 @@ const EcosystemSection = () => {
                   </h3>
                 </div>
                 <span 
-                  className="text-[10px] px-2 py-1 rounded-sm font-mono"
+                  className="text-[10px] px-2 py-1 rounded-sm font-mono font-medium"
                   style={{ 
                     background: `${product.accentColor}20`,
                     color: product.accentColor,
@@ -266,32 +263,32 @@ const EcosystemSection = () => {
             viewBox="0 0 100 100"
             preserveAspectRatio="xMidYMid meet"
           >
-            {/* Background mesh */}
+            {/* Background mesh - theme aware */}
             <defs>
-              <pattern id="mesh" width="10" height="10" patternUnits="userSpaceOnUse">
-                <circle cx="5" cy="5" r="0.1" fill="#1e293b" opacity="0.3" />
+              <pattern id="ecosystemMesh" width="10" height="10" patternUnits="userSpaceOnUse">
+                <circle cx="5" cy="5" r="0.15" className="fill-border/30" />
               </pattern>
             </defs>
-            <rect width="100" height="100" fill="url(#mesh)" />
+            <rect width="100" height="100" fill="url(#ecosystemMesh)" />
             
-            {/* Center pulsing rings */}
+            {/* Center pulsing rings - theme aware */}
             <circle
               cx="50"
               cy="50"
               r="8"
               fill="none"
-              stroke="#1e293b"
-              strokeWidth="0.3"
-              className="animate-pulse"
+              className="stroke-border"
+              strokeWidth="0.4"
+              style={{ opacity: 0.5 }}
             />
             <circle
               cx="50"
               cy="50"
               r="12"
               fill="none"
-              stroke="#1e293b"
-              strokeWidth="0.2"
-              className="animate-pulse"
+              className="stroke-border"
+              strokeWidth="0.3"
+              style={{ opacity: 0.3 }}
             />
 
             {/* Neural pathways */}
@@ -305,9 +302,10 @@ const EcosystemSection = () => {
                   y1="50"
                   x2={pos.x}
                   y2={pos.y}
-                  stroke={isActive ? product.accentColor : "#334155"}
-                  strokeWidth={isActive ? "0.6" : "0.3"}
-                  className="transition-all duration-300"
+                  stroke={isActive ? product.accentColor : 'currentColor'}
+                  strokeWidth={isActive ? "0.8" : "0.4"}
+                  className={`transition-all duration-300 ${!isActive ? 'text-border' : ''}`}
+                  style={{ opacity: isActive ? 1 : 0.4 }}
                 />
               );
             })}
@@ -323,10 +321,10 @@ const EcosystemSection = () => {
                   cy={pos.y}
                   r="4"
                   fill="none"
-                  stroke={isActive ? product.accentColor : "#334155"}
-                  strokeWidth="0.15"
-                  opacity={isActive ? 0.6 : 0.3}
-                  className="transition-all duration-300"
+                  stroke={isActive ? product.accentColor : 'currentColor'}
+                  strokeWidth="0.2"
+                  className={`transition-all duration-300 ${!isActive ? 'text-border' : ''}`}
+                  style={{ opacity: isActive ? 0.8 : 0.3 }}
                 />
               );
             })}
@@ -337,10 +335,7 @@ const EcosystemSection = () => {
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20"
             style={{ width: '100px', height: '100px' }}
           >
-            <div 
-              className="w-full h-full rounded-full flex items-center justify-center bg-card border border-border animate-pulse"
-              style={{ animationDuration: '2s' }}
-            >
+            <div className="w-full h-full rounded-full flex items-center justify-center bg-card border border-border shadow-lg">
               <img 
                 src={cropxonLogo} 
                 alt="CropXon" 
@@ -349,7 +344,7 @@ const EcosystemSection = () => {
             </div>
           </div>
 
-          {/* Product Nodes */}
+          {/* Product Nodes - Theme aware */}
           {products.map((product) => {
             const pos = getNodePosition(product.angle, 42);
             const isActive = activeProduct?.id === product.id;
@@ -367,30 +362,27 @@ const EcosystemSection = () => {
               >
                 <Link to={product.link}>
                   <div
-                    className={`p-4 rounded-sm transition-all duration-300 ${
-                      isActive ? 'scale-110' : 'scale-100'
+                    className={`p-4 rounded-sm transition-all duration-300 bg-card border ${
+                      isActive ? 'scale-110 shadow-xl' : 'scale-100 shadow-md'
                     }`}
                     style={{
-                      background: isActive ? '#2d2d3a' : '#1a1a24',
-                      border: `1px solid ${isActive ? product.accentColor : '#475569'}`,
-                      boxShadow: isActive ? `0 0 30px ${product.accentColor}30` : 'none',
+                      borderColor: isActive ? product.accentColor : 'hsl(var(--border))',
+                      boxShadow: isActive ? `0 0 30px ${product.accentColor}40` : undefined,
                       minWidth: '160px',
                     }}
                   >
                     <div className="flex items-center gap-2 mb-2">
-                      {renderProductIcon(product.icon, isActive ? product.accentColor : '#cbd5e1', 18)}
-                      <span className="font-mono text-xs" style={{ color: '#cbd5e1' }}>
+                      {renderProductIcon(product.icon, isActive ? product.accentColor : 'hsl(var(--muted-foreground))', 18)}
+                      <span className="font-mono text-xs text-foreground font-medium">
                         {product.name}
                       </span>
                     </div>
                     <span 
-                      className={`inline-block text-[10px] px-2 py-0.5 rounded-sm font-mono transition-all duration-300 ${
-                        isActive ? 'animate-pulse' : ''
-                      }`}
+                      className={`inline-block text-[10px] px-2 py-0.5 rounded-sm font-mono font-medium transition-all duration-300`}
                       style={{ 
-                        background: 'rgba(13, 148, 136, 0.2)',
-                        border: '1px solid #0d9488',
-                        color: '#0d9488'
+                        background: `${product.accentColor}20`,
+                        border: `1px solid ${product.accentColor}`,
+                        color: product.accentColor
                       }}
                     >
                       {product.status}
@@ -404,12 +396,9 @@ const EcosystemSection = () => {
           {/* Active Product Info Panel */}
           {activeProduct && (
             <div 
-              className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-[calc(100%+2rem)] w-full max-w-md animate-fade-in z-30"
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-[calc(100%+2rem)] w-full max-w-md animate-fade-in z-30 bg-card/95 backdrop-blur-md border border-border rounded-sm"
               style={{
-                background: 'rgba(15, 23, 42, 0.95)',
-                backdropFilter: 'blur(10px)',
                 borderLeft: `3px solid ${activeProduct.accentColor}`,
-                borderRadius: '4px',
               }}
             >
               <div className="p-6">
@@ -431,7 +420,7 @@ const EcosystemSection = () => {
                 
                 <ul className="space-y-1 mb-4">
                   {activeProduct.capabilities.map((cap, i) => (
-                    <li key={i} className="flex items-center gap-2 text-xs text-foreground/80">
+                    <li key={i} className="flex items-center gap-2 text-xs text-foreground">
                       <span style={{ color: activeProduct.accentColor }}>•</span>
                       {cap}
                     </li>
@@ -439,7 +428,7 @@ const EcosystemSection = () => {
                 </ul>
                 
                 <p className="text-xs font-mono mb-4 text-muted-foreground">
-                  Status: <span className="text-accent">Beta Preview</span> · {activeProduct.statusDate}
+                  Status: <span style={{ color: activeProduct.accentColor }}>Beta Preview</span> · {activeProduct.statusDate}
                 </p>
                 
                 <div className="flex gap-3">
@@ -447,7 +436,15 @@ const EcosystemSection = () => {
                     <Link to={activeProduct.link}>View Technical Paper</Link>
                   </Button>
                   {activeProduct.externalUrl !== "#" && (
-                    <Button size="sm" className="text-xs bg-accent text-accent-foreground hover:bg-accent/90" asChild>
+                    <Button 
+                      size="sm" 
+                      className="text-xs"
+                      style={{ 
+                        background: activeProduct.accentColor,
+                        color: '#ffffff'
+                      }}
+                      asChild
+                    >
                       <a href={activeProduct.externalUrl} target="_blank" rel="noopener noreferrer">
                         Request Beta Access
                       </a>
