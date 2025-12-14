@@ -37,18 +37,12 @@ const HeroSection = () => {
             }`}
           >
             <div className="relative group">
-              {/* Subtle glow behind */}
-              <div className="absolute inset-0 blur-2xl opacity-20 bg-gradient-to-r from-primary via-accent to-primary scale-150 group-hover:opacity-30 transition-opacity duration-500" />
-              
-              {/* Brand Identity Text */}
-              <div className="relative z-10 flex flex-col items-center">
-                <span className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground">
-                  Crop<span className="text-gradient">X</span>on
-                </span>
-                <span className="text-xs sm:text-sm tracking-[0.4em] uppercase text-muted-foreground mt-2">
-                  Innovations
-                </span>
-              </div>
+              {/* Logo Image */}
+              <img 
+                src="/assets/cropxon-logo-full.png" 
+                alt="CropXon Innovations" 
+                className="h-24 sm:h-32 md:h-40 lg:h-48 w-auto object-contain"
+              />
             </div>
           </div>
 
