@@ -203,32 +203,42 @@ const Footer = () => {
           </nav>
         </div>
 
-        {/* Legal / Compliance Bottom Bar */}
+        {/* Legal / Compliance Bottom Bar with Logo */}
         <div className="pt-6 border-t border-border">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-              <p 
-                className="text-muted-foreground opacity-60"
-                style={{
-                  fontFamily: "Inter, system-ui, sans-serif",
-                  fontSize: "11px",
-                  letterSpacing: "0.01em",
-                }}
-              >
-                CropXon Innovations Pvt. Ltd.
-              </p>
-              <span className="hidden sm:inline text-muted-foreground opacity-40">·</span>
-              <p 
-                className="text-muted-foreground opacity-50"
-                style={{
-                  fontFamily: "Inter, system-ui, sans-serif",
-                  fontSize: "11px",
-                  letterSpacing: "0.01em",
-                }}
-              >
-                CIN: U62010OD2025PTC051089
-              </p>
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            {/* Left: Logo + Company Info */}
+            <div className="flex items-center gap-4">
+              <img 
+                src={officialLogo} 
+                alt="CropXon Innovations logo" 
+                className="h-6 w-auto opacity-60 dark:brightness-0 dark:invert"
+              />
+              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+                <p 
+                  className="text-muted-foreground opacity-60"
+                  style={{
+                    fontFamily: "Inter, system-ui, sans-serif",
+                    fontSize: "11px",
+                    letterSpacing: "0.01em",
+                  }}
+                >
+                  CropXon Innovations Pvt. Ltd.
+                </p>
+                <span className="hidden sm:inline text-muted-foreground opacity-30">·</span>
+                <p 
+                  className="text-muted-foreground opacity-50"
+                  style={{
+                    fontFamily: "JetBrains Mono, monospace",
+                    fontSize: "10px",
+                    letterSpacing: "0.02em",
+                  }}
+                >
+                  CIN: U62010OD2025PTC051089
+                </p>
+              </div>
             </div>
+            
+            {/* Right: Copyright */}
             <p 
               className="text-muted-foreground opacity-50"
               style={{
