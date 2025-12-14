@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import MobileMenu from "./MobileMenu";
+import officialLogo from "@/assets/cropxon-logo-official.png";
 
 interface NavItem {
   label: string;
@@ -107,29 +108,26 @@ const Navigation = () => {
       >
         <nav className="h-full max-w-[1200px] mx-auto px-8">
           <div className="flex items-center justify-between h-full">
-            {/* Brand Lockup */}
-            <Link to="/" className="flex items-center" style={{ gap: "6px" }}>
+            {/* Brand Lockup - Official Logo */}
+            <Link to="/" className="flex items-center gap-2">
+              <img 
+                src={officialLogo} 
+                alt="CropXon Innovations logo" 
+                className="h-7 w-auto dark:invert dark:brightness-200"
+                style={{ 
+                  filter: "var(--logo-filter, none)"
+                }}
+              />
               <span
-                className="text-[#0B0E14] dark:text-[#F5F7FA]"
+                className="text-foreground hidden sm:inline"
                 style={{
                   fontFamily: "Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
                   fontWeight: 600,
-                  fontSize: "16px",
+                  fontSize: "15px",
                   letterSpacing: "-0.01em",
                 }}
               >
                 CropXon
-              </span>
-              <span
-                className="text-[#6B7280] dark:text-[#9CA3AF]"
-                style={{
-                  fontFamily: "Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
-                  fontWeight: 400,
-                  fontSize: "16px",
-                  letterSpacing: "0.02em",
-                }}
-              >
-                Innovations
               </span>
             </Link>
 

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import cropxonLogo from "@/assets/cropxon-logo.svg";
+import officialLogo from "@/assets/cropxon-logo-official.png";
 
 // Official Channels - External links only
 const officialChannels = [
@@ -40,7 +40,7 @@ const Footer = () => {
     ecosystem: [
       { label: "ATLAS", href: "https://atlas.cropxon.com", external: true },
       { label: "TRACEFLOW", href: "https://traceflow.cropxon.com", external: true },
-      { label: "OriginX Labs", href: "/originx-labs" },
+      { label: "OriginX Labs", href: "https://originxlabs.com", external: true },
       { label: "CropXon Cloud", href: "https://cropxoncloud.com", external: true },
       { label: "OpZeniX", href: "https://opzenix.com", external: true },
     ],
@@ -61,10 +61,14 @@ const Footer = () => {
       <div className="container mx-auto px-6 lg:px-12">
         {/* Main Footer Content */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-10">
-          {/* Logo Column */}
+          {/* Logo Column - Institutional Seal */}
           <div className="col-span-2 md:col-span-1">
             <Link to="/" className="inline-block mb-4">
-              <img src={cropxonLogo} alt="CropXon" className="h-8 w-auto" />
+              <img 
+                src={officialLogo} 
+                alt="CropXon Innovations logo" 
+                className="h-10 w-auto dark:invert dark:brightness-200"
+              />
             </Link>
             <p className="text-xs text-muted-foreground leading-relaxed max-w-[200px]">
               Building foundational technology for work, intelligence, and infrastructure.
