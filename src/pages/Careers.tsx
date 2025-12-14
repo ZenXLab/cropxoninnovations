@@ -194,7 +194,7 @@ const Careers = () => {
 
         <main className="pt-20">
           {/* Hero */}
-          <section className="py-24 lg:py-32 relative overflow-hidden">
+          <section className="py-16 lg:py-20 relative overflow-hidden">
             <div className="absolute inset-0 opacity-[0.02]">
               <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
                 <defs>
@@ -229,7 +229,7 @@ const Careers = () => {
           </section>
 
           {/* Culture & Values */}
-          <section className="py-20 bg-card/50 border-y border-border">
+          <section className="py-14 bg-card/50 border-y border-border">
             <div className="container mx-auto px-6 lg:px-12">
               <div className="text-center mb-16">
                 <span className="font-mono text-sm text-accent uppercase tracking-widest mb-4 block">
@@ -262,7 +262,7 @@ const Careers = () => {
           </section>
 
           {/* Benefits */}
-          <section className="py-20">
+          <section className="py-14">
             <div className="container mx-auto px-6 lg:px-12">
               <div className="max-w-4xl mx-auto">
                 <div className="text-center mb-12">
@@ -290,7 +290,7 @@ const Careers = () => {
           </section>
 
           {/* Open Positions */}
-          <section id="positions" className="py-20 bg-card/50 border-y border-border">
+          <section id="positions" className="py-14 bg-card/50 border-y border-border">
             <div className="container mx-auto px-6 lg:px-12">
               <div className="text-center mb-16">
                 <span className="font-mono text-sm text-accent uppercase tracking-widest mb-4 block">
@@ -399,7 +399,7 @@ const Careers = () => {
           </section>
 
           {/* CTA */}
-          <section className="py-24 lg:py-32">
+          <section className="py-16 lg:py-20">
             <div className="container mx-auto px-6 lg:px-12 text-center">
               <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground tracking-wide mb-6">
                 Don't See the Right Role?

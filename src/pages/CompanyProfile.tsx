@@ -183,7 +183,7 @@ const CompanyProfile = () => {
 
         <main className="pt-20">
           {/* Hero Section */}
-          <section className="py-24 lg:py-32 relative overflow-hidden">
+          <section className="py-16 lg:py-20 relative overflow-hidden">
             {/* Subtle background pattern */}
             <div className="absolute inset-0 opacity-[0.02]">
               <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -212,7 +212,7 @@ const CompanyProfile = () => {
           </section>
 
           {/* Company Metrics */}
-          <section className="py-16 bg-card/30 border-b border-border">
+          <section className="py-12 bg-card/30 border-b border-border">
             <div className="container mx-auto px-6 lg:px-12">
               <div className="flex items-center justify-center gap-3 mb-10">
                 <TrendingUp className="w-6 h-6 text-accent" />
@@ -250,7 +250,7 @@ const CompanyProfile = () => {
           </section>
 
           {/* Official Company Details */}
-          <section className="py-20 bg-card/50 border-y border-border">
+          <section className="py-14 bg-card/50 border-y border-border">
             <div className="container mx-auto px-6 lg:px-12">
               <div className="flex items-center gap-3 mb-10">
                 <Building2 className="w-6 h-6 text-accent" />
@@ -278,7 +278,7 @@ const CompanyProfile = () => {
           </section>
 
           {/* Company Overview */}
-          <section className="py-20">
+          <section className="py-14">
             <div className="container mx-auto px-6 lg:px-12">
               <div className="max-w-4xl mx-auto">
                 <h2 className="font-display text-2xl font-bold text-foreground uppercase tracking-wider mb-8">
@@ -300,7 +300,7 @@ const CompanyProfile = () => {
           </section>
 
           {/* Divisional Structure */}
-          <section className="py-20 bg-gradient-subtle">
+          <section className="py-14 bg-gradient-subtle">
             <div className="container mx-auto px-6 lg:px-12">
               <div className="text-center mb-16">
                 <span className="font-mono text-sm text-accent uppercase tracking-widest mb-4 block">
@@ -374,7 +374,7 @@ const CompanyProfile = () => {
           </section>
 
           {/* Compliance & Governance */}
-          <section className="py-20">
+          <section className="py-14">
             <div className="container mx-auto px-6 lg:px-12">
               <div className="flex items-center gap-3 mb-10">
                 <Shield className="w-6 h-6 text-accent" />
@@ -418,7 +418,7 @@ const CompanyProfile = () => {
           </section>
 
           {/* Certifications */}
-          <section className="py-20 bg-card/50 border-y border-border">
+          <section className="py-14 bg-card/50 border-y border-border">
             <div className="container mx-auto px-6 lg:px-12">
               <div className="flex items-center gap-3 mb-10">
                 <Award className="w-6 h-6 text-accent" />
@@ -449,7 +449,7 @@ const CompanyProfile = () => {
           </section>
 
           {/* Innovation Roadmap */}
-          <section className="py-20">
+          <section className="py-14">
             <div className="container mx-auto px-6 lg:px-12">
               <div className="flex items-center gap-3 mb-10">
                 <Rocket className="w-6 h-6 text-accent" />
@@ -469,7 +469,7 @@ const CompanyProfile = () => {
           </section>
 
           {/* Ethics & Values */}
-          <section className="py-20 bg-gradient-subtle">
+          <section className="py-14 bg-gradient-subtle">
             <div className="container mx-auto px-6 lg:px-12">
               <div className="flex items-center gap-3 mb-10">
                 <Heart className="w-6 h-6 text-accent" />
@@ -492,7 +492,7 @@ const CompanyProfile = () => {
           </section>
 
           {/* Contact */}
-          <section className="py-20">
+          <section className="py-14">
             <div className="container mx-auto px-6 lg:px-12">
               <div className="flex items-center gap-3 mb-10">
                 <Mail className="w-6 h-6 text-accent" />
