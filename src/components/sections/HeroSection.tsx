@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import ComputationalBackground from "@/components/visuals/ComputationalBackground";
 import VisionModal from "@/components/modals/VisionModal";
 import useParallax from "@/hooks/useParallax";
-import CropxonLogo from "@/components/brand/CropxonLogo";
 
 const HeroSection = () => {
   const [showContent, setShowContent] = useState(false);
@@ -37,11 +36,19 @@ const HeroSection = () => {
               showContent ? "opacity-100 scale-100" : "opacity-0 scale-95"
             }`}
           >
-            <div className="relative group text-foreground">
-              <CropxonLogo variant="full" size="xl" colorMode="auto" />
-              <span className="block text-xs sm:text-sm tracking-[0.4em] uppercase text-muted-foreground mt-4">
-                Innovations
-              </span>
+            <div className="relative group">
+              {/* Subtle glow behind */}
+              <div className="absolute inset-0 blur-2xl opacity-20 bg-gradient-to-r from-primary via-accent to-primary scale-150 group-hover:opacity-30 transition-opacity duration-500" />
+              
+              {/* Brand Identity Text */}
+              <div className="relative z-10 flex flex-col items-center">
+                <span className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground">
+                  Crop<span className="text-gradient">X</span>on
+                </span>
+                <span className="text-xs sm:text-sm tracking-[0.4em] uppercase text-muted-foreground mt-2">
+                  Innovations
+                </span>
+              </div>
             </div>
           </div>
 
