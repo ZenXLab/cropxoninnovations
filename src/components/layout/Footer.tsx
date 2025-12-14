@@ -50,9 +50,12 @@ const Footer = () => {
       { label: "Design Principles", href: "/design-principles" },
     ],
     governance: [
-      { label: "Compliance", href: "/company#compliance" },
-      { label: "Privacy", href: "#" },
-      { label: "Terms", href: "#" },
+      { label: "Terms & Conditions", href: "/terms" },
+      { label: "Privacy Policy", href: "/privacy" },
+      { label: "Refund Policy", href: "/refund-policy" },
+      { label: "Cookie Policy", href: "/cookies" },
+      { label: "Security", href: "/security" },
+      { label: "Acceptable Use", href: "/acceptable-use" },
     ],
   };
 
