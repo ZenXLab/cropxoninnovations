@@ -143,12 +143,7 @@ const EcosystemSection = () => {
                     {product.name}
                   </h3>
                   <span 
-                    className="text-[10px] px-2 py-1 rounded font-mono font-medium shrink-0"
-                    style={{ 
-                      background: `${product.accentColor}20`,
-                      color: product.accentColor,
-                      border: `1px solid ${product.accentColor}`
-                    }}
+                    className="text-[10px] px-2 py-1 rounded font-mono font-medium shrink-0 bg-accent/20 text-accent border border-accent/30"
                   >
                     {product.status}
                   </span>
@@ -167,11 +162,8 @@ const EcosystemSection = () => {
                 {/* Capabilities */}
                 <ul className="space-y-1.5 mb-6">
                   {product.capabilities.map((cap, i) => (
-                    <li key={i} className="flex items-center gap-2 text-xs text-foreground/80">
-                      <span 
-                        className="w-1.5 h-1.5 rounded-full shrink-0"
-                        style={{ background: product.accentColor }}
-                      />
+                    <li key={i} className="flex items-center gap-2 text-xs text-foreground">
+                      <span className="w-1.5 h-1.5 rounded-full shrink-0 bg-accent" />
                       {cap}
                     </li>
                   ))}
@@ -189,9 +181,9 @@ const EcosystemSection = () => {
                   </Button>
                   {product.externalUrl !== "#" && (
                     <Button 
+                      variant="default"
                       size="sm"
                       className="text-xs flex-1"
-                      style={{ background: product.accentColor }}
                       asChild
                     >
                       <a href={product.externalUrl} target="_blank" rel="noopener noreferrer">

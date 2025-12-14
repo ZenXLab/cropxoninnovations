@@ -7,14 +7,15 @@ import {
   FileCheck, 
   Shield, 
   Award, 
-  Calendar, 
   Heart,
   Mail,
   MapPin,
   ExternalLink,
-  Rocket
+  Rocket,
+  TrendingUp
 } from "lucide-react";
 import InteractiveTimeline from "@/components/sections/InteractiveTimeline";
+import AnimatedCounter from "@/components/sections/AnimatedCounter";
 
 // Company Details Data
 const companyDetails = [
@@ -206,6 +207,44 @@ const CompanyProfile = () => {
                 <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
                   A multi-division technology company building foundational platforms across digital cognition, workforce systems, cloud infrastructure, and advanced research.
                 </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Company Metrics */}
+          <section className="py-16 bg-card/30 border-b border-border">
+            <div className="container mx-auto px-6 lg:px-12">
+              <div className="flex items-center justify-center gap-3 mb-10">
+                <TrendingUp className="w-6 h-6 text-accent" />
+                <h2 className="font-display text-2xl font-bold text-foreground uppercase tracking-wider">
+                  Company Metrics
+                </h2>
+              </div>
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                <AnimatedCounter 
+                  end={5}
+                  suffix="+"
+                  label="Products"
+                  description="Platforms in development"
+                />
+                <AnimatedCounter 
+                  end={15}
+                  suffix="+"
+                  label="Team Members"
+                  description="Engineers & specialists"
+                />
+                <AnimatedCounter 
+                  end={50}
+                  suffix="+"
+                  label="Enterprise Clients"
+                  description="Organizations served"
+                />
+                <AnimatedCounter 
+                  end={99}
+                  suffix=".9%"
+                  label="Uptime SLA"
+                  description="Platform reliability"
+                />
               </div>
             </div>
           </section>

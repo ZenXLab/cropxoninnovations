@@ -14,6 +14,8 @@ const navLinks = [
   { label: "Vision", href: "/#vision" },
   { label: "Philosophy", href: "/how-we-think" },
   { label: "Company", href: "/company" },
+  { label: "Careers", href: "/careers" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const productLinks = [

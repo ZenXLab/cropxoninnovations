@@ -4,23 +4,24 @@ import cropxonLogo from "@/assets/cropxon-logo.svg";
 const Footer = () => {
   const footerLinks = {
     company: [
-      { label: "About", href: "#" },
-      { label: "Careers", href: "#" },
-      { label: "Press", href: "#" },
+      { label: "About", href: "/company" },
+      { label: "Careers", href: "/careers" },
+      { label: "Contact", href: "/contact" },
     ],
     ecosystem: [
-      { label: "ATLAS", href: "#" },
-      { label: "TRACEFLOW", href: "#" },
-      { label: "OriginX Labs", href: "#" },
-      { label: "Cropxon Cloud", href: "#" },
+      { label: "ATLAS", href: "/atlas" },
+      { label: "TRACEFLOW", href: "/traceflow" },
+      { label: "OriginX Labs", href: "/originx-labs" },
+      { label: "Cropxon Cloud", href: "/cropxon-cloud" },
+      { label: "Robotics", href: "/robotics" },
     ],
-    legal: [
+    resources: [
+      { label: "Philosophy", href: "/how-we-think" },
       { label: "Privacy", href: "#" },
       { label: "Terms", href: "#" },
-      { label: "Security", href: "#" },
     ],
     governance: [
-      { label: "Compliance", href: "#" },
+      { label: "Compliance", href: "/company#compliance" },
       { label: "Trust Center", href: "#" },
     ],
   };
@@ -50,12 +51,21 @@ const Footer = () => {
               <ul className="space-y-3">
                 {links.map((link) => (
                   <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300"
-                    >
-                      {link.label}
-                    </a>
+                    {link.href.startsWith("/") && !link.href.includes("#") ? (
+                      <Link
+                        to={link.href}
+                        className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300"
+                      >
+                        {link.label}
+                      </Link>
+                    ) : (
+                      <a
+                        href={link.href}
+                        className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300"
+                      >
+                        {link.label}
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>
