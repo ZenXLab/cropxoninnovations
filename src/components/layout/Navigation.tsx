@@ -26,8 +26,12 @@ const Navigation = () => {
         <nav className="container mx-auto px-4 sm:px-6 lg:px-12">
           <div className="flex items-center justify-between h-16 sm:h-20">
             {/* Logo */}
-            <Link to="/" className="flex items-center">
-              <img src={cropxonLogo} alt="Cropxon" className="h-8 sm:h-10 w-auto" />
+            <Link to="/" className="flex items-center group">
+              <img 
+                src={cropxonLogo} 
+                alt="Cropxon" 
+                className="h-8 sm:h-10 w-auto transition-all duration-300 ease-out group-hover:scale-105 group-hover:brightness-110" 
+              />
             </Link>
 
             {/* Navigation Links - Desktop */}
