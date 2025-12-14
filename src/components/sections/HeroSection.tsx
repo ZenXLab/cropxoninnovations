@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import ComputationalBackground from "@/components/visuals/ComputationalBackground";
 import VisionModal from "@/components/modals/VisionModal";
 import useParallax from "@/hooks/useParallax";
-import cropxonLogo from "@/assets/cropxon-logo-full.png";
+import cropxonLogo from "@/assets/cropxon-logo.svg";
 
 const HeroSection = () => {
   const [showContent, setShowContent] = useState(false);

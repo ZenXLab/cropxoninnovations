@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import MobileMenu from "./MobileMenu";
-import cropxonLogo from "@/assets/cropxon-logo-full.png";
+import cropxonLogo from "@/assets/cropxon-logo.svg";
 
 const Navigation = () => {
   const location = useLocation();
