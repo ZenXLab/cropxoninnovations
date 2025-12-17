@@ -30,6 +30,8 @@ import RefundPolicy from "./pages/policies/RefundPolicy";
 import CookiePolicy from "./pages/policies/CookiePolicy";
 import SecurityPolicy from "./pages/policies/SecurityPolicy";
 import AcceptableUsePolicy from "./pages/policies/AcceptableUsePolicy";
+import ServiceLevelAgreement from "./pages/policies/ServiceLevelAgreement";
+import DataProcessingAgreement from "./pages/policies/DataProcessingAgreement";
 
 const queryClient = new QueryClient();
 
@@ -84,6 +86,8 @@ const AnimatedRoutes = () => {
           <Route path="/cookies" element={<CookiePolicy />} />
           <Route path="/security" element={<SecurityPolicy />} />
           <Route path="/acceptable-use" element={<AcceptableUsePolicy />} />
+          <Route path="/sla" element={<ServiceLevelAgreement />} />
+          <Route path="/dpa" element={<DataProcessingAgreement />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
