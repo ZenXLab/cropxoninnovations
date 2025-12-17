@@ -13,14 +13,14 @@ const DataProcessingAgreement = () => {
       
       <Navigation />
       
-      <main className="min-h-screen bg-background pt-24 pb-16">
+      <main className="min-h-screen bg-background pt-20 pb-12">
         <div className="max-w-4xl mx-auto px-6 lg:px-8">
           {/* Header */}
-          <div className="mb-12">
-            <p className="text-xs font-mono text-muted-foreground tracking-widest uppercase mb-4">
+          <div className="mb-8">
+            <p className="text-xs font-mono text-muted-foreground tracking-widest uppercase mb-3">
               Data Protection
             </p>
-            <h1 className="text-3xl lg:text-4xl font-bold text-foreground tracking-tight mb-4">
+            <h1 className="text-3xl lg:text-4xl font-bold text-foreground tracking-tight mb-3">
               Data Processing Agreement
             </h1>
             <p className="text-muted-foreground">
@@ -29,7 +29,7 @@ const DataProcessingAgreement = () => {
           </div>
 
           {/* Content */}
-          <div className="prose prose-neutral dark:prose-invert max-w-none space-y-8">
+          <div className="prose prose-neutral dark:prose-invert max-w-none space-y-6">
             
             <section>
               <h2 className="text-xl font-semibold text-foreground mb-4 border-b border-border pb-2">

@@ -14,12 +14,12 @@ const CookiePolicy = () => {
       <div className="min-h-screen bg-background">
         <Navigation />
 
-        <main className="pt-24 pb-16">
+        <main className="pt-20 pb-12">
           <div className="container mx-auto px-6 lg:px-12 max-w-4xl">
             {/* Header */}
-            <div className="mb-12">
-              <p className="font-mono text-xs text-accent uppercase tracking-widest mb-4">Legal</p>
-              <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground tracking-wide mb-4">
+            <div className="mb-8">
+              <p className="font-mono text-xs text-accent uppercase tracking-widest mb-3">Legal</p>
+              <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground tracking-wide mb-3">
                 Cookie Policy
               </h1>
               <p className="text-muted-foreground">
@@ -28,7 +28,7 @@ const CookiePolicy = () => {
             </div>
 
             {/* Content */}
-            <div className="prose prose-neutral dark:prose-invert max-w-none space-y-8">
+            <div className="prose prose-neutral dark:prose-invert max-w-none space-y-6">
               <section>
                 <h2 className="font-display text-xl font-bold text-foreground mb-4">1. What Are Cookies?</h2>
                 <p className="text-muted-foreground leading-relaxed">

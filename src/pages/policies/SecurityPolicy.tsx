@@ -15,12 +15,12 @@ const SecurityPolicy = () => {
       <div className="min-h-screen bg-background">
         <Navigation />
 
-        <main className="pt-24 pb-16">
+        <main className="pt-20 pb-12">
           <div className="container mx-auto px-6 lg:px-12 max-w-4xl">
             {/* Header */}
-            <div className="mb-12">
-              <p className="font-mono text-xs text-accent uppercase tracking-widest mb-4">Security</p>
-              <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground tracking-wide mb-4">
+            <div className="mb-8">
+              <p className="font-mono text-xs text-accent uppercase tracking-widest mb-3">Security</p>
+              <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground tracking-wide mb-3">
                 Security Policy
               </h1>
               <p className="text-muted-foreground">
@@ -29,7 +29,7 @@ const SecurityPolicy = () => {
             </div>
 
             {/* Security Commitment */}
-            <div className="p-6 bg-card border border-border rounded-sm mb-12">
+            <div className="p-6 bg-card border border-border rounded-sm mb-8">
               <div className="flex items-start gap-4">
                 <Shield className="w-8 h-8 text-accent flex-shrink-0 mt-1" />
                 <div>
