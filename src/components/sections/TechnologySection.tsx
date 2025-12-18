@@ -15,7 +15,7 @@ const TechnologySection = () => {
   return (
     <section
       id="technology"
-      className="py-16 lg:py-24 relative bg-gradient-subtle overflow-hidden"
+      className="py-12 lg:py-16 relative bg-gradient-subtle overflow-hidden"
     >
       {/* Subtle line pattern */}
       <div className="absolute inset-0 opacity-[0.02]">
@@ -43,7 +43,7 @@ const TechnologySection = () => {
         {/* Section Header */}
         <div
           ref={headerRef}
-          className={`text-center mb-12 transition-all duration-700 ease-out ${
+          className={`text-center mb-8 transition-all duration-700 ease-out ${
             headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
@@ -106,7 +106,7 @@ const TechnologySection = () => {
         </div>
 
         {/* Stats */}
-        <div ref={statsRef} className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+        <div ref={statsRef} className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
           {[
             { value: "∞", label: "Scalability" },
             { value: "24/7", label: "Availability" },

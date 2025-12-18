@@ -5,7 +5,7 @@ const VisionSection = () => {
   const { ref: ref2, isVisible: isVisible2 } = useScrollAnimation({ threshold: 0.1 });
 
   return (
-    <section id="vision" className="py-16 lg:py-24 relative overflow-hidden bg-background">
+    <section id="vision" className="py-12 lg:py-16 relative overflow-hidden bg-background">
       {/* Subtle grid pattern */}
       <div className="absolute inset-0 opacity-[0.02]">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -33,7 +33,7 @@ const VisionSection = () => {
         {/* Section Header */}
         <div 
           ref={ref}
-          className={`text-center mb-12 lg:mb-16 transition-all duration-1000 ${
+          className={`text-center mb-8 lg:mb-10 transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
@@ -57,7 +57,7 @@ const VisionSection = () => {
         >
           {/* Main Statement */}
           <div 
-            className={`mb-10 lg:mb-14 transition-all duration-1000 delay-150 ${
+            className={`mb-8 lg:mb-10 transition-all duration-1000 delay-150 ${
               isVisible2 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
@@ -94,7 +94,7 @@ const VisionSection = () => {
 
           {/* Divider */}
           <div 
-            className={`my-10 lg:my-14 flex justify-center transition-all duration-1000 delay-500 ${
+            className={`my-8 lg:my-10 flex justify-center transition-all duration-1000 delay-500 ${
               isVisible2 ? "opacity-100" : "opacity-0"
             }`}
           >
@@ -103,7 +103,7 @@ const VisionSection = () => {
 
           {/* Core Principles */}
           <div 
-            className={`mt-12 lg:mt-16 transition-all duration-1000 delay-800 ${
+            className={`mt-8 lg:mt-10 transition-all duration-1000 delay-800 ${
               isVisible2 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >

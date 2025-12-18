@@ -88,12 +88,12 @@ const WhyCropxonSection = () => {
   const { ref: gridRef, isVisible: gridVisible } = useScrollAnimation({ threshold: 0.1 });
 
   return (
-    <section className="py-16 lg:py-24 relative">
+    <section className="py-12 lg:py-16 relative">
       <div className="container mx-auto px-6 lg:px-12">
         {/* Section Header */}
         <div
           ref={headerRef}
-          className={`text-center mb-10 transition-all duration-700 ease-out ${
+          className={`text-center mb-8 transition-all duration-700 ease-out ${
             headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >

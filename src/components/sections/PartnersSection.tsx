@@ -128,7 +128,7 @@ const PartnersSection = () => {
   const { ref: gridRef, isVisible: gridVisible } = useScrollAnimation({ threshold: 0.1 });
 
   return (
-    <section className="py-16 lg:py-24 relative bg-card/30">
+    <section className="py-12 lg:py-16 relative bg-card/30">
       {/* Subtle gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background opacity-50" />
       
@@ -136,7 +136,7 @@ const PartnersSection = () => {
         {/* Section Header */}
         <div
           ref={headerRef}
-          className={`text-center mb-10 transition-all duration-700 ease-out ${
+          className={`text-center mb-8 transition-all duration-700 ease-out ${
             headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
@@ -182,7 +182,7 @@ const PartnersSection = () => {
 
         {/* Stats Row */}
         <div 
-          className={`mt-10 flex flex-wrap justify-center gap-8 lg:gap-16 transition-all duration-700 delay-500 ${
+          className={`mt-8 flex flex-wrap justify-center gap-8 lg:gap-16 transition-all duration-700 delay-500 ${
             gridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
@@ -204,7 +204,7 @@ const PartnersSection = () => {
 
         {/* Compliance Line */}
         <div 
-          className={`mt-8 flex flex-wrap justify-center items-center gap-2 lg:gap-3 transition-all duration-700 delay-700 ${
+          className={`mt-6 flex flex-wrap justify-center items-center gap-2 lg:gap-3 transition-all duration-700 delay-700 ${
             gridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
