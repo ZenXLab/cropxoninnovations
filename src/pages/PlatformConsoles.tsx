@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
 import BackToTop from "@/components/BackToTop";
 import useScrollAnimation from "@/hooks/useScrollAnimation";
+import ProductTransition from "@/components/ProductTransition";
 import { ArrowUpRight } from "lucide-react";
 
 interface PlatformConsole {
@@ -91,7 +93,15 @@ const getStatusStyles = (type: PlatformConsole["statusType"]) => {
   }
 };
 
-const PlatformCard = ({ platform, index }: { platform: PlatformConsole; index: number }) => {
+const PlatformCard = ({ 
+  platform, 
+  index,
+  onOpenConsole 
+}: { 
+  platform: PlatformConsole; 
+  index: number;
+  onOpenConsole: (platform: PlatformConsole) => void;
+}) => {
   const { ref, isVisible } = useScrollAnimation({ threshold: 0.1 });
 
   return (
@@ -171,10 +181,8 @@ const PlatformCard = ({ platform, index }: { platform: PlatformConsole; index: n
 
         {/* Actions */}
         <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-border">
-          <a
-            href={platform.consoleUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={() => onOpenConsole(platform)}
             className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-foreground text-background hover:bg-foreground/90 transition-colors duration-150 rounded-sm"
             style={{
               fontFamily: "Inter, system-ui, sans-serif",
@@ -186,7 +194,7 @@ const PlatformCard = ({ platform, index }: { platform: PlatformConsole; index: n
           >
             Open Console
             <ArrowUpRight className="w-3.5 h-3.5" />
-          </a>
+          </button>
           <Link
             to={platform.overviewUrl}
             className="inline-flex items-center justify-center px-4 py-2.5 border border-border text-muted-foreground hover:text-foreground hover:border-muted-foreground/50 transition-colors duration-150 rounded-sm"
@@ -208,6 +216,7 @@ const PlatformCard = ({ platform, index }: { platform: PlatformConsole; index: n
 
 const PlatformConsoles = () => {
   const { ref: heroRef, isVisible: heroVisible } = useScrollAnimation({ threshold: 0.3 });
+  const [transitionPlatform, setTransitionPlatform] = useState<PlatformConsole | null>(null);
 
   return (
     <>
@@ -226,7 +235,7 @@ const PlatformConsoles = () => {
           {/* Hero Section */}
           <section
             ref={heroRef}
-            className="py-16 lg:py-24 relative overflow-hidden"
+            className="py-12 lg:py-16 relative overflow-hidden"
           >
             {/* Subtle grid pattern */}
             <div className="absolute inset-0 opacity-[0.02]">
@@ -287,18 +296,23 @@ const PlatformConsoles = () => {
           </section>
 
           {/* Consoles Grid */}
-          <section className="py-14 bg-card/30 border-y border-border">
+          <section className="py-10 bg-card/30 border-y border-border">
             <div className="container mx-auto px-6 lg:px-12">
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
                 {platformConsoles.map((platform, index) => (
-                  <PlatformCard key={platform.id} platform={platform} index={index} />
+                  <PlatformCard 
+                    key={platform.id} 
+                    platform={platform} 
+                    index={index}
+                    onOpenConsole={setTransitionPlatform}
+                  />
                 ))}
               </div>
             </div>
           </section>
 
           {/* Enterprise Access Section */}
-          <section className="py-14">
+          <section className="py-10">
             <div className="container mx-auto px-6 lg:px-12">
               <div className="max-w-3xl mx-auto">
                 <div className="p-8 bg-card border border-border rounded-sm">
@@ -345,7 +359,7 @@ const PlatformConsoles = () => {
           </section>
 
           {/* Support Section */}
-          <section className="py-14 bg-card/30 border-t border-border">
+          <section className="py-10 bg-card/30 border-t border-border">
             <div className="container mx-auto px-6 lg:px-12">
               <div className="max-w-2xl mx-auto text-center">
                 <h3
@@ -397,6 +411,14 @@ const PlatformConsoles = () => {
         <Footer />
         <BackToTop />
       </div>
+
+      {/* Product Transition Overlay */}
+      <ProductTransition
+        isOpen={!!transitionPlatform}
+        productName={transitionPlatform?.name || ""}
+        externalUrl={transitionPlatform?.consoleUrl || ""}
+        onClose={() => setTransitionPlatform(null)}
+      />
     </>
   );
 };
