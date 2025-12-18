@@ -79,12 +79,12 @@ const EcosystemSection = () => {
   const { ref: contentRef, isVisible: contentVisible } = useScrollAnimation({ threshold: 0.1 });
 
   return (
-    <section id="ecosystem" className="py-16 lg:py-24 relative bg-background">
+    <section id="ecosystem" className="py-12 lg:py-16 relative bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-12">
         {/* Section Header */}
         <div
           ref={headerRef}
-          className={`text-center mb-10 lg:mb-14 transition-all duration-700 ${
+          className={`text-center mb-8 lg:mb-10 transition-all duration-700 ${
             headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
