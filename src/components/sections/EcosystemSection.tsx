@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import useScrollAnimation from "@/hooks/useScrollAnimation";
+import ProductTransition from "@/components/ProductTransition";
 
 interface Product {
   id: string;
@@ -75,109 +76,121 @@ const products: Product[] = [
 
 const EcosystemSection = () => {
   const [activeProduct, setActiveProduct] = useState<Product | null>(null);
+  const [transitionProduct, setTransitionProduct] = useState<Product | null>(null);
   const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation({ threshold: 0.3 });
   const { ref: contentRef, isVisible: contentVisible } = useScrollAnimation({ threshold: 0.1 });
 
+  const handleAccessClick = (product: Product) => {
+    setTransitionProduct(product);
+  };
+
   return (
-    <section id="ecosystem" className="py-12 lg:py-16 relative bg-background">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-12">
-        {/* Section Header */}
-        <div
-          ref={headerRef}
-          className={`text-center mb-8 lg:mb-10 transition-all duration-700 ${
-            headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold tracking-[0.08em] mb-3 text-foreground">
-            THE CROPXON ECOSYSTEM
-          </h2>
-          <p className="text-sm lg:text-base max-w-2xl mx-auto text-muted-foreground">
-            Foundational Platforms in Active Development
-          </p>
-        </div>
+    <>
+      <section id="ecosystem" className="py-12 lg:py-16 relative bg-background">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+          {/* Section Header */}
+          <div
+            ref={headerRef}
+            className={`text-center mb-8 lg:mb-10 transition-all duration-700 ${
+              headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
+          >
+            <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold tracking-[0.08em] mb-3 text-foreground">
+              THE CROPXON ECOSYSTEM
+            </h2>
+            <p className="text-sm lg:text-base max-w-2xl mx-auto text-muted-foreground">
+              Foundational Platforms in Active Development
+            </p>
+          </div>
 
-        {/* Products Grid */}
-        <div 
-          ref={contentRef}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6"
-        >
-          {products.map((product, index) => (
-            <div
-              key={product.id}
-              className={`group relative transition-all duration-500 ${
-                contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: `${index * 100}ms` }}
-              onMouseEnter={() => setActiveProduct(product)}
-              onMouseLeave={() => setActiveProduct(null)}
-            >
+          {/* Products Grid */}
+          <div 
+            ref={contentRef}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6"
+          >
+            {products.map((product, index) => (
               <div
-                className={`p-6 lg:p-8 rounded-lg border bg-card transition-all duration-300 h-full ${
-                  activeProduct?.id === product.id 
-                    ? "border-primary shadow-xl scale-[1.02]" 
-                    : "border-border hover:border-primary/50"
+                key={product.id}
+                className={`group relative transition-all duration-500 ${
+                  contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
+                style={{ transitionDelay: `${index * 100}ms` }}
+                onMouseEnter={() => setActiveProduct(product)}
+                onMouseLeave={() => setActiveProduct(null)}
               >
-                {/* Header */}
-                <div className="flex items-start justify-between mb-4">
-                  <h3 className="font-display text-lg lg:text-xl font-bold text-foreground">
-                    {product.name}
-                  </h3>
-                  <span 
-                    className="text-[10px] px-2 py-1 rounded font-mono font-medium shrink-0 bg-accent/20 text-accent border border-accent/30"
-                  >
-                    {product.status}
-                  </span>
-                </div>
+                <div
+                  className={`p-6 lg:p-8 rounded-lg border bg-card transition-all duration-300 h-full ${
+                    activeProduct?.id === product.id 
+                      ? "border-primary shadow-xl scale-[1.02]" 
+                      : "border-border hover:border-primary/50"
+                  }`}
+                >
+                  {/* Header */}
+                  <div className="flex items-start justify-between mb-4">
+                    <h3 className="font-display text-lg lg:text-xl font-bold text-foreground">
+                      {product.name}
+                    </h3>
+                    <span 
+                      className="text-[10px] px-2 py-1 rounded font-mono font-medium shrink-0 bg-accent/20 text-accent border border-accent/30"
+                    >
+                      {product.status}
+                    </span>
+                  </div>
 
-                {/* Tagline */}
-                <p className="font-mono text-xs text-muted-foreground mb-3">
-                  {product.tagline}
-                </p>
+                  {/* Tagline */}
+                  <p className="font-mono text-xs text-muted-foreground mb-3">
+                    {product.tagline}
+                  </p>
 
-                {/* Description */}
-                <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-                  {product.description}
-                </p>
+                  {/* Description */}
+                  <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                    {product.description}
+                  </p>
 
-                {/* Capabilities */}
-                <ul className="space-y-1.5 mb-6">
-                  {product.capabilities.map((cap, i) => (
-                    <li key={i} className="flex items-center gap-2 text-xs text-foreground">
-                      <span className="w-1.5 h-1.5 rounded-full shrink-0 bg-accent" />
-                      {cap}
-                    </li>
-                  ))}
-                </ul>
+                  {/* Capabilities */}
+                  <ul className="space-y-1.5 mb-6">
+                    {product.capabilities.map((cap, i) => (
+                      <li key={i} className="flex items-center gap-2 text-xs text-foreground">
+                        <span className="w-1.5 h-1.5 rounded-full shrink-0 bg-accent" />
+                        {cap}
+                      </li>
+                    ))}
+                  </ul>
 
-                {/* Status */}
-                <p className="text-xs font-mono text-muted-foreground mb-4">
-                  {product.statusDate}
-                </p>
+                  {/* Status */}
+                  <p className="text-xs font-mono text-muted-foreground mb-4">
+                    {product.statusDate}
+                  </p>
 
-                {/* Actions */}
-                <div className="flex gap-3">
-                  <Button variant="outline" size="sm" className="text-xs flex-1" asChild>
-                    <Link to={product.link}>Learn More</Link>
-                  </Button>
-                  <Button 
-                    variant="default"
-                    size="sm"
-                    className="text-xs flex-1"
-                    asChild
-                  >
-                    <a href={product.externalUrl} target="_blank" rel="noopener noreferrer">
+                  {/* Actions */}
+                  <div className="flex gap-3">
+                    <Button variant="outline" size="sm" className="text-xs flex-1" asChild>
+                      <Link to={product.link}>Learn More</Link>
+                    </Button>
+                    <Button 
+                      variant="default"
+                      size="sm"
+                      className="text-xs flex-1"
+                      onClick={() => handleAccessClick(product)}
+                    >
                       Access
-                    </a>
-                  </Button>
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
+      </section>
 
-      </div>
-    </section>
+      {/* Product Transition Overlay */}
+      <ProductTransition
+        isOpen={!!transitionProduct}
+        productName={transitionProduct?.name || ""}
+        externalUrl={transitionProduct?.externalUrl || ""}
+        onClose={() => setTransitionProduct(null)}
+      />
+    </>
   );
 };
 

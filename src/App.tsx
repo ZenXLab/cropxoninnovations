@@ -9,6 +9,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import LoadingScreen from "@/components/LoadingScreen";
 import ScrollProgress from "@/components/ScrollProgress";
 import ScrollToTop from "@/components/ScrollToTop";
+import PWAInstallBanner from "@/components/PWAInstallBanner";
 import Index from "./pages/Index";
 import CompanyProfile from "./pages/CompanyProfile";
 import HowWeThink from "./pages/HowWeThink";
@@ -109,6 +110,7 @@ const App = () => {
             <Sonner />
             <BrowserRouter>
               {!isInitialLoading && <AnimatedRoutes />}
+              {!isInitialLoading && <PWAInstallBanner />}
             </BrowserRouter>
           </TooltipProvider>
         </QueryClientProvider>
