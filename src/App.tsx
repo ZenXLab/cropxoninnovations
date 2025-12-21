@@ -10,6 +10,8 @@ import LoadingScreen from "@/components/LoadingScreen";
 import ScrollProgress from "@/components/ScrollProgress";
 import ScrollToTop from "@/components/ScrollToTop";
 import PWAInstallBanner from "@/components/PWAInstallBanner";
+import CookieConsent from "@/components/CookieConsent";
+import PushNotificationPrompt from "@/components/PushNotificationPrompt";
 import Index from "./pages/Index";
 import CompanyProfile from "./pages/CompanyProfile";
 import HowWeThink from "./pages/HowWeThink";
@@ -24,6 +26,7 @@ import Traceflow from "./pages/products/Traceflow";
 import OriginxLabs from "./pages/products/OriginxLabs";
 import CropxonCloud from "./pages/products/CropxonCloud";
 import Robotics from "./pages/products/Robotics";
+import ZenithInstitute from "./pages/products/ZenithInstitute";
 import NotFound from "./pages/NotFound";
 import TermsAndConditions from "./pages/policies/TermsAndConditions";
 import PrivacyPolicy from "./pages/policies/PrivacyPolicy";
@@ -81,6 +84,7 @@ const AnimatedRoutes = () => {
           <Route path="/originx-labs" element={<OriginxLabs />} />
           <Route path="/cropxon-cloud" element={<CropxonCloud />} />
           <Route path="/robotics" element={<Robotics />} />
+          <Route path="/zenith-institute" element={<ZenithInstitute />} />
           <Route path="/terms" element={<TermsAndConditions />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/refund-policy" element={<RefundPolicy />} />
@@ -111,6 +115,8 @@ const App = () => {
             <BrowserRouter>
               {!isInitialLoading && <AnimatedRoutes />}
               {!isInitialLoading && <PWAInstallBanner />}
+              {!isInitialLoading && <CookieConsent />}
+              {!isInitialLoading && <PushNotificationPrompt />}
             </BrowserRouter>
           </TooltipProvider>
         </QueryClientProvider>

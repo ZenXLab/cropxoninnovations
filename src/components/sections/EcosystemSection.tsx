@@ -72,6 +72,17 @@ const products: Product[] = [
     link: "/robotics",
     externalUrl: "https://opzenix.com",
   },
+  {
+    id: "zenith",
+    name: "ZENITH INSTITUTE",
+    tagline: "Learning Division",
+    description: "Building world-class engineers from India with industry-relevant education and real experience.",
+    capabilities: ["Engineering Programs", "Industry Labs", "Verified Credentials", "Placement Support"],
+    status: "ACTIVE",
+    statusDate: "Enrolling Now",
+    link: "/zenith-institute",
+    externalUrl: "https://zenithinstitute.in",
+  },
 ];
 
 const EcosystemSection = () => {
