@@ -20,6 +20,7 @@ const navItems: NavItem[] = [
       { label: "OriginX Labs", href: "https://originxlabs.com", external: true },
       { label: "CropXon Cloud", href: "https://cropxoncloud.com", external: true },
       { label: "OpZeniX", href: "https://opzenix.com", external: true },
+      { label: "Zenith Institute", href: "/zenith-institute" },
     ],
   },
   {
