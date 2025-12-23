@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { ThemeSelector } from "@/components/ThemeSelector";
 import MobileMenu from "./MobileMenu";
 import MegaMenu from "./MegaMenu";
 import officialLogo from "@/assets/cropxon-logo-official.png";
@@ -184,7 +184,7 @@ const Navigation = () => {
             {/* Right Side */}
             <div className="flex items-center gap-4 sm:gap-5">
               <div className="hidden sm:block">
-                <ThemeToggle />
+                <ThemeSelector />
               </div>
 
               <Link
