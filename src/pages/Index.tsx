@@ -3,6 +3,7 @@ import Navigation from "@/components/layout/Navigation";
 import HeroSection from "@/components/sections/HeroSection";
 import EcosystemFlowSection from "@/components/sections/EcosystemFlowSection";
 import EcosystemSection from "@/components/sections/EcosystemSection";
+import PlatformComparisonTable from "@/components/sections/PlatformComparisonTable";
 import WhyCropxonSection from "@/components/sections/WhyCropxonSection";
 import TechnologySection from "@/components/sections/TechnologySection";
 import PartnersSection from "@/components/sections/PartnersSection";
@@ -31,6 +32,7 @@ const Index = () => {
           <HeroSection />
           <EcosystemFlowSection />
           <EcosystemSection />
+          <PlatformComparisonTable />
           <PartnersSection />
           <WhyCropxonSection />
           <TechnologySection />
