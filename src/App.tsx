@@ -11,6 +11,7 @@ import ScrollProgress from "@/components/ScrollProgress";
 import ScrollToTop from "@/components/ScrollToTop";
 import PWAInstallBanner from "@/components/PWAInstallBanner";
 import PushNotificationPrompt from "@/components/PushNotificationPrompt";
+import SurveillanceDrone from "@/components/SurveillanceDrone";
 import Index from "./pages/Index";
 import CompanyProfile from "./pages/CompanyProfile";
 import HowWeThink from "./pages/HowWeThink";
@@ -131,6 +132,7 @@ const App = () => {
               {!isInitialLoading && <AnimatedRoutes />}
               {!isInitialLoading && <PWAInstallBanner />}
               {!isInitialLoading && <PushNotificationPrompt />}
+              {!isInitialLoading && <SurveillanceDrone />}
             </BrowserRouter>
           </TooltipProvider>
         </QueryClientProvider>
