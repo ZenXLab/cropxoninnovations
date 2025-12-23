@@ -10,7 +10,6 @@ interface PlatformData {
   radius: number;
   color: string;
   href: string;
-  external?: boolean;
 }
 
 interface Platform extends PlatformData {
@@ -18,75 +17,41 @@ interface Platform extends PlatformData {
   y: number;
   targetX: number;
   targetY: number;
-  vx: number;
-  vy: number;
   baseAngle: number;
-}
-
-interface Butterfly {
-  x: number;
-  y: number;
-  targetX: number;
-  targetY: number;
-  vx: number;
-  vy: number;
-  wingAngle: number;
-  wingSpeed: number;
-  size: number;
-  color: string;
-  targetPlatform: number;
-  state: 'flying' | 'landing' | 'resting';
-  restTimer: number;
-  angle: number;
-}
-
-interface ElectricSignal {
-  startX: number;
-  startY: number;
-  endX: number;
-  endY: number;
-  progress: number;
-  segments: { x: number; y: number }[];
-  active: boolean;
-  color: string;
 }
 
 // Platform data with correct navigation links
 const platformsData: PlatformData[] = [
-  { id: 'cognix', name: 'Cognix', category: 'Intelligence', description: 'Enterprise cognition and AI decision systems', radius: 38, color: 'hsl(220, 70%, 55%)', href: '/cognix', external: false },
-  { id: 'opzenix', name: 'OpZeniX', category: 'Operations', description: 'Intelligent operations management platform', radius: 38, color: 'hsl(260, 60%, 58%)', href: '/opzenix', external: false },
-  { id: 'qualyx', name: 'Qualyx', category: 'Quality', description: 'Quality assurance and compliance engine', radius: 38, color: 'hsl(175, 60%, 45%)', href: '/qualyx', external: false },
-  { id: 'huminex', name: 'Huminex', category: 'Human Systems', description: 'Workforce intelligence and talent management', radius: 38, color: 'hsl(340, 65%, 55%)', href: '/huminex', external: false },
-  { id: 'traceflow', name: 'TraceFlow', category: 'Traceability', description: 'End-to-end supply chain traceability', radius: 38, color: 'hsl(200, 70%, 50%)', href: '/traceflow', external: false },
-  { id: 'zenith-core', name: 'Zenith Studio', category: 'Foundation', description: 'Core infrastructure and platform services', radius: 38, color: 'hsl(280, 55%, 55%)', href: '/zenith-studio', external: false },
-  { id: 'zenith-institute', name: 'Zenith Institute', category: 'Education', description: 'Industry-backed engineering education', radius: 38, color: 'hsl(145, 55%, 45%)', href: '/zenith-institute', external: false },
-  { id: 'originx-labs', name: 'OriginX Labs', category: 'Research', description: 'Experimental research and innovation lab', radius: 38, color: 'hsl(25, 75%, 52%)', href: '/originx-labs', external: false },
+  { id: 'cognix', name: 'Cognix', category: 'Intelligence', description: 'Enterprise cognition and AI decision systems', radius: 38, color: 'hsl(220, 70%, 55%)', href: '/cognix' },
+  { id: 'opzenix', name: 'OpZeniX', category: 'Operations', description: 'Intelligent operations management platform', radius: 38, color: 'hsl(260, 60%, 58%)', href: '/opzenix' },
+  { id: 'qualyx', name: 'Qualyx', category: 'Quality', description: 'Quality assurance and compliance engine', radius: 38, color: 'hsl(175, 60%, 45%)', href: '/qualyx' },
+  { id: 'huminex', name: 'Huminex', category: 'Human Systems', description: 'Workforce intelligence and talent management', radius: 38, color: 'hsl(340, 65%, 55%)', href: '/huminex' },
+  { id: 'traceflow', name: 'TraceFlow', category: 'Traceability', description: 'End-to-end supply chain traceability', radius: 38, color: 'hsl(200, 70%, 50%)', href: '/traceflow' },
+  { id: 'zenith-core', name: 'Zenith Studio', category: 'Foundation', description: 'Core infrastructure and platform services', radius: 38, color: 'hsl(280, 55%, 55%)', href: '/zenith-studio' },
+  { id: 'zenith-institute', name: 'Zenith Institute', category: 'Education', description: 'Industry-backed engineering education', radius: 38, color: 'hsl(145, 55%, 45%)', href: '/zenith-institute' },
+  { id: 'originx-labs', name: 'OriginX Labs', category: 'Research', description: 'Experimental research and innovation lab', radius: 38, color: 'hsl(25, 75%, 52%)', href: '/originx-labs' },
 ];
 
 interface EcosystemCanvasProps {
   onPlatformHover?: (platformId: string | null) => void;
+  onPlatformDemo?: (platformId: string) => void;
 }
 
-const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
+const EcosystemCanvas = ({ onPlatformHover, onPlatformDemo }: EcosystemCanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number>();
-  const interactionRef = useRef({ x: 0, y: 0, active: false });
-  const butterflyRef = useRef<Butterfly | null>(null);
-  const electricSignalRef = useRef<ElectricSignal | null>(null);
   const logoImageRef = useRef<HTMLImageElement | null>(null);
   const [hoveredPlatform, setHoveredPlatform] = useState<string | null>(null);
   const [focusedIndex, setFocusedIndex] = useState<number>(-1);
-  const [butterflyPlatform, setButterflyPlatform] = useState<PlatformData | null>(null);
-  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
   const platformsRef = useRef<Platform[]>([]);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [isMobile, setIsMobile] = useState(false);
   const [isDark, setIsDark] = useState(true);
   
-  // Current platform index for butterfly loop
-  const currentPlatformIndexRef = useRef(0);
-  const dashboardCenterRef = useRef({ x: 0, y: 0 });
+  // Auto-rotate through platforms
+  const [activePlatformIndex, setActivePlatformIndex] = useState(0);
+  const autoRotateTimerRef = useRef<ReturnType<typeof setInterval>>();
   
   const navigate = useNavigate();
 
@@ -110,7 +75,24 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
     return () => observer.disconnect();
   }, []);
 
-  // Initialize platforms with perfect circular layout
+  // Auto-rotate platforms
+  useEffect(() => {
+    autoRotateTimerRef.current = setInterval(() => {
+      setActivePlatformIndex(prev => {
+        const next = (prev + 1) % platformsData.length;
+        onPlatformHover?.(platformsData[next].id);
+        return next;
+      });
+    }, 3000);
+
+    return () => {
+      if (autoRotateTimerRef.current) {
+        clearInterval(autoRotateTimerRef.current);
+      }
+    };
+  }, [onPlatformHover]);
+
+  // Initialize platforms with circular layout
   const initializePlatforms = useCallback((width: number, height: number) => {
     const centerX = width / 2;
     const centerY = height / 2;
@@ -134,33 +116,9 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
         radius: scaledRadius,
         x, y,
         targetX: x, targetY: y,
-        vx: 0, vy: 0,
         baseAngle,
       };
     });
-
-    // Initialize butterfly to first platform
-    const firstPlatform = platformsRef.current[0];
-    if (!butterflyRef.current && firstPlatform) {
-      butterflyRef.current = {
-        x: firstPlatform.x,
-        y: firstPlatform.y - firstPlatform.radius - 18,
-        targetX: firstPlatform.x,
-        targetY: firstPlatform.y - firstPlatform.radius - 18,
-        vx: 0, vy: 0,
-        wingAngle: 0,
-        wingSpeed: 0.12,
-        size: isMobileView ? 14 : 18,
-        color: firstPlatform.color,
-        targetPlatform: 0,
-        state: 'resting',
-        restTimer: 180,
-        angle: 0,
-      };
-    }
-
-    // Dashboard center position (right side)
-    dashboardCenterRef.current = { x: width + 100, y: height / 2 };
   }, []);
 
   useEffect(() => {
@@ -224,205 +182,6 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
     }
   }, [focusedIndex]);
 
-  // Generate electric signal path
-  const generateElectricPath = (startX: number, startY: number, endX: number, endY: number, color: string): ElectricSignal => {
-    const segments: { x: number; y: number }[] = [];
-    const numSegments = 12;
-    
-    for (let i = 0; i <= numSegments; i++) {
-      const t = i / numSegments;
-      const x = startX + (endX - startX) * t;
-      const y = startY + (endY - startY) * t;
-      
-      // Add jagged offset for electric effect (except start and end)
-      if (i > 0 && i < numSegments) {
-        const offset = (Math.random() - 0.5) * 30;
-        segments.push({ x: x + offset * (1 - Math.abs(t - 0.5) * 2), y: y + offset * 0.5 });
-      } else {
-        segments.push({ x, y });
-      }
-    }
-    
-    return {
-      startX, startY, endX, endY,
-      progress: 0,
-      segments,
-      active: true,
-      color,
-    };
-  };
-
-  // Draw realistic butterfly
-  const drawButterfly = (ctx: CanvasRenderingContext2D, butterfly: Butterfly) => {
-    const { x, y, wingAngle, size, color, state } = butterfly;
-    const wingFlap = state === 'resting' ? Math.sin(wingAngle) * 0.15 : Math.sin(wingAngle);
-    
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.rotate(butterfly.angle);
-    
-    // Body with gradient
-    const bodyGrad = ctx.createLinearGradient(0, -size * 0.5, 0, size * 0.5);
-    bodyGrad.addColorStop(0, 'hsl(30, 35%, 25%)');
-    bodyGrad.addColorStop(0.5, 'hsl(30, 30%, 18%)');
-    bodyGrad.addColorStop(1, 'hsl(30, 35%, 22%)');
-    
-    ctx.beginPath();
-    ctx.ellipse(0, 0, size * 0.12, size * 0.55, 0, 0, Math.PI * 2);
-    ctx.fillStyle = bodyGrad;
-    ctx.fill();
-    
-    // Antennae
-    ctx.strokeStyle = 'hsl(30, 30%, 25%)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(-size * 0.05, -size * 0.4);
-    ctx.quadraticCurveTo(-size * 0.15, -size * 0.65, -size * 0.1, -size * 0.75);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(size * 0.05, -size * 0.4);
-    ctx.quadraticCurveTo(size * 0.15, -size * 0.65, size * 0.1, -size * 0.75);
-    ctx.stroke();
-    
-    // Wings with platform color
-    const wingWidth = size * (1 + wingFlap * 0.25);
-    const wingHeight = size * 0.7;
-    
-    // Upper left wing
-    ctx.save();
-    ctx.scale(1, 0.8 + wingFlap * 0.2);
-    ctx.beginPath();
-    ctx.moveTo(0, -size * 0.1);
-    ctx.bezierCurveTo(
-      -wingWidth * 0.4, -wingHeight * 0.8,
-      -wingWidth * 0.9, -wingHeight * 0.3,
-      -wingWidth * 0.45, size * 0.15
-    );
-    ctx.quadraticCurveTo(-wingWidth * 0.2, size * 0.05, 0, -size * 0.1);
-    
-    const leftUpperGrad = ctx.createRadialGradient(-wingWidth * 0.3, -wingHeight * 0.2, 0, -wingWidth * 0.3, -wingHeight * 0.2, wingWidth * 0.6);
-    leftUpperGrad.addColorStop(0, color);
-    leftUpperGrad.addColorStop(0.6, color.replace(')', ', 0.8)'));
-    leftUpperGrad.addColorStop(1, color.replace(')', ', 0.5)'));
-    ctx.fillStyle = leftUpperGrad;
-    ctx.fill();
-    ctx.strokeStyle = color.replace(')', ', 0.6)');
-    ctx.lineWidth = 0.5;
-    ctx.stroke();
-    ctx.restore();
-    
-    // Upper right wing
-    ctx.save();
-    ctx.scale(1, 0.8 + wingFlap * 0.2);
-    ctx.beginPath();
-    ctx.moveTo(0, -size * 0.1);
-    ctx.bezierCurveTo(
-      wingWidth * 0.4, -wingHeight * 0.8,
-      wingWidth * 0.9, -wingHeight * 0.3,
-      wingWidth * 0.45, size * 0.15
-    );
-    ctx.quadraticCurveTo(wingWidth * 0.2, size * 0.05, 0, -size * 0.1);
-    
-    const rightUpperGrad = ctx.createRadialGradient(wingWidth * 0.3, -wingHeight * 0.2, 0, wingWidth * 0.3, -wingHeight * 0.2, wingWidth * 0.6);
-    rightUpperGrad.addColorStop(0, color);
-    rightUpperGrad.addColorStop(0.6, color.replace(')', ', 0.8)'));
-    rightUpperGrad.addColorStop(1, color.replace(')', ', 0.5)'));
-    ctx.fillStyle = rightUpperGrad;
-    ctx.fill();
-    ctx.strokeStyle = color.replace(')', ', 0.6)');
-    ctx.lineWidth = 0.5;
-    ctx.stroke();
-    ctx.restore();
-    
-    // Lower wings
-    ctx.save();
-    ctx.scale(1, 0.75 + wingFlap * 0.25);
-    ctx.beginPath();
-    ctx.moveTo(-size * 0.08, size * 0.1);
-    ctx.bezierCurveTo(-wingWidth * 0.5, size * 0.1, -wingWidth * 0.55, size * 0.5, -wingWidth * 0.25, size * 0.55);
-    ctx.quadraticCurveTo(-size * 0.1, size * 0.35, -size * 0.08, size * 0.1);
-    ctx.fillStyle = color.replace(')', ', 0.85)');
-    ctx.fill();
-    ctx.restore();
-    
-    ctx.save();
-    ctx.scale(1, 0.75 + wingFlap * 0.25);
-    ctx.beginPath();
-    ctx.moveTo(size * 0.08, size * 0.1);
-    ctx.bezierCurveTo(wingWidth * 0.5, size * 0.1, wingWidth * 0.55, size * 0.5, wingWidth * 0.25, size * 0.55);
-    ctx.quadraticCurveTo(size * 0.1, size * 0.35, size * 0.08, size * 0.1);
-    ctx.fillStyle = color.replace(')', ', 0.85)');
-    ctx.fill();
-    ctx.restore();
-    
-    // Wing patterns
-    ctx.beginPath();
-    ctx.arc(-wingWidth * 0.35, -size * 0.2, size * 0.08, 0, Math.PI * 2);
-    ctx.arc(wingWidth * 0.35, -size * 0.2, size * 0.08, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-    ctx.fill();
-    
-    // Glow effect when resting
-    if (state === 'resting') {
-      ctx.beginPath();
-      const glowGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, size * 2);
-      glowGrad.addColorStop(0, color.replace(')', ', 0.35)'));
-      glowGrad.addColorStop(0.5, color.replace(')', ', 0.15)'));
-      glowGrad.addColorStop(1, 'transparent');
-      ctx.arc(0, 0, size * 2, 0, Math.PI * 2);
-      ctx.fillStyle = glowGrad;
-      ctx.fill();
-    }
-    
-    ctx.restore();
-  };
-
-  // Draw electric signal
-  const drawElectricSignal = (ctx: CanvasRenderingContext2D, signal: ElectricSignal) => {
-    if (!signal.active || signal.segments.length < 2) return;
-    
-    const visibleLength = Math.floor(signal.segments.length * signal.progress);
-    if (visibleLength < 2) return;
-    
-    // Main electric bolt
-    ctx.save();
-    ctx.beginPath();
-    ctx.moveTo(signal.segments[0].x, signal.segments[0].y);
-    
-    for (let i = 1; i < visibleLength; i++) {
-      ctx.lineTo(signal.segments[i].x, signal.segments[i].y);
-    }
-    
-    ctx.strokeStyle = signal.color;
-    ctx.lineWidth = 3;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    ctx.shadowColor = signal.color;
-    ctx.shadowBlur = 15;
-    ctx.stroke();
-    
-    // Glow effect
-    ctx.strokeStyle = signal.color.replace(')', ', 0.5)');
-    ctx.lineWidth = 6;
-    ctx.shadowBlur = 25;
-    ctx.stroke();
-    
-    // Energy point at the end
-    if (visibleLength > 0) {
-      const endPoint = signal.segments[visibleLength - 1];
-      const gradient = ctx.createRadialGradient(endPoint.x, endPoint.y, 0, endPoint.x, endPoint.y, 12);
-      gradient.addColorStop(0, signal.color);
-      gradient.addColorStop(0.5, signal.color.replace(')', ', 0.5)'));
-      gradient.addColorStop(1, 'transparent');
-      ctx.beginPath();
-      ctx.arc(endPoint.x, endPoint.y, 12, 0, Math.PI * 2);
-      ctx.fillStyle = gradient;
-      ctx.fill();
-    }
-    
-    ctx.restore();
-  };
-
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas || dimensions.width === 0) return;
@@ -478,24 +237,6 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
       ctx.stroke();
       ctx.setLineDash([]);
 
-      // Update platform positions (static)
-      platformsRef.current.forEach((platform) => {
-        const angle = platform.baseAngle;
-        platform.targetX = centerX + Math.cos(angle) * orbitRadius;
-        platform.targetY = centerY + Math.sin(angle) * orbitRadius;
-
-        const springForce = 0.08;
-        const damping = 0.88;
-        
-        platform.vx += (platform.targetX - platform.x) * springForce;
-        platform.vy += (platform.targetY - platform.y) * springForce;
-        platform.vx *= damping;
-        platform.vy *= damping;
-        
-        platform.x += platform.vx;
-        platform.y += platform.vy;
-      });
-
       // Draw connecting lines
       platformsRef.current.forEach((p1, i) => {
         platformsRef.current.slice(i + 1).forEach((p2) => {
@@ -505,7 +246,7 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
           const maxDistance = isMobile ? 180 : 320;
 
           if (distance < maxDistance) {
-            const opacity = 0.08 * (1 - distance / maxDistance);
+            const opacity = 0.06 * (1 - distance / maxDistance);
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
@@ -513,7 +254,7 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
             gradient.addColorStop(0, p1.color.replace(')', `, ${opacity})`));
             gradient.addColorStop(1, p2.color.replace(')', `, ${opacity})`));
             ctx.strokeStyle = gradient;
-            ctx.lineWidth = 1.5;
+            ctx.lineWidth = 1;
             ctx.stroke();
           }
         });
@@ -569,15 +310,15 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
       platformsRef.current.forEach((platform, index) => {
         const isHovered = hoveredPlatform === platform.id;
         const isFocused = focusedIndex === index;
-        const isButterflyTarget = butterflyRef.current?.targetPlatform === index && butterflyRef.current?.state === 'resting';
-        const isActive = isHovered || isFocused || isButterflyTarget;
+        const isAutoActive = activePlatformIndex === index;
+        const isActive = isHovered || isFocused || isAutoActive;
         const scale = isActive ? 1.15 : 1;
         const radius = platform.radius * scale;
 
         // Outer glow
         const glowGradient = ctx.createRadialGradient(platform.x, platform.y, 0, platform.x, platform.y, radius * 2);
-        glowGradient.addColorStop(0, platform.color.replace(')', isActive ? ', 0.35)' : ', 0.2)'));
-        glowGradient.addColorStop(0.5, platform.color.replace(')', ', 0.08)'));
+        glowGradient.addColorStop(0, platform.color.replace(')', isActive ? ', 0.35)' : ', 0.15)'));
+        glowGradient.addColorStop(0.5, platform.color.replace(')', ', 0.06)'));
         glowGradient.addColorStop(1, 'transparent');
         
         ctx.beginPath();
@@ -631,111 +372,6 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
         ctx.restore();
       });
 
-      // Update and draw butterfly (loop through platforms)
-      const butterfly = butterflyRef.current;
-      if (butterfly) {
-        butterfly.wingAngle += butterfly.wingSpeed;
-        let restingButterflyData: { platform: PlatformData; x: number; y: number } | null = null;
-        
-        if (butterfly.state === 'flying') {
-          const targetPlatform = platformsRef.current[butterfly.targetPlatform];
-          if (targetPlatform) {
-            butterfly.targetX = targetPlatform.x;
-            butterfly.targetY = targetPlatform.y - targetPlatform.radius - 18;
-            
-            const dx = butterfly.targetX - butterfly.x;
-            const dy = butterfly.targetY - butterfly.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            butterfly.angle = Math.atan2(dy, dx) + Math.PI / 2;
-            
-            if (distance < 8) {
-              butterfly.state = 'landing';
-            } else {
-              const speed = 1.2;
-              butterfly.vx += (dx / distance) * speed * 0.1;
-              butterfly.vy += (dy / distance) * speed * 0.1;
-              butterfly.vx *= 0.95;
-              butterfly.vy *= 0.95;
-              butterfly.x += butterfly.vx + Math.sin(butterfly.wingAngle * 0.4) * 0.4;
-              butterfly.y += butterfly.vy + Math.cos(butterfly.wingAngle * 0.25) * 0.3;
-            }
-          }
-        } else if (butterfly.state === 'landing') {
-          const targetPlatform = platformsRef.current[butterfly.targetPlatform];
-          if (targetPlatform) {
-            butterfly.x = targetPlatform.x;
-            butterfly.y = targetPlatform.y - targetPlatform.radius - 18;
-            butterfly.vx = 0;
-            butterfly.vy = 0;
-            butterfly.angle = 0;
-            butterfly.state = 'resting';
-            butterfly.restTimer = 150 + Math.random() * 60;
-            
-            // Trigger electric signal to dashboard
-            electricSignalRef.current = generateElectricPath(
-              butterfly.x,
-              butterfly.y,
-              dimensions.width + 50,
-              dimensions.height / 2,
-              targetPlatform.color
-            );
-            
-            // Notify parent of platform change
-            onPlatformHover?.(targetPlatform.id);
-          }
-        } else if (butterfly.state === 'resting') {
-          const targetPlatform = platformsRef.current[butterfly.targetPlatform];
-          if (targetPlatform) {
-            butterfly.restTimer--;
-            butterfly.x = targetPlatform.x + Math.sin(butterfly.wingAngle * 0.08) * 1.2;
-            butterfly.y = targetPlatform.y - targetPlatform.radius - 18;
-            
-            restingButterflyData = { platform: targetPlatform, x: butterfly.x, y: butterfly.y - 30 };
-            
-            if (butterfly.restTimer <= 0) {
-              // Move to next platform in sequence
-              currentPlatformIndexRef.current = (currentPlatformIndexRef.current + 1) % platformsRef.current.length;
-              butterfly.targetPlatform = currentPlatformIndexRef.current;
-              butterfly.color = platformsRef.current[currentPlatformIndexRef.current].color;
-              butterfly.state = 'flying';
-            }
-          }
-        }
-        
-        // Draw electric signal
-        if (electricSignalRef.current) {
-          electricSignalRef.current.progress += 0.04;
-          if (electricSignalRef.current.progress >= 1) {
-            electricSignalRef.current.progress = 1;
-            // Regenerate segments for next pulse
-            if (butterfly.state === 'resting' && Math.random() < 0.02) {
-              const targetPlatform = platformsRef.current[butterfly.targetPlatform];
-              if (targetPlatform) {
-                electricSignalRef.current = generateElectricPath(
-                  butterfly.x,
-                  butterfly.y,
-                  dimensions.width + 50,
-                  dimensions.height / 2,
-                  targetPlatform.color
-                );
-              }
-            }
-          }
-          drawElectricSignal(ctx, electricSignalRef.current);
-        }
-        
-        drawButterfly(ctx, butterfly);
-
-        // Update popup state
-        if (restingButterflyData) {
-          setButterflyPlatform(restingButterflyData.platform);
-          setPopupPosition({ x: restingButterflyData.x, y: restingButterflyData.y });
-        } else if (!hoveredPlatform) {
-          setButterflyPlatform(null);
-        }
-      }
-
       animationRef.current = requestAnimationFrame(animate);
     };
 
@@ -746,7 +382,7 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [dimensions, hoveredPlatform, focusedIndex, isMobile, isDark, onPlatformHover]);
+  }, [dimensions, hoveredPlatform, focusedIndex, isMobile, isDark, activePlatformIndex]);
 
   const getInteractionPosition = (e: React.MouseEvent | React.TouchEvent) => {
     const canvas = canvasRef.current;
@@ -778,26 +414,40 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
   };
 
   const handlePlatformClick = useCallback((platform: Platform) => {
-    navigate(platform.href);
-  }, [navigate]);
+    if (onPlatformDemo) {
+      onPlatformDemo(platform.id);
+    } else {
+      navigate(platform.href);
+    }
+  }, [navigate, onPlatformDemo]);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
     const pos = getInteractionPosition(e);
     if (!pos) return;
-    interactionRef.current = { ...pos, active: true };
     const platform = findPlatformAtPosition(pos.x, pos.y);
     if (platform) {
       setHoveredPlatform(platform.id);
       onPlatformHover?.(platform.id);
+      // Pause auto-rotate on hover
+      if (autoRotateTimerRef.current) {
+        clearInterval(autoRotateTimerRef.current);
+      }
     } else {
       setHoveredPlatform(null);
     }
   }, [onPlatformHover]);
 
   const handleMouseLeave = useCallback(() => {
-    interactionRef.current.active = false;
     setHoveredPlatform(null);
-  }, []);
+    // Resume auto-rotate
+    autoRotateTimerRef.current = setInterval(() => {
+      setActivePlatformIndex(prev => {
+        const next = (prev + 1) % platformsData.length;
+        onPlatformHover?.(platformsData[next].id);
+        return next;
+      });
+    }, 3000);
+  }, [onPlatformHover]);
 
   const handleClick = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
     const pos = getInteractionPosition(e);
@@ -811,7 +461,6 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
   const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
     const pos = getInteractionPosition(e);
     if (!pos) return;
-    interactionRef.current = { ...pos, active: true };
     const platform = findPlatformAtPosition(pos.x, pos.y);
     if (platform) {
       setHoveredPlatform(platform.id);
@@ -821,7 +470,6 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
   const handleTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
     const pos = getInteractionPosition(e);
     if (!pos) return;
-    interactionRef.current = { ...pos, active: true };
     const platform = findPlatformAtPosition(pos.x, pos.y);
     setHoveredPlatform(platform?.id || null);
   }, []);
@@ -831,9 +479,11 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
       const platform = platformsRef.current.find(p => p.id === hoveredPlatform);
       if (platform) handlePlatformClick(platform);
     }
-    interactionRef.current.active = false;
     setHoveredPlatform(null);
   }, [hoveredPlatform, handlePlatformClick]);
+
+  // Get active platform info for display
+  const activePlatform = platformsData[activePlatformIndex];
 
   return (
     <div 
@@ -864,31 +514,26 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
         <span>Select</span>
       </div>
       
-      {/* Butterfly platform popup */}
-      {butterflyPlatform && (
+      {/* Active platform info popup */}
+      {activePlatform && !hoveredPlatform && (
         <div 
-          className="absolute pointer-events-none px-4 py-3 bg-card/95 backdrop-blur-xl border border-primary/25 rounded-xl shadow-2xl max-w-[220px]"
-          style={{
-            left: Math.min(Math.max(popupPosition.x, 115), dimensions.width - 115),
-            top: popupPosition.y - 65,
-            transform: 'translateX(-50%)',
-            animation: 'popupFloat 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-          }}
+          className="absolute top-4 left-1/2 -translate-x-1/2 px-4 py-3 bg-card/95 backdrop-blur-xl border border-primary/25 rounded-xl shadow-2xl max-w-[240px]"
+          style={{ animation: 'popupFloat 0.4s cubic-bezier(0.16, 1, 0.3, 1)' }}
         >
           <div className="flex items-start gap-2.5">
             <div 
               className="w-2.5 h-2.5 rounded-full mt-1 shrink-0"
               style={{ 
-                backgroundColor: butterflyPlatform.color,
-                boxShadow: `0 0 8px ${butterflyPlatform.color}`
+                backgroundColor: activePlatform.color,
+                boxShadow: `0 0 8px ${activePlatform.color}`
               }}
             />
             <div>
               <p className="font-display text-xs font-semibold text-foreground tracking-wide">
-                {butterflyPlatform.name}
+                {activePlatform.name}
               </p>
               <p className="text-[10px] text-muted-foreground mt-0.5 leading-relaxed">
-                {butterflyPlatform.description}
+                {activePlatform.description}
               </p>
             </div>
           </div>
@@ -896,7 +541,7 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
       )}
 
       {/* Hover tooltip */}
-      {hoveredPlatform && !butterflyPlatform && (
+      {hoveredPlatform && (
         <div 
           className="absolute bottom-16 left-1/2 -translate-x-1/2 px-4 py-2.5 bg-card/95 backdrop-blur-xl border border-border/30 rounded-lg shadow-lg"
           style={{ animation: 'tooltipIn 0.2s cubic-bezier(0.16, 1, 0.3, 1)' }}
