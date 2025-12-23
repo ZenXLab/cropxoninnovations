@@ -16,6 +16,27 @@ interface PlatformData {
   flowSteps: { label: string; icon: React.ElementType; active: boolean }[];
 }
 
+// Live animated bar heights
+const useLiveBarAnimation = (count: number) => {
+  const [barHeights, setBarHeights] = useState<number[]>(() => 
+    Array.from({ length: count }, () => 40 + Math.random() * 40)
+  );
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBarHeights(prev => prev.map((height, i) => {
+        const base = 30 + Math.sin(Date.now() / 1000 + i * 0.5) * 20;
+        const random = Math.random() * 25;
+        return Math.min(95, Math.max(20, base + random));
+      }));
+    }, 150);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return barHeights;
+};
+
 const platformsData: PlatformData[] = [
   {
     id: 'cognix',
@@ -308,6 +329,9 @@ const PlatformDashboard = ({ platformId, onOpenFullscreen, expanded = false }: P
   const [dataParticles, setDataParticles] = useState<DataParticle[]>([]);
   const prevPlatformRef = useRef<string | null>(null);
   const particleAnimationRef = useRef<number>();
+  
+  // Live animated bar heights
+  const liveBarHeights = useLiveBarAnimation(24);
 
   const currentPlatform = useMemo(() => 
     platformsData.find(p => p.id === platformId) || platformsData[0],
@@ -548,15 +572,14 @@ const PlatformDashboard = ({ platformId, onOpenFullscreen, expanded = false }: P
                   </div>
                 </div>
                 <div className="relative h-32 flex items-end gap-1">
-                  {Array.from({ length: 24 }, (_, i) => (
+                  {liveBarHeights.map((height, i) => (
                     <div
                       key={i}
-                      className="flex-1 rounded-t transition-all duration-500"
+                      className="flex-1 rounded-t transition-all duration-150"
                       style={{
-                        height: `${(40 + Math.sin(i * 0.5) * 30 + Math.random() * 20) * chartProgress}%`,
+                        height: `${height * chartProgress}%`,
                         backgroundColor: currentPlatform.color,
-                        opacity: 0.3 + (i / 24) * 0.7,
-                        transitionDelay: `${i * 25}ms`,
+                        opacity: 0.4 + (i / 24) * 0.6,
                       }}
                     />
                   ))}

@@ -15,95 +15,32 @@ const Footer = () => {
     if (!email) return;
     
     setIsSubscribing(true);
-    // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
     toast.success("Successfully subscribed to our newsletter!");
     setEmail("");
     setIsSubscribing(false);
   };
 
-  const ecosystemPlatforms = [
-    { 
-      label: "Cognix", 
-      href: "/cognix",
-      description: "Cognitive AI Platform"
-    },
-    { 
-      label: "OpZeniX", 
-      href: "/opzenix",
-      description: "Operations Intelligence"
-    },
-    { 
-      label: "TraceFlow", 
-      href: "/traceflow",
-      description: "Supply Chain Traceability"
-    },
-    { 
-      label: "Qualyx", 
-      href: "/qualyx",
-      description: "Quality Management"
-    },
-    { 
-      label: "Huminex", 
-      href: "/huminex",
-      description: "Human Capital Platform"
-    },
-    { 
-      label: "Atlas", 
-      href: "/atlas",
-      description: "Enterprise Data Infrastructure"
-    },
-    { 
-      label: "Cropxon Cloud", 
-      href: "/cropxon-cloud",
-      description: "Unified Cloud Platform"
-    },
-    { 
-      label: "Robotics", 
-      href: "/robotics",
-      description: "Autonomous Systems"
-    },
-  ];
-
-  const researchDivisions = [
-    { 
-      label: "OriginX Labs", 
-      href: "/originx-labs",
-      description: "Deep Tech R&D"
-    },
-    { 
-      label: "Zenith Studio", 
-      href: "/zenith-studio",
-      description: "Design & Experience"
-    },
-    { 
-      label: "Zenith Institute", 
-      href: "/zenith-institute",
-      description: "Education & Training"
-    },
-  ];
-
   const footerLinks = {
+    platforms: [
+      { label: "Cognix", href: "/cognix" },
+      { label: "OpZeniX", href: "/opzenix" },
+      { label: "TraceFlow", href: "/traceflow" },
+      { label: "Qualyx", href: "/qualyx" },
+      { label: "Huminex", href: "/huminex" },
+      { label: "Cropxon Cloud", href: "/cropxon-cloud" },
+    ],
     company: [
-      { label: "About Us", href: "/company" },
-      { label: "How We Think", href: "/how-we-think" },
-      { label: "Architecture", href: "/architecture" },
+      { label: "About", href: "/company" },
       { label: "Careers", href: "/careers" },
       { label: "Contact", href: "/contact" },
-    ],
-    resources: [
       { label: "Blog", href: "/blog" },
-      { label: "Design Principles", href: "/design-principles" },
-      { label: "Systems Philosophy", href: "/systems-not-products" },
-      { label: "Platform Consoles", href: "/platforms" },
     ],
     legal: [
-      { label: "Terms & Conditions", href: "/terms" },
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Cookie Policy", href: "/cookies" },
+      { label: "Privacy", href: "/privacy" },
+      { label: "Terms", href: "/terms" },
+      { label: "Cookies", href: "/cookies" },
       { label: "Security", href: "/security" },
-      { label: "Data Processing", href: "/data-processing" },
-      { label: "Acceptable Use", href: "/acceptable-use" },
     ],
   };
 
@@ -118,14 +55,14 @@ const Footer = () => {
     <footer className="relative bg-muted/30 border-t border-border/50">
       {/* Newsletter Section */}
       <div className="border-b border-border/50">
-        <div className="container mx-auto px-6 lg:px-12 py-12 lg:py-16">
-          <div className="max-w-4xl mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-12 py-10 lg:py-12">
+          <div className="max-w-4xl mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
             <div className="max-w-md">
-              <h3 className="font-display text-xl sm:text-2xl font-bold text-foreground tracking-tight">
+              <h3 className="font-display text-lg sm:text-xl font-bold text-foreground tracking-tight">
                 Stay in the loop
               </h3>
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                Subscribe to receive updates on new platforms, research publications, and company announcements.
+              <p className="mt-1.5 text-sm text-muted-foreground">
+                Updates on platforms, research, and announcements.
               </p>
             </div>
             
@@ -135,22 +72,15 @@ const Footer = () => {
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 lg:w-72 h-11 bg-background border-border/50 text-sm"
+                className="flex-1 lg:w-64 h-10 bg-background border-border/50 text-sm"
                 required
               />
               <Button 
                 type="submit" 
                 disabled={isSubscribing}
-                className="h-11 px-5 font-medium"
+                className="h-10 px-4 font-medium"
               >
-                {isSubscribing ? (
-                  <span className="animate-pulse">...</span>
-                ) : (
-                  <>
-                    Subscribe
-                    <Send className="w-4 h-4 ml-2" />
-                  </>
-                )}
+                {isSubscribing ? "..." : <><Send className="w-4 h-4" /></>}
               </Button>
             </form>
           </div>
@@ -158,32 +88,32 @@ const Footer = () => {
       </div>
 
       {/* Main Footer Content */}
-      <div className="container mx-auto px-6 lg:px-12 py-12 lg:py-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 lg:gap-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-12 py-10 lg:py-12">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-8">
           {/* Brand Column */}
-          <div className="col-span-2">
-            <Link to="/" className="inline-flex items-center gap-3 group">
+          <div className="col-span-2 sm:col-span-4 lg:col-span-2">
+            <Link to="/" className="inline-flex items-center gap-2.5 group">
               <img 
                 src={officialLogo} 
                 alt="CropXon" 
-                className="h-10 w-auto dark:brightness-0 dark:invert transition-opacity group-hover:opacity-80"
+                className="h-8 w-auto dark:brightness-0 dark:invert transition-opacity group-hover:opacity-80"
               />
               <div className="flex flex-col leading-none">
-                <span className="font-display font-bold text-foreground text-base tracking-wide">
+                <span className="font-display font-bold text-foreground text-sm tracking-wide">
                   CropXon
                 </span>
-                <span className="text-muted-foreground text-[9px] tracking-[0.12em] uppercase mt-0.5">
+                <span className="text-muted-foreground text-[8px] tracking-[0.1em] uppercase">
                   Innovations Pvt. Ltd.
                 </span>
               </div>
             </Link>
             
-            <p className="mt-5 text-sm text-muted-foreground leading-relaxed max-w-xs">
-              Building foundational technology systems for cognition, operations, and enterprise infrastructure.
+            <p className="mt-4 text-xs text-muted-foreground leading-relaxed max-w-xs">
+              Deep-tech SaaS company building foundational systems for cognition, operations, and enterprise infrastructure.
             </p>
 
             {/* Social Links */}
-            <div className="mt-6 flex items-center gap-4">
+            <div className="mt-4 flex items-center gap-4">
               {socialLinks.map((link) => (
                 <a
                   key={link.label}
@@ -198,102 +128,36 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Ecosystem Platforms Column */}
-          <div className="col-span-1">
-            <h4 className="font-display text-[11px] font-semibold text-foreground/80 tracking-[0.15em] uppercase mb-4">
-              Ecosystem
-            </h4>
-            <ul className="space-y-2">
-              {ecosystemPlatforms.slice(0, 4).map((platform) => (
-                <li key={platform.label}>
-                  <Link
-                    to={platform.href}
-                    className="group block"
-                  >
-                    <span className="text-[13px] text-muted-foreground hover:text-foreground transition-colors">
-                      {platform.label}
-                    </span>
-                    <span className="block text-[10px] text-muted-foreground/60 group-hover:text-muted-foreground/80 transition-colors">
-                      {platform.description}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* More Platforms + Research */}
-          <div className="col-span-1">
-            <h4 className="font-display text-[11px] font-semibold text-foreground/80 tracking-[0.15em] uppercase mb-4">
+          {/* Platforms */}
+          <div>
+            <h4 className="font-display text-[10px] font-semibold text-foreground/80 tracking-[0.15em] uppercase mb-3">
               Platforms
             </h4>
             <ul className="space-y-2">
-              {ecosystemPlatforms.slice(4).map((platform) => (
-                <li key={platform.label}>
-                  <Link
-                    to={platform.href}
-                    className="group block"
-                  >
-                    <span className="text-[13px] text-muted-foreground hover:text-foreground transition-colors">
-                      {platform.label}
-                    </span>
-                    <span className="block text-[10px] text-muted-foreground/60 group-hover:text-muted-foreground/80 transition-colors">
-                      {platform.description}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            
-            <h4 className="font-display text-[11px] font-semibold text-foreground/80 tracking-[0.15em] uppercase mt-6 mb-4">
-              Research
-            </h4>
-            <ul className="space-y-2">
-              {researchDivisions.map((division) => (
-                <li key={division.label}>
-                  <Link
-                    to={division.href}
-                    className="group block"
-                  >
-                    <span className="text-[13px] text-muted-foreground hover:text-foreground transition-colors">
-                      {division.label}
-                    </span>
-                    <span className="block text-[10px] text-muted-foreground/60 group-hover:text-muted-foreground/80 transition-colors">
-                      {division.description}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company & Resources */}
-          <div className="col-span-1">
-            <h4 className="font-display text-[11px] font-semibold text-foreground/80 tracking-[0.15em] uppercase mb-4">
-              Company
-            </h4>
-            <ul className="space-y-2.5">
-              {footerLinks.company.map((link) => (
+              {footerLinks.platforms.map((link) => (
                 <li key={link.label}>
                   <Link
                     to={link.href}
-                    className="text-[13px] text-muted-foreground hover:text-foreground transition-colors"
+                    className="text-xs text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {link.label}
                   </Link>
                 </li>
               ))}
             </ul>
-            
-            <h4 className="font-display text-[11px] font-semibold text-foreground/80 tracking-[0.15em] uppercase mt-6 mb-4">
-              Resources
+          </div>
+
+          {/* Company */}
+          <div>
+            <h4 className="font-display text-[10px] font-semibold text-foreground/80 tracking-[0.15em] uppercase mb-3">
+              Company
             </h4>
-            <ul className="space-y-2.5">
-              {footerLinks.resources.map((link) => (
+            <ul className="space-y-2">
+              {footerLinks.company.map((link) => (
                 <li key={link.label}>
                   <Link
                     to={link.href}
-                    className="text-[13px] text-muted-foreground hover:text-foreground transition-colors"
+                    className="text-xs text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -303,16 +167,16 @@ const Footer = () => {
           </div>
 
           {/* Legal */}
-          <div className="col-span-1">
-            <h4 className="font-display text-[11px] font-semibold text-foreground/80 tracking-[0.15em] uppercase mb-4">
+          <div>
+            <h4 className="font-display text-[10px] font-semibold text-foreground/80 tracking-[0.15em] uppercase mb-3">
               Legal
             </h4>
-            <ul className="space-y-2.5">
+            <ul className="space-y-2">
               {footerLinks.legal.map((link) => (
                 <li key={link.label}>
                   <Link
                     to={link.href}
-                    className="text-[13px] text-muted-foreground hover:text-foreground transition-colors"
+                    className="text-xs text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -325,26 +189,19 @@ const Footer = () => {
 
       {/* Bottom Bar */}
       <div className="border-t border-border/50">
-        <div className="container mx-auto px-6 lg:px-12 py-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <img 
-                src={officialLogo} 
-                alt="CropXon" 
-                className="h-5 w-auto opacity-50 dark:brightness-0 dark:invert"
-              />
-              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
-                <span className="text-[11px] text-muted-foreground/60">
-                  CropXon Innovations Pvt. Ltd.
-                </span>
-                <span className="hidden sm:inline text-muted-foreground/30">·</span>
-                <span className="font-mono text-[10px] text-muted-foreground/50 tracking-wide">
-                  CIN: U62010OD2025PTC051089
-                </span>
-              </div>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-12 py-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-3 gap-y-1">
+              <span className="text-[10px] text-muted-foreground/60">
+                CropXon Innovations Pvt. Ltd.
+              </span>
+              <span className="hidden sm:inline text-muted-foreground/30">·</span>
+              <span className="font-mono text-[9px] text-muted-foreground/50">
+                CIN: U62010OD2025PTC051089
+              </span>
             </div>
             
-            <p className="text-[11px] text-muted-foreground/50">
+            <p className="text-[10px] text-muted-foreground/50">
               © {new Date().getFullYear()} All rights reserved.
             </p>
           </div>

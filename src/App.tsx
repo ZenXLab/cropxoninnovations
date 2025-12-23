@@ -10,7 +10,6 @@ import LoadingScreen from "@/components/LoadingScreen";
 import ScrollProgress from "@/components/ScrollProgress";
 import ScrollToTop from "@/components/ScrollToTop";
 import PWAInstallBanner from "@/components/PWAInstallBanner";
-import SurveillanceDrone from "@/components/SurveillanceDrone";
 import PushNotificationPrompt from "@/components/PushNotificationPrompt";
 import Index from "./pages/Index";
 import CompanyProfile from "./pages/CompanyProfile";
@@ -35,6 +34,7 @@ import ZenithStudio from "./pages/products/ZenithStudio";
 import NotFound from "./pages/NotFound";
 import Blog from "./pages/Blog";
 import BlogArticle from "./pages/BlogArticle";
+import Search from "./pages/Search";
 import TermsAndConditions from "./pages/policies/TermsAndConditions";
 import PrivacyPolicy from "./pages/policies/PrivacyPolicy";
 import RefundPolicy from "./pages/policies/RefundPolicy";
@@ -99,6 +99,7 @@ const AnimatedRoutes = () => {
           <Route path="/zenith-studio" element={<ZenithStudio />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogArticle />} />
+          <Route path="/search" element={<Search />} />
           <Route path="/terms" element={<TermsAndConditions />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/refund-policy" element={<RefundPolicy />} />
@@ -130,7 +131,6 @@ const App = () => {
               {!isInitialLoading && <AnimatedRoutes />}
               {!isInitialLoading && <PWAInstallBanner />}
               {!isInitialLoading && <PushNotificationPrompt />}
-              {!isInitialLoading && <SurveillanceDrone />}
             </BrowserRouter>
           </TooltipProvider>
         </QueryClientProvider>
