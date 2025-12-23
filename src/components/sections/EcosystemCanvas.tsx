@@ -51,7 +51,11 @@ const platformsData: PlatformData[] = [
   { id: 'originx-labs', name: 'OriginX Labs', category: 'Research', description: 'Experimental research and innovation lab', radius: 38, color: 'hsl(25, 75%, 52%)', href: 'https://originxlabs.com', external: true },
 ];
 
-const EcosystemCanvas = () => {
+interface EcosystemCanvasProps {
+  onPlatformHover?: (platformId: string | null) => void;
+}
+
+const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number>();
@@ -662,11 +666,12 @@ const EcosystemCanvas = () => {
         
         drawButterfly(ctx, butterfly);
 
-        // Update popup state
+        // Update popup state and notify parent
         if (restingButterflyData && !isSpinning) {
           setButterflyPlatform(restingButterflyData.platform);
           setPopupPosition({ x: restingButterflyData.x, y: restingButterflyData.y });
-        } else {
+          onPlatformHover?.(restingButterflyData.platform.id);
+        } else if (!hoveredPlatform) {
           setButterflyPlatform(null);
         }
       }
@@ -728,10 +733,11 @@ const EcosystemCanvas = () => {
     if (platform) {
       setHoveredPlatform(platform.id);
       setIsSpinning(false);
+      onPlatformHover?.(platform.id);
     } else {
       setHoveredPlatform(null);
     }
-  }, []);
+  }, [onPlatformHover]);
 
   const handleMouseLeave = useCallback(() => {
     interactionRef.current.active = false;
