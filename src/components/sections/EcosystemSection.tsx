@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useScrollReveal, getStaggerDelay } from "@/hooks/useScrollReveal";
 import ProductTransition from "@/components/ProductTransition";
-import { Cpu, Cloud, FlaskConical, Boxes, Settings, GraduationCap, ArrowUpRight, Sparkles } from "lucide-react";
+import { Brain, ShieldCheck, Users, Settings, Boxes, Building2, GraduationCap, FlaskConical, ArrowUpRight, Sparkles } from "lucide-react";
 
 interface Product {
   id: string;
@@ -21,24 +21,63 @@ interface Product {
 
 const products: Product[] = [
   {
-    id: "atlas",
-    name: "ATLAS",
-    tagline: "Workforce Operating System",
-    description: "A unified platform for managing workforce operations, scheduling, and resource allocation.",
-    capabilities: ["Workforce Analytics", "Resource Optimization", "Predictive Scheduling"],
+    id: "cognix",
+    name: "COGNIX",
+    tagline: "Software Cognition & Architecture Intelligence",
+    description: "AI-powered platform that understands codebases, architectures, and business workflows at a system level.",
+    capabilities: ["Codebase Analysis", "Architecture Maps", "Risk Detection", "Migration Guide"],
     status: "BETA",
     statusDate: "Q1 2025",
-    link: "/atlas",
-    externalUrl: "https://atlas.cropxon.com",
-    icon: Cpu,
+    link: "/cognix",
+    externalUrl: "https://getcognix.io",
+    icon: Brain,
     color: "hsl(220, 70%, 55%)",
+  },
+  {
+    id: "qualyx",
+    name: "QUALYX",
+    tagline: "QA Automation & Quality Intelligence",
+    description: "Intelligent QA automation platform that transforms testing into a continuous quality feedback system.",
+    capabilities: ["Test Generation", "Regression Detection", "Pattern Learning", "CI/CD Integration"],
+    status: "LIVE",
+    statusDate: "Q4 2024",
+    link: "/qualyx",
+    externalUrl: "https://getqualyx.com",
+    icon: ShieldCheck,
+    color: "hsl(175, 60%, 45%)",
+  },
+  {
+    id: "huminex",
+    name: "HUMINEX",
+    tagline: "Workforce OS & Human Intelligence",
+    description: "Modern workforce operating system that manages people, roles, skills, and organizational intelligence.",
+    capabilities: ["HRMS & Payroll", "Org Structure", "Skill Mapping", "Workforce Analytics"],
+    status: "BETA",
+    statusDate: "Q1 2025",
+    link: "/huminex",
+    externalUrl: "https://gethuminex.com",
+    icon: Users,
+    color: "hsl(340, 65%, 55%)",
+  },
+  {
+    id: "opzenix",
+    name: "OPZENIX",
+    tagline: "DevOps · DevSecOps · MLOps · AIOps · LLMOps",
+    description: "Intelligent operations and execution platform for modern software and AI systems.",
+    capabilities: ["CI/CD Orchestration", "Infra Management", "Security Automation", "ML Lifecycle"],
+    status: "LIVE",
+    statusDate: "Live",
+    link: "/opzenix",
+    externalUrl: "https://opzenix.com",
+    icon: Settings,
+    color: "hsl(260, 60%, 58%)",
   },
   {
     id: "traceflow",
     name: "TRACEFLOW",
-    tagline: "Digital Cognition Infrastructure",
-    description: "Infrastructure layer enabling intelligent decision-making and automated reasoning.",
-    capabilities: ["Cognitive Mapping", "Decision Automation", "Process Intelligence"],
+    tagline: "Digital Cognition & Infrastructure Intelligence",
+    description: "Unifies every digital signal into a single, trusted intelligence layer for mission-critical systems.",
+    capabilities: ["Signal Ingestion", "Cross-Layer Correlation", "Zero-Trust Access", "Hybrid Cloud"],
     status: "LIVE",
     statusDate: "Q4 2024",
     link: "/traceflow",
@@ -47,56 +86,43 @@ const products: Product[] = [
     color: "hsl(200, 70%, 50%)",
   },
   {
-    id: "originx",
-    name: "ORIGINX LABS",
-    tagline: "Research & Development",
-    description: "Our research division focused on pioneering new technologies and deep-tech innovations.",
-    capabilities: ["AI/ML Research", "Prototype Development", "Tech Transfer"],
-    status: "ACTIVE",
-    statusDate: "Active R&D",
-    link: "/originx-labs",
-    externalUrl: "https://originxlabs.com",
-    icon: FlaskConical,
-    color: "hsl(25, 75%, 52%)",
-  },
-  {
-    id: "cloud",
-    name: "CROPXON CLOUD",
-    tagline: "Infrastructure as a Service",
-    description: "Scalable infrastructure-as-a-service designed to grow from developers to enterprise.",
-    capabilities: ["Compute Resources", "Storage Solutions", "Network Infrastructure"],
+    id: "zenith-studio",
+    name: "ZENITH STUDIO",
+    tagline: "Business & Content Creation Platform",
+    description: "Multi-tenant creation platform for building digital business experiences with CMS, LMS, and canvas builders.",
+    capabilities: ["CMS & LMS", "Canvas Builders", "Workflow Automation", "API Extensible"],
     status: "LIVE",
-    statusDate: "Live (SMB)",
-    link: "/cropxon-cloud",
-    externalUrl: "https://cropxoncloud.com",
-    icon: Cloud,
-    color: "hsl(260, 60%, 58%)",
+    statusDate: "Live",
+    link: "/zenith-studio",
+    externalUrl: "https://getzenith.io",
+    icon: Building2,
+    color: "hsl(280, 55%, 55%)",
   },
   {
-    id: "opzenix",
-    name: "OPZENIX",
-    tagline: "Autonomous Systems",
-    description: "Advanced robotics and autonomous systems division for next-generation automation and intelligent machine systems.",
-    capabilities: ["Autonomous Navigation", "Industrial Automation", "Machine Intelligence", "Sensor Fusion"],
-    status: "PLANNED",
-    statusDate: "Future Roadmap",
-    link: "/robotics",
-    externalUrl: "https://opzenix.com",
-    icon: Settings,
-    color: "hsl(175, 60%, 45%)",
-  },
-  {
-    id: "zenith",
+    id: "zenith-institute",
     name: "ZENITH INSTITUTE",
-    tagline: "Learning Division",
-    description: "Building world-class engineers from India with industry-relevant education and real experience.",
-    capabilities: ["Engineering Programs", "Industry Labs", "Verified Credentials", "Placement Support"],
+    tagline: "Learning, Enablement & Certification",
+    description: "Learning and development arm focused on upskilling professionals and organizations with certified programs.",
+    capabilities: ["Learning Paths", "Certifications", "Labs & Projects", "Mentorship"],
     status: "ACTIVE",
     statusDate: "Enrolling Now",
     link: "/zenith-institute",
     externalUrl: "https://zenithinstitute.in",
     icon: GraduationCap,
     color: "hsl(145, 55%, 45%)",
+  },
+  {
+    id: "originx-labs",
+    name: "ORIGINX LABS",
+    tagline: "Research & Advanced Innovation Division",
+    description: "Deep-tech research and innovation lab for AI agents, system cognition, and future technology incubation.",
+    capabilities: ["AI Agent Research", "System Cognition", "Experimentation", "Tech Incubation"],
+    status: "ACTIVE",
+    statusDate: "Active R&D",
+    link: "/originx-labs",
+    externalUrl: "https://originxlabs.com",
+    icon: FlaskConical,
+    color: "hsl(25, 75%, 52%)",
   },
 ];
 
@@ -138,14 +164,14 @@ const EcosystemSection = () => {
               THE CROPXON ECOSYSTEM
             </h2>
             <p className="text-sm lg:text-base max-w-2xl mx-auto text-muted-foreground">
-              Foundational platforms powering enterprise digital transformation
+              8 foundational platforms powering enterprise digital transformation
             </p>
           </div>
 
           {/* Products Grid */}
           <div 
             ref={contentRef}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6"
           >
             {products.map((product, index) => {
               const Icon = product.icon;
@@ -162,7 +188,7 @@ const EcosystemSection = () => {
                   onMouseLeave={() => setActiveProduct(null)}
                 >
                   <div
-                    className={`relative p-6 lg:p-8 rounded-2xl border bg-card/80 backdrop-blur-sm transition-all duration-500 h-full overflow-hidden ${
+                    className={`relative p-5 lg:p-6 rounded-2xl border bg-card/80 backdrop-blur-sm transition-all duration-500 h-full overflow-hidden ${
                       isActive 
                         ? "border-primary/50 shadow-2xl scale-[1.02]" 
                         : "border-border/50 hover:border-primary/30 hover:shadow-lg"
@@ -197,10 +223,10 @@ const EcosystemSection = () => {
                     )}
 
                     {/* Header */}
-                    <div className="relative flex items-start justify-between mb-5">
+                    <div className="relative flex items-start justify-between mb-4">
                       <div className="flex items-center gap-3">
                         <div 
-                          className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-500 ${
+                          className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-500 ${
                             isActive ? 'scale-110' : 'group-hover:scale-105'
                           }`}
                           style={{ 
@@ -211,49 +237,51 @@ const EcosystemSection = () => {
                           <Icon className={`w-5 h-5 transition-colors ${isActive ? 'text-white' : 'text-foreground'}`} />
                         </div>
                         <div>
-                          <h3 className="font-display text-lg font-bold text-foreground">
+                          <h3 className="font-display text-sm font-bold text-foreground">
                             {product.name}
                           </h3>
-                          <p className="font-mono text-[10px] text-muted-foreground">
+                          <p className="font-mono text-[9px] text-muted-foreground leading-tight">
                             {product.tagline}
                           </p>
                         </div>
                       </div>
-                      <span 
-                        className={`text-[9px] px-2 py-1 rounded-full font-mono font-medium shrink-0 transition-all duration-300 ${
-                          isActive 
-                            ? 'bg-primary/20 text-primary border border-primary/30' 
-                            : 'bg-muted/50 text-muted-foreground border border-border/50'
-                        }`}
-                      >
-                        {product.status}
-                      </span>
                     </div>
 
+                    {/* Status Badge */}
+                    <span 
+                      className={`inline-block text-[9px] px-2 py-1 rounded-full font-mono font-medium mb-3 transition-all duration-300 ${
+                        isActive 
+                          ? 'bg-primary/20 text-primary border border-primary/30' 
+                          : 'bg-muted/50 text-muted-foreground border border-border/50'
+                      }`}
+                    >
+                      {product.status} · {product.statusDate}
+                    </span>
+
                     {/* Description */}
-                    <p className="relative text-sm text-muted-foreground mb-5 leading-relaxed">
+                    <p className="relative text-xs text-muted-foreground mb-4 leading-relaxed line-clamp-2">
                       {product.description}
                     </p>
 
                     {/* Capabilities with micro-animations */}
-                    <ul className="relative space-y-2 mb-6">
-                      {product.capabilities.map((cap, i) => (
+                    <ul className="relative space-y-1.5 mb-5">
+                      {product.capabilities.slice(0, 3).map((cap, i) => (
                         <li 
                           key={i} 
-                          className={`flex items-center gap-2.5 text-xs transition-all duration-300`}
+                          className={`flex items-center gap-2 text-[11px] transition-all duration-300`}
                           style={{
                             transitionDelay: isActive ? `${i * 50}ms` : '0ms',
                             transform: isActive ? 'translateX(4px)' : 'translateX(0)'
                           }}
                         >
                           <Sparkles 
-                            className={`w-3 h-3 shrink-0 transition-all duration-300 ${
+                            className={`w-2.5 h-2.5 shrink-0 transition-all duration-300 ${
                               isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
                             }`}
                             style={{ color: product.color, transitionDelay: `${i * 50}ms` }}
                           />
                           <span 
-                            className={`w-1.5 h-1.5 rounded-full shrink-0 transition-all duration-300 ${
+                            className={`w-1 h-1 rounded-full shrink-0 transition-all duration-300 ${
                               isActive ? 'opacity-0 scale-0' : 'opacity-100 scale-100'
                             }`}
                             style={{ backgroundColor: product.color }}
@@ -265,23 +293,12 @@ const EcosystemSection = () => {
                       ))}
                     </ul>
 
-                    {/* Status with pulse animation */}
-                    <div className="relative flex items-center gap-2 mb-5">
-                      <div 
-                        className={`w-2 h-2 rounded-full ${product.status === 'LIVE' ? 'animate-pulse' : ''}`}
-                        style={{ backgroundColor: product.color }}
-                      />
-                      <p className="text-xs font-mono text-muted-foreground">
-                        {product.statusDate}
-                      </p>
-                    </div>
-
                     {/* Actions */}
-                    <div className="relative flex gap-3">
+                    <div className="relative flex gap-2">
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className={`text-xs flex-1 group/btn transition-all duration-300 ${
+                        className={`text-[10px] flex-1 h-8 group/btn transition-all duration-300 ${
                           isActive ? 'border-primary/30 hover:bg-primary/5' : ''
                         }`} 
                         asChild
@@ -294,7 +311,7 @@ const EcosystemSection = () => {
                       <Button 
                         variant="default"
                         size="sm"
-                        className="text-xs flex-1 group/btn"
+                        className="text-[10px] flex-1 h-8 group/btn"
                         onClick={() => handleAccessClick(product)}
                       >
                         Access
