@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Send } from "lucide-react";
+import { Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
@@ -22,15 +22,68 @@ const Footer = () => {
     setIsSubscribing(false);
   };
 
+  const ecosystemPlatforms = [
+    { 
+      label: "Cognix", 
+      href: "/cognix",
+      description: "Cognitive AI Platform"
+    },
+    { 
+      label: "OpZeniX", 
+      href: "/opzenix",
+      description: "Operations Intelligence"
+    },
+    { 
+      label: "TraceFlow", 
+      href: "/traceflow",
+      description: "Supply Chain Traceability"
+    },
+    { 
+      label: "Qualyx", 
+      href: "/qualyx",
+      description: "Quality Management"
+    },
+    { 
+      label: "Huminex", 
+      href: "/huminex",
+      description: "Human Capital Platform"
+    },
+    { 
+      label: "Atlas", 
+      href: "/atlas",
+      description: "Enterprise Data Infrastructure"
+    },
+    { 
+      label: "Cropxon Cloud", 
+      href: "/cropxon-cloud",
+      description: "Unified Cloud Platform"
+    },
+    { 
+      label: "Robotics", 
+      href: "/robotics",
+      description: "Autonomous Systems"
+    },
+  ];
+
+  const researchDivisions = [
+    { 
+      label: "OriginX Labs", 
+      href: "/originx-labs",
+      description: "Deep Tech R&D"
+    },
+    { 
+      label: "Zenith Studio", 
+      href: "/zenith-studio",
+      description: "Design & Experience"
+    },
+    { 
+      label: "Zenith Institute", 
+      href: "/zenith-institute",
+      description: "Education & Training"
+    },
+  ];
+
   const footerLinks = {
-    ecosystem: [
-      { label: "Cognix", href: "https://cognix.cropxon.com", external: true },
-      { label: "OpZeniX", href: "https://opzenix.com", external: true },
-      { label: "TraceFlow", href: "https://traceflow.cropxon.com", external: true },
-      { label: "Zenith Core", href: "https://zenith.cropxon.com", external: true },
-      { label: "Zenith Institute", href: "/zenith-institute" },
-      { label: "OriginX Labs", href: "https://originxlabs.com", external: true },
-    ],
     company: [
       { label: "About Us", href: "/company" },
       { label: "How We Think", href: "/how-we-think" },
@@ -49,6 +102,8 @@ const Footer = () => {
       { label: "Privacy Policy", href: "/privacy" },
       { label: "Cookie Policy", href: "/cookies" },
       { label: "Security", href: "/security" },
+      { label: "Data Processing", href: "/data-processing" },
+      { label: "Acceptable Use", href: "/acceptable-use" },
     ],
   };
 
@@ -104,7 +159,7 @@ const Footer = () => {
 
       {/* Main Footer Content */}
       <div className="container mx-auto px-6 lg:px-12 py-12 lg:py-16">
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-8 lg:gap-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 lg:gap-10">
           {/* Brand Column */}
           <div className="col-span-2">
             <Link to="/" className="inline-flex items-center gap-3 group">
@@ -143,38 +198,128 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Link Columns */}
-          {Object.entries(footerLinks).map(([category, links]) => (
-            <div key={category}>
-              <h4 className="font-display text-[11px] font-semibold text-foreground/80 tracking-[0.15em] uppercase mb-4">
-                {category}
-              </h4>
-              <ul className="space-y-2.5">
-                {links.map((link) => (
-                  <li key={link.label}>
-                    {link.external ? (
-                      <a
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[13px] text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1 group"
-                      >
-                        {link.label}
-                        <ArrowRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover:opacity-50 group-hover:translate-x-0 transition-all" />
-                      </a>
-                    ) : (
-                      <Link
-                        to={link.href}
-                        className="text-[13px] text-muted-foreground hover:text-foreground transition-colors"
-                      >
-                        {link.label}
-                      </Link>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {/* Ecosystem Platforms Column */}
+          <div className="col-span-1">
+            <h4 className="font-display text-[11px] font-semibold text-foreground/80 tracking-[0.15em] uppercase mb-4">
+              Ecosystem
+            </h4>
+            <ul className="space-y-2">
+              {ecosystemPlatforms.slice(0, 4).map((platform) => (
+                <li key={platform.label}>
+                  <Link
+                    to={platform.href}
+                    className="group block"
+                  >
+                    <span className="text-[13px] text-muted-foreground hover:text-foreground transition-colors">
+                      {platform.label}
+                    </span>
+                    <span className="block text-[10px] text-muted-foreground/60 group-hover:text-muted-foreground/80 transition-colors">
+                      {platform.description}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* More Platforms + Research */}
+          <div className="col-span-1">
+            <h4 className="font-display text-[11px] font-semibold text-foreground/80 tracking-[0.15em] uppercase mb-4">
+              Platforms
+            </h4>
+            <ul className="space-y-2">
+              {ecosystemPlatforms.slice(4).map((platform) => (
+                <li key={platform.label}>
+                  <Link
+                    to={platform.href}
+                    className="group block"
+                  >
+                    <span className="text-[13px] text-muted-foreground hover:text-foreground transition-colors">
+                      {platform.label}
+                    </span>
+                    <span className="block text-[10px] text-muted-foreground/60 group-hover:text-muted-foreground/80 transition-colors">
+                      {platform.description}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            
+            <h4 className="font-display text-[11px] font-semibold text-foreground/80 tracking-[0.15em] uppercase mt-6 mb-4">
+              Research
+            </h4>
+            <ul className="space-y-2">
+              {researchDivisions.map((division) => (
+                <li key={division.label}>
+                  <Link
+                    to={division.href}
+                    className="group block"
+                  >
+                    <span className="text-[13px] text-muted-foreground hover:text-foreground transition-colors">
+                      {division.label}
+                    </span>
+                    <span className="block text-[10px] text-muted-foreground/60 group-hover:text-muted-foreground/80 transition-colors">
+                      {division.description}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Company & Resources */}
+          <div className="col-span-1">
+            <h4 className="font-display text-[11px] font-semibold text-foreground/80 tracking-[0.15em] uppercase mb-4">
+              Company
+            </h4>
+            <ul className="space-y-2.5">
+              {footerLinks.company.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    to={link.href}
+                    className="text-[13px] text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            
+            <h4 className="font-display text-[11px] font-semibold text-foreground/80 tracking-[0.15em] uppercase mt-6 mb-4">
+              Resources
+            </h4>
+            <ul className="space-y-2.5">
+              {footerLinks.resources.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    to={link.href}
+                    className="text-[13px] text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Legal */}
+          <div className="col-span-1">
+            <h4 className="font-display text-[11px] font-semibold text-foreground/80 tracking-[0.15em] uppercase mb-4">
+              Legal
+            </h4>
+            <ul className="space-y-2.5">
+              {footerLinks.legal.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    to={link.href}
+                    className="text-[13px] text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
 
