@@ -10,7 +10,7 @@ import LoadingScreen from "@/components/LoadingScreen";
 import ScrollProgress from "@/components/ScrollProgress";
 import ScrollToTop from "@/components/ScrollToTop";
 import PWAInstallBanner from "@/components/PWAInstallBanner";
-import CookieConsent from "@/components/CookieConsent";
+
 import PushNotificationPrompt from "@/components/PushNotificationPrompt";
 import Index from "./pages/Index";
 import CompanyProfile from "./pages/CompanyProfile";
@@ -125,7 +125,6 @@ const App = () => {
             <BrowserRouter>
               {!isInitialLoading && <AnimatedRoutes />}
               {!isInitialLoading && <PWAInstallBanner />}
-              {!isInitialLoading && <CookieConsent />}
               {!isInitialLoading && <PushNotificationPrompt />}
             </BrowserRouter>
           </TooltipProvider>

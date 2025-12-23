@@ -1,7 +1,32 @@
+# Cropxon Innovations - Deep Tech SaaS Company
+# https://cropxon.com
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://cropxon.com/sitemap.xml
+
+# Crawl-delay for responsible crawling
+Crawl-delay: 1
+
+# Allow all major search engines
 User-agent: Googlebot
 Allow: /
 
 User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
 Allow: /
 
 User-agent: Twitterbot
@@ -10,7 +35,6 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
-Allow: /
-
-Sitemap: https://cropxon.com/sitemap.xml
+# Block common non-essential paths
+Disallow: /api/
+Disallow: /*.json$
