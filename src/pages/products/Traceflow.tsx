@@ -433,7 +433,7 @@ const Traceflow = () => {
             `}</style>
           </section>
 
-          {/* Trusted Industries */}
+          {/* Trusted Industries - Glassmorphism Style */}
           <section className="py-12 sm:py-16 border-b border-border/30">
             <div className="container mx-auto px-4 sm:px-6 lg:px-12">
               <p className="text-center text-xs sm:text-sm text-muted-foreground font-mono uppercase tracking-wider mb-6 sm:mb-8">
@@ -442,13 +442,34 @@ const Traceflow = () => {
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
                 {industries.map((industry, index) => {
                   const Icon = industry.icon;
+                  const colors = [
+                    'hsl(220, 70%, 55%)',
+                    'hsl(175, 60%, 45%)',
+                    'hsl(340, 65%, 55%)',
+                    'hsl(145, 55%, 45%)',
+                    'hsl(25, 75%, 52%)',
+                    'hsl(280, 55%, 55%)',
+                  ];
+                  const color = colors[index % colors.length];
+                  
                   return (
                     <div
                       key={industry.name}
-                      className="flex flex-col items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-card/50 rounded-xl border border-border/30 hover:border-primary/30 transition-all duration-300"
+                      className="flex flex-col items-center gap-3 sm:gap-4 p-4 sm:p-5 rounded-2xl border border-border/20 backdrop-blur-xl transition-all duration-300"
+                      style={{
+                        background: `linear-gradient(135deg, ${color.replace(')', ' / 0.08)')}, hsl(var(--card) / 0.6))`,
+                      }}
                     >
-                      <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary/70" />
-                      <span className="text-[10px] sm:text-xs text-center text-muted-foreground">{industry.name}</span>
+                      <div 
+                        className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center backdrop-blur-xl border border-border/30"
+                        style={{
+                          background: `linear-gradient(135deg, ${color.replace(')', ' / 0.2)')}, transparent)`,
+                          boxShadow: `0 8px 32px ${color.replace(')', ' / 0.15)')}`,
+                        }}
+                      >
+                        <Icon className="w-5 h-5 sm:w-6 sm:h-6" style={{ color }} />
+                      </div>
+                      <span className="text-[10px] sm:text-xs text-center font-medium text-foreground/80">{industry.name}</span>
                     </div>
                   );
                 })}

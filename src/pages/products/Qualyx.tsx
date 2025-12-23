@@ -240,6 +240,86 @@ const Qualyx = () => {
             </div>
           </section>
 
+          {/* Test Pipeline Heatmap Visualization */}
+          <section className="py-16 sm:py-20 border-b border-border/30 overflow-hidden">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+              <div className="text-center mb-10 sm:mb-12">
+                <p className="font-mono text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider mb-2">
+                  Real-time Test Intelligence
+                </p>
+                <h2 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold text-foreground mb-3">
+                  Test Pipeline Heatmap
+                </h2>
+                <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl mx-auto">
+                  Visualize test health across your entire codebase in real-time
+                </p>
+              </div>
+
+              {/* Heatmap Grid */}
+              <div className="relative p-6 sm:p-8 bg-card/60 backdrop-blur-xl rounded-2xl border border-border/40">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse" />
+                    <span className="text-xs font-mono text-muted-foreground">Live Test Analysis</span>
+                  </div>
+                  <div className="flex items-center gap-4 text-[10px] font-mono text-muted-foreground">
+                    <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm bg-green-500/80" /> Passing</span>
+                    <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm bg-yellow-500/80" /> Flaky</span>
+                    <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm bg-red-500/80" /> Failing</span>
+                  </div>
+                </div>
+
+                {/* Heatmap */}
+                <div className="grid grid-cols-12 sm:grid-cols-16 lg:grid-cols-24 gap-1 sm:gap-1.5 mb-6">
+                  {Array.from({ length: 96 }).map((_, i) => {
+                    const rand = Math.random();
+                    const status = rand > 0.15 ? 'passing' : rand > 0.05 ? 'flaky' : 'failing';
+                    const colors = {
+                      passing: 'hsl(145, 70%, 45%)',
+                      flaky: 'hsl(45, 90%, 50%)',
+                      failing: 'hsl(0, 70%, 50%)',
+                    };
+                    const opacities = [0.4, 0.6, 0.8, 1];
+                    const opacity = opacities[Math.floor(Math.random() * opacities.length)];
+                    
+                    return (
+                      <div
+                        key={i}
+                        className="aspect-square rounded-sm transition-all duration-500 hover:scale-110"
+                        style={{
+                          backgroundColor: colors[status],
+                          opacity,
+                          animationDelay: `${i * 20}ms`,
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+
+                {/* Module Labels */}
+                <div className="grid grid-cols-4 sm:grid-cols-6 gap-3">
+                  {['auth-service', 'payment-api', 'user-module', 'order-flow', 'inventory', 'analytics'].map((module, i) => (
+                    <div key={module} className="p-3 bg-muted/30 rounded-xl border border-border/20">
+                      <p className="text-[9px] font-mono text-muted-foreground uppercase mb-1">{module}</p>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-bold text-foreground">{85 + Math.floor(Math.random() * 15)}%</span>
+                        <div className="flex-1 h-1 bg-muted rounded-full overflow-hidden">
+                          <div 
+                            className="h-full rounded-full" 
+                            style={{ 
+                              width: `${85 + Math.floor(Math.random() * 15)}%`, 
+                              backgroundColor: 'hsl(175, 60%, 45%)' 
+                            }} 
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* Features Section */}
           <section className="py-20 bg-muted/30">
             <div className="container mx-auto px-4 sm:px-6 lg:px-12">

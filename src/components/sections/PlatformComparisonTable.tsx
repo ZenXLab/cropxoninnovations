@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Brain, ShieldCheck, Users, Settings, Boxes, Building2, GraduationCap, FlaskConical, Check, Minus, ArrowUpRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -27,7 +26,6 @@ const features = [
 ];
 
 const PlatformComparisonTable = () => {
-  const [hoveredPlatform, setHoveredPlatform] = useState<string | null>(null);
   const { ref, isVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.1 });
 
   return (
@@ -60,20 +58,19 @@ const PlatformComparisonTable = () => {
               </div>
               {platforms.map((platform) => {
                 const Icon = platform.icon;
-                const isHovered = hoveredPlatform === platform.id;
                 return (
                   <div
                     key={platform.id}
-                    className={`p-3 bg-card/80 transition-all duration-300 cursor-pointer ${isHovered ? 'bg-primary/5' : ''}`}
-                    onMouseEnter={() => setHoveredPlatform(platform.id)}
-                    onMouseLeave={() => setHoveredPlatform(null)}
+                    className="p-3 bg-card/80"
                   >
                     <Link to={platform.link} className="flex flex-col items-center gap-2 group">
                       <div
-                        className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 ${isHovered ? 'scale-110' : ''}`}
-                        style={{ backgroundColor: isHovered ? platform.color : `${platform.color.replace(')', ' / 0.15)')}` }}
+                        className="w-10 h-10 rounded-xl flex items-center justify-center backdrop-blur-xl border border-border/30"
+                        style={{ 
+                          background: `linear-gradient(135deg, ${platform.color.replace(')', ' / 0.15)')}, transparent)`,
+                        }}
                       >
-                        <Icon className={`w-4 h-4 ${isHovered ? 'text-white' : ''}`} style={{ color: isHovered ? 'white' : platform.color }} />
+                        <Icon className="w-5 h-5" style={{ color: platform.color }} />
                       </div>
                       <span className="text-[10px] font-medium text-center text-foreground group-hover:text-primary transition-colors">
                         {platform.name}
@@ -93,16 +90,16 @@ const PlatformComparisonTable = () => {
                 {feature.values.map((value, i) => (
                   <div
                     key={i}
-                    className={`p-3 bg-card/40 flex items-center justify-center transition-all duration-300 ${
-                      hoveredPlatform === platforms[i].id ? 'bg-primary/5' : ''
-                    }`}
-                    onMouseEnter={() => setHoveredPlatform(platforms[i].id)}
-                    onMouseLeave={() => setHoveredPlatform(null)}
+                    className="p-3 bg-card/40 flex items-center justify-center"
                   >
                     {value ? (
-                      <Check className="w-4 h-4 text-green-500" />
+                      <div className="w-5 h-5 rounded-full bg-green-500/15 flex items-center justify-center">
+                        <Check className="w-3 h-3 text-green-500" />
+                      </div>
                     ) : (
-                      <Minus className="w-4 h-4 text-muted-foreground/30" />
+                      <div className="w-5 h-5 rounded-full bg-muted/30 flex items-center justify-center">
+                        <Minus className="w-3 h-3 text-muted-foreground/40" />
+                      </div>
                     )}
                   </div>
                 ))}
@@ -117,11 +114,7 @@ const PlatformComparisonTable = () => {
               {platforms.map((platform) => (
                 <div
                   key={platform.id}
-                  className={`p-3 bg-card/80 flex items-center justify-center transition-all duration-300 ${
-                    hoveredPlatform === platform.id ? 'bg-primary/5' : ''
-                  }`}
-                  onMouseEnter={() => setHoveredPlatform(platform.id)}
-                  onMouseLeave={() => setHoveredPlatform(null)}
+                  className="p-3 bg-card/80 flex items-center justify-center"
                 >
                   <span
                     className="text-[9px] px-2 py-0.5 rounded-full font-mono"
@@ -159,7 +152,6 @@ const PlatformComparisonTable = () => {
         <div className="lg:hidden grid sm:grid-cols-2 gap-4">
           {platforms.map((platform) => {
             const Icon = platform.icon;
-            const platformFeatures = features.filter((f, i) => f.values[platforms.findIndex(p => p.id === platform.id)]);
             
             return (
               <Link
@@ -169,8 +161,10 @@ const PlatformComparisonTable = () => {
               >
                 <div className="flex items-center gap-3 mb-3">
                   <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center"
-                    style={{ backgroundColor: `${platform.color.replace(')', ' / 0.15)')}` }}
+                    className="w-11 h-11 rounded-xl flex items-center justify-center backdrop-blur-xl border border-border/30"
+                    style={{ 
+                      background: `linear-gradient(135deg, ${platform.color.replace(')', ' / 0.15)')}, transparent)`,
+                    }}
                   >
                     <Icon className="w-5 h-5" style={{ color: platform.color }} />
                   </div>
@@ -190,7 +184,7 @@ const PlatformComparisonTable = () => {
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-1">
-                  {features.slice(0, 4).map((f, i) => (
+                  {features.slice(0, 4).map((f) => (
                     f.values[platforms.findIndex(p => p.id === platform.id)] && (
                       <span key={f.name} className="text-[9px] px-2 py-0.5 bg-muted/50 rounded-full text-muted-foreground">
                         {f.name}
