@@ -62,7 +62,7 @@ const FullscreenDashboardModal = ({ platform, isOpen, onClose }: FullscreenDashb
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-[95vw] w-full max-h-[95vh] h-full p-0 gap-0 overflow-hidden bg-background/95 backdrop-blur-2xl border-border/50">
+      <DialogContent className="max-w-[95vw] w-full max-h-[95vh] h-full p-0 gap-0 overflow-hidden bg-background/95 backdrop-blur-2xl border-border/50 [&>button]:hidden">
         <DialogTitle className="sr-only">{platform.name} Dashboard</DialogTitle>
         
         {/* Custom Header */}
