@@ -1,127 +1,154 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { ArrowRight, Send } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 import officialLogo from "@/assets/cropxon-logo-official.png";
 
-// Official Channels - External links only
-const officialChannels = [
-  {
-    label: "X",
-    href: "https://x.com/CropxonAI",
-    ariaLabel: "CropXon on X (Twitter)",
-  },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/company/cropxon",
-    ariaLabel: "CropXon on LinkedIn",
-  },
-  {
-    label: "GitHub",
-    href: "https://github.com/cropxon",
-    ariaLabel: "CropXon on GitHub",
-  },
-  {
-    label: "YouTube",
-    href: "https://www.youtube.com/@CropXon",
-    ariaLabel: "CropXon on YouTube",
-  },
-  {
-    label: "Instagram",
-    href: "https://www.instagram.com/cropxon_innovations/",
-    ariaLabel: "CropXon on Instagram",
-  },
-];
-
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [isSubscribing, setIsSubscribing] = useState(false);
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    
+    setIsSubscribing(true);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    toast.success("Successfully subscribed to our newsletter!");
+    setEmail("");
+    setIsSubscribing(false);
+  };
+
   const footerLinks = {
+    ecosystem: [
+      { label: "Cognix", href: "https://cognix.cropxon.com", external: true },
+      { label: "OpZeniX", href: "https://opzenix.com", external: true },
+      { label: "TraceFlow", href: "https://traceflow.cropxon.com", external: true },
+      { label: "Zenith Core", href: "https://zenith.cropxon.com", external: true },
+      { label: "Zenith Institute", href: "/zenith-institute" },
+      { label: "OriginX Labs", href: "https://originxlabs.com", external: true },
+    ],
     company: [
-      { label: "About", href: "/company" },
+      { label: "About Us", href: "/company" },
+      { label: "How We Think", href: "/how-we-think" },
+      { label: "Architecture", href: "/architecture" },
       { label: "Careers", href: "/careers" },
       { label: "Contact", href: "/contact" },
     ],
-    ecosystem: [
-      { label: "ATLAS", href: "https://atlas.cropxon.com", external: true },
-      { label: "TRACEFLOW", href: "https://traceflow.cropxon.com", external: true },
-      { label: "OriginX Labs", href: "https://originxlabs.com", external: true },
-      { label: "CropXon Cloud", href: "https://cropxoncloud.com", external: true },
-      { label: "OpZeniX", href: "https://opzenix.com", external: true },
-    ],
     resources: [
-      { label: "Philosophy", href: "/how-we-think" },
-      { label: "Architecture", href: "/architecture" },
       { label: "Design Principles", href: "/design-principles" },
+      { label: "Systems Philosophy", href: "/systems-not-products" },
+      { label: "Platform Consoles", href: "/platforms" },
     ],
-    governance: [
+    legal: [
       { label: "Terms & Conditions", href: "/terms" },
       { label: "Privacy Policy", href: "/privacy" },
-      { label: "Refund Policy", href: "/refund-policy" },
       { label: "Cookie Policy", href: "/cookies" },
       { label: "Security", href: "/security" },
-      { label: "Acceptable Use", href: "/acceptable-use" },
-      { label: "SLA", href: "/sla" },
-      { label: "DPA", href: "/dpa" },
     ],
   };
 
+  const socialLinks = [
+    { label: "X", href: "https://x.com/CropxonAI" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/cropxon" },
+    { label: "GitHub", href: "https://github.com/cropxon" },
+    { label: "YouTube", href: "https://www.youtube.com/@CropXon" },
+  ];
+
   return (
-    <footer className="py-12 border-t border-border bg-background">
-      <div className="container mx-auto px-6 lg:px-12">
-        {/* Main Footer Content */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-10">
-          {/* Logo Column - Institutional Seal */}
-          <div className="col-span-2 md:col-span-1">
-            <Link to="/" className="inline-flex items-center gap-3 mb-4">
+    <footer className="relative bg-muted/30 border-t border-border/50">
+      {/* Newsletter Section */}
+      <div className="border-b border-border/50">
+        <div className="container mx-auto px-6 lg:px-12 py-12 lg:py-16">
+          <div className="max-w-4xl mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+            <div className="max-w-md">
+              <h3 className="font-display text-xl sm:text-2xl font-bold text-foreground tracking-tight">
+                Stay in the loop
+              </h3>
+              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                Subscribe to receive updates on new platforms, research publications, and company announcements.
+              </p>
+            </div>
+            
+            <form onSubmit={handleNewsletterSubmit} className="w-full lg:w-auto flex gap-3">
+              <Input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="flex-1 lg:w-72 h-11 bg-background border-border/50 text-sm"
+                required
+              />
+              <Button 
+                type="submit" 
+                disabled={isSubscribing}
+                className="h-11 px-5 font-medium"
+              >
+                {isSubscribing ? (
+                  <span className="animate-pulse">...</span>
+                ) : (
+                  <>
+                    Subscribe
+                    <Send className="w-4 h-4 ml-2" />
+                  </>
+                )}
+              </Button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Footer Content */}
+      <div className="container mx-auto px-6 lg:px-12 py-12 lg:py-16">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-8 lg:gap-12">
+          {/* Brand Column */}
+          <div className="col-span-2">
+            <Link to="/" className="inline-flex items-center gap-3 group">
               <img 
                 src={officialLogo} 
-                alt="CropXon Innovations logo" 
-                className="h-11 w-auto dark:brightness-0 dark:invert"
+                alt="CropXon" 
+                className="h-10 w-auto dark:brightness-0 dark:invert transition-opacity group-hover:opacity-80"
               />
               <div className="flex flex-col leading-none">
-                <span
-                  className="text-foreground"
-                  style={{
-                    fontFamily: "'Space Grotesk', Inter, system-ui, sans-serif",
-                    fontWeight: 700,
-                    fontSize: "15px",
-                    letterSpacing: "0.02em",
-                  }}
-                >
+                <span className="font-display font-bold text-foreground text-base tracking-wide">
                   CropXon
                 </span>
-                <span
-                  className="text-muted-foreground"
-                  style={{
-                    fontFamily: "Inter, system-ui, sans-serif",
-                    fontWeight: 400,
-                    fontSize: "9px",
-                    letterSpacing: "0.08em",
-                    textTransform: "uppercase",
-                    marginTop: "2px",
-                  }}
-                >
+                <span className="text-muted-foreground text-[9px] tracking-[0.12em] uppercase mt-0.5">
                   Innovations Pvt. Ltd.
                 </span>
               </div>
             </Link>
-            <p className="text-xs text-muted-foreground leading-relaxed max-w-[200px]">
-              Building foundational technology for work, intelligence, and infrastructure.
+            
+            <p className="mt-5 text-sm text-muted-foreground leading-relaxed max-w-xs">
+              Building foundational technology systems for cognition, operations, and enterprise infrastructure.
             </p>
+
+            {/* Social Links */}
+            <div className="mt-6 flex items-center gap-4">
+              {socialLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
           </div>
 
-          {/* Links */}
+          {/* Link Columns */}
           {Object.entries(footerLinks).map(([category, links]) => (
             <div key={category}>
-              <h4 
-                className="text-muted-foreground mb-3"
-                style={{
-                  fontFamily: "Inter, system-ui, sans-serif",
-                  fontWeight: 500,
-                  fontSize: "10px",
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                }}
-              >
+              <h4 className="font-display text-[11px] font-semibold text-foreground/80 tracking-[0.15em] uppercase mb-4">
                 {category}
               </h4>
-              <ul className="space-y-2">
+              <ul className="space-y-2.5">
                 {links.map((link) => (
                   <li key={link.label}>
                     {link.external ? (
@@ -129,36 +156,18 @@ const Footer = () => {
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xs text-muted-foreground hover:text-foreground transition-opacity duration-150 opacity-70 hover:opacity-100"
-                        style={{
-                          fontFamily: "Inter, system-ui, sans-serif",
-                          fontSize: "12px",
-                        }}
+                        className="text-[13px] text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1 group"
                       >
                         {link.label}
+                        <ArrowRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover:opacity-50 group-hover:translate-x-0 transition-all" />
                       </a>
-                    ) : link.href.startsWith("/") && !link.href.includes("#") ? (
+                    ) : (
                       <Link
                         to={link.href}
-                        className="text-xs text-muted-foreground hover:text-foreground transition-opacity duration-150 opacity-70 hover:opacity-100"
-                        style={{
-                          fontFamily: "Inter, system-ui, sans-serif",
-                          fontSize: "12px",
-                        }}
+                        className="text-[13px] text-muted-foreground hover:text-foreground transition-colors"
                       >
                         {link.label}
                       </Link>
-                    ) : (
-                      <a
-                        href={link.href}
-                        className="text-xs text-muted-foreground hover:text-foreground transition-opacity duration-150 opacity-70 hover:opacity-100"
-                        style={{
-                          fontFamily: "Inter, system-ui, sans-serif",
-                          fontSize: "12px",
-                        }}
-                      >
-                        {link.label}
-                      </a>
                     )}
                   </li>
                 ))}
@@ -166,92 +175,30 @@ const Footer = () => {
             </div>
           ))}
         </div>
+      </div>
 
-        {/* Official Channels Section */}
-        <div className="py-8 border-t border-border">
-          <h4 
-            className="text-muted-foreground mb-4"
-            style={{
-              fontFamily: "Inter, system-ui, sans-serif",
-              fontWeight: 500,
-              fontSize: "10px",
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-            }}
-          >
-            Official Channels
-          </h4>
-          
-          {/* Desktop: Horizontal / Mobile: Vertical */}
-          <nav 
-            aria-label="Official communication channels"
-            className="flex flex-col sm:flex-row sm:flex-wrap gap-4 sm:gap-6"
-          >
-            {officialChannels.map((channel) => (
-              <a
-                key={channel.label}
-                href={channel.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={channel.ariaLabel}
-                className="text-muted-foreground transition-opacity duration-150 opacity-60 hover:opacity-100 focus:opacity-100 focus:outline-none focus:underline"
-                style={{
-                  fontFamily: "Inter, system-ui, sans-serif",
-                  fontWeight: 400,
-                  fontSize: "12px",
-                  letterSpacing: "0.02em",
-                }}
-              >
-                {channel.label}
-              </a>
-            ))}
-          </nav>
-        </div>
-
-        {/* Legal / Compliance Bottom Bar with Logo */}
-        <div className="pt-6 border-t border-border">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            {/* Left: Logo + Company Info */}
-            <div className="flex items-center gap-4">
+      {/* Bottom Bar */}
+      <div className="border-t border-border/50">
+        <div className="container mx-auto px-6 lg:px-12 py-6">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
               <img 
                 src={officialLogo} 
-                alt="CropXon Innovations logo" 
-                className="h-6 w-auto opacity-60 dark:brightness-0 dark:invert"
+                alt="CropXon" 
+                className="h-5 w-auto opacity-50 dark:brightness-0 dark:invert"
               />
               <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
-                <p 
-                  className="text-muted-foreground opacity-60"
-                  style={{
-                    fontFamily: "Inter, system-ui, sans-serif",
-                    fontSize: "11px",
-                    letterSpacing: "0.01em",
-                  }}
-                >
+                <span className="text-[11px] text-muted-foreground/60">
                   CropXon Innovations Pvt. Ltd.
-                </p>
-                <span className="hidden sm:inline text-muted-foreground opacity-30">·</span>
-                <p 
-                  className="text-muted-foreground opacity-50"
-                  style={{
-                    fontFamily: "JetBrains Mono, monospace",
-                    fontSize: "10px",
-                    letterSpacing: "0.02em",
-                  }}
-                >
+                </span>
+                <span className="hidden sm:inline text-muted-foreground/30">·</span>
+                <span className="font-mono text-[10px] text-muted-foreground/50 tracking-wide">
                   CIN: U62010OD2025PTC051089
-                </p>
+                </span>
               </div>
             </div>
             
-            {/* Right: Copyright */}
-            <p 
-              className="text-muted-foreground opacity-50"
-              style={{
-                fontFamily: "Inter, system-ui, sans-serif",
-                fontSize: "11px",
-                letterSpacing: "0.01em",
-              }}
-            >
+            <p className="text-[11px] text-muted-foreground/50">
               © {new Date().getFullYear()} All rights reserved.
             </p>
           </div>

@@ -19,82 +19,54 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex flex-col bg-background overflow-hidden">
-      {/* Layered gradient background - theme aware */}
+      {/* Gradient background */}
       <div className="absolute inset-0 pointer-events-none">
         <div 
-          className="absolute inset-0 dark:opacity-100 opacity-60"
+          className="absolute inset-0 dark:opacity-100 opacity-50"
           style={{
             background: `
               radial-gradient(ellipse 100% 60% at 50% -10%, hsl(var(--primary) / 0.1) 0%, transparent 60%),
-              radial-gradient(ellipse 80% 50% at 85% 100%, hsl(var(--accent) / 0.06) 0%, transparent 50%),
-              radial-gradient(ellipse 70% 40% at 10% 90%, hsl(var(--secondary) / 0.08) 0%, transparent 50%)
+              radial-gradient(ellipse 80% 50% at 85% 100%, hsl(var(--accent) / 0.05) 0%, transparent 50%),
+              radial-gradient(ellipse 70% 40% at 10% 90%, hsl(var(--secondary) / 0.06) 0%, transparent 50%)
             `,
           }}
         />
-        {/* Noise texture */}
         <div 
-          className="absolute inset-0 opacity-[0.012] dark:opacity-[0.015]"
+          className="absolute inset-0 opacity-[0.012] dark:opacity-[0.018]"
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
           }}
         />
       </div>
 
-      {/* Top tagline */}
+      {/* Header content */}
       <div 
-        className={`pt-24 sm:pt-28 pb-4 sm:pb-6 px-6 sm:px-8 text-center transition-all duration-1000 ease-out ${
+        className={`pt-24 sm:pt-28 pb-2 sm:pb-4 px-6 sm:px-8 text-center transition-all duration-1000 ease-out ${
           showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
         }`}
       >
-        <p className="text-[10px] sm:text-[11px] font-medium text-muted-foreground tracking-[0.25em] uppercase mb-5">
+        <p className="font-display text-[10px] sm:text-[11px] font-medium text-muted-foreground tracking-[0.25em] uppercase mb-4 sm:mb-5">
           Deep Technology Infrastructure
         </p>
-        <h1 
-          className="font-display font-bold text-foreground leading-[1.08]"
-          style={{ 
-            fontSize: "clamp(1.75rem, 5.5vw, 3.75rem)",
-            letterSpacing: "-0.02em",
-          }}
-        >
+        <h1 className="font-display font-bold text-foreground leading-[1.08]" style={{ fontSize: "clamp(1.75rem, 6vw, 4rem)", letterSpacing: "-0.02em" }}>
           <span className="block">Building the Operating</span>
-          <span className="block text-primary">
-            Layers of Tomorrow
-          </span>
+          <span className="block text-primary">Layers of Tomorrow</span>
         </h1>
-        <p 
-          className="mt-5 sm:mt-6 text-muted-foreground max-w-lg mx-auto leading-relaxed"
-          style={{ fontSize: "clamp(0.875rem, 1.8vw, 1.05rem)" }}
-        >
+        <p className="mt-4 sm:mt-5 text-muted-foreground max-w-lg mx-auto leading-relaxed" style={{ fontSize: "clamp(0.875rem, 1.8vw, 1.05rem)" }}>
           Foundational systems for cognition, operations, and enterprise infrastructure.
         </p>
       </div>
 
-      {/* Interactive Ecosystem Canvas */}
-      <div 
-        className={`flex-1 relative transition-all duration-1000 delay-200 ease-out ${
-          showContent ? 'opacity-100 scale-100' : 'opacity-0 scale-[0.98]'
-        }`}
-      >
+      {/* Ecosystem Canvas */}
+      <div className={`flex-1 relative transition-all duration-1000 delay-200 ease-out ${showContent ? 'opacity-100 scale-100' : 'opacity-0 scale-[0.98]'}`}>
         <EcosystemCanvas />
       </div>
 
-      {/* Bottom scroll indicator */}
-      <div 
-        className={`pb-6 sm:pb-8 flex flex-col items-center transition-all duration-1000 delay-500 ${
-          showContent ? 'opacity-100' : 'opacity-0'
-        }`}
-      >
-        <button
-          onClick={scrollToNextSection}
-          className="group flex flex-col items-center gap-2 text-muted-foreground/50 hover:text-muted-foreground transition-colors duration-300"
-        >
-          <span className="text-[9px] tracking-[0.2em] uppercase">
-            Explore
-          </span>
-          <ChevronDown 
-            className="w-4 h-4 animate-bounce"
-            style={{ animationDuration: '2s' }}
-          />
+      {/* Scroll indicator */}
+      <div className={`pb-6 sm:pb-8 flex flex-col items-center transition-all duration-1000 delay-500 ${showContent ? 'opacity-100' : 'opacity-0'}`}>
+        <button onClick={scrollToNextSection} className="group flex flex-col items-center gap-2 text-muted-foreground/40 hover:text-muted-foreground transition-colors">
+          <span className="font-display text-[9px] tracking-[0.2em] uppercase">Explore</span>
+          <ChevronDown className="w-4 h-4 animate-bounce" style={{ animationDuration: '2s' }} />
         </button>
       </div>
     </section>
