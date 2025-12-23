@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import cropxonLogo from "@/assets/cropxon-logo-official.png";
 
 interface PlatformData {
   id: string;
@@ -40,14 +41,14 @@ interface Butterfly {
 }
 
 const platformsData: PlatformData[] = [
-  { id: 'cognix', name: 'Cognix', category: 'Intelligence', description: 'Enterprise cognition and AI decision systems', radius: 48, color: 'hsl(220, 70%, 55%)', href: 'https://cognix.cropxon.com', external: true },
-  { id: 'opzenix', name: 'OpZeniX', category: 'Operations', description: 'Intelligent operations management platform', radius: 44, color: 'hsl(260, 60%, 58%)', href: 'https://opzenix.com', external: true },
-  { id: 'qualyx', name: 'Qualyx', category: 'Quality', description: 'Quality assurance and compliance engine', radius: 40, color: 'hsl(175, 60%, 45%)', href: 'https://qualyx.cropxon.com', external: true },
-  { id: 'huminex', name: 'Huminex', category: 'Human Systems', description: 'Workforce intelligence and talent management', radius: 42, color: 'hsl(340, 65%, 55%)', href: 'https://huminex.cropxon.com', external: true },
-  { id: 'traceflow', name: 'TraceFlow', category: 'Traceability', description: 'End-to-end supply chain traceability', radius: 46, color: 'hsl(200, 70%, 50%)', href: 'https://traceflow.cropxon.com', external: true },
-  { id: 'zenith-core', name: 'Zenith Core', category: 'Foundation', description: 'Core infrastructure and platform services', radius: 50, color: 'hsl(280, 55%, 55%)', href: 'https://zenith.cropxon.com', external: true },
+  { id: 'cognix', name: 'Cognix', category: 'Intelligence', description: 'Enterprise cognition and AI decision systems', radius: 38, color: 'hsl(220, 70%, 55%)', href: 'https://cognix.cropxon.com', external: true },
+  { id: 'opzenix', name: 'OpZeniX', category: 'Operations', description: 'Intelligent operations management platform', radius: 38, color: 'hsl(260, 60%, 58%)', href: 'https://opzenix.com', external: true },
+  { id: 'qualyx', name: 'Qualyx', category: 'Quality', description: 'Quality assurance and compliance engine', radius: 38, color: 'hsl(175, 60%, 45%)', href: 'https://qualyx.cropxon.com', external: true },
+  { id: 'huminex', name: 'Huminex', category: 'Human Systems', description: 'Workforce intelligence and talent management', radius: 38, color: 'hsl(340, 65%, 55%)', href: 'https://huminex.cropxon.com', external: true },
+  { id: 'traceflow', name: 'TraceFlow', category: 'Traceability', description: 'End-to-end supply chain traceability', radius: 38, color: 'hsl(200, 70%, 50%)', href: 'https://traceflow.cropxon.com', external: true },
+  { id: 'zenith-core', name: 'Zenith Core', category: 'Foundation', description: 'Core infrastructure and platform services', radius: 38, color: 'hsl(280, 55%, 55%)', href: 'https://zenith.cropxon.com', external: true },
   { id: 'zenith-institute', name: 'Zenith Institute', category: 'Education', description: 'Industry-backed engineering education', radius: 38, color: 'hsl(145, 55%, 45%)', href: '/zenith-institute', external: false },
-  { id: 'originx-labs', name: 'OriginX Labs', category: 'Research', description: 'Experimental research and innovation lab', radius: 36, color: 'hsl(25, 75%, 52%)', href: 'https://originxlabs.com', external: true },
+  { id: 'originx-labs', name: 'OriginX Labs', category: 'Research', description: 'Experimental research and innovation lab', radius: 38, color: 'hsl(25, 75%, 52%)', href: 'https://originxlabs.com', external: true },
 ];
 
 const EcosystemCanvas = () => {
@@ -55,7 +56,8 @@ const EcosystemCanvas = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number>();
   const interactionRef = useRef({ x: 0, y: 0, active: false });
-  const butterfliesRef = useRef<Butterfly[]>([]);
+  const butterflyRef = useRef<Butterfly | null>(null);
+  const logoImageRef = useRef<HTMLImageElement | null>(null);
   const [hoveredPlatform, setHoveredPlatform] = useState<string | null>(null);
   const [focusedIndex, setFocusedIndex] = useState<number>(-1);
   const [butterflyPlatform, setButterflyPlatform] = useState<PlatformData | null>(null);
@@ -68,10 +70,18 @@ const EcosystemCanvas = () => {
   // Spin mode state
   const [isSpinning, setIsSpinning] = useState(true);
   const spinAngleRef = useRef(0);
-  const spinSpeedRef = useRef(0.008);
-  const spinDecelerationRef = useRef(0);
+  const spinSpeedRef = useRef(0.006);
   
   const navigate = useNavigate();
+
+  // Load logo image
+  useEffect(() => {
+    const img = new Image();
+    img.src = cropxonLogo;
+    img.onload = () => {
+      logoImageRef.current = img;
+    };
+  }, []);
 
   // Check theme
   useEffect(() => {
@@ -84,22 +94,23 @@ const EcosystemCanvas = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Initialize platforms
+  // Initialize platforms with perfect circular layout
   const initializePlatforms = useCallback((width: number, height: number) => {
     const centerX = width / 2;
     const centerY = height / 2;
     const isMobileView = width < 768;
     setIsMobile(isMobileView);
     
-    const radiusX = isMobileView ? Math.min(width * 0.38, 155) : Math.min(width * 0.32, 300);
-    const radiusY = isMobileView ? Math.min(height * 0.28, 135) : Math.min(height * 0.28, 210);
+    // Perfect circle radius - same for all platforms
+    const orbitRadius = isMobileView ? Math.min(width * 0.35, 145) : Math.min(width * 0.28, 240);
 
     platformsRef.current = platformsData.map((p, i) => {
+      // Equal spacing around the circle
       const baseAngle = (i / platformsData.length) * Math.PI * 2 - Math.PI / 2;
       const angle = baseAngle + spinAngleRef.current;
-      const x = centerX + Math.cos(angle) * radiusX;
-      const y = centerY + Math.sin(angle) * radiusY;
-      const scaledRadius = isMobileView ? p.radius * 0.62 : p.radius;
+      const x = centerX + Math.cos(angle) * orbitRadius;
+      const y = centerY + Math.sin(angle) * orbitRadius;
+      const scaledRadius = isMobileView ? p.radius * 0.65 : p.radius;
       return {
         ...p,
         radius: scaledRadius,
@@ -110,26 +121,23 @@ const EcosystemCanvas = () => {
       };
     });
 
-    // Initialize butterflies - waiting state initially
-    if (butterfliesRef.current.length === 0) {
-      const numButterflies = isMobileView ? 2 : 3;
-      for (let i = 0; i < numButterflies; i++) {
-        butterfliesRef.current.push({
-          x: centerX + (Math.random() - 0.5) * 150,
-          y: centerY - 100 + (Math.random() - 0.5) * 50,
-          targetX: centerX,
-          targetY: centerY - 80,
-          vx: 0, vy: 0,
-          wingAngle: Math.random() * Math.PI * 2,
-          wingSpeed: 0.15 + Math.random() * 0.1,
-          size: isMobileView ? 10 : 14,
-          color: 'hsl(280, 60%, 65%)',
-          targetPlatform: -1,
-          state: 'waiting',
-          restTimer: 0,
-          angle: 0,
-        });
-      }
+    // Initialize single butterfly
+    if (!butterflyRef.current) {
+      butterflyRef.current = {
+        x: centerX + (Math.random() - 0.5) * 100,
+        y: centerY - 100 + (Math.random() - 0.5) * 30,
+        targetX: centerX,
+        targetY: centerY - 80,
+        vx: 0, vy: 0,
+        wingAngle: Math.random() * Math.PI * 2,
+        wingSpeed: 0.12,
+        size: isMobileView ? 14 : 18,
+        color: platformsData[0].color,
+        targetPlatform: -1,
+        state: 'waiting',
+        restTimer: 0,
+        angle: 0,
+      };
     }
   }, []);
 
@@ -202,58 +210,133 @@ const EcosystemCanvas = () => {
     }
   }, [focusedIndex]);
 
-  // Draw butterfly
-  const drawButterfly = (ctx: CanvasRenderingContext2D, butterfly: Butterfly, textColor: string) => {
+  // Draw realistic butterfly
+  const drawButterfly = (ctx: CanvasRenderingContext2D, butterfly: Butterfly) => {
     const { x, y, wingAngle, size, color, state } = butterfly;
-    const wingFlap = state === 'resting' ? Math.sin(wingAngle) * 0.2 : Math.sin(wingAngle);
+    const wingFlap = state === 'resting' ? Math.sin(wingAngle) * 0.15 : Math.sin(wingAngle);
     
     ctx.save();
     ctx.translate(x, y);
     ctx.rotate(butterfly.angle);
     
-    // Body
+    // Body with gradient
+    const bodyGrad = ctx.createLinearGradient(0, -size * 0.5, 0, size * 0.5);
+    bodyGrad.addColorStop(0, 'hsl(30, 35%, 25%)');
+    bodyGrad.addColorStop(0.5, 'hsl(30, 30%, 18%)');
+    bodyGrad.addColorStop(1, 'hsl(30, 35%, 22%)');
+    
     ctx.beginPath();
-    ctx.ellipse(0, 0, size * 0.15, size * 0.5, 0, 0, Math.PI * 2);
-    ctx.fillStyle = `${textColor}, 0.9)`;
+    ctx.ellipse(0, 0, size * 0.12, size * 0.55, 0, 0, Math.PI * 2);
+    ctx.fillStyle = bodyGrad;
     ctx.fill();
     
-    // Wings with gradient
-    const wingWidth = size * (0.8 + wingFlap * 0.3);
-    
-    // Left wing
+    // Antennae
+    ctx.strokeStyle = 'hsl(30, 30%, 25%)';
+    ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.ellipse(-wingWidth * 0.5, -size * 0.1, wingWidth * 0.5, size * 0.4, -0.3 + wingFlap * 0.2, 0, Math.PI * 2);
-    const leftGrad = ctx.createRadialGradient(-wingWidth * 0.3, -size * 0.1, 0, -wingWidth * 0.3, -size * 0.1, wingWidth * 0.5);
-    leftGrad.addColorStop(0, color.replace(')', ', 0.95)'));
-    leftGrad.addColorStop(0.7, color.replace(')', ', 0.6)'));
-    leftGrad.addColorStop(1, color.replace(')', ', 0.3)'));
-    ctx.fillStyle = leftGrad;
-    ctx.fill();
-    
-    // Right wing
+    ctx.moveTo(-size * 0.05, -size * 0.4);
+    ctx.quadraticCurveTo(-size * 0.15, -size * 0.65, -size * 0.1, -size * 0.75);
+    ctx.stroke();
     ctx.beginPath();
-    ctx.ellipse(wingWidth * 0.5, -size * 0.1, wingWidth * 0.5, size * 0.4, 0.3 - wingFlap * 0.2, 0, Math.PI * 2);
-    const rightGrad = ctx.createRadialGradient(wingWidth * 0.3, -size * 0.1, 0, wingWidth * 0.3, -size * 0.1, wingWidth * 0.5);
-    rightGrad.addColorStop(0, color.replace(')', ', 0.95)'));
-    rightGrad.addColorStop(0.7, color.replace(')', ', 0.6)'));
-    rightGrad.addColorStop(1, color.replace(')', ', 0.3)'));
-    ctx.fillStyle = rightGrad;
+    ctx.moveTo(size * 0.05, -size * 0.4);
+    ctx.quadraticCurveTo(size * 0.15, -size * 0.65, size * 0.1, -size * 0.75);
+    ctx.stroke();
+    
+    // Wings with platform color
+    const wingWidth = size * (1 + wingFlap * 0.25);
+    const wingHeight = size * 0.7;
+    
+    // Upper left wing
+    ctx.save();
+    ctx.scale(1, 0.8 + wingFlap * 0.2);
+    ctx.beginPath();
+    ctx.moveTo(0, -size * 0.1);
+    ctx.bezierCurveTo(
+      -wingWidth * 0.4, -wingHeight * 0.8,
+      -wingWidth * 0.9, -wingHeight * 0.3,
+      -wingWidth * 0.45, size * 0.15
+    );
+    ctx.quadraticCurveTo(-wingWidth * 0.2, size * 0.05, 0, -size * 0.1);
+    
+    const leftUpperGrad = ctx.createRadialGradient(-wingWidth * 0.3, -wingHeight * 0.2, 0, -wingWidth * 0.3, -wingHeight * 0.2, wingWidth * 0.6);
+    leftUpperGrad.addColorStop(0, color);
+    leftUpperGrad.addColorStop(0.6, color.replace(')', ', 0.8)'));
+    leftUpperGrad.addColorStop(1, color.replace(')', ', 0.5)'));
+    ctx.fillStyle = leftUpperGrad;
     ctx.fill();
+    ctx.strokeStyle = color.replace(')', ', 0.6)');
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+    ctx.restore();
+    
+    // Upper right wing
+    ctx.save();
+    ctx.scale(1, 0.8 + wingFlap * 0.2);
+    ctx.beginPath();
+    ctx.moveTo(0, -size * 0.1);
+    ctx.bezierCurveTo(
+      wingWidth * 0.4, -wingHeight * 0.8,
+      wingWidth * 0.9, -wingHeight * 0.3,
+      wingWidth * 0.45, size * 0.15
+    );
+    ctx.quadraticCurveTo(wingWidth * 0.2, size * 0.05, 0, -size * 0.1);
+    
+    const rightUpperGrad = ctx.createRadialGradient(wingWidth * 0.3, -wingHeight * 0.2, 0, wingWidth * 0.3, -wingHeight * 0.2, wingWidth * 0.6);
+    rightUpperGrad.addColorStop(0, color);
+    rightUpperGrad.addColorStop(0.6, color.replace(')', ', 0.8)'));
+    rightUpperGrad.addColorStop(1, color.replace(')', ', 0.5)'));
+    ctx.fillStyle = rightUpperGrad;
+    ctx.fill();
+    ctx.strokeStyle = color.replace(')', ', 0.6)');
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+    ctx.restore();
+    
+    // Lower left wing
+    ctx.save();
+    ctx.scale(1, 0.75 + wingFlap * 0.25);
+    ctx.beginPath();
+    ctx.moveTo(-size * 0.08, size * 0.1);
+    ctx.bezierCurveTo(
+      -wingWidth * 0.5, size * 0.1,
+      -wingWidth * 0.55, size * 0.5,
+      -wingWidth * 0.25, size * 0.55
+    );
+    ctx.quadraticCurveTo(-size * 0.1, size * 0.35, -size * 0.08, size * 0.1);
+    ctx.fillStyle = color.replace(')', ', 0.85)');
+    ctx.fill();
+    ctx.restore();
+    
+    // Lower right wing
+    ctx.save();
+    ctx.scale(1, 0.75 + wingFlap * 0.25);
+    ctx.beginPath();
+    ctx.moveTo(size * 0.08, size * 0.1);
+    ctx.bezierCurveTo(
+      wingWidth * 0.5, size * 0.1,
+      wingWidth * 0.55, size * 0.5,
+      wingWidth * 0.25, size * 0.55
+    );
+    ctx.quadraticCurveTo(size * 0.1, size * 0.35, size * 0.08, size * 0.1);
+    ctx.fillStyle = color.replace(')', ', 0.85)');
+    ctx.fill();
+    ctx.restore();
     
     // Wing patterns
     ctx.beginPath();
-    ctx.arc(-wingWidth * 0.35, -size * 0.15, size * 0.12, 0, Math.PI * 2);
-    ctx.arc(wingWidth * 0.35, -size * 0.15, size * 0.12, 0, Math.PI * 2);
-    ctx.fillStyle = `${textColor}, 0.4)`;
+    ctx.arc(-wingWidth * 0.35, -size * 0.2, size * 0.08, 0, Math.PI * 2);
+    ctx.arc(wingWidth * 0.35, -size * 0.2, size * 0.08, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
     ctx.fill();
     
     // Glow effect when resting
     if (state === 'resting') {
-      const glowGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, size * 2.5);
-      glowGrad.addColorStop(0, color.replace(')', ', 0.4)'));
-      glowGrad.addColorStop(1, 'transparent');
       ctx.beginPath();
-      ctx.arc(0, 0, size * 2.5, 0, Math.PI * 2);
+      const glowGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, size * 2);
+      glowGrad.addColorStop(0, color.replace(')', ', 0.35)'));
+      glowGrad.addColorStop(0.5, color.replace(')', ', 0.15)'));
+      glowGrad.addColorStop(1, 'transparent');
+      ctx.arc(0, 0, size * 2, 0, Math.PI * 2);
       ctx.fillStyle = glowGrad;
       ctx.fill();
     }
@@ -276,11 +359,10 @@ const EcosystemCanvas = () => {
     const centerX = dimensions.width / 2;
     const centerY = dimensions.height / 2;
     
-    const radiusX = isMobile ? Math.min(dimensions.width * 0.38, 155) : Math.min(dimensions.width * 0.32, 300);
-    const radiusY = isMobile ? Math.min(dimensions.height * 0.28, 135) : Math.min(dimensions.height * 0.28, 210);
+    const orbitRadius = isMobile ? Math.min(dimensions.width * 0.35, 145) : Math.min(dimensions.width * 0.28, 240);
 
     const textColor = isDark ? 'rgba(255, 255, 255' : 'rgba(15, 23, 42';
-    const gridColor = isDark ? 'rgba(255, 255, 255, 0.02)' : 'rgba(0, 0, 0, 0.025)';
+    const gridColor = isDark ? 'rgba(255, 255, 255, 0.015)' : 'rgba(0, 0, 0, 0.02)';
     const nodeBaseColor = isDark ? 'rgba(15, 15, 28' : 'rgba(248, 250, 252';
 
     const animate = () => {
@@ -289,10 +371,6 @@ const EcosystemCanvas = () => {
       // Update spin
       if (isSpinning) {
         spinAngleRef.current += spinSpeedRef.current;
-        spinDecelerationRef.current = 0;
-      } else if (spinDecelerationRef.current < 1) {
-        // Slow deceleration when stopping
-        spinDecelerationRef.current += 0.02;
       }
 
       // Draw subtle grid
@@ -312,20 +390,20 @@ const EcosystemCanvas = () => {
         ctx.stroke();
       }
 
-      // Draw orbit ring
+      // Draw perfect circle orbit
       ctx.beginPath();
-      ctx.ellipse(centerX, centerY, radiusX, radiusY, 0, 0, Math.PI * 2);
-      ctx.strokeStyle = isDark ? 'rgba(99, 102, 241, 0.08)' : 'rgba(79, 70, 229, 0.1)';
-      ctx.lineWidth = 1.5;
-      ctx.setLineDash([5, 10]);
+      ctx.arc(centerX, centerY, orbitRadius, 0, Math.PI * 2);
+      ctx.strokeStyle = isDark ? 'rgba(99, 102, 241, 0.1)' : 'rgba(79, 70, 229, 0.12)';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([6, 12]);
       ctx.stroke();
       ctx.setLineDash([]);
 
       // Update platform positions based on spin
       platformsRef.current.forEach((platform, i) => {
         const angle = platform.baseAngle + spinAngleRef.current;
-        platform.targetX = centerX + Math.cos(angle) * radiusX;
-        platform.targetY = centerY + Math.sin(angle) * radiusY;
+        platform.targetX = centerX + Math.cos(angle) * orbitRadius;
+        platform.targetY = centerY + Math.sin(angle) * orbitRadius;
 
         if (interactionRef.current.active && !isSpinning) {
           const dx = interactionRef.current.x - platform.x;
@@ -334,14 +412,14 @@ const EcosystemCanvas = () => {
           const interactionRadius = isMobile ? 90 : 140;
           
           if (distance < interactionRadius && distance > 0) {
-            const force = ((interactionRadius - distance) / interactionRadius) * 0.3;
+            const force = ((interactionRadius - distance) / interactionRadius) * 0.25;
             platform.vx += (dx / distance) * force;
             platform.vy += (dy / distance) * force;
           }
         }
 
-        const springForce = 0.06;
-        const damping = 0.85;
+        const springForce = 0.08;
+        const damping = 0.88;
         
         platform.vx += (platform.targetX - platform.x) * springForce;
         platform.vy += (platform.targetY - platform.y) * springForce;
@@ -358,10 +436,10 @@ const EcosystemCanvas = () => {
           const dx = p2.x - p1.x;
           const dy = p2.y - p1.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
-          const maxDistance = isMobile ? 200 : 350;
+          const maxDistance = isMobile ? 180 : 320;
 
           if (distance < maxDistance) {
-            const baseOpacity = interactionRef.current.active ? 0.2 : 0.1;
+            const baseOpacity = interactionRef.current.active ? 0.18 : 0.08;
             const opacity = baseOpacity * (1 - distance / maxDistance);
 
             ctx.beginPath();
@@ -378,30 +456,63 @@ const EcosystemCanvas = () => {
         });
       });
 
-      // Draw center glow
-      const centerGlowRadius = isMobile ? 70 : 100;
-      const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, centerGlowRadius);
-      gradient.addColorStop(0, isDark ? 'rgba(99, 102, 241, 0.15)' : 'rgba(79, 70, 229, 0.1)');
-      gradient.addColorStop(0.6, isDark ? 'rgba(99, 102, 241, 0.05)' : 'rgba(79, 70, 229, 0.03)');
-      gradient.addColorStop(1, 'transparent');
+      // Draw center with logo
+      const centerRadius = isMobile ? 55 : 75;
+      
+      // Center glow
+      const centerGlow = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, centerRadius * 1.5);
+      centerGlow.addColorStop(0, isDark ? 'rgba(99, 102, 241, 0.15)' : 'rgba(79, 70, 229, 0.1)');
+      centerGlow.addColorStop(0.6, isDark ? 'rgba(99, 102, 241, 0.05)' : 'rgba(79, 70, 229, 0.03)');
+      centerGlow.addColorStop(1, 'transparent');
       ctx.beginPath();
-      ctx.arc(centerX, centerY, centerGlowRadius, 0, Math.PI * 2);
-      ctx.fillStyle = gradient;
+      ctx.arc(centerX, centerY, centerRadius * 1.5, 0, Math.PI * 2);
+      ctx.fillStyle = centerGlow;
       ctx.fill();
 
-      // Draw center branding
+      // Center circle background
+      const centerBg = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, centerRadius);
+      if (isDark) {
+        centerBg.addColorStop(0, 'rgba(30, 30, 50, 0.95)');
+        centerBg.addColorStop(1, 'rgba(20, 20, 35, 0.98)');
+      } else {
+        centerBg.addColorStop(0, 'rgba(255, 255, 255, 0.98)');
+        centerBg.addColorStop(1, 'rgba(248, 250, 252, 1)');
+      }
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, centerRadius, 0, Math.PI * 2);
+      ctx.fillStyle = centerBg;
+      ctx.fill();
+      
+      // Center border
+      ctx.strokeStyle = isDark ? 'rgba(99, 102, 241, 0.25)' : 'rgba(79, 70, 229, 0.2)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Draw logo if loaded
+      if (logoImageRef.current) {
+        const logoSize = isMobile ? 32 : 42;
+        ctx.drawImage(
+          logoImageRef.current,
+          centerX - logoSize / 2,
+          centerY - logoSize / 2 - 8,
+          logoSize,
+          logoSize
+        );
+      }
+
+      // Center text
       ctx.save();
-      const brandSize = isMobile ? 18 : 26;
+      const brandSize = isMobile ? 11 : 14;
       ctx.font = `700 ${brandSize}px 'Space Grotesk', sans-serif`;
       ctx.fillStyle = `${textColor}, 0.95)`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText('CROPXON', centerX, centerY - 6);
+      ctx.fillText('CROPXON', centerX, centerY + (isMobile ? 18 : 24));
       
-      const subSize = isMobile ? 7 : 9;
+      const subSize = isMobile ? 6 : 7;
       ctx.font = `500 ${subSize}px 'Inter', sans-serif`;
-      ctx.fillStyle = `${textColor}, 0.4)`;
-      ctx.fillText('ECOSYSTEM', centerX, centerY + 12);
+      ctx.fillStyle = `${textColor}, 0.5)`;
+      ctx.fillText('ECOSYSTEM', centerX, centerY + (isMobile ? 28 : 35));
       ctx.restore();
 
       // Draw platforms
@@ -409,32 +520,32 @@ const EcosystemCanvas = () => {
         const isHovered = hoveredPlatform === platform.id;
         const isFocused = focusedIndex === index;
         const isActive = isHovered || isFocused;
-        const scale = isActive ? 1.12 : 1;
+        const scale = isActive ? 1.15 : 1;
         const radius = platform.radius * scale;
 
         // Outer glow
-        const glowGradient = ctx.createRadialGradient(platform.x, platform.y, 0, platform.x, platform.y, radius * 2.2);
-        glowGradient.addColorStop(0, platform.color.replace(')', isActive ? ', 0.35)' : ', 0.25)'));
-        glowGradient.addColorStop(0.5, platform.color.replace(')', ', 0.1)'));
+        const glowGradient = ctx.createRadialGradient(platform.x, platform.y, 0, platform.x, platform.y, radius * 2);
+        glowGradient.addColorStop(0, platform.color.replace(')', isActive ? ', 0.35)' : ', 0.2)'));
+        glowGradient.addColorStop(0.5, platform.color.replace(')', ', 0.08)'));
         glowGradient.addColorStop(1, 'transparent');
         
         ctx.beginPath();
-        ctx.arc(platform.x, platform.y, radius * 2.2, 0, Math.PI * 2);
+        ctx.arc(platform.x, platform.y, radius * 2, 0, Math.PI * 2);
         ctx.fillStyle = glowGradient;
         ctx.fill();
 
-        // Node background
+        // Node background - perfect circle
         const nodeGradient = ctx.createRadialGradient(
-          platform.x - radius * 0.25, platform.y - radius * 0.25, 0,
+          platform.x - radius * 0.2, platform.y - radius * 0.2, 0,
           platform.x, platform.y, radius
         );
         
         if (isDark) {
-          nodeGradient.addColorStop(0, isActive ? platform.color.replace(')', ', 0.3)') : `${nodeBaseColor}, 0.9)`);
-          nodeGradient.addColorStop(1, isActive ? platform.color.replace(')', ', 0.15)') : `${nodeBaseColor}, 0.95)`);
+          nodeGradient.addColorStop(0, isActive ? platform.color.replace(')', ', 0.25)') : `${nodeBaseColor}, 0.9)`);
+          nodeGradient.addColorStop(1, isActive ? platform.color.replace(')', ', 0.12)') : `${nodeBaseColor}, 0.95)`);
         } else {
-          nodeGradient.addColorStop(0, isActive ? platform.color.replace(')', ', 0.15)') : `${nodeBaseColor}, 0.98)`);
-          nodeGradient.addColorStop(1, isActive ? platform.color.replace(')', ', 0.08)') : `${nodeBaseColor}, 1)`);
+          nodeGradient.addColorStop(0, isActive ? platform.color.replace(')', ', 0.12)') : `${nodeBaseColor}, 0.98)`);
+          nodeGradient.addColorStop(1, isActive ? platform.color.replace(')', ', 0.06)') : `${nodeBaseColor}, 1)`);
         }
         
         ctx.beginPath();
@@ -449,13 +560,13 @@ const EcosystemCanvas = () => {
           ctx.setLineDash([4, 4]);
           ctx.stroke();
           ctx.setLineDash([]);
+        } else {
+          ctx.strokeStyle = isActive 
+            ? platform.color 
+            : platform.color.replace(')', isDark ? ', 0.4)' : ', 0.5)');
+          ctx.lineWidth = isActive ? 2.5 : 1.5;
+          ctx.stroke();
         }
-        
-        ctx.strokeStyle = isActive 
-          ? platform.color 
-          : platform.color.replace(')', isDark ? ', 0.4)' : ', 0.5)');
-        ctx.lineWidth = isActive ? 2.5 : 1.5;
-        ctx.stroke();
 
         // Platform name
         ctx.save();
@@ -466,24 +577,24 @@ const EcosystemCanvas = () => {
         ctx.textBaseline = 'middle';
         ctx.fillText(platform.name.toUpperCase(), platform.x, platform.y - 2);
 
-        const catSize = isMobile ? 5 : 7;
+        const catSize = isMobile ? 5 : 6;
         ctx.font = `400 ${catSize}px 'Inter', sans-serif`;
         ctx.fillStyle = isActive ? `${textColor}, 0.65)` : `${textColor}, 0.45)`;
         ctx.fillText(platform.category, platform.x, platform.y + 9);
         ctx.restore();
       });
 
-      // Update and draw butterflies
-      let restingButterfly: { platform: PlatformData; x: number; y: number } | null = null;
-      
-      butterfliesRef.current.forEach((butterfly) => {
+      // Update and draw single butterfly
+      const butterfly = butterflyRef.current;
+      if (butterfly) {
         butterfly.wingAngle += butterfly.wingSpeed;
+        let restingButterflyData: { platform: PlatformData; x: number; y: number } | null = null;
         
         if (butterfly.state === 'waiting') {
           // Float around center while spinning
-          butterfly.x += Math.sin(butterfly.wingAngle * 0.3) * 0.8;
-          butterfly.y += Math.cos(butterfly.wingAngle * 0.2) * 0.4;
-          butterfly.angle = Math.sin(butterfly.wingAngle * 0.1) * 0.3;
+          butterfly.x += Math.sin(butterfly.wingAngle * 0.25) * 0.6;
+          butterfly.y += Math.cos(butterfly.wingAngle * 0.15) * 0.3;
+          butterfly.angle = Math.sin(butterfly.wingAngle * 0.08) * 0.2;
           
           // When spinning stops, pick a target
           if (!isSpinning) {
@@ -495,7 +606,7 @@ const EcosystemCanvas = () => {
         } else if (butterfly.state === 'flying') {
           const targetPlatform = platformsRef.current[butterfly.targetPlatform];
           butterfly.targetX = targetPlatform.x;
-          butterfly.targetY = targetPlatform.y - targetPlatform.radius - 15;
+          butterfly.targetY = targetPlatform.y - targetPlatform.radius - 18;
           
           const dx = butterfly.targetX - butterfly.x;
           const dy = butterfly.targetY - butterfly.y;
@@ -503,62 +614,61 @@ const EcosystemCanvas = () => {
           
           butterfly.angle = Math.atan2(dy, dx) + Math.PI / 2;
           
-          if (distance < 10) {
+          if (distance < 8) {
             butterfly.state = 'landing';
           } else {
-            const speed = 1.2;
-            butterfly.vx += (dx / distance) * speed * 0.12;
-            butterfly.vy += (dy / distance) * speed * 0.12;
-            butterfly.vx *= 0.94;
-            butterfly.vy *= 0.94;
-            butterfly.x += butterfly.vx + Math.sin(butterfly.wingAngle * 0.5) * 0.6;
-            butterfly.y += butterfly.vy + Math.cos(butterfly.wingAngle * 0.3) * 0.4;
+            const speed = 1.0;
+            butterfly.vx += (dx / distance) * speed * 0.1;
+            butterfly.vy += (dy / distance) * speed * 0.1;
+            butterfly.vx *= 0.95;
+            butterfly.vy *= 0.95;
+            butterfly.x += butterfly.vx + Math.sin(butterfly.wingAngle * 0.4) * 0.4;
+            butterfly.y += butterfly.vy + Math.cos(butterfly.wingAngle * 0.25) * 0.3;
           }
         } else if (butterfly.state === 'landing') {
           const targetPlatform = platformsRef.current[butterfly.targetPlatform];
           butterfly.x = targetPlatform.x;
-          butterfly.y = targetPlatform.y - targetPlatform.radius - 15;
+          butterfly.y = targetPlatform.y - targetPlatform.radius - 18;
           butterfly.vx = 0;
           butterfly.vy = 0;
           butterfly.angle = 0;
           butterfly.state = 'resting';
-          butterfly.restTimer = 200 + Math.random() * 150; // 3-6 seconds
+          butterfly.restTimer = 180 + Math.random() * 120;
         } else if (butterfly.state === 'resting') {
           const targetPlatform = platformsRef.current[butterfly.targetPlatform];
           butterfly.restTimer--;
-          butterfly.x = targetPlatform.x + Math.sin(butterfly.wingAngle * 0.1) * 1.5;
-          butterfly.y = targetPlatform.y - targetPlatform.radius - 15;
+          butterfly.x = targetPlatform.x + Math.sin(butterfly.wingAngle * 0.08) * 1.2;
+          butterfly.y = targetPlatform.y - targetPlatform.radius - 18;
           
-          restingButterfly = { platform: targetPlatform, x: butterfly.x, y: butterfly.y - 25 };
+          restingButterflyData = { platform: targetPlatform, x: butterfly.x, y: butterfly.y - 30 };
           
           if (butterfly.restTimer <= 0) {
             if (isSpinning) {
-              // Go back to waiting/flying around center
               butterfly.state = 'waiting';
               butterfly.targetX = centerX;
               butterfly.targetY = centerY - 80;
             } else {
-              // Pick new target
               let newTarget = Math.floor(Math.random() * platformsRef.current.length);
               while (newTarget === butterfly.targetPlatform && platformsRef.current.length > 1) {
                 newTarget = Math.floor(Math.random() * platformsRef.current.length);
               }
               butterfly.targetPlatform = newTarget;
+              // Color changes based on new platform
               butterfly.color = platformsRef.current[newTarget].color;
               butterfly.state = 'flying';
             }
           }
         }
         
-        drawButterfly(ctx, butterfly, textColor);
-      });
+        drawButterfly(ctx, butterfly);
 
-      // Update popup state
-      if (restingButterfly && !isSpinning) {
-        setButterflyPlatform(restingButterfly.platform);
-        setPopupPosition({ x: restingButterfly.x, y: restingButterfly.y });
-      } else {
-        setButterflyPlatform(null);
+        // Update popup state
+        if (restingButterflyData && !isSpinning) {
+          setButterflyPlatform(restingButterflyData.platform);
+          setPopupPosition({ x: restingButterflyData.x, y: restingButterflyData.y });
+        } else {
+          setButterflyPlatform(null);
+        }
       }
 
       animationRef.current = requestAnimationFrame(animate);
@@ -635,7 +745,6 @@ const EcosystemCanvas = () => {
     if (platform) {
       handlePlatformClick(platform);
     } else {
-      // Click on empty space toggles spin
       setIsSpinning(prev => !prev);
     }
   }, [handlePlatformClick]);
@@ -671,7 +780,7 @@ const EcosystemCanvas = () => {
   return (
     <div 
       ref={containerRef} 
-      className="relative w-full h-full min-h-[420px] sm:min-h-[500px] lg:min-h-[560px]"
+      className="relative w-full h-full min-h-[400px] sm:min-h-[480px] lg:min-h-[540px]"
       role="application"
       aria-label="CropXon Ecosystem - Interactive platform navigation"
     >
@@ -686,7 +795,7 @@ const EcosystemCanvas = () => {
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
-        aria-label="Ecosystem canvas - Use arrow keys to navigate between platforms, Enter to select, S to toggle spin, Escape to resume spinning"
+        aria-label="Ecosystem canvas - Use arrow keys to navigate, Enter to select, S to toggle spin"
       />
       
       {/* Spin indicator */}
