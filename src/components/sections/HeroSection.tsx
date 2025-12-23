@@ -78,18 +78,19 @@ const HeroSection = () => {
       </div>
 
       {/* Main Content - Split Layout */}
-      <div className={`flex-1 relative flex flex-col lg:flex-row lg:gap-4 lg:px-8 lg:max-w-7xl lg:mx-auto lg:w-full transition-all duration-1000 delay-200 ease-out ${showContent ? 'opacity-100 scale-100' : 'opacity-0 scale-[0.98]'}`}>
-        {/* Left Side - Ecosystem Canvas */}
-        <div className="flex-1 lg:flex-[1.1] relative min-h-[350px] sm:min-h-[420px] lg:min-h-0">
+      <div className={`flex-1 relative flex flex-col lg:flex-row lg:gap-6 lg:px-8 lg:max-w-[1600px] lg:mx-auto lg:w-full transition-all duration-1000 delay-200 ease-out ${showContent ? 'opacity-100 scale-100' : 'opacity-0 scale-[0.98]'}`}>
+        {/* Left Side - Ecosystem Canvas (Compact) */}
+        <div className="lg:w-[340px] xl:w-[380px] shrink-0 relative min-h-[320px] sm:min-h-[380px] lg:min-h-0">
           <EcosystemCanvas onPlatformHover={handlePlatformSelect} />
         </div>
 
-        {/* Right Side - Platform Dashboard */}
-        <div className="hidden lg:block lg:w-[380px] xl:w-[420px] py-4">
-          <div className={`h-full transition-all duration-500 ${selectedPlatformId ? 'opacity-100 translate-x-0' : 'opacity-60'}`}>
+        {/* Right Side - Platform Dashboard (Expanded) */}
+        <div className="hidden lg:flex flex-1 py-4 min-h-[500px]">
+          <div className={`w-full h-full transition-all duration-500 ${selectedPlatformId ? 'opacity-100 translate-x-0' : 'opacity-80'}`}>
             <PlatformDashboard 
               platformId={selectedPlatformId || 'cognix'} 
               onOpenFullscreen={handleOpenFullscreen}
+              expanded
             />
           </div>
         </div>
