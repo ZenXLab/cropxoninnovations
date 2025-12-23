@@ -240,6 +240,119 @@ const Huminex = () => {
             </div>
           </section>
 
+          {/* Org Chart Visualization */}
+          <section className="py-16 sm:py-20 border-b border-border/30 overflow-hidden">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+              <div className="text-center mb-10 sm:mb-12">
+                <p className="font-mono text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider mb-2">
+                  Live Organizational Intelligence
+                </p>
+                <h2 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold text-foreground mb-3">
+                  Dynamic Org Structure
+                </h2>
+                <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl mx-auto">
+                  Visualize your organization's hierarchy, skills, and team dynamics
+                </p>
+              </div>
+
+              {/* Org Chart */}
+              <div className="relative p-6 sm:p-8 bg-card/60 backdrop-blur-xl rounded-2xl border border-border/40">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center gap-3">
+                    <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse" />
+                    <span className="text-xs font-mono text-muted-foreground">Real-time Org Sync</span>
+                  </div>
+                  <span className="text-[10px] font-mono text-muted-foreground">248 Active Members</span>
+                </div>
+
+                {/* Hierarchical Org Chart */}
+                <div className="flex flex-col items-center gap-6">
+                  {/* CEO Level */}
+                  <div className="relative">
+                    <div className="p-4 bg-gradient-to-br from-primary/20 to-primary/5 backdrop-blur-xl rounded-2xl border border-primary/30 text-center">
+                      <div className="w-14 h-14 mx-auto rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center mb-2 ring-4 ring-primary/20">
+                        <Users className="w-6 h-6 text-primary-foreground" />
+                      </div>
+                      <p className="text-xs font-bold text-foreground">CEO</p>
+                      <p className="text-[10px] text-muted-foreground">Leadership</p>
+                    </div>
+                    <div className="absolute left-1/2 -translate-x-1/2 top-full w-px h-6 bg-border/50" />
+                  </div>
+
+                  {/* C-Suite Level */}
+                  <div className="relative w-full max-w-3xl">
+                    <div className="absolute left-1/2 -translate-x-1/2 -top-0 w-3/4 h-px bg-border/50" />
+                    <div className="grid grid-cols-3 gap-4">
+                      {[
+                        { role: 'CTO', dept: 'Technology', count: 64, color: 'hsl(220, 70%, 55%)' },
+                        { role: 'COO', dept: 'Operations', count: 89, color: 'hsl(145, 55%, 45%)' },
+                        { role: 'CFO', dept: 'Finance', count: 32, color: 'hsl(45, 90%, 50%)' },
+                      ].map((exec, i) => (
+                        <div key={exec.role} className="relative flex flex-col items-center">
+                          <div className="w-px h-4 bg-border/50" />
+                          <div className="p-3 bg-card/80 backdrop-blur-xl rounded-xl border border-border/40 text-center w-full">
+                            <div 
+                              className="w-10 h-10 mx-auto rounded-xl flex items-center justify-center mb-2"
+                              style={{ backgroundColor: `${exec.color.replace(')', ' / 0.15)')}` }}
+                            >
+                              <span className="text-xs font-bold" style={{ color: exec.color }}>{exec.role.charAt(0)}</span>
+                            </div>
+                            <p className="text-[11px] font-bold text-foreground">{exec.role}</p>
+                            <p className="text-[9px] text-muted-foreground">{exec.dept}</p>
+                            <div className="mt-2 flex items-center justify-center gap-1">
+                              <Users className="w-3 h-3 text-muted-foreground" />
+                              <span className="text-[9px] font-mono text-muted-foreground">{exec.count}</span>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Team Level */}
+                  <div className="w-full max-w-4xl">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
+                      {[
+                        { team: 'Engineering', members: 28, skills: ['React', 'Node'], color: 'hsl(220, 70%, 55%)' },
+                        { team: 'Product', members: 12, skills: ['Strategy', 'UX'], color: 'hsl(280, 55%, 55%)' },
+                        { team: 'Design', members: 8, skills: ['Figma', 'UI'], color: 'hsl(340, 65%, 55%)' },
+                        { team: 'Sales', members: 24, skills: ['CRM', 'Lead'], color: 'hsl(145, 55%, 45%)' },
+                        { team: 'Marketing', members: 16, skills: ['SEO', 'Ads'], color: 'hsl(25, 75%, 52%)' },
+                        { team: 'Support', members: 18, skills: ['Ticket', 'Chat'], color: 'hsl(200, 70%, 50%)' },
+                      ].map((team) => (
+                        <div 
+                          key={team.team} 
+                          className="p-3 bg-muted/30 backdrop-blur-xl rounded-xl border border-border/20 hover:border-primary/30 transition-all duration-300"
+                        >
+                          <div className="flex items-center gap-2 mb-2">
+                            <div 
+                              className="w-6 h-6 rounded-lg flex items-center justify-center"
+                              style={{ backgroundColor: `${team.color.replace(')', ' / 0.15)')}` }}
+                            >
+                              <Network className="w-3 h-3" style={{ color: team.color }} />
+                            </div>
+                            <span className="text-[10px] font-bold text-foreground">{team.team}</span>
+                          </div>
+                          <div className="flex items-center gap-1 mb-2">
+                            <Users className="w-3 h-3 text-muted-foreground" />
+                            <span className="text-[9px] font-mono text-muted-foreground">{team.members} members</span>
+                          </div>
+                          <div className="flex flex-wrap gap-1">
+                            {team.skills.map((skill) => (
+                              <span key={skill} className="text-[8px] px-1.5 py-0.5 bg-background/50 rounded text-muted-foreground">
+                                {skill}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* Features Section */}
           <section className="py-20 bg-muted/30">
             <div className="container mx-auto px-4 sm:px-6 lg:px-12">
