@@ -562,28 +562,54 @@ const PlatformDashboard = ({ platformId, onOpenFullscreen, expanded = false }: P
                 ))}
               </div>
 
-              {/* Live Chart Area */}
+              {/* Live Data Stream */}
               <div className="p-5 bg-muted/20 rounded-xl border border-border/30 flex-1">
                 <div className="flex items-center justify-between mb-4">
-                  <p className="text-sm font-medium text-foreground">Real-time Performance</p>
+                  <p className="text-sm font-medium text-foreground">Real-time Data Stream</p>
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: currentPlatform.color }} />
-                    <span className="text-xs text-muted-foreground">Live Data Stream</span>
+                    <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: currentPlatform.color }} />
+                    <span className="text-xs text-muted-foreground">Live</span>
                   </div>
                 </div>
-                <div className="relative h-32 flex items-end gap-1">
-                  {liveBarHeights.map((height, i) => (
+                <div className="relative h-32 overflow-hidden rounded-lg bg-muted/30">
+                  {/* Flowing data streams */}
+                  {[...Array(5)].map((_, streamIndex) => (
+                    <div
+                      key={streamIndex}
+                      className="absolute flex gap-2"
+                      style={{
+                        top: `${15 + streamIndex * 22}%`,
+                        animation: `dataFlow ${8 + streamIndex * 2}s linear infinite`,
+                        animationDelay: `${-streamIndex * 1.5}s`,
+                      }}
+                    >
+                      {liveBarHeights.map((_, i) => (
+                        <div
+                          key={i}
+                          className="w-8 h-2 rounded-full"
+                          style={{
+                            backgroundColor: currentPlatform.color,
+                            opacity: 0.2 + (Math.sin((i + streamIndex) * 0.5) + 1) * 0.3,
+                          }}
+                        />
+                      ))}
+                    </div>
+                  ))}
+                  {/* Grid lines for context */}
+                  {[...Array(4)].map((_, i) => (
                     <div
                       key={i}
-                      className="flex-1 rounded-t transition-all duration-150"
-                      style={{
-                        height: `${height * chartProgress}%`,
-                        backgroundColor: currentPlatform.color,
-                        opacity: 0.4 + (i / 24) * 0.6,
-                      }}
+                      className="absolute w-full h-px bg-border/20"
+                      style={{ top: `${25 * (i + 1)}%` }}
                     />
                   ))}
                 </div>
+                <style>{`
+                  @keyframes dataFlow {
+                    from { transform: translateX(-100%); }
+                    to { transform: translateX(100vw); }
+                  }
+                `}</style>
               </div>
 
               {/* Flow Pipeline */}
