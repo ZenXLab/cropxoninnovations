@@ -1,116 +1,27 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import SEOHead from "@/components/SEOHead";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
 import BackToTop from "@/components/BackToTop";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Calendar, Clock, User, Tag, Search, TrendingUp, Sparkles, Brain, Cloud, Shield, Cpu, Layers } from "lucide-react";
-
-// Blog post data structure
-interface BlogPost {
-  id: string;
-  slug: string;
-  title: string;
-  excerpt: string;
-  category: string;
-  author: string;
-  date: string;
-  readTime: string;
-  featured?: boolean;
-  tags: string[];
-  icon: React.ElementType;
-}
-
-const blogPosts: BlogPost[] = [
-  {
-    id: "1",
-    slug: "future-of-enterprise-ai",
-    title: "The Future of Enterprise AI: Beyond ChatGPT",
-    excerpt: "How deep technology companies are building AI systems that truly understand business context, workflows, and organizational intelligence.",
-    category: "AI & Machine Learning",
-    author: "Cropxon Research",
-    date: "December 20, 2024",
-    readTime: "8 min read",
-    featured: true,
-    tags: ["AI", "Enterprise", "Deep Tech"],
-    icon: Brain,
-  },
-  {
-    id: "2",
-    slug: "building-cognition-platforms",
-    title: "Building Cognition Platforms: Architecture Intelligence at Scale",
-    excerpt: "How Cognix approaches software understanding differently - treating codebases as living systems rather than static text.",
-    category: "Software Engineering",
-    author: "Engineering Team",
-    date: "December 18, 2024",
-    readTime: "12 min read",
-    featured: true,
-    tags: ["Architecture", "Cognition", "Software"],
-    icon: Layers,
-  },
-  {
-    id: "3",
-    slug: "cloud-infrastructure-2025",
-    title: "Cloud Infrastructure Trends for 2025",
-    excerpt: "From edge computing to sustainable data centers - what enterprise cloud infrastructure will look like in the coming year.",
-    category: "Cloud & Infrastructure",
-    author: "Cloud Team",
-    date: "December 15, 2024",
-    readTime: "6 min read",
-    tags: ["Cloud", "Infrastructure", "Trends"],
-    icon: Cloud,
-  },
-  {
-    id: "4",
-    slug: "zero-trust-security-modern-enterprise",
-    title: "Zero-Trust Security in the Modern Enterprise",
-    excerpt: "Implementing zero-trust architecture across hybrid environments without sacrificing developer productivity.",
-    category: "Security",
-    author: "Security Team",
-    date: "December 12, 2024",
-    readTime: "10 min read",
-    tags: ["Security", "Zero-Trust", "Enterprise"],
-    icon: Shield,
-  },
-  {
-    id: "5",
-    slug: "mlops-production-ai",
-    title: "MLOps: Taking AI from Prototype to Production",
-    excerpt: "The operational challenges of deploying machine learning models and how modern MLOps platforms solve them.",
-    category: "MLOps",
-    author: "AI/ML Team",
-    date: "December 10, 2024",
-    readTime: "9 min read",
-    tags: ["MLOps", "AI", "Production"],
-    icon: Cpu,
-  },
-  {
-    id: "6",
-    slug: "future-workforce-management",
-    title: "The Future of Workforce Management: AI-First Approaches",
-    excerpt: "How intelligent workforce systems are transforming HR from administrative overhead to strategic advantage.",
-    category: "Workforce",
-    author: "Product Team",
-    date: "December 8, 2024",
-    readTime: "7 min read",
-    tags: ["Workforce", "HR Tech", "AI"],
-    icon: TrendingUp,
-  },
-];
-
-const categories = [
-  "All",
-  "AI & Machine Learning",
-  "Software Engineering",
-  "Cloud & Infrastructure",
-  "Security",
-  "MLOps",
-  "Workforce",
-];
+import { ArrowRight, Calendar, Clock, User, Search, TrendingUp, Sparkles } from "lucide-react";
+import { blogPosts, categories } from "@/data/blogPosts";
 
 const Blog = () => {
-  const featuredPosts = blogPosts.filter(post => post.featured);
-  const regularPosts = blogPosts.filter(post => !post.featured);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredPosts = blogPosts.filter(post => {
+    const matchesCategory = selectedCategory === "All" || post.category === selectedCategory;
+    const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+    return matchesCategory && matchesSearch;
+  });
+
+  const featuredPosts = filteredPosts.filter(post => post.featured);
+  const regularPosts = filteredPosts.filter(post => !post.featured);
 
   return (
     <>
@@ -130,7 +41,7 @@ const Blog = () => {
           <section className="relative py-16 sm:py-20 lg:py-24 overflow-hidden">
             <div className="absolute inset-0 pointer-events-none">
               <div className="absolute inset-0" style={{
-                background: 'radial-gradient(ellipse 80% 50% at 50% -20%, hsl(var(--primary) / 0.15) 0%, transparent 60%)'
+                background: "radial-gradient(ellipse 80% 50% at 50% -20%, hsl(var(--primary) / 0.15) 0%, transparent 60%)"
               }} />
             </div>
 
@@ -158,8 +69,9 @@ const Blog = () => {
                 {categories.map((category) => (
                   <button
                     key={category}
+                    onClick={() => setSelectedCategory(category)}
                     className={`px-4 py-2 text-sm font-medium rounded-full transition-all ${
-                      category === "All"
+                      category === selectedCategory
                         ? "bg-primary text-primary-foreground"
                         : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground"
                     }`}
@@ -172,68 +84,70 @@ const Blog = () => {
           </section>
 
           {/* Featured Posts */}
-          <section className="py-12 sm:py-16 lg:py-20">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-12">
-              <div className="flex items-center gap-3 mb-8">
-                <TrendingUp className="w-5 h-5 text-primary" />
-                <h2 className="font-display text-xl font-bold text-foreground">Featured Articles</h2>
-              </div>
+          {featuredPosts.length > 0 && (
+            <section className="py-12 sm:py-16 lg:py-20">
+              <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+                <div className="flex items-center gap-3 mb-8">
+                  <TrendingUp className="w-5 h-5 text-primary" />
+                  <h2 className="font-display text-xl font-bold text-foreground">Featured Articles</h2>
+                </div>
 
-              <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
-                {featuredPosts.map((post) => {
-                  const PostIcon = post.icon;
-                  return (
-                    <article
-                      key={post.id}
-                      className="group relative bg-card/60 backdrop-blur-sm border border-border/50 rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-300"
-                    >
-                      {/* Gradient Header */}
-                      <div className="h-48 relative overflow-hidden" style={{
-                        background: `linear-gradient(135deg, hsl(var(--primary) / 0.2) 0%, hsl(var(--accent) / 0.1) 100%)`
-                      }}>
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <PostIcon className="w-20 h-20 text-primary/30" />
-                        </div>
-                        <div className="absolute top-4 left-4">
-                          <span className="px-3 py-1 text-xs font-medium bg-primary/90 text-primary-foreground rounded-full">
-                            Featured
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="p-6">
-                        <div className="flex items-center gap-3 mb-3">
-                          <span className="text-xs font-medium text-primary">{post.category}</span>
-                          <span className="text-muted-foreground/50">•</span>
-                          <span className="text-xs text-muted-foreground">{post.readTime}</span>
-                        </div>
-
-                        <h3 className="font-display text-lg sm:text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors line-clamp-2">
-                          {post.title}
-                        </h3>
-
-                        <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-                          {post.excerpt}
-                        </p>
-
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                            <User className="w-3.5 h-3.5" />
-                            <span>{post.author}</span>
-                            <span className="text-muted-foreground/50">•</span>
-                            <Calendar className="w-3.5 h-3.5" />
-                            <span>{post.date}</span>
+                <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
+                  {featuredPosts.map((post) => {
+                    const PostIcon = post.icon;
+                    return (
+                      <article
+                        key={post.id}
+                        className="group relative bg-card/60 backdrop-blur-sm border border-border/50 rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-300"
+                      >
+                        {/* Gradient Header */}
+                        <div className="h-48 relative overflow-hidden" style={{
+                          background: "linear-gradient(135deg, hsl(var(--primary) / 0.2) 0%, hsl(var(--accent) / 0.1) 100%)"
+                        }}>
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <PostIcon className="w-20 h-20 text-primary/30" />
+                          </div>
+                          <div className="absolute top-4 left-4">
+                            <span className="px-3 py-1 text-xs font-medium bg-primary/90 text-primary-foreground rounded-full">
+                              Featured
+                            </span>
                           </div>
                         </div>
-                      </div>
 
-                      <Link to={`/blog/${post.slug}`} className="absolute inset-0" aria-label={`Read ${post.title}`} />
-                    </article>
-                  );
-                })}
+                        <div className="p-6">
+                          <div className="flex items-center gap-3 mb-3">
+                            <span className="text-xs font-medium text-primary">{post.category}</span>
+                            <span className="text-muted-foreground/50">•</span>
+                            <span className="text-xs text-muted-foreground">{post.readTime}</span>
+                          </div>
+
+                          <h3 className="font-display text-lg sm:text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                            {post.title}
+                          </h3>
+
+                          <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                            {post.excerpt}
+                          </p>
+
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                              <User className="w-3.5 h-3.5" />
+                              <span>{post.author}</span>
+                              <span className="text-muted-foreground/50">•</span>
+                              <Calendar className="w-3.5 h-3.5" />
+                              <span>{post.date}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <Link to={`/blog/${post.slug}`} className="absolute inset-0" aria-label={`Read ${post.title}`} />
+                      </article>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          </section>
+            </section>
+          )}
 
           {/* All Posts */}
           <section className="py-12 sm:py-16 lg:py-20 bg-muted/20">
@@ -245,52 +159,60 @@ const Blog = () => {
                   <input
                     type="text"
                     placeholder="Search articles..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                     className="pl-10 pr-4 py-2 text-sm bg-background border border-border/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/50 transition-all"
                   />
                 </div>
               </div>
 
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {regularPosts.map((post) => {
-                  const PostIcon = post.icon;
-                  return (
-                    <article
-                      key={post.id}
-                      className="group relative bg-card/80 backdrop-blur-sm border border-border/50 rounded-xl overflow-hidden hover:border-primary/30 transition-all duration-300"
-                    >
-                      {/* Icon Header */}
-                      <div className="h-32 relative overflow-hidden bg-muted/30">
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <PostIcon className="w-12 h-12 text-muted-foreground/30" />
-                        </div>
-                      </div>
-
-                      <div className="p-5">
-                        <div className="flex items-center gap-2 mb-3">
-                          <span className="text-xs font-medium text-primary">{post.category}</span>
-                          <span className="text-muted-foreground/50">•</span>
-                          <span className="text-xs text-muted-foreground">{post.readTime}</span>
+              {regularPosts.length > 0 ? (
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {regularPosts.map((post) => {
+                    const PostIcon = post.icon;
+                    return (
+                      <article
+                        key={post.id}
+                        className="group relative bg-card/80 backdrop-blur-sm border border-border/50 rounded-xl overflow-hidden hover:border-primary/30 transition-all duration-300"
+                      >
+                        {/* Icon Header */}
+                        <div className="h-32 relative overflow-hidden bg-muted/30">
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <PostIcon className="w-12 h-12 text-muted-foreground/30" />
+                          </div>
                         </div>
 
-                        <h3 className="font-display text-base font-bold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
-                          {post.title}
-                        </h3>
+                        <div className="p-5">
+                          <div className="flex items-center gap-2 mb-3">
+                            <span className="text-xs font-medium text-primary">{post.category}</span>
+                            <span className="text-muted-foreground/50">•</span>
+                            <span className="text-xs text-muted-foreground">{post.readTime}</span>
+                          </div>
 
-                        <p className="text-xs text-muted-foreground mb-4 line-clamp-2">
-                          {post.excerpt}
-                        </p>
+                          <h3 className="font-display text-base font-bold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                            {post.title}
+                          </h3>
 
-                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                          <Calendar className="w-3.5 h-3.5" />
-                          <span>{post.date}</span>
+                          <p className="text-xs text-muted-foreground mb-4 line-clamp-2">
+                            {post.excerpt}
+                          </p>
+
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                            <Calendar className="w-3.5 h-3.5" />
+                            <span>{post.date}</span>
+                          </div>
                         </div>
-                      </div>
 
-                      <Link to={`/blog/${post.slug}`} className="absolute inset-0" aria-label={`Read ${post.title}`} />
-                    </article>
-                  );
-                })}
-              </div>
+                        <Link to={`/blog/${post.slug}`} className="absolute inset-0" aria-label={`Read ${post.title}`} />
+                      </article>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <p className="text-muted-foreground">No articles found matching your criteria.</p>
+                </div>
+              )}
 
               {/* Load More */}
               <div className="text-center mt-12">

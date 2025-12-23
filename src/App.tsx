@@ -34,6 +34,7 @@ import Opzenix from "./pages/products/Opzenix";
 import ZenithStudio from "./pages/products/ZenithStudio";
 import NotFound from "./pages/NotFound";
 import Blog from "./pages/Blog";
+import BlogArticle from "./pages/BlogArticle";
 import TermsAndConditions from "./pages/policies/TermsAndConditions";
 import PrivacyPolicy from "./pages/policies/PrivacyPolicy";
 import RefundPolicy from "./pages/policies/RefundPolicy";
@@ -97,6 +98,7 @@ const AnimatedRoutes = () => {
           <Route path="/opzenix" element={<Opzenix />} />
           <Route path="/zenith-studio" element={<ZenithStudio />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogArticle />} />
           <Route path="/terms" element={<TermsAndConditions />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/refund-policy" element={<RefundPolicy />} />
