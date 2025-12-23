@@ -9,15 +9,36 @@ interface SEOHeadProps {
   type?: 'website' | 'article' | 'product';
 }
 
+// Map of page paths to their OG images
+const ogImageMap: Record<string, string> = {
+  '/': 'https://cropxon.com/og/cropxon-og.png',
+  '/cognix': 'https://cropxon.com/og/cognix-og.png',
+  '/cropxon-cloud': 'https://cropxon.com/og/cropxon-cloud-og.png',
+  '/traceflow': 'https://cropxon.com/og/traceflow-og.png',
+  '/qualyx': 'https://cropxon.com/og/qualyx-og.png',
+  '/huminex': 'https://cropxon.com/og/huminex-og.png',
+  '/opzenix': 'https://cropxon.com/og/opzenix-og.png',
+  '/atlas': 'https://cropxon.com/og/atlas-og.png',
+  '/zenith-studio': 'https://cropxon.com/og/zenith-studio-og.png',
+  '/zenith-institute': 'https://cropxon.com/og/zenith-institute-og.png',
+  '/originx-labs': 'https://cropxon.com/og/originx-labs-og.png',
+  '/robotics': 'https://cropxon.com/og/robotics-og.png',
+  '/blog': 'https://cropxon.com/og/blog-og.png',
+};
+
 const SEOHead = ({
   title,
   description,
   keywords = '',
-  image = 'https://cropxon.com/assets/cropxon-logo-full.png',
+  image,
   url = 'https://cropxon.com',
   type = 'website'
 }: SEOHeadProps) => {
   const fullTitle = title.includes('Cropxon') ? title : `${title} | Cropxon`;
+  
+  // Get OG image from map based on URL path, or use provided image, or default
+  const urlPath = url.replace('https://cropxon.com', '');
+  const ogImage = image || ogImageMap[urlPath] || 'https://cropxon.com/og/cropxon-og.png';
   
   return (
     <Helmet>
@@ -34,7 +55,7 @@ const SEOHead = ({
       <meta property="og:url" content={url} />
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description} />
-      <meta property="og:image" content={image} />
+      <meta property="og:image" content={ogImage} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:site_name" content="Cropxon Innovations" />
@@ -46,7 +67,7 @@ const SEOHead = ({
       <meta name="twitter:creator" content="@CropxonAI" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={image} />
+      <meta name="twitter:image" content={ogImage} />
     </Helmet>
   );
 };

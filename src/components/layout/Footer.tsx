@@ -39,6 +39,7 @@ const Footer = () => {
       { label: "Contact", href: "/contact" },
     ],
     resources: [
+      { label: "Blog", href: "/blog" },
       { label: "Design Principles", href: "/design-principles" },
       { label: "Systems Philosophy", href: "/systems-not-products" },
       { label: "Platform Consoles", href: "/platforms" },

@@ -33,6 +33,7 @@ import Huminex from "./pages/products/Huminex";
 import Opzenix from "./pages/products/Opzenix";
 import ZenithStudio from "./pages/products/ZenithStudio";
 import NotFound from "./pages/NotFound";
+import Blog from "./pages/Blog";
 import TermsAndConditions from "./pages/policies/TermsAndConditions";
 import PrivacyPolicy from "./pages/policies/PrivacyPolicy";
 import RefundPolicy from "./pages/policies/RefundPolicy";
@@ -95,6 +96,7 @@ const AnimatedRoutes = () => {
           <Route path="/huminex" element={<Huminex />} />
           <Route path="/opzenix" element={<Opzenix />} />
           <Route path="/zenith-studio" element={<ZenithStudio />} />
+          <Route path="/blog" element={<Blog />} />
           <Route path="/terms" element={<TermsAndConditions />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/refund-policy" element={<RefundPolicy />} />
