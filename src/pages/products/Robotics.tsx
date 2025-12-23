@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet-async";
+import SEOHead from "@/components/SEOHead";
 import { Link } from "react-router-dom";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
@@ -49,13 +49,13 @@ const applications = [
 const Robotics = () => {
   return (
     <>
-      <Helmet>
-        <title>OpZeniX — Autonomous Systems Division | CropXon Innovations</title>
-        <meta
-          name="description"
-          content="OpZeniX develops advanced autonomous systems and industrial automation solutions for enterprise and government applications."
-        />
-      </Helmet>
+      <SEOHead
+        title="Robotics — Autonomous Systems & Industrial Automation Division"
+        description="Advanced autonomous systems and industrial automation solutions for enterprise and government. Computer vision, neural processing, precision mechanics, and swarm intelligence."
+        keywords="autonomous systems, industrial automation, robotics, computer vision, neural processing, precision mechanics, swarm intelligence, Cropxon Robotics"
+        url="https://cropxon.com/robotics"
+        type="product"
+      />
 
       <div className="min-h-screen bg-background">
         <Navigation />

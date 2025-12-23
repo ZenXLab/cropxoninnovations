@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
+import SEOHead from '@/components/SEOHead';
 import Navigation from '@/components/layout/Navigation';
 import Footer from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
@@ -191,10 +191,13 @@ const ZenithStudio = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Zenith Studio — Business & Content Creation Platform | Cropxon</title>
-        <meta name="description" content="Multi-tenant creation platform for building digital business experiences with CMS, LMS, and canvas builders." />
-      </Helmet>
+      <SEOHead
+        title="Zenith Studio — Business & Content Creation Platform"
+        description="Multi-tenant creation platform for building digital business experiences with CMS, LMS, canvas builders, and workflow automation. API extensible for unlimited customization."
+        keywords="CMS platform, LMS platform, content management, learning management, workflow automation, no-code builder, multi-tenant SaaS, Cropxon Zenith Studio"
+        url="https://cropxon.com/zenith-studio"
+        type="product"
+      />
 
       <div className="min-h-screen bg-background">
         <Navigation />

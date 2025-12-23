@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
+import SEOHead from '@/components/SEOHead';
 import Navigation from '@/components/layout/Navigation';
 import Footer from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
@@ -92,10 +92,13 @@ const Huminex = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Huminex — Workforce OS & Human Intelligence | Cropxon</title>
-        <meta name="description" content="Modern workforce operating system that manages people, roles, skills, and organizational intelligence." />
-      </Helmet>
+      <SEOHead
+        title="Huminex — Workforce OS & Human Intelligence Platform"
+        description="Modern workforce operating system that manages people, roles, skills, and organizational intelligence. HRMS, payroll, org structure, skill mapping, and workforce analytics."
+        keywords="workforce management, HRMS, human resources, payroll software, org structure, skill mapping, workforce analytics, HR platform, Cropxon Huminex"
+        url="https://cropxon.com/huminex"
+        type="product"
+      />
 
       <div className="min-h-screen bg-background">
         <Navigation />

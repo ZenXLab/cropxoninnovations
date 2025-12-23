@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet-async";
+import SEOHead from "@/components/SEOHead";
 import { Link } from "react-router-dom";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
@@ -41,13 +41,13 @@ const researchAreas = [
 const OriginxLabs = () => {
   return (
     <>
-      <Helmet>
-        <title>OriginX Labs — Research & Product Innovation | CropXon</title>
-        <meta
-          name="description"
-          content="OriginX Labs is CropXon's research and development division focused on AI/ML, advanced computing, and emerging technologies."
-        />
-      </Helmet>
+      <SEOHead
+        title="OriginX Labs — Research & Product Innovation Division"
+        description="OriginX Labs is Cropxon's research and development division focused on AI/ML, advanced computing, emerging technologies, and applied research."
+        keywords="AI research, ML research, R&D, product innovation, advanced computing, emerging technologies, applied research, Cropxon OriginX Labs"
+        url="https://cropxon.com/originx-labs"
+        type="website"
+      />
 
       <div className="min-h-screen bg-background">
         <Navigation />

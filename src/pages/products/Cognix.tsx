@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
+import SEOHead from '@/components/SEOHead';
 import Navigation from '@/components/layout/Navigation';
 import Footer from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
@@ -162,10 +162,13 @@ const Cognix = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Cognix — Software Cognition & Architecture Intelligence | Cropxon</title>
-        <meta name="description" content="AI-powered software cognition platform that understands existing codebases, architectures, and business workflows at a system level." />
-      </Helmet>
+      <SEOHead
+        title="Cognix — AI Software Cognition & Architecture Intelligence Platform"
+        description="AI-powered software cognition platform that understands existing codebases, architectures, and business workflows. Acts as an architectural reasoning assistant for CTOs, architects and senior developers."
+        keywords="software cognition, architecture intelligence, code analysis, AI architecture, legacy modernization, codebase analysis, technical debt, migration planning, Cropxon Cognix"
+        url="https://cropxon.com/cognix"
+        type="product"
+      />
 
       <div className="min-h-screen bg-background">
         <Navigation />

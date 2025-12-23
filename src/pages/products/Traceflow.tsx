@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Helmet } from 'react-helmet-async';
+import SEOHead from '@/components/SEOHead';
 import Navigation from '@/components/layout/Navigation';
 import Footer from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
@@ -148,10 +148,13 @@ const Traceflow = () => {
 
   return (
     <>
-      <Helmet>
-        <title>TraceFlow — Digital Cognition & Infrastructure Intelligence | Cropxon</title>
-        <meta name="description" content="Unifies every digital signal into a single, trusted intelligence layer for mission-critical systems." />
-      </Helmet>
+      <SEOHead
+        title="TraceFlow — Digital Cognition & Infrastructure Intelligence Platform"
+        description="Unifies every digital signal into a single, trusted intelligence layer for mission-critical systems. Real-time observability, cross-layer correlation, and zero-trust security."
+        keywords="digital cognition, infrastructure intelligence, observability, signal correlation, zero-trust, hybrid cloud, incident detection, security monitoring, Cropxon TraceFlow"
+        url="https://cropxon.com/traceflow"
+        type="product"
+      />
 
       <div className="min-h-screen bg-background">
         <Navigation />

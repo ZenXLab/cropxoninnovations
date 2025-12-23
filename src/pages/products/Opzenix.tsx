@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
+import SEOHead from '@/components/SEOHead';
 import Navigation from '@/components/layout/Navigation';
 import Footer from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
@@ -161,10 +161,13 @@ const Opzenix = () => {
 
   return (
     <>
-      <Helmet>
-        <title>OpZeniX — DevOps · DevSecOps · MLOps · AIOps · LLMOps | Cropxon</title>
-        <meta name="description" content="Intelligent operations and execution platform for modern software and AI systems." />
-      </Helmet>
+      <SEOHead
+        title="OpZeniX — DevOps, DevSecOps, MLOps, AIOps & LLMOps Platform"
+        description="Intelligent operations and execution platform for modern software and AI systems. CI/CD orchestration, infrastructure management, security automation, and ML lifecycle."
+        keywords="DevOps, DevSecOps, MLOps, AIOps, LLMOps, CI/CD, infrastructure management, security automation, ML lifecycle, Cropxon OpZeniX"
+        url="https://cropxon.com/opzenix"
+        type="product"
+      />
 
       <div className="min-h-screen bg-background">
         <Navigation />
