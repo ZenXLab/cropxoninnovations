@@ -728,12 +728,13 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
   };
 
   const handlePlatformClick = useCallback((platform: Platform) => {
-    if (platform.external) {
-      window.open(platform.href, '_blank', 'noopener,noreferrer');
-    } else {
-      navigate(platform.href);
-    }
-  }, [navigate]);
+    // Disabled - only hover interaction for dashboard preview
+    // if (platform.external) {
+    //   window.open(platform.href, '_blank', 'noopener,noreferrer');
+    // } else {
+    //   navigate(platform.href);
+    // }
+  }, []);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
     const pos = getInteractionPosition(e);
@@ -755,15 +756,9 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
   }, []);
 
   const handleClick = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
-    const pos = getInteractionPosition(e);
-    if (!pos) return;
-    const platform = findPlatformAtPosition(pos.x, pos.y);
-    if (platform) {
-      handlePlatformClick(platform);
-    } else {
-      setIsSpinning(prev => !prev);
-    }
-  }, [handlePlatformClick]);
+    // Only toggle spinning, no navigation
+    setIsSpinning(prev => !prev);
+  }, []);
 
   const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
     const pos = getInteractionPosition(e);
@@ -785,13 +780,10 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
   }, []);
 
   const handleTouchEnd = useCallback(() => {
-    if (hoveredPlatform) {
-      const platform = platformsRef.current.find(p => p.id === hoveredPlatform);
-      if (platform) handlePlatformClick(platform);
-    }
+    // Only clear interaction, no navigation
     interactionRef.current.active = false;
     setHoveredPlatform(null);
-  }, [hoveredPlatform, handlePlatformClick]);
+  }, [hoveredPlatform]);
 
   return (
     <div 
