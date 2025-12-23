@@ -286,14 +286,28 @@ const platformsData: PlatformData[] = [
 interface PlatformDashboardProps {
   platformId: string | null;
   onOpenFullscreen?: (platform: PlatformData) => void;
+  expanded?: boolean;
 }
 
-const PlatformDashboard = ({ platformId, onOpenFullscreen }: PlatformDashboardProps) => {
+interface DataParticle {
+  id: number;
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
+  progress: number;
+  speed: number;
+  size: number;
+}
+
+const PlatformDashboard = ({ platformId, onOpenFullscreen, expanded = false }: PlatformDashboardProps) => {
   const [animatedValues, setAnimatedValues] = useState<number[]>([0, 0, 0]);
   const [chartProgress, setChartProgress] = useState(0);
   const [flowIndex, setFlowIndex] = useState(0);
   const [particles, setParticles] = useState<{ id: number; x: number; y: number; delay: number }[]>([]);
+  const [dataParticles, setDataParticles] = useState<DataParticle[]>([]);
   const prevPlatformRef = useRef<string | null>(null);
+  const particleAnimationRef = useRef<number>();
 
   const currentPlatform = useMemo(() => 
     platformsData.find(p => p.id === platformId) || platformsData[0],
@@ -302,16 +316,51 @@ const PlatformDashboard = ({ platformId, onOpenFullscreen }: PlatformDashboardPr
 
   const Icon = currentPlatform.icon;
 
-  // Generate particles for data flow visualization
+  // Generate background particles
   useEffect(() => {
-    const newParticles = Array.from({ length: 8 }, (_, i) => ({
+    const newParticles = Array.from({ length: expanded ? 15 : 8 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
-      delay: i * 0.3,
+      delay: i * 0.2,
     }));
     setParticles(newParticles);
-  }, [platformId]);
+  }, [platformId, expanded]);
+
+  // Animated data flow particles between sections
+  useEffect(() => {
+    const createParticle = (): DataParticle => ({
+      id: Math.random(),
+      startX: 10 + Math.random() * 20,
+      startY: 20 + Math.random() * 10,
+      endX: 70 + Math.random() * 20,
+      endY: 60 + Math.random() * 20,
+      progress: 0,
+      speed: 0.008 + Math.random() * 0.006,
+      size: 2 + Math.random() * 3,
+    });
+
+    const initialParticles = Array.from({ length: expanded ? 8 : 4 }, createParticle);
+    setDataParticles(initialParticles);
+
+    const animate = () => {
+      setDataParticles(prev => prev.map(p => {
+        const newProgress = p.progress + p.speed;
+        if (newProgress >= 1) {
+          return createParticle();
+        }
+        return { ...p, progress: newProgress };
+      }));
+      particleAnimationRef.current = requestAnimationFrame(animate);
+    };
+
+    particleAnimationRef.current = requestAnimationFrame(animate);
+    return () => {
+      if (particleAnimationRef.current) {
+        cancelAnimationFrame(particleAnimationRef.current);
+      }
+    };
+  }, [platformId, expanded]);
 
   // Animate stats when platform changes
   useEffect(() => {
@@ -352,223 +401,466 @@ const PlatformDashboard = ({ platformId, onOpenFullscreen }: PlatformDashboardPr
   }, [currentPlatform.flowSteps.length]);
 
   return (
-    <div className="relative h-full flex flex-col bg-card/60 backdrop-blur-xl rounded-2xl border border-border/40 overflow-hidden">
+    <div className={`relative h-full flex flex-col bg-card/60 backdrop-blur-xl rounded-2xl border border-border/40 overflow-hidden ${expanded ? 'rounded-3xl' : ''}`}>
+      {/* Animated data flow particles */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
+        <defs>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        {dataParticles.map(particle => {
+          const x = particle.startX + (particle.endX - particle.startX) * particle.progress;
+          const y = particle.startY + (particle.endY - particle.startY) * particle.progress;
+          const opacity = Math.sin(particle.progress * Math.PI);
+          return (
+            <g key={particle.id}>
+              {/* Trail */}
+              <line
+                x1={`${particle.startX + (particle.endX - particle.startX) * Math.max(0, particle.progress - 0.15)}%`}
+                y1={`${particle.startY + (particle.endY - particle.startY) * Math.max(0, particle.progress - 0.15)}%`}
+                x2={`${x}%`}
+                y2={`${y}%`}
+                stroke={currentPlatform.color}
+                strokeWidth="1"
+                opacity={opacity * 0.3}
+              />
+              {/* Particle */}
+              <circle
+                cx={`${x}%`}
+                cy={`${y}%`}
+                r={particle.size}
+                fill={currentPlatform.color}
+                opacity={opacity * 0.8}
+                filter="url(#glow)"
+              />
+            </g>
+          );
+        })}
+      </svg>
+
       {/* Animated background particles */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {particles.map(particle => (
           <div
             key={particle.id}
-            className="absolute w-1 h-1 rounded-full animate-pulse"
+            className="absolute rounded-full animate-pulse"
             style={{
               left: `${particle.x}%`,
               top: `${particle.y}%`,
+              width: expanded ? '3px' : '2px',
+              height: expanded ? '3px' : '2px',
               backgroundColor: currentPlatform.color,
-              opacity: 0.3,
+              opacity: 0.25,
               animationDelay: `${particle.delay}s`,
               animationDuration: '2s',
             }}
           />
         ))}
         <div
-          className="absolute inset-0 opacity-[0.03]"
+          className="absolute inset-0 opacity-[0.04]"
           style={{
-            background: `radial-gradient(ellipse 80% 60% at 50% 0%, ${currentPlatform.color.replace(')', ' / 0.3)')}, transparent 60%)`,
+            background: `radial-gradient(ellipse 80% 60% at 50% 0%, ${currentPlatform.color.replace(')', ' / 0.4)')}, transparent 60%)`,
           }}
         />
       </div>
 
       {/* Dashboard Header */}
-      <div className="relative flex items-center justify-between px-4 py-3 border-b border-border/30 bg-muted/20">
+      <div className={`relative flex items-center justify-between border-b border-border/30 bg-muted/20 ${expanded ? 'px-6 py-4' : 'px-4 py-3'}`}>
         <div className="flex items-center gap-3">
           <div
-            className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-500"
+            className={`rounded-xl flex items-center justify-center transition-all duration-500 ${expanded ? 'w-12 h-12' : 'w-9 h-9'}`}
             style={{
               backgroundColor: currentPlatform.color,
               boxShadow: `0 4px 16px ${currentPlatform.color.replace(')', ' / 0.4)')}`,
             }}
           >
-            <Icon className="w-4 h-4 text-white" />
+            <Icon className={`text-white ${expanded ? 'w-6 h-6' : 'w-4 h-4'}`} />
           </div>
           <div>
-            <h3 className="font-display text-sm font-bold text-foreground">{currentPlatform.name}</h3>
-            <p className="text-[10px] text-muted-foreground truncate max-w-[180px]">{currentPlatform.tagline}</p>
+            <h3 className={`font-display font-bold text-foreground ${expanded ? 'text-xl' : 'text-sm'}`}>{currentPlatform.name}</h3>
+            <p className={`text-muted-foreground ${expanded ? 'text-sm max-w-none' : 'text-[10px] truncate max-w-[180px]'}`}>{currentPlatform.tagline}</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1.5">
-            <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-[9px] text-muted-foreground">LIVE</span>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/10 border border-green-500/30 rounded-full">
+            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            <span className={`text-green-600 dark:text-green-400 font-medium ${expanded ? 'text-xs' : 'text-[9px]'}`}>LIVE</span>
           </div>
           {onOpenFullscreen && (
             <button
               onClick={() => onOpenFullscreen(currentPlatform)}
-              className="p-1.5 rounded-lg hover:bg-muted/50 transition-colors"
+              className="p-2 rounded-lg hover:bg-muted/50 transition-colors"
             >
-              <Maximize2 className="w-3.5 h-3.5 text-muted-foreground" />
+              <Maximize2 className={`text-muted-foreground ${expanded ? 'w-5 h-5' : 'w-3.5 h-3.5'}`} />
             </button>
           )}
         </div>
       </div>
 
       {/* Dashboard Content */}
-      <div className="relative flex-1 p-4 space-y-4 overflow-y-auto scrollbar-thin">
-        {/* Metrics Grid */}
-        <div className="grid grid-cols-2 gap-2">
-          {currentPlatform.metrics.slice(0, 4).map((metric, index) => (
-            <div
-              key={metric.label}
-              className="relative p-3 bg-muted/30 rounded-xl border border-border/30 overflow-hidden group hover:border-primary/30 transition-all duration-300"
-              style={{
-                animation: `fadeSlideUp 0.4s ease-out ${index * 80}ms forwards`,
-                opacity: 0,
-                transform: 'translateY(8px)',
-              }}
-            >
-              <p className="text-[9px] text-muted-foreground uppercase tracking-wide mb-0.5">{metric.label}</p>
-              <p className="font-display text-lg font-bold text-foreground">{metric.value}</p>
-              {metric.change && (
-                <div className={`flex items-center gap-0.5 mt-0.5 text-[9px] ${
-                  metric.trend === 'up' ? 'text-green-500' :
-                  metric.trend === 'down' ? 'text-red-500' : 'text-muted-foreground'
-                }`}>
-                  <TrendingUp className={`w-2.5 h-2.5 ${metric.trend === 'down' ? 'rotate-180' : ''}`} />
-                  <span>{metric.change}</span>
-                </div>
-              )}
-              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/5 to-transparent" />
-            </div>
-          ))}
-        </div>
-
-        {/* Live Data Flow */}
-        <div className="p-3 bg-muted/20 rounded-xl border border-border/30">
-          <p className="text-[10px] font-medium text-foreground mb-3">Data Flow Pipeline</p>
-          <div className="flex items-center justify-between gap-1">
-            {currentPlatform.flowSteps.map((step, index) => {
-              const StepIcon = step.icon;
-              const isActive = index <= flowIndex;
-              return (
-                <div key={step.label} className="flex items-center flex-1">
-                  <div className="flex flex-col items-center flex-1">
-                    <div
-                      className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-500 ${
-                        isActive ? 'scale-110' : 'scale-100'
-                      }`}
-                      style={{
-                        backgroundColor: isActive ? currentPlatform.color : 'hsl(var(--muted) / 0.5)',
-                        boxShadow: isActive ? `0 4px 12px ${currentPlatform.color.replace(')', ' / 0.4)')}` : 'none',
-                      }}
-                    >
-                      <StepIcon className={`w-3.5 h-3.5 transition-colors ${isActive ? 'text-white' : 'text-muted-foreground'}`} />
-                    </div>
-                    <p className={`text-[8px] mt-1 text-center transition-colors ${isActive ? 'text-foreground' : 'text-muted-foreground'}`}>
-                      {step.label}
-                    </p>
+      <div className={`relative flex-1 overflow-y-auto scrollbar-thin ${expanded ? 'p-6' : 'p-4'}`}>
+        {expanded ? (
+          /* Expanded Layout - Grid with Chart */
+          <div className="grid grid-cols-3 gap-6 h-full">
+            {/* Left Column - Metrics + Stats */}
+            <div className="col-span-2 space-y-5">
+              {/* Metrics Grid */}
+              <div className="grid grid-cols-4 gap-3">
+                {currentPlatform.metrics.map((metric, index) => (
+                  <div
+                    key={metric.label}
+                    className="relative p-4 bg-muted/30 rounded-xl border border-border/30 overflow-hidden group hover:border-primary/30 transition-all duration-300"
+                    style={{
+                      animation: `fadeSlideUp 0.4s ease-out ${index * 80}ms forwards`,
+                      opacity: 0,
+                      transform: 'translateY(8px)',
+                    }}
+                  >
+                    <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">{metric.label}</p>
+                    <p className="font-display text-2xl font-bold text-foreground">{metric.value}</p>
+                    {metric.change && (
+                      <div className={`flex items-center gap-1 mt-1 text-xs ${
+                        metric.trend === 'up' ? 'text-green-500' :
+                        metric.trend === 'down' ? 'text-red-500' : 'text-muted-foreground'
+                      }`}>
+                        <TrendingUp className={`w-3 h-3 ${metric.trend === 'down' ? 'rotate-180' : ''}`} />
+                        <span>{metric.change}</span>
+                      </div>
+                    )}
+                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/5 to-transparent" />
                   </div>
-                  {index < currentPlatform.flowSteps.length - 1 && (
-                    <div className="flex-shrink-0 w-6 h-0.5 bg-border/50 relative overflow-hidden">
-                      <div
-                        className="absolute inset-y-0 left-0 transition-all duration-500"
-                        style={{
-                          width: index < flowIndex ? '100%' : '0%',
-                          backgroundColor: currentPlatform.color,
-                        }}
-                      />
-                      {index === flowIndex - 1 && (
+                ))}
+              </div>
+
+              {/* Live Chart Area */}
+              <div className="p-5 bg-muted/20 rounded-xl border border-border/30 flex-1">
+                <div className="flex items-center justify-between mb-4">
+                  <p className="text-sm font-medium text-foreground">Real-time Performance</p>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: currentPlatform.color }} />
+                    <span className="text-xs text-muted-foreground">Live Data Stream</span>
+                  </div>
+                </div>
+                <div className="relative h-32 flex items-end gap-1">
+                  {Array.from({ length: 24 }, (_, i) => (
+                    <div
+                      key={i}
+                      className="flex-1 rounded-t transition-all duration-500"
+                      style={{
+                        height: `${(40 + Math.sin(i * 0.5) * 30 + Math.random() * 20) * chartProgress}%`,
+                        backgroundColor: currentPlatform.color,
+                        opacity: 0.3 + (i / 24) * 0.7,
+                        transitionDelay: `${i * 25}ms`,
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Flow Pipeline */}
+              <div className="p-5 bg-muted/20 rounded-xl border border-border/30">
+                <p className="text-sm font-medium text-foreground mb-4">Data Flow Pipeline</p>
+                <div className="flex items-center justify-between gap-3">
+                  {currentPlatform.flowSteps.map((step, index) => {
+                    const StepIcon = step.icon;
+                    const isActive = index <= flowIndex;
+                    const isCurrent = index === flowIndex;
+                    return (
+                      <div key={step.label} className="flex items-center flex-1">
+                        <div className="flex flex-col items-center flex-1">
+                          <div
+                            className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-500 ${
+                              isCurrent ? 'scale-115' : isActive ? 'scale-100' : 'scale-95'
+                            }`}
+                            style={{
+                              backgroundColor: isActive ? currentPlatform.color : 'hsl(var(--muted) / 0.5)',
+                              boxShadow: isCurrent ? `0 6px 20px ${currentPlatform.color.replace(')', ' / 0.5)')}` : 'none',
+                            }}
+                          >
+                            <StepIcon className={`w-5 h-5 transition-colors ${isActive ? 'text-white' : 'text-muted-foreground'}`} />
+                          </div>
+                          <p className={`text-xs mt-2 text-center font-medium transition-colors ${isActive ? 'text-foreground' : 'text-muted-foreground'}`}>
+                            {step.label}
+                          </p>
+                        </div>
+                        {index < currentPlatform.flowSteps.length - 1 && (
+                          <div className="flex-shrink-0 w-12 h-1 bg-border/50 relative overflow-hidden rounded-full">
+                            <div
+                              className="absolute inset-y-0 left-0 rounded-full transition-all duration-500"
+                              style={{
+                                width: index < flowIndex ? '100%' : '0%',
+                                backgroundColor: currentPlatform.color,
+                              }}
+                            />
+                            {index === flowIndex - 1 && (
+                              <div
+                                className="absolute w-3 h-3 rounded-full -top-1 animate-pulse"
+                                style={{
+                                  backgroundColor: currentPlatform.color,
+                                  right: 0,
+                                  boxShadow: `0 0 12px ${currentPlatform.color}`,
+                                }}
+                              />
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column - Stats + Capabilities */}
+            <div className="space-y-5">
+              {/* System Stats */}
+              <div className="p-5 bg-muted/20 rounded-xl border border-border/30">
+                <p className="text-sm font-medium text-foreground mb-4">System Performance</p>
+                <div className="space-y-4">
+                  {currentPlatform.liveData.map((stat, index) => (
+                    <div key={stat.label}>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-xs text-muted-foreground">{stat.label}</span>
+                        <span className="text-sm font-mono font-bold text-foreground">
+                          {animatedValues[index]}{stat.unit}
+                        </span>
+                      </div>
+                      <div className="h-2 bg-muted/50 rounded-full overflow-hidden">
                         <div
-                          className="absolute w-2 h-2 rounded-full -top-0.5 animate-pulse"
+                          className="h-full rounded-full transition-all duration-700 ease-out"
                           style={{
+                            width: `${animatedValues[index]}%`,
                             backgroundColor: currentPlatform.color,
-                            right: 0,
-                            boxShadow: `0 0 8px ${currentPlatform.color}`,
+                            boxShadow: `0 0 10px ${currentPlatform.color.replace(')', ' / 0.5)')}`,
                           }}
                         />
-                      )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Capabilities */}
+              <div className="p-5 bg-muted/20 rounded-xl border border-border/30">
+                <p className="text-sm font-medium text-foreground mb-4">Active Capabilities</p>
+                <div className="space-y-2">
+                  {currentPlatform.capabilities.map((cap, index) => {
+                    const CapIcon = cap.icon;
+                    return (
+                      <div
+                        key={cap.label}
+                        className="flex items-center gap-3 p-3 bg-card/50 rounded-lg border border-border/20"
+                        style={{
+                          animation: `fadeSlideUp 0.4s ease-out ${200 + index * 80}ms forwards`,
+                          opacity: 0,
+                          transform: 'translateY(8px)',
+                        }}
+                      >
+                        <div
+                          className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+                          style={{ backgroundColor: `${currentPlatform.color.replace(')', ' / 0.15)')}` }}
+                        >
+                          <CapIcon className="w-4 h-4" style={{ color: currentPlatform.color }} />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs font-medium text-foreground">{cap.label}</p>
+                          <div className="flex items-center gap-1.5 mt-0.5">
+                            <div className={`w-1.5 h-1.5 rounded-full ${
+                              cap.status === 'active' ? 'bg-green-500' :
+                              cap.status === 'streaming' ? 'bg-blue-500 animate-pulse' :
+                              'bg-amber-500 animate-pulse'
+                            }`} />
+                            <span className="text-[10px] text-muted-foreground capitalize">{cap.status}</span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Domain Link */}
+              <a
+                href={`https://${currentPlatform.domain}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between p-4 bg-muted/30 rounded-xl border border-border/30 hover:border-primary/40 transition-all group"
+              >
+                <div className="flex items-center gap-3">
+                  <Globe className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                  <span className="text-sm text-foreground">{currentPlatform.domain}</span>
+                </div>
+                <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+              </a>
+            </div>
+          </div>
+        ) : (
+          /* Compact Layout */
+          <div className="space-y-4">
+            {/* Metrics Grid */}
+            <div className="grid grid-cols-2 gap-2">
+              {currentPlatform.metrics.slice(0, 4).map((metric, index) => (
+                <div
+                  key={metric.label}
+                  className="relative p-3 bg-muted/30 rounded-xl border border-border/30 overflow-hidden group hover:border-primary/30 transition-all duration-300"
+                  style={{
+                    animation: `fadeSlideUp 0.4s ease-out ${index * 80}ms forwards`,
+                    opacity: 0,
+                    transform: 'translateY(8px)',
+                  }}
+                >
+                  <p className="text-[9px] text-muted-foreground uppercase tracking-wide mb-0.5">{metric.label}</p>
+                  <p className="font-display text-lg font-bold text-foreground">{metric.value}</p>
+                  {metric.change && (
+                    <div className={`flex items-center gap-0.5 mt-0.5 text-[9px] ${
+                      metric.trend === 'up' ? 'text-green-500' :
+                      metric.trend === 'down' ? 'text-red-500' : 'text-muted-foreground'
+                    }`}>
+                      <TrendingUp className={`w-2.5 h-2.5 ${metric.trend === 'down' ? 'rotate-180' : ''}`} />
+                      <span>{metric.change}</span>
                     </div>
                   )}
+                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/5 to-transparent" />
                 </div>
-              );
-            })}
-          </div>
-        </div>
+              ))}
+            </div>
 
-        {/* System Stats */}
-        <div className="p-3 bg-muted/20 rounded-xl border border-border/30">
-          <p className="text-[10px] font-medium text-foreground mb-3">System Performance</p>
-          <div className="space-y-3">
-            {currentPlatform.liveData.map((stat, index) => (
-              <div key={stat.label}>
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-[9px] text-muted-foreground">{stat.label}</span>
-                  <span className="text-[10px] font-mono font-medium text-foreground">
-                    {animatedValues[index]}{stat.unit}
-                  </span>
-                </div>
-                <div className="h-1.5 bg-muted/50 rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all duration-700 ease-out"
-                    style={{
-                      width: `${animatedValues[index]}%`,
-                      backgroundColor: currentPlatform.color,
-                      boxShadow: `0 0 8px ${currentPlatform.color.replace(')', ' / 0.5)')}`,
-                    }}
-                  />
-                </div>
+            {/* Live Data Flow */}
+            <div className="p-3 bg-muted/20 rounded-xl border border-border/30">
+              <p className="text-[10px] font-medium text-foreground mb-3">Data Flow Pipeline</p>
+              <div className="flex items-center justify-between gap-1">
+                {currentPlatform.flowSteps.map((step, index) => {
+                  const StepIcon = step.icon;
+                  const isActive = index <= flowIndex;
+                  return (
+                    <div key={step.label} className="flex items-center flex-1">
+                      <div className="flex flex-col items-center flex-1">
+                        <div
+                          className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-500 ${
+                            isActive ? 'scale-110' : 'scale-100'
+                          }`}
+                          style={{
+                            backgroundColor: isActive ? currentPlatform.color : 'hsl(var(--muted) / 0.5)',
+                            boxShadow: isActive ? `0 4px 12px ${currentPlatform.color.replace(')', ' / 0.4)')}` : 'none',
+                          }}
+                        >
+                          <StepIcon className={`w-3.5 h-3.5 transition-colors ${isActive ? 'text-white' : 'text-muted-foreground'}`} />
+                        </div>
+                        <p className={`text-[8px] mt-1 text-center transition-colors ${isActive ? 'text-foreground' : 'text-muted-foreground'}`}>
+                          {step.label}
+                        </p>
+                      </div>
+                      {index < currentPlatform.flowSteps.length - 1 && (
+                        <div className="flex-shrink-0 w-6 h-0.5 bg-border/50 relative overflow-hidden">
+                          <div
+                            className="absolute inset-y-0 left-0 transition-all duration-500"
+                            style={{
+                              width: index < flowIndex ? '100%' : '0%',
+                              backgroundColor: currentPlatform.color,
+                            }}
+                          />
+                          {index === flowIndex - 1 && (
+                            <div
+                              className="absolute w-2 h-2 rounded-full -top-0.5 animate-pulse"
+                              style={{
+                                backgroundColor: currentPlatform.color,
+                                right: 0,
+                                boxShadow: `0 0 8px ${currentPlatform.color}`,
+                              }}
+                            />
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
 
-        {/* Capabilities */}
-        <div className="grid grid-cols-2 gap-2">
-          {currentPlatform.capabilities.map((cap, index) => {
-            const CapIcon = cap.icon;
-            return (
-              <div
-                key={cap.label}
-                className="flex items-center gap-2 p-2.5 bg-muted/20 rounded-lg border border-border/20"
-                style={{
-                  animation: `fadeSlideUp 0.4s ease-out ${200 + index * 80}ms forwards`,
-                  opacity: 0,
-                  transform: 'translateY(8px)',
-                }}
-              >
-                <div
-                  className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
-                  style={{ backgroundColor: `${currentPlatform.color.replace(')', ' / 0.15)')}` }}
-                >
-                  <CapIcon className="w-3 h-3" style={{ color: currentPlatform.color }} />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-[9px] font-medium text-foreground truncate">{cap.label}</p>
-                  <div className="flex items-center gap-1 mt-0.5">
-                    <div className={`w-1 h-1 rounded-full ${
-                      cap.status === 'active' ? 'bg-green-500' :
-                      cap.status === 'streaming' ? 'bg-blue-500 animate-pulse' :
-                      'bg-amber-500 animate-pulse'
-                    }`} />
-                    <span className="text-[8px] text-muted-foreground capitalize">{cap.status}</span>
+            {/* System Stats */}
+            <div className="p-3 bg-muted/20 rounded-xl border border-border/30">
+              <p className="text-[10px] font-medium text-foreground mb-3">System Performance</p>
+              <div className="space-y-3">
+                {currentPlatform.liveData.map((stat, index) => (
+                  <div key={stat.label}>
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-[9px] text-muted-foreground">{stat.label}</span>
+                      <span className="text-[10px] font-mono font-medium text-foreground">
+                        {animatedValues[index]}{stat.unit}
+                      </span>
+                    </div>
+                    <div className="h-1.5 bg-muted/50 rounded-full overflow-hidden">
+                      <div
+                        className="h-full rounded-full transition-all duration-700 ease-out"
+                        style={{
+                          width: `${animatedValues[index]}%`,
+                          backgroundColor: currentPlatform.color,
+                          boxShadow: `0 0 8px ${currentPlatform.color.replace(')', ' / 0.5)')}`,
+                        }}
+                      />
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
-            );
-          })}
-        </div>
+            </div>
 
-        {/* Domain Link */}
-        <a
-          href={`https://${currentPlatform.domain}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-between p-3 bg-muted/30 rounded-xl border border-border/30 hover:border-primary/40 transition-all group"
-        >
-          <div className="flex items-center gap-2">
-            <Globe className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-            <span className="text-xs text-foreground">{currentPlatform.domain}</span>
+            {/* Capabilities */}
+            <div className="grid grid-cols-2 gap-2">
+              {currentPlatform.capabilities.map((cap, index) => {
+                const CapIcon = cap.icon;
+                return (
+                  <div
+                    key={cap.label}
+                    className="flex items-center gap-2 p-2.5 bg-muted/20 rounded-lg border border-border/20"
+                    style={{
+                      animation: `fadeSlideUp 0.4s ease-out ${200 + index * 80}ms forwards`,
+                      opacity: 0,
+                      transform: 'translateY(8px)',
+                    }}
+                  >
+                    <div
+                      className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
+                      style={{ backgroundColor: `${currentPlatform.color.replace(')', ' / 0.15)')}` }}
+                    >
+                      <CapIcon className="w-3 h-3" style={{ color: currentPlatform.color }} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[9px] font-medium text-foreground truncate">{cap.label}</p>
+                      <div className="flex items-center gap-1 mt-0.5">
+                        <div className={`w-1 h-1 rounded-full ${
+                          cap.status === 'active' ? 'bg-green-500' :
+                          cap.status === 'streaming' ? 'bg-blue-500 animate-pulse' :
+                          'bg-amber-500 animate-pulse'
+                        }`} />
+                        <span className="text-[8px] text-muted-foreground capitalize">{cap.status}</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Domain Link */}
+            <a
+              href={`https://${currentPlatform.domain}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between p-3 bg-muted/30 rounded-xl border border-border/30 hover:border-primary/40 transition-all group"
+            >
+              <div className="flex items-center gap-2">
+                <Globe className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                <span className="text-xs text-foreground">{currentPlatform.domain}</span>
+              </div>
+              <ExternalLink className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+            </a>
           </div>
-          <ExternalLink className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
-        </a>
+        )}
       </div>
 
       <style>{`
