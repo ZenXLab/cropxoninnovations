@@ -145,6 +145,184 @@ const ZenithInstitute = () => {
           </div>
         </section>
 
+        {/* Learning Path Visualization */}
+        <section className="py-16 lg:py-20 border-b border-border/30 overflow-hidden">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+            <div className="text-center mb-10 sm:mb-12">
+              <p className="font-mono text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider mb-2">
+                Structured Learning Journey
+              </p>
+              <h2 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold text-foreground mb-3">
+                Your Engineering Path
+              </h2>
+              <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl mx-auto">
+                A clear roadmap from fundamentals to industry-ready expertise
+              </p>
+            </div>
+
+            {/* Learning Path Diagram */}
+            <div className="relative p-6 sm:p-8 bg-card/60 backdrop-blur-xl rounded-2xl border border-border/40">
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center gap-3">
+                  <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse" />
+                  <span className="text-xs font-mono text-muted-foreground">Active Learning Path</span>
+                </div>
+                <span className="text-[10px] font-mono text-muted-foreground">12-Week Program</span>
+              </div>
+
+              {/* Path Steps */}
+              <div className="relative">
+                {/* Connection Line */}
+                <div className="absolute left-6 sm:left-8 top-8 bottom-8 w-px bg-gradient-to-b from-primary via-accent to-green-500 hidden sm:block" />
+
+                <div className="space-y-6">
+                  {[
+                    {
+                      week: 'Week 1-2',
+                      title: 'Foundation',
+                      description: 'Core programming concepts, Git, and development environment setup',
+                      skills: ['Git', 'CLI', 'IDE Setup'],
+                      status: 'completed',
+                      color: 'hsl(145, 70%, 45%)',
+                    },
+                    {
+                      week: 'Week 3-4',
+                      title: 'Frontend Fundamentals',
+                      description: 'HTML, CSS, JavaScript, and React basics with hands-on projects',
+                      skills: ['React', 'TypeScript', 'CSS'],
+                      status: 'completed',
+                      color: 'hsl(145, 70%, 45%)',
+                    },
+                    {
+                      week: 'Week 5-6',
+                      title: 'Backend Development',
+                      description: 'APIs, databases, and server-side programming',
+                      skills: ['Node.js', 'PostgreSQL', 'REST'],
+                      status: 'current',
+                      color: 'hsl(220, 70%, 55%)',
+                    },
+                    {
+                      week: 'Week 7-8',
+                      title: 'Full Stack Integration',
+                      description: 'Connect frontend and backend, authentication, and deployment',
+                      skills: ['Auth', 'DevOps', 'Docker'],
+                      status: 'upcoming',
+                      color: 'hsl(280, 55%, 55%)',
+                    },
+                    {
+                      week: 'Week 9-10',
+                      title: 'Production Systems',
+                      description: 'Real-world architecture, testing, and performance optimization',
+                      skills: ['Testing', 'CI/CD', 'Monitoring'],
+                      status: 'upcoming',
+                      color: 'hsl(280, 55%, 55%)',
+                    },
+                    {
+                      week: 'Week 11-12',
+                      title: 'Capstone Project',
+                      description: 'Build and deploy a complete production application',
+                      skills: ['Project', 'Review', 'Certificate'],
+                      status: 'upcoming',
+                      color: 'hsl(25, 75%, 52%)',
+                    },
+                  ].map((step, index) => (
+                    <div key={step.title} className="relative flex gap-4 sm:gap-6">
+                      {/* Step Indicator */}
+                      <div className="relative z-10 shrink-0">
+                        <div 
+                          className={`w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center border-2 backdrop-blur-xl transition-all duration-300 ${
+                            step.status === 'current' ? 'scale-110 shadow-lg' : ''
+                          }`}
+                          style={{
+                            backgroundColor: step.status === 'completed' 
+                              ? `${step.color.replace(')', ' / 0.2)')}` 
+                              : step.status === 'current'
+                              ? `${step.color.replace(')', ' / 0.15)')}`
+                              : 'hsl(var(--muted) / 0.3)',
+                            borderColor: step.status === 'upcoming' ? 'hsl(var(--border) / 0.3)' : step.color,
+                            boxShadow: step.status === 'current' ? `0 8px 32px ${step.color.replace(')', ' / 0.3)')}` : 'none',
+                          }}
+                        >
+                          {step.status === 'completed' ? (
+                            <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: step.color }} />
+                          ) : (
+                            <span 
+                              className="text-sm sm:text-lg font-bold"
+                              style={{ color: step.status === 'upcoming' ? 'hsl(var(--muted-foreground))' : step.color }}
+                            >
+                              {index + 1}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Step Content */}
+                      <div className={`flex-1 p-4 sm:p-5 rounded-xl border transition-all duration-300 ${
+                        step.status === 'current' 
+                          ? 'bg-card/80 border-primary/30 shadow-lg' 
+                          : 'bg-muted/20 border-border/20'
+                      }`}>
+                        <div className="flex flex-wrap items-center gap-2 mb-2">
+                          <span className="text-[10px] font-mono text-muted-foreground">{step.week}</span>
+                          {step.status === 'current' && (
+                            <span className="text-[9px] px-2 py-0.5 rounded-full bg-primary/20 text-primary font-mono">
+                              IN PROGRESS
+                            </span>
+                          )}
+                          {step.status === 'completed' && (
+                            <span className="text-[9px] px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 font-mono">
+                              COMPLETED
+                            </span>
+                          )}
+                        </div>
+                        <h3 className="font-display text-sm sm:text-base font-bold text-foreground mb-1">
+                          {step.title}
+                        </h3>
+                        <p className="text-[11px] sm:text-xs text-muted-foreground mb-3">
+                          {step.description}
+                        </p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {step.skills.map((skill) => (
+                            <span 
+                              key={skill} 
+                              className="text-[9px] px-2 py-0.5 rounded-full border"
+                              style={{
+                                backgroundColor: `${step.color.replace(')', ' / 0.1)')}`,
+                                borderColor: `${step.color.replace(')', ' / 0.2)')}`,
+                                color: step.status === 'upcoming' ? 'hsl(var(--muted-foreground))' : step.color,
+                              }}
+                            >
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Progress Summary */}
+              <div className="mt-8 pt-6 border-t border-border/30">
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="text-center">
+                    <p className="text-lg sm:text-2xl font-bold text-green-400">2</p>
+                    <p className="text-[10px] text-muted-foreground">Completed</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-lg sm:text-2xl font-bold text-primary">1</p>
+                    <p className="text-[10px] text-muted-foreground">In Progress</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-lg sm:text-2xl font-bold text-muted-foreground">3</p>
+                    <p className="text-[10px] text-muted-foreground">Upcoming</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Stats Section */}
         <section 
           ref={statsRef}
