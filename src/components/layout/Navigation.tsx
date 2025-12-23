@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Search } from "lucide-react";
 import { ThemeSelector } from "@/components/ThemeSelector";
 import MobileMenu from "./MobileMenu";
 import MegaMenu from "./MegaMenu";
@@ -183,6 +183,14 @@ const Navigation = () => {
 
             {/* Right Side */}
             <div className="flex items-center gap-4 sm:gap-5">
+              <Link
+                to="/search"
+                className="p-2 rounded-lg hover:bg-muted/50 transition-colors group"
+                title="Search"
+              >
+                <Search className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+              </Link>
+
               <div className="hidden sm:block">
                 <ThemeSelector />
               </div>
