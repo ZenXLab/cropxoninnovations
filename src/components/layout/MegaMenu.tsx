@@ -20,7 +20,7 @@ const ecosystemPlatforms: Platform[] = [
     description: 'Enterprise cognition and decision systems',
     href: 'https://cognix.cropxon.com',
     external: true,
-    color: 'hsl(220, 70%, 50%)',
+    color: 'hsl(220, 70%, 55%)',
   },
   {
     id: 'opzenix',
@@ -29,7 +29,7 @@ const ecosystemPlatforms: Platform[] = [
     description: 'Intelligent operations management platform',
     href: 'https://opzenix.com',
     external: true,
-    color: 'hsl(260, 60%, 55%)',
+    color: 'hsl(260, 60%, 58%)',
   },
   {
     id: 'qualyx',
@@ -38,7 +38,7 @@ const ecosystemPlatforms: Platform[] = [
     description: 'Quality assurance and compliance engine',
     href: 'https://qualyx.cropxon.com',
     external: true,
-    color: 'hsl(180, 55%, 45%)',
+    color: 'hsl(175, 60%, 45%)',
   },
   {
     id: 'huminex',
@@ -47,7 +47,7 @@ const ecosystemPlatforms: Platform[] = [
     description: 'Workforce intelligence and management',
     href: 'https://huminex.cropxon.com',
     external: true,
-    color: 'hsl(340, 60%, 50%)',
+    color: 'hsl(340, 65%, 55%)',
   },
   {
     id: 'traceflow',
@@ -56,7 +56,7 @@ const ecosystemPlatforms: Platform[] = [
     description: 'End-to-end supply chain traceability',
     href: 'https://traceflow.cropxon.com',
     external: true,
-    color: 'hsl(200, 65%, 48%)',
+    color: 'hsl(200, 70%, 50%)',
   },
   {
     id: 'zenith-core',
@@ -65,7 +65,7 @@ const ecosystemPlatforms: Platform[] = [
     description: 'Core infrastructure and platform services',
     href: 'https://zenith.cropxon.com',
     external: true,
-    color: 'hsl(280, 55%, 50%)',
+    color: 'hsl(280, 55%, 55%)',
   },
   {
     id: 'zenith-institute',
@@ -74,7 +74,7 @@ const ecosystemPlatforms: Platform[] = [
     description: 'Industry-backed engineering education',
     href: '/zenith-institute',
     external: false,
-    color: 'hsl(150, 50%, 45%)',
+    color: 'hsl(145, 55%, 45%)',
   },
   {
     id: 'originx-labs',
@@ -83,7 +83,7 @@ const ecosystemPlatforms: Platform[] = [
     description: 'Experimental research and innovation lab',
     href: 'https://originxlabs.com',
     external: true,
-    color: 'hsl(30, 70%, 50%)',
+    color: 'hsl(25, 75%, 52%)',
   },
 ];
 
@@ -120,7 +120,7 @@ const MegaMenu = ({ isOpen, onClose }: MegaMenuProps) => {
   return (
     <div
       ref={menuRef}
-      className="fixed left-0 right-0 top-[56px] z-50 bg-[#0a0a0f]/98 backdrop-blur-xl border-b border-border/10"
+      className="fixed left-0 right-0 top-[56px] z-50 bg-card/98 backdrop-blur-xl border-b border-border/20"
       style={{
         animation: 'megaMenuIn 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
       }}
@@ -128,11 +128,11 @@ const MegaMenu = ({ isOpen, onClose }: MegaMenuProps) => {
     >
       {/* Subtle grid background */}
       <div 
-        className="absolute inset-0 opacity-[0.03]"
+        className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03]"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)
+            linear-gradient(hsl(var(--foreground) / 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, hsl(var(--foreground) / 0.05) 1px, transparent 1px)
           `,
           backgroundSize: '40px 40px',
         }}
@@ -140,23 +140,23 @@ const MegaMenu = ({ isOpen, onClose }: MegaMenuProps) => {
 
       {/* Cursor glow effect */}
       <div
-        className="absolute w-[300px] h-[300px] pointer-events-none rounded-full opacity-20"
+        className="absolute w-[300px] h-[300px] pointer-events-none rounded-full opacity-15 dark:opacity-20"
         style={{
-          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, hsl(var(--primary) / 0.3) 0%, transparent 70%)',
           left: mousePosition.x - 150,
           top: mousePosition.y - 150,
           transition: 'left 0.1s ease-out, top 0.1s ease-out',
         }}
       />
 
-      <div className="relative max-w-[1400px] mx-auto px-8 py-10">
+      <div className="relative max-w-[1400px] mx-auto px-6 sm:px-8 py-8 sm:py-10">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-6 sm:mb-8">
           <div>
-            <h2 className="text-xs font-medium text-muted-foreground/70 tracking-[0.2em] uppercase mb-1">
+            <h2 className="text-[10px] sm:text-xs font-medium text-muted-foreground tracking-[0.2em] uppercase mb-1">
               Technology Ecosystem
             </h2>
-            <p className="text-sm text-muted-foreground/50">
+            <p className="text-xs sm:text-sm text-muted-foreground/60">
               Foundational platforms for enterprise infrastructure
             </p>
           </div>
@@ -164,7 +164,7 @@ const MegaMenu = ({ isOpen, onClose }: MegaMenuProps) => {
           <Link
             to="/platforms"
             onClick={onClose}
-            className="text-xs font-medium text-muted-foreground hover:text-foreground tracking-wider uppercase transition-colors flex items-center gap-2"
+            className="text-[10px] sm:text-xs font-medium text-muted-foreground hover:text-foreground tracking-wider uppercase transition-colors flex items-center gap-2"
           >
             View All Platforms
             <ArrowUpRight className="w-3 h-3" />
@@ -172,7 +172,7 @@ const MegaMenu = ({ isOpen, onClose }: MegaMenuProps) => {
         </div>
 
         {/* Platform Grid */}
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {ecosystemPlatforms.map((platform, index) => (
             <PlatformCard
               key={platform.id}
@@ -185,29 +185,12 @@ const MegaMenu = ({ isOpen, onClose }: MegaMenuProps) => {
             />
           ))}
         </div>
-
-        {/* Connection lines visualization */}
-        <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible" style={{ zIndex: -1 }}>
-          <defs>
-            <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="rgba(59, 130, 246, 0.1)" />
-              <stop offset="50%" stopColor="rgba(59, 130, 246, 0.2)" />
-              <stop offset="100%" stopColor="rgba(59, 130, 246, 0.1)" />
-            </linearGradient>
-          </defs>
-        </svg>
       </div>
 
       <style>{`
         @keyframes megaMenuIn {
-          from {
-            opacity: 0;
-            transform: translateY(-8px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          from { opacity: 0; transform: translateY(-8px); }
+          to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
     </div>
@@ -231,7 +214,7 @@ const PlatformCard = ({
   onLeave,
   onClose 
 }: PlatformCardProps) => {
-  const baseClassName = "group relative p-5 rounded-lg border border-border/10 hover:border-border/30 bg-background/30 hover:bg-background/50 transition-all duration-300";
+  const baseClassName = "group relative p-4 sm:p-5 rounded-lg border border-border/20 hover:border-border/40 bg-background/50 hover:bg-muted/30 transition-all duration-300";
   const baseStyle = {
     animationDelay: `${index * 40}ms`,
     animation: 'cardFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
@@ -243,7 +226,7 @@ const PlatformCard = ({
     <>
       {/* Color indicator */}
       <div
-        className="absolute top-5 right-5 w-2 h-2 rounded-full transition-transform duration-300"
+        className="absolute top-4 right-4 sm:top-5 sm:right-5 w-2 h-2 rounded-full transition-transform duration-300"
         style={{
           backgroundColor: platform.color,
           boxShadow: isHovered ? `0 0 12px ${platform.color}` : 'none',
@@ -251,16 +234,16 @@ const PlatformCard = ({
         }}
       />
 
-      <div className="flex flex-col gap-2">
-        <span className="text-[10px] font-medium text-muted-foreground/60 tracking-[0.15em] uppercase">
+      <div className="flex flex-col gap-1.5 sm:gap-2">
+        <span className="text-[9px] sm:text-[10px] font-medium text-muted-foreground/60 tracking-[0.15em] uppercase">
           {platform.category}
         </span>
         
-        <h3 className="text-sm font-semibold text-foreground/90 group-hover:text-foreground transition-colors tracking-wide">
+        <h3 className="text-xs sm:text-sm font-semibold text-foreground group-hover:text-foreground transition-colors tracking-wide">
           {platform.name}
         </h3>
         
-        <p className="text-xs text-muted-foreground/60 leading-relaxed">
+        <p className="text-[10px] sm:text-xs text-muted-foreground leading-relaxed line-clamp-2">
           {platform.description}
         </p>
       </div>
@@ -268,20 +251,14 @@ const PlatformCard = ({
       {/* External indicator */}
       {platform.external && (
         <ArrowUpRight 
-          className="absolute bottom-4 right-4 w-3 h-3 text-muted-foreground/30 group-hover:text-muted-foreground/60 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" 
+          className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 w-3 h-3 text-muted-foreground/30 group-hover:text-muted-foreground/60 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" 
         />
       )}
 
       <style>{`
         @keyframes cardFadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(8px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
     </>
