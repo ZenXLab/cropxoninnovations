@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet-async";
+import SEOHead from "@/components/SEOHead";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Navigation from "@/components/layout/Navigation";
@@ -88,14 +88,13 @@ const ZenithInstitute = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Zenith Institute | Learning Division | CropXon Innovations</title>
-        <meta name="description" content="Zenith Institute is CropXon's learning division, building world-class engineers from India with industry-relevant education and real experience." />
-        <meta property="og:title" content="Zenith Institute | Learning Division | CropXon Innovations" />
-        <meta property="og:description" content="Building world-class engineers from India with industry-relevant education and real experience." />
-        <meta property="og:type" content="website" />
-        <link rel="canonical" href="https://cropxon.com/zenith-institute" />
-      </Helmet>
+      <SEOHead
+        title="Zenith Institute — Engineering Education & Learning Division"
+        description="Cropxon's learning division building world-class engineers from India with industry-relevant education, hands-on labs, and real production experience."
+        keywords="engineering education, tech training, software engineering, industry certification, hands-on learning, engineering programs, tech education India, Cropxon Zenith Institute"
+        url="https://cropxon.com/zenith-institute"
+        type="website"
+      />
 
       <Navigation />
 

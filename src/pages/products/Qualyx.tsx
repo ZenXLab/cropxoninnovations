@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
+import SEOHead from '@/components/SEOHead';
 import Navigation from '@/components/layout/Navigation';
 import Footer from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
@@ -92,10 +92,13 @@ const Qualyx = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Qualyx — QA Automation & Quality Intelligence | Cropxon</title>
-        <meta name="description" content="Intelligent QA automation platform that transforms testing into a continuous quality feedback system." />
-      </Helmet>
+      <SEOHead
+        title="Qualyx — Intelligent QA Automation & Test Intelligence Platform"
+        description="Intelligent QA automation platform that transforms testing into a continuous quality feedback system. Automated test generation, regression detection, and CI/CD integration."
+        keywords="QA automation, test automation, regression testing, software testing, Cropxon Qualyx"
+        url="https://cropxon.com/qualyx"
+        type="product"
+      />
 
       <div className="min-h-screen bg-background">
         <Navigation />

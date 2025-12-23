@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet-async";
+import SEOHead from "@/components/SEOHead";
 import { Link } from "react-router-dom";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
@@ -59,13 +59,13 @@ const tiers = [
 const CropxonCloud = () => {
   return (
     <>
-      <Helmet>
-        <title>Cropxon Cloud — Infrastructure as a Service | CropXon</title>
-        <meta
-          name="description"
-          content="Cropxon Cloud provides scalable infrastructure-as-a-service designed to grow with businesses from individual developers to enterprise scale."
-        />
-      </Helmet>
+      <SEOHead
+        title="Cropxon Cloud — Scalable Cloud Infrastructure & IaaS Platform"
+        description="Cropxon Cloud provides scalable infrastructure-as-a-service designed for businesses from individual developers to enterprise. Virtual machines, storage, CDN, and managed security."
+        keywords="cloud infrastructure, IaaS, cloud computing, virtual machines, cloud storage, CDN, managed security, enterprise cloud, Cropxon Cloud"
+        url="https://cropxon.com/cropxon-cloud"
+        type="product"
+      />
 
       <div className="min-h-screen bg-background">
         <Navigation />

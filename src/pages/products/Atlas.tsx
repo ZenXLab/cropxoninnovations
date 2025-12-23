@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet-async";
+import SEOHead from "@/components/SEOHead";
 import { Link } from "react-router-dom";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
@@ -41,13 +41,13 @@ const features = [
 const Atlas = () => {
   return (
     <>
-      <Helmet>
-        <title>ATLAS — Workforce Operating System | CropXon</title>
-        <meta
-          name="description"
-          content="ATLAS is an AI-enabled workforce management and productivity platform designed for enterprise organizations."
-        />
-      </Helmet>
+      <SEOHead
+        title="ATLAS — AI Workforce Operating System & Management Platform"
+        description="ATLAS is an AI-enabled workforce management and productivity platform designed for enterprise organizations. Smart scheduling, automated workflows, and real-time analytics."
+        keywords="workforce management, workforce operating system, AI scheduling, enterprise HR, team management, resource allocation, productivity platform, Cropxon Atlas"
+        url="https://cropxon.com/atlas"
+        type="product"
+      />
 
       <div className="min-h-screen bg-background">
         <Navigation />
