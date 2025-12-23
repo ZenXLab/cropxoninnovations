@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Cpu, Settings, ShieldCheck, Users, Boxes, GraduationCap, FlaskConical, Building2 } from "lucide-react";
 
 interface Platform {
   id: string;
@@ -10,6 +10,7 @@ interface Platform {
   href: string;
   external?: boolean;
   color: string;
+  icon: React.ElementType;
 }
 
 const ecosystemPlatforms: Platform[] = [
@@ -17,73 +18,81 @@ const ecosystemPlatforms: Platform[] = [
     id: 'cognix',
     name: 'Cognix',
     category: 'Intelligence Layer',
-    description: 'Enterprise cognition and decision systems',
+    description: 'Enterprise cognition and AI-powered decision systems for intelligent automation',
     href: 'https://cognix.cropxon.com',
     external: true,
     color: 'hsl(220, 70%, 55%)',
+    icon: Cpu,
   },
   {
     id: 'opzenix',
     name: 'OpZeniX',
-    category: 'Operations',
-    description: 'Intelligent operations management platform',
+    category: 'Operations Management',
+    description: 'End-to-end operational excellence with real-time insights and workflow optimization',
     href: 'https://opzenix.com',
     external: true,
     color: 'hsl(260, 60%, 58%)',
+    icon: Settings,
   },
   {
     id: 'qualyx',
     name: 'Qualyx',
-    category: 'Quality Systems',
-    description: 'Quality assurance and compliance engine',
+    category: 'Quality & Compliance',
+    description: 'Comprehensive quality assurance and regulatory compliance management engine',
     href: 'https://qualyx.cropxon.com',
     external: true,
     color: 'hsl(175, 60%, 45%)',
+    icon: ShieldCheck,
   },
   {
     id: 'huminex',
     name: 'Huminex',
-    category: 'Human Systems',
-    description: 'Workforce intelligence and management',
+    category: 'Human Capital',
+    description: 'Strategic workforce intelligence, talent management and employee experience',
     href: 'https://huminex.cropxon.com',
     external: true,
     color: 'hsl(340, 65%, 55%)',
+    icon: Users,
   },
   {
     id: 'traceflow',
     name: 'TraceFlow',
-    category: 'Traceability',
-    description: 'End-to-end supply chain traceability',
+    category: 'Supply Chain',
+    description: 'Complete supply chain visibility with blockchain-backed traceability',
     href: 'https://traceflow.cropxon.com',
     external: true,
     color: 'hsl(200, 70%, 50%)',
+    icon: Boxes,
   },
   {
     id: 'zenith-core',
     name: 'Zenith Core',
-    category: 'Foundation',
-    description: 'Core infrastructure and platform services',
+    category: 'Enterprise Foundation',
+    description: 'Secure, scalable core infrastructure powering all platform services',
     href: 'https://zenith.cropxon.com',
     external: true,
     color: 'hsl(280, 55%, 55%)',
+    icon: Building2,
   },
   {
     id: 'zenith-institute',
     name: 'Zenith Institute',
-    category: 'Education',
-    description: 'Industry-backed engineering education',
+    category: 'Learning & Development',
+    description: 'Industry-aligned engineering education and professional certification programs',
     href: '/zenith-institute',
     external: false,
     color: 'hsl(145, 55%, 45%)',
+    icon: GraduationCap,
   },
   {
     id: 'originx-labs',
     name: 'OriginX Labs',
-    category: 'Research',
-    description: 'Experimental research and innovation lab',
+    category: 'Innovation & R&D',
+    description: 'Cutting-edge research lab driving next-generation technology breakthroughs',
     href: 'https://originxlabs.com',
     external: true,
     color: 'hsl(25, 75%, 52%)',
+    icon: FlaskConical,
   },
 ];
 
@@ -120,7 +129,7 @@ const MegaMenu = ({ isOpen, onClose }: MegaMenuProps) => {
   return (
     <div
       ref={menuRef}
-      className="fixed left-0 right-0 top-[56px] z-50 bg-card/98 backdrop-blur-xl border-b border-border/20"
+      className="fixed left-0 right-0 top-[56px] z-50 bg-card/98 backdrop-blur-xl border-b border-border/30"
       style={{
         animation: 'megaMenuIn 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
       }}
@@ -128,51 +137,51 @@ const MegaMenu = ({ isOpen, onClose }: MegaMenuProps) => {
     >
       {/* Subtle grid background */}
       <div 
-        className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03]"
+        className="absolute inset-0 opacity-[0.015] dark:opacity-[0.025]"
         style={{
           backgroundImage: `
-            linear-gradient(hsl(var(--foreground) / 0.05) 1px, transparent 1px),
-            linear-gradient(90deg, hsl(var(--foreground) / 0.05) 1px, transparent 1px)
+            linear-gradient(hsl(var(--foreground) / 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, hsl(var(--foreground) / 0.1) 1px, transparent 1px)
           `,
-          backgroundSize: '40px 40px',
+          backgroundSize: '50px 50px',
         }}
       />
 
       {/* Cursor glow effect */}
       <div
-        className="absolute w-[300px] h-[300px] pointer-events-none rounded-full opacity-15 dark:opacity-20"
+        className="absolute w-[350px] h-[350px] pointer-events-none rounded-full opacity-15 dark:opacity-20"
         style={{
-          background: 'radial-gradient(circle, hsl(var(--primary) / 0.3) 0%, transparent 70%)',
-          left: mousePosition.x - 150,
-          top: mousePosition.y - 150,
+          background: 'radial-gradient(circle, hsl(var(--primary) / 0.35) 0%, transparent 70%)',
+          left: mousePosition.x - 175,
+          top: mousePosition.y - 175,
           transition: 'left 0.1s ease-out, top 0.1s ease-out',
         }}
       />
 
       <div className="relative max-w-[1400px] mx-auto px-6 sm:px-8 py-8 sm:py-10">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6 sm:mb-8">
+        <div className="flex items-center justify-between mb-8">
           <div>
-            <h2 className="text-[10px] sm:text-xs font-medium text-muted-foreground tracking-[0.2em] uppercase mb-1">
-              Technology Ecosystem
+            <h2 className="font-display text-sm font-semibold text-foreground tracking-wide mb-1">
+              Enterprise Ecosystem
             </h2>
-            <p className="text-xs sm:text-sm text-muted-foreground/60">
-              Foundational platforms for enterprise infrastructure
+            <p className="text-xs text-muted-foreground">
+              Integrated platforms powering modern enterprise infrastructure
             </p>
           </div>
           
           <Link
             to="/platforms"
             onClick={onClose}
-            className="text-[10px] sm:text-xs font-medium text-muted-foreground hover:text-foreground tracking-wider uppercase transition-colors flex items-center gap-2"
+            className="group flex items-center gap-2 px-4 py-2 text-xs font-medium text-muted-foreground hover:text-foreground tracking-wide uppercase transition-all hover:bg-muted/50 rounded-lg border border-transparent hover:border-border/30"
           >
             View All Platforms
-            <ArrowUpRight className="w-3 h-3" />
+            <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </Link>
         </div>
 
         {/* Platform Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {ecosystemPlatforms.map((platform, index) => (
             <PlatformCard
               key={platform.id}
@@ -184,6 +193,29 @@ const MegaMenu = ({ isOpen, onClose }: MegaMenuProps) => {
               onClose={onClose}
             />
           ))}
+        </div>
+
+        {/* Footer CTA */}
+        <div className="mt-8 pt-6 border-t border-border/20 flex items-center justify-between">
+          <p className="text-xs text-muted-foreground/60">
+            Need help choosing? <Link to="/contact" onClick={onClose} className="text-primary hover:text-primary/80 transition-colors">Talk to our team</Link>
+          </p>
+          <div className="flex items-center gap-4">
+            <Link
+              to="/architecture"
+              onClick={onClose}
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Architecture Overview
+            </Link>
+            <Link
+              to="/how-we-think"
+              onClick={onClose}
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Our Approach
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -214,36 +246,60 @@ const PlatformCard = ({
   onLeave,
   onClose 
 }: PlatformCardProps) => {
-  const baseClassName = "group relative p-4 sm:p-5 rounded-lg border border-border/20 hover:border-border/40 bg-background/50 hover:bg-muted/30 transition-all duration-300";
+  const Icon = platform.icon;
+  
+  const baseClassName = "group relative p-5 rounded-xl border border-border/20 hover:border-border/50 bg-background/60 hover:bg-muted/40 transition-all duration-300 overflow-hidden";
   const baseStyle = {
-    animationDelay: `${index * 40}ms`,
+    animationDelay: `${index * 50}ms`,
     animation: 'cardFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
     opacity: 0,
-    transform: isHovered ? 'scale(1.02)' : 'scale(1)',
+    transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
   };
 
   const CardContent = (
     <>
-      {/* Color indicator */}
+      {/* Hover gradient overlay */}
       <div
-        className="absolute top-4 right-4 sm:top-5 sm:right-5 w-2 h-2 rounded-full transition-transform duration-300"
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         style={{
-          backgroundColor: platform.color,
-          boxShadow: isHovered ? `0 0 12px ${platform.color}` : 'none',
-          transform: isHovered ? 'scale(1.5)' : 'scale(1)',
+          background: `linear-gradient(135deg, ${platform.color.replace(')', ', 0.05)')} 0%, transparent 60%)`,
         }}
       />
+      
+      {/* Icon and indicator */}
+      <div className="flex items-start justify-between mb-3">
+        <div 
+          className="w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300"
+          style={{
+            backgroundColor: isHovered ? platform.color.replace(')', ', 0.15)') : 'hsl(var(--muted) / 0.5)',
+          }}
+        >
+          <Icon 
+            className="w-5 h-5 transition-colors duration-300"
+            style={{ color: isHovered ? platform.color : 'hsl(var(--muted-foreground))' }}
+          />
+        </div>
+        
+        <div
+          className="w-2.5 h-2.5 rounded-full transition-all duration-300"
+          style={{
+            backgroundColor: platform.color,
+            boxShadow: isHovered ? `0 0 12px ${platform.color}` : 'none',
+            transform: isHovered ? 'scale(1.3)' : 'scale(1)',
+          }}
+        />
+      </div>
 
-      <div className="flex flex-col gap-1.5 sm:gap-2">
-        <span className="text-[9px] sm:text-[10px] font-medium text-muted-foreground/60 tracking-[0.15em] uppercase">
+      <div className="flex flex-col gap-1.5 relative z-10">
+        <span className="font-display text-[10px] font-medium text-muted-foreground/70 tracking-[0.12em] uppercase">
           {platform.category}
         </span>
         
-        <h3 className="text-xs sm:text-sm font-semibold text-foreground group-hover:text-foreground transition-colors tracking-wide">
+        <h3 className="font-display text-sm font-semibold text-foreground group-hover:text-foreground transition-colors tracking-wide">
           {platform.name}
         </h3>
         
-        <p className="text-[10px] sm:text-xs text-muted-foreground leading-relaxed line-clamp-2">
+        <p className="text-[11px] text-muted-foreground leading-relaxed line-clamp-2 mt-0.5">
           {platform.description}
         </p>
       </div>
@@ -251,13 +307,13 @@ const PlatformCard = ({
       {/* External indicator */}
       {platform.external && (
         <ArrowUpRight 
-          className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 w-3 h-3 text-muted-foreground/30 group-hover:text-muted-foreground/60 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" 
+          className="absolute bottom-4 right-4 w-4 h-4 text-muted-foreground/30 group-hover:text-muted-foreground/60 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" 
         />
       )}
 
       <style>{`
         @keyframes cardFadeIn {
-          from { opacity: 0; transform: translateY(8px); }
+          from { opacity: 0; transform: translateY(10px); }
           to { opacity: 1; transform: translateY(0); }
         }
       `}</style>

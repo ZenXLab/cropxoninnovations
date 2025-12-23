@@ -19,6 +19,7 @@ interface Platform extends PlatformData {
   targetY: number;
   vx: number;
   vy: number;
+  baseAngle: number;
 }
 
 interface Butterfly {
@@ -33,7 +34,7 @@ interface Butterfly {
   size: number;
   color: string;
   targetPlatform: number;
-  state: 'flying' | 'landing' | 'resting';
+  state: 'flying' | 'landing' | 'resting' | 'waiting';
   restTimer: number;
   angle: number;
 }
@@ -56,12 +57,20 @@ const EcosystemCanvas = () => {
   const interactionRef = useRef({ x: 0, y: 0, active: false });
   const butterfliesRef = useRef<Butterfly[]>([]);
   const [hoveredPlatform, setHoveredPlatform] = useState<string | null>(null);
+  const [focusedIndex, setFocusedIndex] = useState<number>(-1);
   const [butterflyPlatform, setButterflyPlatform] = useState<PlatformData | null>(null);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
   const platformsRef = useRef<Platform[]>([]);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [isMobile, setIsMobile] = useState(false);
   const [isDark, setIsDark] = useState(true);
+  
+  // Spin mode state
+  const [isSpinning, setIsSpinning] = useState(true);
+  const spinAngleRef = useRef(0);
+  const spinSpeedRef = useRef(0.008);
+  const spinDecelerationRef = useRef(0);
+  
   const navigate = useNavigate();
 
   // Check theme
@@ -86,7 +95,8 @@ const EcosystemCanvas = () => {
     const radiusY = isMobileView ? Math.min(height * 0.28, 135) : Math.min(height * 0.28, 210);
 
     platformsRef.current = platformsData.map((p, i) => {
-      const angle = (i / platformsData.length) * Math.PI * 2 - Math.PI / 2;
+      const baseAngle = (i / platformsData.length) * Math.PI * 2 - Math.PI / 2;
+      const angle = baseAngle + spinAngleRef.current;
       const x = centerX + Math.cos(angle) * radiusX;
       const y = centerY + Math.sin(angle) * radiusY;
       const scaledRadius = isMobileView ? p.radius * 0.62 : p.radius;
@@ -96,27 +106,26 @@ const EcosystemCanvas = () => {
         x, y,
         targetX: x, targetY: y,
         vx: 0, vy: 0,
+        baseAngle,
       };
     });
 
-    // Initialize butterflies
+    // Initialize butterflies - waiting state initially
     if (butterfliesRef.current.length === 0) {
       const numButterflies = isMobileView ? 2 : 3;
       for (let i = 0; i < numButterflies; i++) {
-        const targetIdx = Math.floor(Math.random() * platformsRef.current.length);
-        const platform = platformsRef.current[targetIdx];
         butterfliesRef.current.push({
-          x: centerX + (Math.random() - 0.5) * 100,
-          y: centerY + (Math.random() - 0.5) * 100,
-          targetX: platform.x,
-          targetY: platform.y - platform.radius - 15,
+          x: centerX + (Math.random() - 0.5) * 150,
+          y: centerY - 100 + (Math.random() - 0.5) * 50,
+          targetX: centerX,
+          targetY: centerY - 80,
           vx: 0, vy: 0,
           wingAngle: Math.random() * Math.PI * 2,
           wingSpeed: 0.15 + Math.random() * 0.1,
-          size: isMobileView ? 8 : 12,
-          color: platform.color,
-          targetPlatform: targetIdx,
-          state: 'flying',
+          size: isMobileView ? 10 : 14,
+          color: 'hsl(280, 60%, 65%)',
+          targetPlatform: -1,
+          state: 'waiting',
           restTimer: 0,
           angle: 0,
         });
@@ -137,6 +146,62 @@ const EcosystemCanvas = () => {
     return () => window.removeEventListener('resize', updateDimensions);
   }, [initializePlatforms]);
 
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!containerRef.current?.contains(document.activeElement) && document.activeElement !== canvasRef.current) {
+        return;
+      }
+
+      const numPlatforms = platformsData.length;
+      
+      switch (e.key) {
+        case 'ArrowRight':
+        case 'ArrowDown':
+          e.preventDefault();
+          setFocusedIndex(prev => (prev + 1) % numPlatforms);
+          setIsSpinning(false);
+          break;
+        case 'ArrowLeft':
+        case 'ArrowUp':
+          e.preventDefault();
+          setFocusedIndex(prev => prev <= 0 ? numPlatforms - 1 : prev - 1);
+          setIsSpinning(false);
+          break;
+        case 'Enter':
+        case ' ':
+          e.preventDefault();
+          if (focusedIndex >= 0 && focusedIndex < numPlatforms) {
+            const platform = platformsRef.current[focusedIndex];
+            if (platform) {
+              handlePlatformClick(platform);
+            }
+          }
+          break;
+        case 'Escape':
+          e.preventDefault();
+          setFocusedIndex(-1);
+          setIsSpinning(true);
+          break;
+        case 's':
+        case 'S':
+          e.preventDefault();
+          setIsSpinning(prev => !prev);
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [focusedIndex]);
+
+  // Update hovered platform based on focus
+  useEffect(() => {
+    if (focusedIndex >= 0 && focusedIndex < platformsData.length) {
+      setHoveredPlatform(platformsData[focusedIndex].id);
+    }
+  }, [focusedIndex]);
+
   // Draw butterfly
   const drawButterfly = (ctx: CanvasRenderingContext2D, butterfly: Butterfly, textColor: string) => {
     const { x, y, wingAngle, size, color, state } = butterfly;
@@ -149,7 +214,7 @@ const EcosystemCanvas = () => {
     // Body
     ctx.beginPath();
     ctx.ellipse(0, 0, size * 0.15, size * 0.5, 0, 0, Math.PI * 2);
-    ctx.fillStyle = `${textColor}, 0.8)`;
+    ctx.fillStyle = `${textColor}, 0.9)`;
     ctx.fill();
     
     // Wings with gradient
@@ -159,9 +224,9 @@ const EcosystemCanvas = () => {
     ctx.beginPath();
     ctx.ellipse(-wingWidth * 0.5, -size * 0.1, wingWidth * 0.5, size * 0.4, -0.3 + wingFlap * 0.2, 0, Math.PI * 2);
     const leftGrad = ctx.createRadialGradient(-wingWidth * 0.3, -size * 0.1, 0, -wingWidth * 0.3, -size * 0.1, wingWidth * 0.5);
-    leftGrad.addColorStop(0, color.replace(')', ', 0.9)'));
-    leftGrad.addColorStop(0.7, color.replace(')', ', 0.5)'));
-    leftGrad.addColorStop(1, color.replace(')', ', 0.2)'));
+    leftGrad.addColorStop(0, color.replace(')', ', 0.95)'));
+    leftGrad.addColorStop(0.7, color.replace(')', ', 0.6)'));
+    leftGrad.addColorStop(1, color.replace(')', ', 0.3)'));
     ctx.fillStyle = leftGrad;
     ctx.fill();
     
@@ -169,9 +234,9 @@ const EcosystemCanvas = () => {
     ctx.beginPath();
     ctx.ellipse(wingWidth * 0.5, -size * 0.1, wingWidth * 0.5, size * 0.4, 0.3 - wingFlap * 0.2, 0, Math.PI * 2);
     const rightGrad = ctx.createRadialGradient(wingWidth * 0.3, -size * 0.1, 0, wingWidth * 0.3, -size * 0.1, wingWidth * 0.5);
-    rightGrad.addColorStop(0, color.replace(')', ', 0.9)'));
-    rightGrad.addColorStop(0.7, color.replace(')', ', 0.5)'));
-    rightGrad.addColorStop(1, color.replace(')', ', 0.2)'));
+    rightGrad.addColorStop(0, color.replace(')', ', 0.95)'));
+    rightGrad.addColorStop(0.7, color.replace(')', ', 0.6)'));
+    rightGrad.addColorStop(1, color.replace(')', ', 0.3)'));
     ctx.fillStyle = rightGrad;
     ctx.fill();
     
@@ -179,16 +244,16 @@ const EcosystemCanvas = () => {
     ctx.beginPath();
     ctx.arc(-wingWidth * 0.35, -size * 0.15, size * 0.12, 0, Math.PI * 2);
     ctx.arc(wingWidth * 0.35, -size * 0.15, size * 0.12, 0, Math.PI * 2);
-    ctx.fillStyle = `${textColor}, 0.3)`;
+    ctx.fillStyle = `${textColor}, 0.4)`;
     ctx.fill();
     
     // Glow effect when resting
     if (state === 'resting') {
-      const glowGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, size * 2);
-      glowGrad.addColorStop(0, color.replace(')', ', 0.3)'));
+      const glowGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, size * 2.5);
+      glowGrad.addColorStop(0, color.replace(')', ', 0.4)'));
       glowGrad.addColorStop(1, 'transparent');
       ctx.beginPath();
-      ctx.arc(0, 0, size * 2, 0, Math.PI * 2);
+      ctx.arc(0, 0, size * 2.5, 0, Math.PI * 2);
       ctx.fillStyle = glowGrad;
       ctx.fill();
     }
@@ -210,18 +275,30 @@ const EcosystemCanvas = () => {
 
     const centerX = dimensions.width / 2;
     const centerY = dimensions.height / 2;
+    
+    const radiusX = isMobile ? Math.min(dimensions.width * 0.38, 155) : Math.min(dimensions.width * 0.32, 300);
+    const radiusY = isMobile ? Math.min(dimensions.height * 0.28, 135) : Math.min(dimensions.height * 0.28, 210);
 
     const textColor = isDark ? 'rgba(255, 255, 255' : 'rgba(15, 23, 42';
-    const gridColor = isDark ? 'rgba(255, 255, 255, 0.015)' : 'rgba(0, 0, 0, 0.02)';
+    const gridColor = isDark ? 'rgba(255, 255, 255, 0.02)' : 'rgba(0, 0, 0, 0.025)';
     const nodeBaseColor = isDark ? 'rgba(15, 15, 28' : 'rgba(248, 250, 252';
 
     const animate = () => {
       ctx.clearRect(0, 0, dimensions.width, dimensions.height);
 
+      // Update spin
+      if (isSpinning) {
+        spinAngleRef.current += spinSpeedRef.current;
+        spinDecelerationRef.current = 0;
+      } else if (spinDecelerationRef.current < 1) {
+        // Slow deceleration when stopping
+        spinDecelerationRef.current += 0.02;
+      }
+
       // Draw subtle grid
       ctx.strokeStyle = gridColor;
       ctx.lineWidth = 1;
-      const gridSize = isMobile ? 45 : 65;
+      const gridSize = isMobile ? 50 : 70;
       for (let x = 0; x < dimensions.width; x += gridSize) {
         ctx.beginPath();
         ctx.moveTo(x, 0);
@@ -235,16 +312,56 @@ const EcosystemCanvas = () => {
         ctx.stroke();
       }
 
+      // Draw orbit ring
+      ctx.beginPath();
+      ctx.ellipse(centerX, centerY, radiusX, radiusY, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = isDark ? 'rgba(99, 102, 241, 0.08)' : 'rgba(79, 70, 229, 0.1)';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([5, 10]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Update platform positions based on spin
+      platformsRef.current.forEach((platform, i) => {
+        const angle = platform.baseAngle + spinAngleRef.current;
+        platform.targetX = centerX + Math.cos(angle) * radiusX;
+        platform.targetY = centerY + Math.sin(angle) * radiusY;
+
+        if (interactionRef.current.active && !isSpinning) {
+          const dx = interactionRef.current.x - platform.x;
+          const dy = interactionRef.current.y - platform.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          const interactionRadius = isMobile ? 90 : 140;
+          
+          if (distance < interactionRadius && distance > 0) {
+            const force = ((interactionRadius - distance) / interactionRadius) * 0.3;
+            platform.vx += (dx / distance) * force;
+            platform.vy += (dy / distance) * force;
+          }
+        }
+
+        const springForce = 0.06;
+        const damping = 0.85;
+        
+        platform.vx += (platform.targetX - platform.x) * springForce;
+        platform.vy += (platform.targetY - platform.y) * springForce;
+        platform.vx *= damping;
+        platform.vy *= damping;
+        
+        platform.x += platform.vx;
+        platform.y += platform.vy;
+      });
+
       // Draw connecting lines
       platformsRef.current.forEach((p1, i) => {
         platformsRef.current.slice(i + 1).forEach((p2) => {
           const dx = p2.x - p1.x;
           const dy = p2.y - p1.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
-          const maxDistance = isMobile ? 180 : 320;
+          const maxDistance = isMobile ? 200 : 350;
 
           if (distance < maxDistance) {
-            const baseOpacity = interactionRef.current.active ? 0.18 : 0.08;
+            const baseOpacity = interactionRef.current.active ? 0.2 : 0.1;
             const opacity = baseOpacity * (1 - distance / maxDistance);
 
             ctx.beginPath();
@@ -255,17 +372,17 @@ const EcosystemCanvas = () => {
             gradient.addColorStop(0, p1.color.replace(')', `, ${opacity})`));
             gradient.addColorStop(1, p2.color.replace(')', `, ${opacity})`));
             ctx.strokeStyle = gradient;
-            ctx.lineWidth = 1;
+            ctx.lineWidth = 1.5;
             ctx.stroke();
           }
         });
       });
 
       // Draw center glow
-      const centerGlowRadius = isMobile ? 65 : 95;
+      const centerGlowRadius = isMobile ? 70 : 100;
       const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, centerGlowRadius);
-      gradient.addColorStop(0, isDark ? 'rgba(99, 102, 241, 0.12)' : 'rgba(79, 70, 229, 0.08)');
-      gradient.addColorStop(0.6, isDark ? 'rgba(99, 102, 241, 0.04)' : 'rgba(79, 70, 229, 0.02)');
+      gradient.addColorStop(0, isDark ? 'rgba(99, 102, 241, 0.15)' : 'rgba(79, 70, 229, 0.1)');
+      gradient.addColorStop(0.6, isDark ? 'rgba(99, 102, 241, 0.05)' : 'rgba(79, 70, 229, 0.03)');
       gradient.addColorStop(1, 'transparent');
       ctx.beginPath();
       ctx.arc(centerX, centerY, centerGlowRadius, 0, Math.PI * 2);
@@ -274,57 +391,35 @@ const EcosystemCanvas = () => {
 
       // Draw center branding
       ctx.save();
-      const brandSize = isMobile ? 16 : 24;
+      const brandSize = isMobile ? 18 : 26;
       ctx.font = `700 ${brandSize}px 'Space Grotesk', sans-serif`;
-      ctx.fillStyle = `${textColor}, 0.92)`;
+      ctx.fillStyle = `${textColor}, 0.95)`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText('CROPXON', centerX, centerY - 5);
+      ctx.fillText('CROPXON', centerX, centerY - 6);
       
-      const subSize = isMobile ? 6 : 8;
+      const subSize = isMobile ? 7 : 9;
       ctx.font = `500 ${subSize}px 'Inter', sans-serif`;
-      ctx.fillStyle = `${textColor}, 0.35)`;
-      ctx.fillText('ECOSYSTEM', centerX, centerY + 11);
+      ctx.fillStyle = `${textColor}, 0.4)`;
+      ctx.fillText('ECOSYSTEM', centerX, centerY + 12);
       ctx.restore();
 
-      // Update and draw platforms
-      platformsRef.current.forEach((platform) => {
-        if (interactionRef.current.active) {
-          const dx = interactionRef.current.x - platform.x;
-          const dy = interactionRef.current.y - platform.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          const interactionRadius = isMobile ? 90 : 140;
-          
-          if (distance < interactionRadius && distance > 0) {
-            const force = ((interactionRadius - distance) / interactionRadius) * 0.4;
-            platform.vx += (dx / distance) * force;
-            platform.vy += (dy / distance) * force;
-          }
-        }
-
-        const springForce = 0.035;
-        const damping = 0.88;
-        
-        platform.vx += (platform.targetX - platform.x) * springForce;
-        platform.vy += (platform.targetY - platform.y) * springForce;
-        platform.vx *= damping;
-        platform.vy *= damping;
-        
-        platform.x += platform.vx;
-        platform.y += platform.vy;
-
+      // Draw platforms
+      platformsRef.current.forEach((platform, index) => {
         const isHovered = hoveredPlatform === platform.id;
-        const scale = isHovered ? 1.08 : 1;
+        const isFocused = focusedIndex === index;
+        const isActive = isHovered || isFocused;
+        const scale = isActive ? 1.12 : 1;
         const radius = platform.radius * scale;
 
         // Outer glow
-        const glowGradient = ctx.createRadialGradient(platform.x, platform.y, 0, platform.x, platform.y, radius * 2);
-        glowGradient.addColorStop(0, platform.color.replace(')', ', 0.28)'));
-        glowGradient.addColorStop(0.5, platform.color.replace(')', ', 0.08)'));
+        const glowGradient = ctx.createRadialGradient(platform.x, platform.y, 0, platform.x, platform.y, radius * 2.2);
+        glowGradient.addColorStop(0, platform.color.replace(')', isActive ? ', 0.35)' : ', 0.25)'));
+        glowGradient.addColorStop(0.5, platform.color.replace(')', ', 0.1)'));
         glowGradient.addColorStop(1, 'transparent');
         
         ctx.beginPath();
-        ctx.arc(platform.x, platform.y, radius * 2, 0, Math.PI * 2);
+        ctx.arc(platform.x, platform.y, radius * 2.2, 0, Math.PI * 2);
         ctx.fillStyle = glowGradient;
         ctx.fill();
 
@@ -335,11 +430,11 @@ const EcosystemCanvas = () => {
         );
         
         if (isDark) {
-          nodeGradient.addColorStop(0, isHovered ? platform.color.replace(')', ', 0.28)') : `${nodeBaseColor}, 0.88)`);
-          nodeGradient.addColorStop(1, isHovered ? platform.color.replace(')', ', 0.12)') : `${nodeBaseColor}, 0.95)`);
+          nodeGradient.addColorStop(0, isActive ? platform.color.replace(')', ', 0.3)') : `${nodeBaseColor}, 0.9)`);
+          nodeGradient.addColorStop(1, isActive ? platform.color.replace(')', ', 0.15)') : `${nodeBaseColor}, 0.95)`);
         } else {
-          nodeGradient.addColorStop(0, isHovered ? platform.color.replace(')', ', 0.12)') : `${nodeBaseColor}, 0.98)`);
-          nodeGradient.addColorStop(1, isHovered ? platform.color.replace(')', ', 0.06)') : `${nodeBaseColor}, 1)`);
+          nodeGradient.addColorStop(0, isActive ? platform.color.replace(')', ', 0.15)') : `${nodeBaseColor}, 0.98)`);
+          nodeGradient.addColorStop(1, isActive ? platform.color.replace(')', ', 0.08)') : `${nodeBaseColor}, 1)`);
         }
         
         ctx.beginPath();
@@ -347,25 +442,34 @@ const EcosystemCanvas = () => {
         ctx.fillStyle = nodeGradient;
         ctx.fill();
         
-        ctx.strokeStyle = isHovered 
+        // Focus ring for keyboard navigation
+        if (isFocused) {
+          ctx.strokeStyle = platform.color;
+          ctx.lineWidth = 3;
+          ctx.setLineDash([4, 4]);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
+        
+        ctx.strokeStyle = isActive 
           ? platform.color 
-          : platform.color.replace(')', isDark ? ', 0.35)' : ', 0.45)');
-        ctx.lineWidth = isHovered ? 2 : 1.5;
+          : platform.color.replace(')', isDark ? ', 0.4)' : ', 0.5)');
+        ctx.lineWidth = isActive ? 2.5 : 1.5;
         ctx.stroke();
 
         // Platform name
         ctx.save();
-        const nameSize = isMobile ? (isHovered ? 7 : 6) : (isHovered ? 9 : 8);
+        const nameSize = isMobile ? (isActive ? 8 : 7) : (isActive ? 10 : 9);
         ctx.font = `600 ${nameSize}px 'Space Grotesk', sans-serif`;
-        ctx.fillStyle = isHovered ? `${textColor}, 1)` : `${textColor}, 0.82)`;
+        ctx.fillStyle = isActive ? `${textColor}, 1)` : `${textColor}, 0.85)`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(platform.name.toUpperCase(), platform.x, platform.y - 2);
 
-        const catSize = isMobile ? 5 : 6;
+        const catSize = isMobile ? 5 : 7;
         ctx.font = `400 ${catSize}px 'Inter', sans-serif`;
-        ctx.fillStyle = isHovered ? `${textColor}, 0.6)` : `${textColor}, 0.4)`;
-        ctx.fillText(platform.category, platform.x, platform.y + 8);
+        ctx.fillStyle = isActive ? `${textColor}, 0.65)` : `${textColor}, 0.45)`;
+        ctx.fillText(platform.category, platform.x, platform.y + 9);
         ctx.restore();
       });
 
@@ -375,52 +479,74 @@ const EcosystemCanvas = () => {
       butterfliesRef.current.forEach((butterfly) => {
         butterfly.wingAngle += butterfly.wingSpeed;
         
-        const targetPlatform = platformsRef.current[butterfly.targetPlatform];
-        butterfly.targetX = targetPlatform.x;
-        butterfly.targetY = targetPlatform.y - targetPlatform.radius - 12;
-        
-        if (butterfly.state === 'flying') {
+        if (butterfly.state === 'waiting') {
+          // Float around center while spinning
+          butterfly.x += Math.sin(butterfly.wingAngle * 0.3) * 0.8;
+          butterfly.y += Math.cos(butterfly.wingAngle * 0.2) * 0.4;
+          butterfly.angle = Math.sin(butterfly.wingAngle * 0.1) * 0.3;
+          
+          // When spinning stops, pick a target
+          if (!isSpinning) {
+            const targetIdx = Math.floor(Math.random() * platformsRef.current.length);
+            butterfly.targetPlatform = targetIdx;
+            butterfly.color = platformsRef.current[targetIdx].color;
+            butterfly.state = 'flying';
+          }
+        } else if (butterfly.state === 'flying') {
+          const targetPlatform = platformsRef.current[butterfly.targetPlatform];
+          butterfly.targetX = targetPlatform.x;
+          butterfly.targetY = targetPlatform.y - targetPlatform.radius - 15;
+          
           const dx = butterfly.targetX - butterfly.x;
           const dy = butterfly.targetY - butterfly.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
           
           butterfly.angle = Math.atan2(dy, dx) + Math.PI / 2;
           
-          if (distance < 8) {
+          if (distance < 10) {
             butterfly.state = 'landing';
-            butterfly.restTimer = 180 + Math.random() * 120; // 3-5 seconds at 60fps
           } else {
-            const speed = 0.8;
-            butterfly.vx += (dx / distance) * speed * 0.1;
-            butterfly.vy += (dy / distance) * speed * 0.1;
-            butterfly.vx *= 0.95;
-            butterfly.vy *= 0.95;
-            butterfly.x += butterfly.vx + Math.sin(butterfly.wingAngle * 0.5) * 0.5;
-            butterfly.y += butterfly.vy + Math.cos(butterfly.wingAngle * 0.3) * 0.3;
+            const speed = 1.2;
+            butterfly.vx += (dx / distance) * speed * 0.12;
+            butterfly.vy += (dy / distance) * speed * 0.12;
+            butterfly.vx *= 0.94;
+            butterfly.vy *= 0.94;
+            butterfly.x += butterfly.vx + Math.sin(butterfly.wingAngle * 0.5) * 0.6;
+            butterfly.y += butterfly.vy + Math.cos(butterfly.wingAngle * 0.3) * 0.4;
           }
         } else if (butterfly.state === 'landing') {
-          butterfly.x = butterfly.targetX;
-          butterfly.y = butterfly.targetY;
+          const targetPlatform = platformsRef.current[butterfly.targetPlatform];
+          butterfly.x = targetPlatform.x;
+          butterfly.y = targetPlatform.y - targetPlatform.radius - 15;
           butterfly.vx = 0;
           butterfly.vy = 0;
           butterfly.angle = 0;
           butterfly.state = 'resting';
+          butterfly.restTimer = 200 + Math.random() * 150; // 3-6 seconds
         } else if (butterfly.state === 'resting') {
+          const targetPlatform = platformsRef.current[butterfly.targetPlatform];
           butterfly.restTimer--;
-          butterfly.x = butterfly.targetX + Math.sin(butterfly.wingAngle * 0.1) * 1;
-          butterfly.y = butterfly.targetY;
+          butterfly.x = targetPlatform.x + Math.sin(butterfly.wingAngle * 0.1) * 1.5;
+          butterfly.y = targetPlatform.y - targetPlatform.radius - 15;
           
-          restingButterfly = { platform: targetPlatform, x: butterfly.x, y: butterfly.y - 20 };
+          restingButterfly = { platform: targetPlatform, x: butterfly.x, y: butterfly.y - 25 };
           
           if (butterfly.restTimer <= 0) {
-            // Pick new target
-            let newTarget = Math.floor(Math.random() * platformsRef.current.length);
-            while (newTarget === butterfly.targetPlatform) {
-              newTarget = Math.floor(Math.random() * platformsRef.current.length);
+            if (isSpinning) {
+              // Go back to waiting/flying around center
+              butterfly.state = 'waiting';
+              butterfly.targetX = centerX;
+              butterfly.targetY = centerY - 80;
+            } else {
+              // Pick new target
+              let newTarget = Math.floor(Math.random() * platformsRef.current.length);
+              while (newTarget === butterfly.targetPlatform && platformsRef.current.length > 1) {
+                newTarget = Math.floor(Math.random() * platformsRef.current.length);
+              }
+              butterfly.targetPlatform = newTarget;
+              butterfly.color = platformsRef.current[newTarget].color;
+              butterfly.state = 'flying';
             }
-            butterfly.targetPlatform = newTarget;
-            butterfly.color = platformsRef.current[newTarget].color;
-            butterfly.state = 'flying';
           }
         }
         
@@ -428,7 +554,7 @@ const EcosystemCanvas = () => {
       });
 
       // Update popup state
-      if (restingButterfly) {
+      if (restingButterfly && !isSpinning) {
         setButterflyPlatform(restingButterfly.platform);
         setPopupPosition({ x: restingButterfly.x, y: restingButterfly.y });
       } else {
@@ -445,7 +571,7 @@ const EcosystemCanvas = () => {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [dimensions, hoveredPlatform, isMobile, isDark]);
+  }, [dimensions, hoveredPlatform, focusedIndex, isMobile, isDark, isSpinning]);
 
   const getInteractionPosition = (e: React.MouseEvent | React.TouchEvent) => {
     const canvas = canvasRef.current;
@@ -489,7 +615,12 @@ const EcosystemCanvas = () => {
     if (!pos) return;
     interactionRef.current = { ...pos, active: true };
     const platform = findPlatformAtPosition(pos.x, pos.y);
-    setHoveredPlatform(platform?.id || null);
+    if (platform) {
+      setHoveredPlatform(platform.id);
+      setIsSpinning(false);
+    } else {
+      setHoveredPlatform(null);
+    }
   }, []);
 
   const handleMouseLeave = useCallback(() => {
@@ -501,7 +632,12 @@ const EcosystemCanvas = () => {
     const pos = getInteractionPosition(e);
     if (!pos) return;
     const platform = findPlatformAtPosition(pos.x, pos.y);
-    if (platform) handlePlatformClick(platform);
+    if (platform) {
+      handlePlatformClick(platform);
+    } else {
+      // Click on empty space toggles spin
+      setIsSpinning(prev => !prev);
+    }
   }, [handlePlatformClick]);
 
   const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
@@ -509,7 +645,10 @@ const EcosystemCanvas = () => {
     if (!pos) return;
     interactionRef.current = { ...pos, active: true };
     const platform = findPlatformAtPosition(pos.x, pos.y);
-    setHoveredPlatform(platform?.id || null);
+    if (platform) {
+      setHoveredPlatform(platform.id);
+      setIsSpinning(false);
+    }
   }, []);
 
   const handleTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
@@ -530,10 +669,16 @@ const EcosystemCanvas = () => {
   }, [hoveredPlatform, handlePlatformClick]);
 
   return (
-    <div ref={containerRef} className="relative w-full h-full min-h-[420px] sm:min-h-[500px] lg:min-h-[560px]">
+    <div 
+      ref={containerRef} 
+      className="relative w-full h-full min-h-[420px] sm:min-h-[500px] lg:min-h-[560px]"
+      role="application"
+      aria-label="CropXon Ecosystem - Interactive platform navigation"
+    >
       <canvas
         ref={canvasRef}
-        className={`absolute inset-0 w-full h-full ${hoveredPlatform ? 'cursor-pointer' : 'cursor-default'}`}
+        tabIndex={0}
+        className={`absolute inset-0 w-full h-full ${hoveredPlatform ? 'cursor-pointer' : 'cursor-default'} focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background rounded-xl`}
         style={{ width: dimensions.width, height: dimensions.height, touchAction: 'none' }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
@@ -541,23 +686,47 @@ const EcosystemCanvas = () => {
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
+        aria-label="Ecosystem canvas - Use arrow keys to navigate between platforms, Enter to select, S to toggle spin, Escape to resume spinning"
       />
+      
+      {/* Spin indicator */}
+      <div className="absolute top-4 right-4 flex items-center gap-2">
+        <button
+          onClick={() => setIsSpinning(prev => !prev)}
+          className="px-3 py-1.5 text-[10px] font-medium tracking-wide uppercase bg-card/80 backdrop-blur-sm border border-border/30 rounded-full text-muted-foreground hover:text-foreground hover:border-primary/40 transition-all"
+        >
+          {isSpinning ? 'Pause' : 'Spin'}
+        </button>
+      </div>
+
+      {/* Keyboard hint */}
+      <div className="absolute bottom-4 left-4 hidden sm:flex items-center gap-2 text-[10px] text-muted-foreground/60">
+        <kbd className="px-1.5 py-0.5 bg-muted/50 rounded border border-border/30 font-mono">←→</kbd>
+        <span>Navigate</span>
+        <kbd className="px-1.5 py-0.5 bg-muted/50 rounded border border-border/30 font-mono ml-2">Enter</kbd>
+        <span>Select</span>
+        <kbd className="px-1.5 py-0.5 bg-muted/50 rounded border border-border/30 font-mono ml-2">S</kbd>
+        <span>Spin</span>
+      </div>
       
       {/* Butterfly platform popup */}
       {butterflyPlatform && (
         <div 
-          className="absolute pointer-events-none px-4 py-3 bg-card/95 backdrop-blur-xl border border-primary/20 rounded-xl shadow-2xl max-w-[200px]"
+          className="absolute pointer-events-none px-4 py-3 bg-card/95 backdrop-blur-xl border border-primary/25 rounded-xl shadow-2xl max-w-[220px]"
           style={{
-            left: Math.min(Math.max(popupPosition.x, 110), dimensions.width - 110),
-            top: popupPosition.y - 60,
+            left: Math.min(Math.max(popupPosition.x, 115), dimensions.width - 115),
+            top: popupPosition.y - 65,
             transform: 'translateX(-50%)',
             animation: 'popupFloat 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
         >
-          <div className="flex items-start gap-2">
+          <div className="flex items-start gap-2.5">
             <div 
-              className="w-2 h-2 rounded-full mt-1 shrink-0"
-              style={{ backgroundColor: butterflyPlatform.color }}
+              className="w-2.5 h-2.5 rounded-full mt-1 shrink-0"
+              style={{ 
+                backgroundColor: butterflyPlatform.color,
+                boxShadow: `0 0 8px ${butterflyPlatform.color}`
+              }}
             />
             <div>
               <p className="font-display text-xs font-semibold text-foreground tracking-wide">
@@ -574,7 +743,7 @@ const EcosystemCanvas = () => {
       {/* Hover tooltip */}
       {hoveredPlatform && !butterflyPlatform && (
         <div 
-          className="absolute bottom-5 left-1/2 -translate-x-1/2 px-4 py-2 bg-card/95 backdrop-blur-xl border border-border/30 rounded-lg shadow-lg"
+          className="absolute bottom-16 left-1/2 -translate-x-1/2 px-4 py-2.5 bg-card/95 backdrop-blur-xl border border-border/30 rounded-lg shadow-lg"
           style={{ animation: 'tooltipIn 0.2s cubic-bezier(0.16, 1, 0.3, 1)' }}
         >
           <p className="text-xs font-medium text-foreground tracking-wide">
