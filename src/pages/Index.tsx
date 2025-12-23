@@ -29,6 +29,9 @@ const Index = () => {
       <div className="min-h-screen bg-background">
         <Navigation />
         
+        {/* Spacer for fixed header */}
+        <div className="h-16" />
+        
         <main>
           <HeroSection />
           <EcosystemFlowSection />
