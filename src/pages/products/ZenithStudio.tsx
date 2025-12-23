@@ -3,7 +3,8 @@ import { Helmet } from 'react-helmet-async';
 import Navigation from '@/components/layout/Navigation';
 import Footer from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
-import { Building2, Layers, Code, Workflow, Globe, ArrowRight, ExternalLink, CheckCircle2, TrendingUp } from 'lucide-react';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Building2, Layers, Code, Workflow, Globe, ArrowRight, ExternalLink, CheckCircle2, TrendingUp, Maximize2, Minimize2, X, FileText, Clock, Users, CheckCircle } from 'lucide-react';
 
 const features = [
   {
@@ -44,10 +45,81 @@ const metrics = [
   { label: 'Uptime', value: '99.99', unit: '%' },
 ];
 
+// Z Logo Component
+const ZenithLogo = ({ size = 40, spinning = false, className = '' }: { size?: number; spinning?: boolean; className?: string }) => (
+  <div 
+    className={`relative flex items-center justify-center ${spinning ? 'animate-spin' : ''} ${className}`}
+    style={{ width: size, height: size, animationDuration: '3s' }}
+  >
+    <svg viewBox="0 0 100 100" width={size} height={size}>
+      {/* Outer ring */}
+      <circle 
+        cx="50" 
+        cy="50" 
+        r="45" 
+        fill="none" 
+        stroke="hsl(280, 55%, 55%)" 
+        strokeWidth="2" 
+        opacity="0.3"
+      />
+      {/* Z letter */}
+      <text 
+        x="50" 
+        y="65" 
+        textAnchor="middle" 
+        fill="hsl(280, 55%, 55%)" 
+        fontSize="48" 
+        fontWeight="bold" 
+        fontFamily="system-ui, sans-serif"
+      >
+        Z
+      </text>
+      {/* Dot accent */}
+      <circle 
+        cx="72" 
+        cy="28" 
+        r="5" 
+        fill="hsl(220, 70%, 55%)"
+      />
+    </svg>
+  </div>
+);
+
+// Kanban Card Component
+const KanbanCard = ({ title, priority, assignee, time }: { title: string; priority: 'high' | 'medium' | 'low'; assignee: string; time: string }) => {
+  const priorityColors = {
+    high: 'bg-red-500/20 text-red-400',
+    medium: 'bg-yellow-500/20 text-yellow-400',
+    low: 'bg-green-500/20 text-green-400',
+  };
+  
+  return (
+    <div className="p-3 bg-card/80 backdrop-blur-xl rounded-lg border border-border/30 hover:border-primary/30 transition-all duration-300 cursor-pointer group">
+      <div className="flex items-start justify-between gap-2 mb-2">
+        <span className={`text-[8px] px-1.5 py-0.5 rounded font-mono uppercase ${priorityColors[priority]}`}>
+          {priority}
+        </span>
+        <Clock className="w-3 h-3 text-muted-foreground" />
+      </div>
+      <p className="text-[10px] font-medium text-foreground mb-2 line-clamp-2">{title}</p>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1">
+          <div className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
+            <span className="text-[6px] font-bold text-primary">{assignee.charAt(0)}</span>
+          </div>
+          <span className="text-[8px] text-muted-foreground">{assignee}</span>
+        </div>
+        <span className="text-[8px] text-muted-foreground">{time}</span>
+      </div>
+    </div>
+  );
+};
+
 const ZenithStudio = () => {
   const [animatedMetrics, setAnimatedMetrics] = useState<number[]>([0, 0, 0, 0]);
   const [chartProgress, setChartProgress] = useState(0);
-  const [flowIndex, setFlowIndex] = useState(0);
+  const [isSpinnerExpanded, setIsSpinnerExpanded] = useState(false);
+  const [spinnerRotation, setSpinnerRotation] = useState(0);
 
   useEffect(() => {
     const duration = 1500;
@@ -76,19 +148,46 @@ const ZenithStudio = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setFlowIndex(prev => (prev + 1) % 5);
-    }, 1500);
+      setSpinnerRotation(prev => prev + 1);
+    }, 30);
     return () => clearInterval(timer);
   }, []);
 
-  const flowSteps = [
-    { label: 'Design', icon: Layers },
-    { label: 'Build', icon: Code },
-    { label: 'Automate', icon: Workflow },
-    { label: 'Publish', icon: Globe },
-  ];
-
   const chartData = [55, 62, 58, 68, 72, 78, 82, 85, 88, 92, 95, 98];
+
+  const kanbanColumns = [
+    {
+      title: 'Backlog',
+      color: 'hsl(220, 15%, 50%)',
+      cards: [
+        { title: 'Design system documentation', priority: 'low' as const, assignee: 'Alex', time: '2d' },
+        { title: 'API rate limiting setup', priority: 'medium' as const, assignee: 'Sam', time: '3d' },
+      ],
+    },
+    {
+      title: 'In Progress',
+      color: 'hsl(220, 70%, 55%)',
+      cards: [
+        { title: 'User authentication flow', priority: 'high' as const, assignee: 'Jordan', time: '1d' },
+        { title: 'Dashboard analytics', priority: 'medium' as const, assignee: 'Casey', time: '2d' },
+      ],
+    },
+    {
+      title: 'Review',
+      color: 'hsl(45, 90%, 50%)',
+      cards: [
+        { title: 'Landing page redesign', priority: 'high' as const, assignee: 'Taylor', time: '4h' },
+      ],
+    },
+    {
+      title: 'Done',
+      color: 'hsl(145, 70%, 45%)',
+      cards: [
+        { title: 'Payment integration', priority: 'high' as const, assignee: 'Morgan', time: 'Done' },
+        { title: 'Email templates', priority: 'low' as const, assignee: 'Riley', time: 'Done' },
+      ],
+    },
+  ];
 
   return (
     <>
@@ -114,7 +213,7 @@ const ZenithStudio = () => {
                 {/* Left - Content */}
                 <div>
                   <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 border border-primary/20 rounded-full mb-6">
-                    <Building2 className="w-4 h-4 text-primary" />
+                    <ZenithLogo size={16} />
                     <span className="text-xs font-medium text-primary">Business Creation Platform</span>
                   </div>
 
@@ -148,20 +247,42 @@ const ZenithStudio = () => {
                   </p>
                 </div>
 
-                {/* Right - Live Dashboard */}
+                {/* Right - Live Dashboard with Expandable Spinner */}
                 <div className="relative p-6 bg-card/80 backdrop-blur-xl rounded-2xl border border-border/40 overflow-hidden">
-                  {/* Header */}
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: 'hsl(280, 55%, 55%)' }}>
-                      <Building2 className="w-5 h-5 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="font-display text-sm font-bold text-foreground">Platform Dashboard</h3>
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                        <span className="text-xs text-muted-foreground">All Services Running</span>
+                  {/* Header with Z Logo Spinner */}
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-3">
+                      <div 
+                        className="relative cursor-pointer group"
+                        onClick={() => setIsSpinnerExpanded(true)}
+                      >
+                        <div 
+                          className="w-12 h-12 rounded-xl flex items-center justify-center backdrop-blur-xl border border-border/30 transition-all duration-300 group-hover:scale-105"
+                          style={{ 
+                            background: 'linear-gradient(135deg, hsl(280 55% 55% / 0.2), transparent)',
+                            transform: `rotate(${spinnerRotation}deg)`,
+                          }}
+                        >
+                          <ZenithLogo size={28} />
+                        </div>
+                        <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-card border border-border/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Maximize2 className="w-2 h-2 text-muted-foreground" />
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="font-display text-sm font-bold text-foreground">Platform Dashboard</h3>
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                          <span className="text-xs text-muted-foreground">All Services Running</span>
+                        </div>
                       </div>
                     </div>
+                    <button 
+                      onClick={() => setIsSpinnerExpanded(true)}
+                      className="p-2 rounded-lg hover:bg-muted/50 transition-colors"
+                    >
+                      <Maximize2 className="w-4 h-4 text-muted-foreground" />
+                    </button>
                   </div>
 
                   {/* Metrics Grid */}
@@ -198,46 +319,136 @@ const ZenithStudio = () => {
                     </div>
                   </div>
 
-                  {/* Flow Steps */}
-                  <div className="flex items-center justify-between gap-2">
-                    {flowSteps.map((step, index) => {
-                      const StepIcon = step.icon;
-                      const isActive = index <= flowIndex;
-                      const isCurrent = index === flowIndex;
-
-                      return (
-                        <div key={step.label} className="flex items-center flex-1">
-                          <div className="flex flex-col items-center flex-1">
-                            <div
-                              className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-500 ${
-                                isCurrent ? 'scale-110' : ''
-                              }`}
-                              style={{
-                                backgroundColor: isActive ? 'hsl(280, 55%, 55%)' : 'hsl(var(--muted))',
-                                boxShadow: isCurrent ? '0 8px 32px hsl(280 55% 55% / 0.5)' : 'none',
-                              }}
-                            >
-                              <StepIcon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-muted-foreground'}`} />
-                            </div>
-                            <p className={`text-[10px] mt-2 text-center font-medium ${isActive ? 'text-foreground' : 'text-muted-foreground'}`}>
-                              {step.label}
-                            </p>
-                          </div>
-                          {index < flowSteps.length - 1 && (
-                            <div className="w-8 h-0.5 bg-border/50 relative overflow-hidden rounded-full">
-                              <div
-                                className="absolute inset-y-0 left-0 rounded-full transition-all duration-500"
-                                style={{
-                                  width: index < flowIndex ? '100%' : '0%',
-                                  backgroundColor: 'hsl(280, 55%, 55%)',
-                                }}
-                              />
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
+                  {/* Simple Status Indicators (removed particle flow) */}
+                  <div className="flex items-center justify-between gap-2 p-3 bg-muted/20 rounded-xl border border-border/20">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-green-500" />
+                      <span className="text-[10px] text-muted-foreground">Design</span>
+                    </div>
+                    <div className="flex-1 h-px bg-border/30" />
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-green-500" />
+                      <span className="text-[10px] text-muted-foreground">Build</span>
+                    </div>
+                    <div className="flex-1 h-px bg-border/30" />
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-green-500" />
+                      <span className="text-[10px] text-muted-foreground">Deploy</span>
+                    </div>
+                    <div className="flex-1 h-px bg-border/30" />
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-green-500" />
+                      <span className="text-[10px] text-muted-foreground">Live</span>
+                    </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Expanded Spinner Modal */}
+          <Dialog open={isSpinnerExpanded} onOpenChange={setIsSpinnerExpanded}>
+            <DialogContent className="max-w-md p-0 bg-card/95 backdrop-blur-2xl border-border/50 overflow-hidden">
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="font-display text-lg font-bold text-foreground">Zenith Studio Engine</h3>
+                  <button 
+                    onClick={() => setIsSpinnerExpanded(false)}
+                    className="p-2 rounded-lg hover:bg-muted/50 transition-colors"
+                  >
+                    <Minimize2 className="w-4 h-4 text-muted-foreground" />
+                  </button>
+                </div>
+
+                {/* Large Spinning Logo */}
+                <div className="flex flex-col items-center justify-center py-8">
+                  <div 
+                    className="relative w-32 h-32 flex items-center justify-center"
+                    style={{ transform: `rotate(${spinnerRotation}deg)` }}
+                  >
+                    <div 
+                      className="absolute inset-0 rounded-full"
+                      style={{
+                        background: 'conic-gradient(from 0deg, hsl(280 55% 55% / 0.1), hsl(280 55% 55% / 0.4), hsl(280 55% 55% / 0.1))',
+                      }}
+                    />
+                    <div className="absolute inset-2 rounded-full bg-card" />
+                    <ZenithLogo size={64} />
+                  </div>
+                  
+                  <div className="mt-6 text-center">
+                    <p className="text-sm font-medium text-foreground mb-1">Processing</p>
+                    <p className="text-xs text-muted-foreground">Optimizing platform resources...</p>
+                  </div>
+                </div>
+
+                {/* Engine Stats */}
+                <div className="grid grid-cols-3 gap-3 mt-4">
+                  <div className="p-3 bg-muted/30 rounded-xl text-center">
+                    <p className="text-lg font-bold text-foreground">99.9%</p>
+                    <p className="text-[9px] text-muted-foreground uppercase">Uptime</p>
+                  </div>
+                  <div className="p-3 bg-muted/30 rounded-xl text-center">
+                    <p className="text-lg font-bold text-foreground">12ms</p>
+                    <p className="text-[9px] text-muted-foreground uppercase">Latency</p>
+                  </div>
+                  <div className="p-3 bg-muted/30 rounded-xl text-center">
+                    <p className="text-lg font-bold text-foreground">847</p>
+                    <p className="text-[9px] text-muted-foreground uppercase">Active</p>
+                  </div>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          {/* Project Kanban Board Visualization */}
+          <section className="py-16 sm:py-20 border-b border-border/30 overflow-hidden">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+              <div className="text-center mb-10 sm:mb-12">
+                <p className="font-mono text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider mb-2">
+                  Project Management
+                </p>
+                <h2 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold text-foreground mb-3">
+                  Live Kanban Board
+                </h2>
+                <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl mx-auto">
+                  Manage projects, workflows, and team collaboration in real-time
+                </p>
+              </div>
+
+              {/* Kanban Board */}
+              <div className="relative p-4 sm:p-6 bg-card/60 backdrop-blur-xl rounded-2xl border border-border/40 overflow-x-auto">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <ZenithLogo size={24} />
+                    <span className="text-xs font-mono text-muted-foreground">Sprint 24 · Active</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Users className="w-4 h-4 text-muted-foreground" />
+                    <span className="text-xs text-muted-foreground">6 members</span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 min-w-[600px]">
+                  {kanbanColumns.map((column) => (
+                    <div key={column.title} className="flex flex-col">
+                      <div className="flex items-center gap-2 mb-3 pb-2 border-b border-border/30">
+                        <div 
+                          className="w-2 h-2 rounded-full" 
+                          style={{ backgroundColor: column.color }}
+                        />
+                        <span className="text-xs font-semibold text-foreground">{column.title}</span>
+                        <span className="text-[10px] px-1.5 py-0.5 bg-muted/50 rounded text-muted-foreground">
+                          {column.cards.length}
+                        </span>
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        {column.cards.map((card, i) => (
+                          <KanbanCard key={i} {...card} />
+                        ))}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
