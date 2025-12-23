@@ -1,131 +1,141 @@
-const features = [
+import { useScrollReveal, getStaggerDelay } from "@/hooks/useScrollReveal";
+import { Boxes, Shield, Layers, Building2 } from "lucide-react";
+import { useState } from "react";
+
+interface Feature {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+  color: string;
+}
+
+const features: Feature[] = [
   {
-    icon: (
-      <svg
-        className="w-8 h-8"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={1}
-          d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-        />
-      </svg>
-    ),
+    icon: Boxes,
     title: "Unified Architecture",
-    description:
-      "Shared primitives across all platforms, ensuring consistency and interoperability at every layer.",
+    description: "Shared primitives across all platforms, ensuring consistency and interoperability at every layer.",
+    color: "hsl(220, 70%, 55%)",
   },
   {
-    icon: (
-      <svg
-        className="w-8 h-8"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={1}
-          d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-        />
-      </svg>
-    ),
+    icon: Shield,
     title: "Shared Security Primitives",
-    description:
-      "Enterprise-grade security built into the foundation, not bolted on as an afterthought.",
+    description: "Enterprise-grade security built into the foundation, not bolted on as an afterthought.",
+    color: "hsl(145, 55%, 45%)",
   },
   {
-    icon: (
-      <svg
-        className="w-8 h-8"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={1}
-          d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"
-        />
-      </svg>
-    ),
+    icon: Layers,
     title: "Platform-First Engineering",
-    description:
-      "Every product extends from a common platform layer designed for infinite composability.",
+    description: "Every product extends from a common platform layer designed for infinite composability.",
+    color: "hsl(260, 60%, 58%)",
   },
   {
-    icon: (
-      <svg
-        className="w-8 h-8"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={1}
-          d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-        />
-      </svg>
-    ),
+    icon: Building2,
     title: "Built for Regulated Industries",
-    description:
-      "Compliance-ready infrastructure for finance, healthcare, government, and enterprise.",
+    description: "Compliance-ready infrastructure for finance, healthcare, government, and enterprise.",
+    color: "hsl(25, 75%, 52%)",
   },
 ];
 
-import useScrollAnimation from "@/hooks/useScrollAnimation";
-
 const WhyCropxonSection = () => {
-  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation({ threshold: 0.3 });
-  const { ref: gridRef, isVisible: gridVisible } = useScrollAnimation({ threshold: 0.1 });
+  const { ref: headerRef, isVisible: headerVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.3 });
+  const { ref: gridRef, isVisible: gridVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.1 });
+  const [activeCard, setActiveCard] = useState<number | null>(null);
 
   return (
-    <section className="py-12 lg:py-16 relative">
-      <div className="container mx-auto px-6 lg:px-12">
+    <section className="py-16 lg:py-24 relative overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div 
+          className="absolute inset-0 opacity-50"
+          style={{
+            background: `radial-gradient(ellipse 80% 50% at 20% 80%, hsl(var(--primary) / 0.03) 0%, transparent 50%)`
+          }}
+        />
+      </div>
+
+      <div className="container mx-auto px-6 lg:px-12 relative z-10">
         {/* Section Header */}
         <div
           ref={headerRef}
-          className={`text-center mb-8 transition-all duration-700 ease-out ${
+          className={`text-center mb-12 lg:mb-16 transition-all duration-700 ease-out ${
             headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <span className="font-mono text-xs text-accent uppercase tracking-widest mb-3 block">
+          <p className="font-display text-[10px] sm:text-[11px] font-medium text-primary tracking-[0.25em] uppercase mb-4">
             Why Cropxon
-          </span>
-          <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-foreground tracking-wide">
+          </p>
+          <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-foreground tracking-tight">
             FOUNDATIONAL PRINCIPLES
           </h2>
         </div>
 
         {/* Features Grid */}
-        <div ref={gridRef} className="grid md:grid-cols-2 gap-4 lg:gap-6 max-w-5xl mx-auto">
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              className={`group p-5 lg:p-6 bg-card border border-border rounded-sm hover:border-muted-foreground/30 transition-all duration-500 ${
-                gridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: `${index * 100}ms` }}
-            >
-              <div className="text-accent mb-4 transition-transform duration-300 group-hover:scale-110">
-                {feature.icon}
+        <div ref={gridRef} className="grid md:grid-cols-2 gap-5 lg:gap-6 max-w-5xl mx-auto">
+          {features.map((feature, index) => {
+            const Icon = feature.icon;
+            const isActive = activeCard === index;
+            
+            return (
+              <div
+                key={index}
+                className={`group relative p-6 lg:p-8 bg-card/80 backdrop-blur-sm border rounded-2xl transition-all duration-500 ${
+                  gridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                } ${isActive ? 'border-primary/40 shadow-xl scale-[1.02]' : 'border-border/50 hover:border-primary/30 hover:shadow-lg'}`}
+                style={{ transitionDelay: getStaggerDelay(index, 100) }}
+                onMouseEnter={() => setActiveCard(index)}
+                onMouseLeave={() => setActiveCard(null)}
+              >
+                {/* Background glow */}
+                <div 
+                  className={`absolute -top-16 -right-16 w-32 h-32 rounded-full blur-3xl transition-all duration-700 ${
+                    isActive ? 'opacity-25' : 'opacity-0'
+                  }`}
+                  style={{ backgroundColor: feature.color }}
+                />
+
+                {/* Icon container with animation */}
+                <div 
+                  className={`relative w-14 h-14 rounded-xl flex items-center justify-center mb-5 transition-all duration-500 ${
+                    isActive ? 'scale-110' : 'group-hover:scale-105'
+                  }`}
+                  style={{ 
+                    backgroundColor: isActive ? feature.color : `${feature.color.replace(')', ' / 0.12)')}`,
+                    boxShadow: isActive ? `0 8px 24px ${feature.color.replace(')', ' / 0.3)')}` : 'none'
+                  }}
+                >
+                  <Icon className={`w-6 h-6 transition-colors duration-300 ${isActive ? 'text-white' : 'text-foreground'}`} />
+                  
+                  {/* Pulse ring on hover */}
+                  {isActive && (
+                    <div 
+                      className="absolute inset-0 rounded-xl animate-ping opacity-20"
+                      style={{ backgroundColor: feature.color }}
+                    />
+                  )}
+                </div>
+
+                {/* Content */}
+                <h3 className={`relative font-display text-lg lg:text-xl font-bold mb-3 transition-colors duration-300 ${
+                  isActive ? 'text-foreground' : 'text-foreground/90'
+                }`}>
+                  {feature.title}
+                </h3>
+                <p className={`relative text-sm leading-relaxed transition-colors duration-300 ${
+                  isActive ? 'text-foreground/80' : 'text-muted-foreground'
+                }`}>
+                  {feature.description}
+                </p>
+
+                {/* Bottom accent line */}
+                <div 
+                  className={`absolute bottom-0 left-6 right-6 h-0.5 rounded-full transition-all duration-500 ${
+                    isActive ? 'opacity-100' : 'opacity-0'
+                  }`}
+                  style={{ backgroundColor: feature.color }}
+                />
               </div>
-              <h3 className="font-display text-lg lg:text-xl font-bold text-foreground mb-2">
-                {feature.title}
-              </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {feature.description}
-              </p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

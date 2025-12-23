@@ -1,4 +1,5 @@
-import useScrollAnimation from "@/hooks/useScrollAnimation";
+import { useScrollReveal, getStaggerDelay } from "@/hooks/useScrollReveal";
+import { useState } from "react";
 import { 
   Building2, 
   Landmark, 
@@ -19,116 +20,30 @@ interface Industry {
   name: string;
   icon: LucideIcon;
   color: string;
-  bgColor: string;
-  borderColor: string;
-  glowColor: string;
 }
 
 const industries: Industry[] = [
-  { 
-    name: "Banking & Finance", 
-    icon: Landmark,
-    color: "text-emerald-400",
-    bgColor: "bg-emerald-500/10",
-    borderColor: "border-emerald-500/20",
-    glowColor: "shadow-[0_0_30px_rgba(52,211,153,0.3)]"
-  },
-  { 
-    name: "Healthcare", 
-    icon: Heart,
-    color: "text-rose-400",
-    bgColor: "bg-rose-500/10",
-    borderColor: "border-rose-500/20",
-    glowColor: "shadow-[0_0_30px_rgba(251,113,133,0.3)]"
-  },
-  { 
-    name: "Government", 
-    icon: Building2,
-    color: "text-blue-400",
-    bgColor: "bg-blue-500/10",
-    borderColor: "border-blue-500/20",
-    glowColor: "shadow-[0_0_30px_rgba(96,165,250,0.3)]"
-  },
-  { 
-    name: "Technology", 
-    icon: Cpu,
-    color: "text-violet-400",
-    bgColor: "bg-violet-500/10",
-    borderColor: "border-violet-500/20",
-    glowColor: "shadow-[0_0_30px_rgba(167,139,250,0.3)]"
-  },
-  { 
-    name: "Insurance", 
-    icon: Shield,
-    color: "text-amber-400",
-    bgColor: "bg-amber-500/10",
-    borderColor: "border-amber-500/20",
-    glowColor: "shadow-[0_0_30px_rgba(251,191,36,0.3)]"
-  },
-  { 
-    name: "Telecommunications", 
-    icon: Radio,
-    color: "text-cyan-400",
-    bgColor: "bg-cyan-500/10",
-    borderColor: "border-cyan-500/20",
-    glowColor: "shadow-[0_0_30px_rgba(34,211,238,0.3)]"
-  },
-  { 
-    name: "Manufacturing", 
-    icon: Factory,
-    color: "text-orange-400",
-    bgColor: "bg-orange-500/10",
-    borderColor: "border-orange-500/20",
-    glowColor: "shadow-[0_0_30px_rgba(251,146,60,0.3)]"
-  },
-  { 
-    name: "Education", 
-    icon: GraduationCap,
-    color: "text-indigo-400",
-    bgColor: "bg-indigo-500/10",
-    borderColor: "border-indigo-500/20",
-    glowColor: "shadow-[0_0_30px_rgba(129,140,248,0.3)]"
-  },
-  { 
-    name: "Aviation", 
-    icon: Plane,
-    color: "text-sky-400",
-    bgColor: "bg-sky-500/10",
-    borderColor: "border-sky-500/20",
-    glowColor: "shadow-[0_0_30px_rgba(56,189,248,0.3)]"
-  },
-  { 
-    name: "Retail", 
-    icon: ShoppingBag,
-    color: "text-pink-400",
-    bgColor: "bg-pink-500/10",
-    borderColor: "border-pink-500/20",
-    glowColor: "shadow-[0_0_30px_rgba(244,114,182,0.3)]"
-  },
-  { 
-    name: "Logistics", 
-    icon: Truck,
-    color: "text-teal-400",
-    bgColor: "bg-teal-500/10",
-    borderColor: "border-teal-500/20",
-    glowColor: "shadow-[0_0_30px_rgba(45,212,191,0.3)]"
-  },
-  { 
-    name: "Energy", 
-    icon: Zap,
-    color: "text-yellow-400",
-    bgColor: "bg-yellow-500/10",
-    borderColor: "border-yellow-500/20",
-    glowColor: "shadow-[0_0_30px_rgba(250,204,21,0.3)]"
-  },
+  { name: "Banking & Finance", icon: Landmark, color: "hsl(160, 60%, 45%)" },
+  { name: "Healthcare", icon: Heart, color: "hsl(350, 65%, 55%)" },
+  { name: "Government", icon: Building2, color: "hsl(215, 70%, 55%)" },
+  { name: "Technology", icon: Cpu, color: "hsl(265, 60%, 58%)" },
+  { name: "Insurance", icon: Shield, color: "hsl(40, 75%, 50%)" },
+  { name: "Telecommunications", icon: Radio, color: "hsl(185, 70%, 45%)" },
+  { name: "Manufacturing", icon: Factory, color: "hsl(25, 75%, 52%)" },
+  { name: "Education", icon: GraduationCap, color: "hsl(235, 65%, 58%)" },
+  { name: "Aviation", icon: Plane, color: "hsl(195, 75%, 50%)" },
+  { name: "Retail", icon: ShoppingBag, color: "hsl(330, 65%, 55%)" },
+  { name: "Logistics", icon: Truck, color: "hsl(170, 60%, 42%)" },
+  { name: "Energy", icon: Zap, color: "hsl(50, 80%, 48%)" },
 ];
 
 const PartnersSection = () => {
-  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation({ threshold: 0.3 });
-  const { ref: gridRef, isVisible: gridVisible } = useScrollAnimation({ threshold: 0.1 });
+  const { ref: headerRef, isVisible: headerVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.3 });
+  const { ref: gridRef, isVisible: gridVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.1 });
+  const [activeIndustry, setActiveIndustry] = useState<number | null>(null);
 
   return (
-    <section className="py-12 lg:py-16 relative bg-card/30">
+    <section className="py-16 lg:py-24 relative bg-card/30 overflow-hidden">
       {/* Subtle gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background opacity-50" />
       
@@ -136,14 +51,14 @@ const PartnersSection = () => {
         {/* Section Header */}
         <div
           ref={headerRef}
-          className={`text-center mb-8 transition-all duration-700 ease-out ${
+          className={`text-center mb-12 lg:mb-16 transition-all duration-700 ease-out ${
             headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <span className="font-mono text-xs text-primary uppercase tracking-widest mb-3 block">
+          <p className="font-display text-[10px] sm:text-[11px] font-medium text-primary tracking-[0.25em] uppercase mb-4">
             Industries We Serve
-          </span>
-          <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-foreground tracking-wide mb-4">
+          </p>
+          <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-foreground tracking-tight mb-4">
             CROSS-INDUSTRY EXPERTISE
           </h2>
           <p className="text-sm text-muted-foreground max-w-2xl mx-auto leading-relaxed">
@@ -158,23 +73,59 @@ const PartnersSection = () => {
         >
           {industries.map((industry, index) => {
             const IconComponent = industry.icon;
+            const isActive = activeIndustry === index;
+            
             return (
               <div
                 key={index}
-                className={`group flex flex-col items-center justify-center p-4 lg:p-5 rounded-sm border border-border/50 bg-card/50 backdrop-blur-sm hover:bg-card transition-all duration-500 ${
+                className={`group relative flex flex-col items-center justify-center p-4 lg:p-6 rounded-xl border bg-card/50 backdrop-blur-sm transition-all duration-500 ${
                   gridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                }`}
-                style={{ transitionDelay: `${index * 40}ms` }}
+                } ${isActive ? 'border-primary/40 shadow-xl scale-105 bg-card' : 'border-border/50 hover:border-primary/30 hover:shadow-lg hover:bg-card'}`}
+                style={{ transitionDelay: getStaggerDelay(index, 40) }}
+                onMouseEnter={() => setActiveIndustry(index)}
+                onMouseLeave={() => setActiveIndustry(null)}
               >
+                {/* Background glow */}
+                <div 
+                  className={`absolute inset-0 rounded-xl transition-all duration-500 ${
+                    isActive ? 'opacity-100' : 'opacity-0'
+                  }`}
+                  style={{ 
+                    background: `radial-gradient(circle at center, ${industry.color.replace(')', ' / 0.12)')}, transparent 70%)`
+                  }}
+                />
+
                 {/* Industry Icon with unique color */}
-                <div className={`w-10 h-10 lg:w-12 lg:h-12 rounded-full ${industry.bgColor} border ${industry.borderColor} flex items-center justify-center mb-3 transition-all duration-500`}>
-                  <IconComponent className={`w-5 h-5 lg:w-6 lg:h-6 ${industry.color} group-hover:scale-110 transition-transform duration-300`} strokeWidth={1.5} />
+                <div 
+                  className={`relative w-12 h-12 lg:w-14 lg:h-14 rounded-xl flex items-center justify-center mb-3 transition-all duration-500 ${
+                    isActive ? 'scale-110' : 'group-hover:scale-105'
+                  }`}
+                  style={{ 
+                    backgroundColor: isActive ? industry.color : `${industry.color.replace(')', ' / 0.1)')}`,
+                    boxShadow: isActive ? `0 8px 24px ${industry.color.replace(')', ' / 0.35)')}` : 'none'
+                  }}
+                >
+                  <IconComponent 
+                    className={`w-5 h-5 lg:w-6 lg:h-6 transition-all duration-300 ${isActive ? 'text-white' : ''}`}
+                    style={{ color: isActive ? 'white' : industry.color }}
+                    strokeWidth={1.5} 
+                  />
                 </div>
                 
                 {/* Industry Name */}
-                <span className="font-mono text-[9px] lg:text-[10px] text-muted-foreground uppercase tracking-wider text-center group-hover:text-foreground transition-colors duration-300">
+                <span className={`relative font-mono text-[9px] lg:text-[10px] uppercase tracking-wider text-center transition-colors duration-300 ${
+                  isActive ? 'text-foreground' : 'text-muted-foreground group-hover:text-foreground'
+                }`}>
                   {industry.name}
                 </span>
+
+                {/* Active indicator dot */}
+                <div 
+                  className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full transition-all duration-300 ${
+                    isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
+                  }`}
+                  style={{ backgroundColor: industry.color }}
+                />
               </div>
             );
           })}
@@ -182,17 +133,18 @@ const PartnersSection = () => {
 
         {/* Stats Row */}
         <div 
-          className={`mt-8 flex flex-wrap justify-center gap-8 lg:gap-16 transition-all duration-700 delay-500 ${
+          className={`mt-12 flex flex-wrap justify-center gap-8 lg:gap-16 transition-all duration-700 ${
             gridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
+          style={{ transitionDelay: '500ms' }}
         >
           {[
             { value: "12+", label: "Industries" },
             { value: "99.9%", label: "Uptime SLA" },
             { value: "Enterprise", label: "Grade Security" },
           ].map((stat, index) => (
-            <div key={index} className="text-center">
-              <div className="font-display text-2xl lg:text-3xl font-bold text-foreground mb-1">
+            <div key={index} className="text-center group">
+              <div className="font-display text-2xl lg:text-3xl font-bold text-foreground mb-1 group-hover:text-primary transition-colors duration-300">
                 {stat.value}
               </div>
               <div className="font-mono text-[9px] text-muted-foreground uppercase tracking-widest">
@@ -204,15 +156,16 @@ const PartnersSection = () => {
 
         {/* Compliance Line */}
         <div 
-          className={`mt-6 flex flex-wrap justify-center items-center gap-2 lg:gap-3 transition-all duration-700 delay-700 ${
+          className={`mt-8 flex flex-wrap justify-center items-center gap-2 lg:gap-3 transition-all duration-700 ${
             gridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
+          style={{ transitionDelay: '700ms' }}
         >
           <span className="text-[9px] font-mono text-muted-foreground/60 uppercase tracking-wider">Compliant with</span>
           {["SOC 2", "GDPR", "HIPAA", "ISO 27001", "PCI DSS"].map((badge, index) => (
             <span 
               key={index}
-              className="px-2 py-1 text-[9px] font-mono uppercase tracking-wider text-muted-foreground border border-border/40 rounded-sm bg-background/50"
+              className="px-2.5 py-1 text-[9px] font-mono uppercase tracking-wider text-muted-foreground border border-border/40 rounded-full bg-background/50 hover:border-primary/30 hover:text-foreground transition-all duration-300"
             >
               {badge}
             </span>
