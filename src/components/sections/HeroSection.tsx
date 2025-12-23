@@ -1,256 +1,76 @@
-import { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import SubtleMeshBackground from "@/components/visuals/SubtleMeshBackground";
-import AnimatedGradientBackground from "@/components/visuals/AnimatedGradientBackground";
-import loadingVideo from "@/assets/cropxon-loading-video.mp4";
+import { useEffect, useState } from "react";
+import EcosystemCanvas from "./EcosystemCanvas";
 
 const HeroSection = () => {
   const [showContent, setShowContent] = useState(false);
-  const [showVideoOverlay, setShowVideoOverlay] = useState(false);
-  const [fadeOut, setFadeOut] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [wordIndex, setWordIndex] = useState(0);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const navigate = useNavigate();
-
-  const words = ["FOUNDATIONAL", "INTELLIGENT", "RESILIENT", "SCALABLE"];
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowContent(true), 150);
+    const timer = setTimeout(() => setShowContent(true), 100);
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setWordIndex((prev) => (prev + 1) % words.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleViewVision = () => {
-    setShowVideoOverlay(true);
-    setProgress(0);
-    setFadeOut(false);
-    document.body.style.overflow = 'hidden';
-  };
-
-  useEffect(() => {
-    if (!showVideoOverlay) return;
-
-    const progressInterval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(progressInterval);
-          return 100;
-        }
-        return prev + 4;
-      });
-    }, 50);
-
-    const timer = setTimeout(() => {
-      setFadeOut(true);
-      setTimeout(() => {
-        document.body.style.overflow = '';
-        setShowVideoOverlay(false);
-        navigate('/how-we-think');
-      }, 400);
-    }, 1500);
-
-    return () => {
-      clearTimeout(timer);
-      clearInterval(progressInterval);
-    };
-  }, [showVideoOverlay, navigate]);
-
-  const handleSkipVideo = () => {
-    if (videoRef.current) {
-      videoRef.current.pause();
-    }
-    document.body.style.overflow = '';
-    setShowVideoOverlay(false);
-    navigate('/how-we-think');
-  };
-
   return (
-    <>
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-background">
-        {/* Animated Gradient Background */}
-        <AnimatedGradientBackground />
-        
-        {/* Animated Mesh Background */}
-        <SubtleMeshBackground />
+    <section className="relative min-h-screen flex flex-col bg-[#050508] overflow-hidden">
+      {/* Subtle gradient overlay */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `
+            radial-gradient(ellipse 80% 50% at 50% 0%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+            radial-gradient(ellipse 60% 40% at 80% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
+            radial-gradient(ellipse 60% 40% at 20% 90%, rgba(6, 182, 212, 0.04) 0%, transparent 50%)
+          `,
+        }}
+      />
 
-        {/* Content Container - Absolutely Centered */}
-        <div className="relative z-10 container mx-auto px-6 lg:px-16 text-center flex flex-col items-center justify-center">
-          
-          {/* Headline with Typography Animation */}
-          <div
-            className={`transition-all duration-1000 ease-out ${
-              showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-          >
-            <h1 
-              className="font-display font-bold leading-none text-foreground"
-              style={{ 
-                fontSize: "clamp(2rem, 7vw, 5.5rem)",
-                letterSpacing: "0.03em",
-                lineHeight: 1.1
-              }}
-            >
-              <span className="block">BUILDING THE</span>
-              <span className="relative inline-block overflow-hidden h-[1.15em]">
-                {words.map((word, index) => (
-                  <span
-                    key={word}
-                    className={`block transition-all duration-700 ease-out absolute left-0 right-0 ${
-                      index === wordIndex 
-                        ? "translate-y-0 opacity-100" 
-                        : index === (wordIndex - 1 + words.length) % words.length
-                          ? "-translate-y-full opacity-0"
-                          : "translate-y-full opacity-0"
-                    }`}
-                    style={{ color: "hsl(var(--primary))" }}
-                  >
-                    {word}
-                  </span>
-                ))}
-                <span className="invisible">{words[0]}</span>
-              </span>
-              <span className="block">SYSTEMS</span>
-            </h1>
-
-            {/* Sub-headline */}
-            <p 
-              className="font-sans font-normal mx-auto text-muted-foreground"
-              style={{ 
-                fontSize: "clamp(1rem, 2vw, 1.25rem)",
-                maxWidth: "42ch",
-                marginTop: "2.5rem",
-                lineHeight: 1.7
-              }}
-            >
-              Operating layers for work, intelligence, and infrastructure.
-            </p>
-
-            {/* CTA Buttons */}
-            <div 
-              className="flex flex-col sm:flex-row items-center justify-center gap-6"
-              style={{ marginTop: "3.5rem" }}
-            >
-              {/* Primary CTA */}
-              <a
-                href="#ecosystem"
-                className="inline-flex items-center justify-center font-semibold uppercase bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 hover:scale-[1.02]"
-                style={{ 
-                  padding: "1.125rem 2.5rem",
-                  borderRadius: "4px",
-                  letterSpacing: "0.05em",
-                  fontSize: "0.75rem"
-                }}
-              >
-                Explore Ecosystem
-              </a>
-              
-              {/* Secondary CTA */}
-              <button
-                onClick={handleViewVision}
-                className="inline-flex items-center justify-center font-semibold uppercase bg-transparent text-muted-foreground hover:text-foreground border border-border hover:border-muted-foreground transition-all duration-300"
-                style={{ 
-                  padding: "1.125rem 2.5rem",
-                  borderRadius: "4px",
-                  letterSpacing: "0.05em",
-                  fontSize: "0.75rem"
-                }}
-              >
-                View Our Vision
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll Indicator - At Bottom */}
-        <div
-          className={`absolute bottom-8 left-1/2 -translate-x-1/2 transition-all duration-1000 delay-700 ${
-            showContent ? "opacity-100" : "opacity-0"
-          }`}
+      {/* Top tagline */}
+      <div 
+        className={`pt-28 pb-8 px-8 text-center transition-all duration-1000 ${
+          showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+        }`}
+      >
+        <p className="text-[11px] font-medium text-muted-foreground/50 tracking-[0.3em] uppercase mb-4">
+          Deep Technology Infrastructure
+        </p>
+        <h1 
+          className="font-display font-bold text-foreground leading-[1.1]"
+          style={{ 
+            fontSize: "clamp(2rem, 5vw, 4rem)",
+            letterSpacing: "-0.02em",
+          }}
         >
-          <a 
-            href="#ecosystem"
-            className="flex flex-col items-center gap-3 group cursor-pointer"
-          >
-            <span 
-              className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground/60 group-hover:text-muted-foreground transition-colors"
-            >
-              Scroll
-            </span>
-            <div className="relative w-6 h-10 border border-muted-foreground/30 rounded-full flex justify-center group-hover:border-muted-foreground/50 transition-colors">
-              <div 
-                className="w-1 h-2 bg-muted-foreground/50 rounded-full mt-2 animate-scroll-indicator"
-              />
-            </div>
-          </a>
-        </div>
-      </section>
-
-      {/* Video Overlay - Same as Loading Screen */}
-      {showVideoOverlay && (
-        <div
-          className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background transition-opacity duration-400 ${
-            fadeOut ? "opacity-0 pointer-events-none" : "opacity-100"
-          }`}
+          <span className="block">Building the Operating</span>
+          <span className="block text-primary/90">Layers of Tomorrow</span>
+        </h1>
+        <p 
+          className="mt-6 text-muted-foreground/60 max-w-xl mx-auto leading-relaxed"
+          style={{ fontSize: "clamp(0.875rem, 1.5vw, 1.125rem)" }}
         >
-          {/* Skip Button */}
-          <button
-            onClick={handleSkipVideo}
-            className="absolute top-8 right-8 text-muted-foreground hover:text-foreground text-xs uppercase tracking-widest transition-colors z-10"
-          >
-            Skip →
-          </button>
+          Foundational systems for cognition, operations, and enterprise infrastructure.
+        </p>
+      </div>
 
-          {/* Video container with dark mode blend */}
-          <div className="relative w-64 h-64 sm:w-80 sm:h-80 flex items-center justify-center">
-            <video
-              ref={videoRef}
-              src={loadingVideo}
-              autoPlay
-              muted
-              playsInline
-              loop
-              className="w-full h-full object-contain mix-blend-multiply dark:mix-blend-screen dark:invert"
-            />
-          </div>
+      {/* Interactive Ecosystem Canvas */}
+      <div 
+        className={`flex-1 relative transition-all duration-1000 delay-300 ${
+          showContent ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
+        <EcosystemCanvas />
+      </div>
 
-          {/* Progress bar */}
-          <div className="mt-8 w-48 sm:w-64">
-            <div className="h-[2px] bg-border/30 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-primary transition-all duration-100"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-            <p className="text-[10px] text-muted-foreground uppercase tracking-[0.3em] text-center mt-4 font-mono">
-              Loading Philosophy
-            </p>
-          </div>
-        </div>
-      )}
-
-      <style>{`
-        @keyframes scroll-indicator {
-          0%, 100% { 
-            opacity: 0.5;
-            transform: translateY(0);
-          }
-          50% { 
-            opacity: 1;
-            transform: translateY(12px);
-          }
-        }
-        .animate-scroll-indicator {
-          animation: scroll-indicator 2s ease-in-out infinite;
-        }
-      `}</style>
-    </>
+      {/* Bottom indicator */}
+      <div 
+        className={`pb-8 text-center transition-all duration-1000 delay-500 ${
+          showContent ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
+        <p className="text-[10px] text-muted-foreground/40 tracking-[0.25em] uppercase mb-3">
+          Interact with the ecosystem
+        </p>
+        <div className="w-px h-8 bg-gradient-to-b from-muted-foreground/20 to-transparent mx-auto" />
+      </div>
+    </section>
   );
 };
 

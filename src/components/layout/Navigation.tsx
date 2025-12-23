@@ -3,25 +3,20 @@ import { Link, useLocation } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import MobileMenu from "./MobileMenu";
+import MegaMenu from "./MegaMenu";
 import officialLogo from "@/assets/cropxon-logo-official.png";
 
 interface NavItem {
   label: string;
   href?: string;
+  isMegaMenu?: boolean;
   children?: { label: string; href: string; external?: boolean }[];
 }
 
 const navItems: NavItem[] = [
   {
     label: "ECOSYSTEM",
-    children: [
-      { label: "ATLAS", href: "https://atlas.cropxon.com", external: true },
-      { label: "TRACEFLOW", href: "https://traceflow.cropxon.com", external: true },
-      { label: "OriginX Labs", href: "https://originxlabs.com", external: true },
-      { label: "CropXon Cloud", href: "https://cropxoncloud.com", external: true },
-      { label: "OpZeniX", href: "https://opzenix.com", external: true },
-      { label: "Zenith Institute", href: "/zenith-institute" },
-    ],
+    isMegaMenu: true,
   },
   {
     label: "PHILOSOPHY",
@@ -63,6 +58,7 @@ const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [megaMenuOpen, setMegaMenuOpen] = useState(false);
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -73,17 +69,27 @@ const Navigation = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleMouseEnter = (label: string) => {
+  const handleMouseEnter = (label: string, isMegaMenu?: boolean) => {
     if (dropdownTimeoutRef.current) {
       clearTimeout(dropdownTimeoutRef.current);
     }
-    setActiveDropdown(label);
+    if (isMegaMenu) {
+      setMegaMenuOpen(true);
+      setActiveDropdown(null);
+    } else {
+      setActiveDropdown(label);
+      setMegaMenuOpen(false);
+    }
   };
 
   const handleMouseLeave = () => {
     dropdownTimeoutRef.current = setTimeout(() => {
       setActiveDropdown(null);
     }, 150);
+  };
+
+  const handleMegaMenuClose = () => {
+    setMegaMenuOpen(false);
   };
 
   const isChildActive = (item: NavItem) => {
@@ -99,77 +105,77 @@ const Navigation = () => {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-[220ms] ease-[cubic-bezier(0.4,0.0,0.2,1)] ${
-          scrolled
-            ? "bg-background/88 dark:bg-[rgba(10,10,15,0.72)] backdrop-blur-[16px] border-b border-foreground/[0.04] dark:border-white/[0.06]"
+          scrolled || megaMenuOpen
+            ? "bg-[#0a0a0f]/95 backdrop-blur-xl border-b border-border/10"
             : "bg-transparent border-b border-transparent"
         }`}
         style={{
           height: scrolled ? "56px" : "64px",
         }}
       >
-        <nav className="h-full max-w-[1200px] mx-auto px-8">
+        <nav className="h-full max-w-[1400px] mx-auto px-8">
           <div className="flex items-center justify-between h-full">
-            {/* Brand Lockup - Official Logo */}
-            <Link to="/" className="flex items-center gap-3">
+            {/* Brand Lockup */}
+            <Link to="/" className="flex items-center gap-3 group">
               <img 
                 src={officialLogo} 
                 alt="CropXon Innovations logo" 
-                className="h-8 w-auto dark:brightness-0 dark:invert"
+                className="h-7 w-auto brightness-0 invert opacity-90 group-hover:opacity-100 transition-opacity"
               />
               <div className="hidden sm:flex flex-col leading-none">
                 <span
-                  className="text-foreground"
+                  className="text-foreground/95 group-hover:text-foreground transition-colors"
                   style={{
-                    fontFamily: "'Space Grotesk', Inter, system-ui, sans-serif",
-                    fontWeight: 700,
-                    fontSize: "14px",
-                    letterSpacing: "0.02em",
+                    fontFamily: "'Space Grotesk', sans-serif",
+                    fontWeight: 600,
+                    fontSize: "13px",
+                    letterSpacing: "0.04em",
                   }}
                 >
                   CropXon
                 </span>
                 <span
-                  className="text-muted-foreground"
+                  className="text-muted-foreground/50"
                   style={{
-                    fontFamily: "Inter, system-ui, sans-serif",
+                    fontFamily: "Inter, sans-serif",
                     fontWeight: 400,
-                    fontSize: "9px",
-                    letterSpacing: "0.08em",
+                    fontSize: "8px",
+                    letterSpacing: "0.1em",
                     textTransform: "uppercase",
                     marginTop: "2px",
                   }}
                 >
-                  Innovations Pvt. Ltd.
+                  Innovations
                 </span>
               </div>
             </Link>
 
             {/* Navigation Items - Desktop */}
-            <div className="hidden lg:flex items-center" style={{ gap: "32px", marginLeft: "48px" }}>
+            <div className="hidden lg:flex items-center" style={{ gap: "36px" }}>
               {navItems.map((item) => (
                 <div
                   key={item.label}
                   className="relative"
-                  onMouseEnter={() => handleMouseEnter(item.label)}
-                  onMouseLeave={handleMouseLeave}
+                  onMouseEnter={() => handleMouseEnter(item.label, item.isMegaMenu)}
+                  onMouseLeave={!item.isMegaMenu ? handleMouseLeave : undefined}
                 >
                   <button
-                    className={`flex items-center gap-1 transition-opacity duration-[120ms] ease-linear ${
-                      isChildActive(item) || activeDropdown === item.label
-                        ? "text-[#0B0E14] dark:text-[#F5F7FA] opacity-100"
-                        : "text-[#6B7280] opacity-75 hover:opacity-100 hover:text-[#111827] dark:hover:text-[#E5E7EB]"
+                    className={`flex items-center gap-1.5 transition-all duration-150 ${
+                      (item.isMegaMenu && megaMenuOpen) || isChildActive(item) || activeDropdown === item.label
+                        ? "text-foreground"
+                        : "text-muted-foreground/70 hover:text-foreground"
                     }`}
                     style={{
-                      fontFamily: "Inter, system-ui, sans-serif",
+                      fontFamily: "Inter, sans-serif",
                       fontWeight: 500,
-                      fontSize: "12px",
+                      fontSize: "11px",
                       letterSpacing: "0.12em",
                     }}
                   >
                     {item.label}
                     <ChevronDown
-                      className={`w-3 h-3 transition-transform duration-150 ${
-                        activeDropdown === item.label ? "rotate-180" : ""
+                      className={`w-3 h-3 transition-transform duration-200 ${
+                        (item.isMegaMenu && megaMenuOpen) || activeDropdown === item.label ? "rotate-180" : ""
                       }`}
                     />
                   </button>
@@ -177,15 +183,18 @@ const Navigation = () => {
                   {/* Active Indicator */}
                   {isChildActive(item) && (
                     <div
-                      className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-[1px] bg-[#0B0E14] dark:bg-[#F5F7FA]"
-                      style={{ width: "16px" }}
+                      className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-px bg-primary/60"
+                      style={{ width: "20px" }}
                     />
                   )}
 
-                  {/* Dropdown */}
-                  {activeDropdown === item.label && item.children && (
+                  {/* Standard Dropdown (non-mega menu) */}
+                  {activeDropdown === item.label && item.children && !item.isMegaMenu && (
                     <div
-                      className="absolute top-full left-0 mt-2 py-2 min-w-[200px] bg-background dark:bg-[#0f0f14] backdrop-blur-[16px] border border-foreground/[0.08] dark:border-white/[0.08] rounded-md z-[60]"
+                      className="absolute top-full left-0 mt-3 py-2 min-w-[200px] bg-[#0a0a0f]/98 backdrop-blur-xl border border-border/10 rounded-lg z-[60]"
+                      style={{
+                        animation: 'dropdownIn 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                      }}
                       onMouseEnter={() => handleMouseEnter(item.label)}
                       onMouseLeave={handleMouseLeave}
                     >
@@ -196,12 +205,12 @@ const Navigation = () => {
                             href={child.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block px-4 py-2.5 text-[#6B7280] hover:text-[#111827] dark:hover:text-[#F5F7FA] hover:bg-foreground/[0.04] transition-colors duration-[120ms]"
+                            className="block px-4 py-2.5 text-muted-foreground/70 hover:text-foreground hover:bg-foreground/[0.03] transition-colors"
                             style={{
-                              fontFamily: "Inter, system-ui, sans-serif",
+                              fontFamily: "Inter, sans-serif",
                               fontWeight: 400,
-                              fontSize: "13px",
-                              letterSpacing: "0.01em",
+                              fontSize: "12px",
+                              letterSpacing: "0.02em",
                             }}
                             onClick={() => setActiveDropdown(null)}
                           >
@@ -211,12 +220,12 @@ const Navigation = () => {
                           <Link
                             key={child.label}
                             to={child.href}
-                            className="block px-4 py-2.5 text-[#6B7280] hover:text-[#111827] dark:hover:text-[#F5F7FA] hover:bg-foreground/[0.04] transition-colors duration-[120ms]"
+                            className="block px-4 py-2.5 text-muted-foreground/70 hover:text-foreground hover:bg-foreground/[0.03] transition-colors"
                             style={{
-                              fontFamily: "Inter, system-ui, sans-serif",
+                              fontFamily: "Inter, sans-serif",
                               fontWeight: 400,
-                              fontSize: "13px",
-                              letterSpacing: "0.01em",
+                              fontSize: "12px",
+                              letterSpacing: "0.02em",
                             }}
                             onClick={() => setActiveDropdown(null)}
                           >
@@ -230,34 +239,31 @@ const Navigation = () => {
               ))}
             </div>
 
-            {/* Right Side: Theme Toggle + CTA */}
-            <div className="flex items-center" style={{ gap: "40px" }}>
+            {/* Right Side */}
+            <div className="flex items-center gap-6">
               <div className="hidden sm:block">
                 <ThemeToggle />
               </div>
 
-              {/* PLATFORMS CTA - Links to Consoles Page */}
+              {/* PLATFORMS CTA */}
               <Link
                 to="/platforms"
-                className="hidden lg:inline-flex items-center justify-center text-white transition-colors duration-[120ms]"
+                className="hidden lg:inline-flex items-center justify-center text-foreground/90 hover:text-foreground bg-foreground/5 hover:bg-foreground/10 border border-border/20 hover:border-border/40 transition-all duration-200"
                 style={{
-                  fontFamily: "Inter, system-ui, sans-serif",
-                  fontWeight: 600,
-                  fontSize: "12px",
+                  fontFamily: "Inter, sans-serif",
+                  fontWeight: 500,
+                  fontSize: "10px",
                   letterSpacing: "0.14em",
-                  padding: "10px 16px",
-                  borderRadius: "8px",
-                  backgroundColor: "#0B1A3A",
+                  padding: "8px 16px",
+                  borderRadius: "6px",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#0F2557")}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#0B1A3A")}
               >
                 PLATFORMS
               </Link>
 
               {/* Mobile Menu Button */}
               <button
-                className="lg:hidden p-1 text-[#6B7280] hover:text-[#111827] dark:hover:text-[#F5F7FA] transition-opacity duration-[120ms]"
+                className="lg:hidden p-1 text-muted-foreground/70 hover:text-foreground transition-colors"
                 onClick={() => setMobileMenuOpen(true)}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -274,11 +280,27 @@ const Navigation = () => {
         </nav>
       </header>
 
+      {/* Mega Menu */}
+      <MegaMenu isOpen={megaMenuOpen} onClose={handleMegaMenuClose} />
+
       {/* Mobile Menu */}
       <MobileMenu 
         isOpen={mobileMenuOpen} 
         onClose={() => setMobileMenuOpen(false)} 
       />
+
+      <style>{`
+        @keyframes dropdownIn {
+          from {
+            opacity: 0;
+            transform: translateY(-4px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </>
   );
 };
