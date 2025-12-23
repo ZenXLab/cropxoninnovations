@@ -562,7 +562,7 @@ const PlatformDashboard = ({ platformId, onOpenFullscreen, expanded = false }: P
                 ))}
               </div>
 
-              {/* Live Data Stream */}
+              {/* Live Data Visualization - Different for each platform */}
               <div className="p-5 bg-muted/20 rounded-xl border border-border/30 flex-1">
                 <div className="flex items-center justify-between mb-4">
                   <p className="text-sm font-medium text-foreground">Real-time Data Stream</p>
@@ -571,45 +571,194 @@ const PlatformDashboard = ({ platformId, onOpenFullscreen, expanded = false }: P
                     <span className="text-xs text-muted-foreground">Live</span>
                   </div>
                 </div>
-                <div className="relative h-32 overflow-hidden rounded-lg bg-muted/30">
-                  {/* Flowing data streams */}
-                  {[...Array(5)].map((_, streamIndex) => (
-                    <div
-                      key={streamIndex}
-                      className="absolute flex gap-2"
-                      style={{
-                        top: `${15 + streamIndex * 22}%`,
-                        animation: `dataFlow ${8 + streamIndex * 2}s linear infinite`,
-                        animationDelay: `${-streamIndex * 1.5}s`,
-                      }}
-                    >
-                      {liveBarHeights.map((_, i) => (
+                <div className="relative h-32 overflow-hidden rounded-lg bg-muted/30 border border-border/20">
+                  {/* Different visualization based on platform */}
+                  {currentPlatform.id === 'cognix' && (
+                    /* Neural Network Pattern */
+                    <svg className="w-full h-full">
+                      {[...Array(20)].map((_, i) => (
+                        <g key={i}>
+                          <line
+                            x1={`${(i * 5) % 100}%`}
+                            y1={`${20 + Math.sin(i * 0.5) * 30}%`}
+                            x2={`${((i + 1) * 5) % 100}%`}
+                            y2={`${20 + Math.sin((i + 1) * 0.5) * 30}%`}
+                            stroke={currentPlatform.color}
+                            strokeWidth="2"
+                            opacity={0.3 + (i % 3) * 0.2}
+                            className="animate-pulse"
+                            style={{ animationDelay: `${i * 0.1}s` }}
+                          />
+                          <circle
+                            cx={`${(i * 5) % 100}%`}
+                            cy={`${20 + Math.sin(i * 0.5) * 30}%`}
+                            r="3"
+                            fill={currentPlatform.color}
+                            opacity={0.6}
+                          />
+                        </g>
+                      ))}
+                    </svg>
+                  )}
+                  {currentPlatform.id === 'qualyx' && (
+                    /* Quality Metrics - Area Chart */
+                    <svg className="w-full h-full" preserveAspectRatio="none">
+                      <defs>
+                        <linearGradient id="qualyxGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stopColor={currentPlatform.color} stopOpacity="0.4" />
+                          <stop offset="100%" stopColor={currentPlatform.color} stopOpacity="0.05" />
+                        </linearGradient>
+                      </defs>
+                      <path
+                        d={`M 0,${50 + liveBarHeights[0] * 0.3} ${liveBarHeights.map((h, i) => `L ${(i / 23) * 100},${50 + h * 0.3}`).join(' ')} L 100,100 L 0,100 Z`}
+                        fill="url(#qualyxGrad)"
+                        stroke={currentPlatform.color}
+                        strokeWidth="2"
+                      />
+                    </svg>
+                  )}
+                  {currentPlatform.id === 'huminex' && (
+                    /* Workforce Data - Scatter Plot */
+                    <div className="relative w-full h-full">
+                      {liveBarHeights.slice(0, 15).map((h, i) => (
                         <div
                           key={i}
-                          className="w-8 h-2 rounded-full"
+                          className="absolute rounded-full animate-pulse"
                           style={{
+                            left: `${(i * 6.5)}%`,
+                            top: `${h * 0.7}%`,
+                            width: `${6 + (h / 10)}px`,
+                            height: `${6 + (h / 10)}px`,
                             backgroundColor: currentPlatform.color,
-                            opacity: 0.2 + (Math.sin((i + streamIndex) * 0.5) + 1) * 0.3,
+                            opacity: 0.4 + (i % 3) * 0.2,
+                            animationDelay: `${i * 0.15}s`,
+                            animationDuration: '2s',
                           }}
                         />
                       ))}
                     </div>
-                  ))}
-                  {/* Grid lines for context */}
-                  {[...Array(4)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="absolute w-full h-px bg-border/20"
-                      style={{ top: `${25 * (i + 1)}%` }}
-                    />
-                  ))}
+                  )}
+                  {currentPlatform.id === 'opzenix' && (
+                    /* Operations - Pipeline Flow */
+                    <div className="relative w-full h-full flex flex-col justify-around py-2">
+                      {[...Array(4)].map((_, rowIdx) => (
+                        <div key={rowIdx} className="relative h-2 flex items-center gap-1">
+                          {[...Array(12)].map((_, i) => (
+                            <div
+                              key={i}
+                              className="flex-1 h-full rounded-full"
+                              style={{
+                                backgroundColor: currentPlatform.color,
+                                opacity: 0.2 + Math.sin((i + rowIdx) * 0.5) * 0.3,
+                                animation: `pulse ${1.5 + rowIdx * 0.3}s ease-in-out infinite`,
+                                animationDelay: `${i * 0.1}s`,
+                              }}
+                            />
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {currentPlatform.id === 'traceflow' && (
+                    /* Supply Chain - Network Graph */
+                    <svg className="w-full h-full">
+                      {[...Array(8)].map((_, i) => {
+                        const angle = (i / 8) * Math.PI * 2;
+                        const x = 50 + Math.cos(angle) * 35;
+                        const y = 50 + Math.sin(angle) * 35;
+                        return (
+                          <g key={i}>
+                            <line
+                              x1="50%"
+                              y1="50%"
+                              x2={`${x}%`}
+                              y2={`${y}%`}
+                              stroke={currentPlatform.color}
+                              strokeWidth="1.5"
+                              opacity={0.3}
+                              className="animate-pulse"
+                              style={{ animationDelay: `${i * 0.2}s`, animationDuration: '2s' }}
+                            />
+                            <circle
+                              cx={`${x}%`}
+                              cy={`${y}%`}
+                              r="4"
+                              fill={currentPlatform.color}
+                              opacity={0.6 + (i % 2) * 0.2}
+                            />
+                          </g>
+                        );
+                      })}
+                      <circle cx="50%" cy="50%" r="6" fill={currentPlatform.color} opacity="0.8" />
+                    </svg>
+                  )}
+                  {currentPlatform.id === 'zenith-core' && (
+                    /* Infrastructure - Stacked Bars */
+                    <div className="relative h-full flex items-end gap-1 px-2">
+                      {liveBarHeights.map((h, i) => (
+                        <div key={i} className="flex-1 flex flex-col-reverse gap-0.5">
+                          {[...Array(3)].map((_, layer) => (
+                            <div
+                              key={layer}
+                              className="w-full rounded-sm transition-all duration-300"
+                              style={{
+                                height: `${(h / 3) * chartProgress}%`,
+                                backgroundColor: currentPlatform.color,
+                                opacity: 0.3 + layer * 0.25,
+                              }}
+                            />
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {currentPlatform.id === 'zenith-institute' && (
+                    /* Learning Progress - Step Chart */
+                    <svg className="w-full h-full" preserveAspectRatio="none">
+                      <path
+                        d={liveBarHeights.slice(0, 12).map((h, i) => 
+                          `${i === 0 ? 'M' : 'L'} ${(i / 11) * 100},${100 - h * 0.7} L ${((i + 1) / 11) * 100},${100 - h * 0.7}`
+                        ).join(' ')}
+                        fill="none"
+                        stroke={currentPlatform.color}
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        opacity="0.6"
+                      />
+                      {liveBarHeights.slice(0, 12).map((h, i) => (
+                        <circle
+                          key={i}
+                          cx={`${(i / 11) * 100}%`}
+                          cy={`${100 - h * 0.7}%`}
+                          r="3"
+                          fill={currentPlatform.color}
+                          className="animate-pulse"
+                          style={{ animationDelay: `${i * 0.15}s` }}
+                        />
+                      ))}
+                    </svg>
+                  )}
+                  {currentPlatform.id === 'originx-labs' && (
+                    /* Research - Waveform Pattern */
+                    <svg className="w-full h-full">
+                      {[...Array(3)].map((_, waveIdx) => (
+                        <path
+                          key={waveIdx}
+                          d={liveBarHeights.map((h, i) => 
+                            `${i === 0 ? 'M' : 'L'} ${(i / 23) * 100},${30 + waveIdx * 20 + Math.sin(i * 0.5 + waveIdx) * 15}`
+                          ).join(' ')}
+                          fill="none"
+                          stroke={currentPlatform.color}
+                          strokeWidth="2"
+                          opacity={0.3 + waveIdx * 0.2}
+                          className="animate-pulse"
+                          style={{ animationDelay: `${waveIdx * 0.3}s`, animationDuration: '3s' }}
+                        />
+                      ))}
+                    </svg>
+                  )}
                 </div>
-                <style>{`
-                  @keyframes dataFlow {
-                    from { transform: translateX(-100%); }
-                    to { transform: translateX(100vw); }
-                  }
-                `}</style>
               </div>
 
               {/* Flow Pipeline */}
