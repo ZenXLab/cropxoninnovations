@@ -35,20 +35,32 @@ interface Butterfly {
   size: number;
   color: string;
   targetPlatform: number;
-  state: 'flying' | 'landing' | 'resting' | 'waiting';
+  state: 'flying' | 'landing' | 'resting';
   restTimer: number;
   angle: number;
 }
 
+interface ElectricSignal {
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
+  progress: number;
+  segments: { x: number; y: number }[];
+  active: boolean;
+  color: string;
+}
+
+// Platform data with correct navigation links
 const platformsData: PlatformData[] = [
-  { id: 'cognix', name: 'Cognix', category: 'Intelligence', description: 'Enterprise cognition and AI decision systems', radius: 38, color: 'hsl(220, 70%, 55%)', href: 'https://cognix.cropxon.com', external: true },
-  { id: 'opzenix', name: 'OpZeniX', category: 'Operations', description: 'Intelligent operations management platform', radius: 38, color: 'hsl(260, 60%, 58%)', href: 'https://opzenix.com', external: true },
-  { id: 'qualyx', name: 'Qualyx', category: 'Quality', description: 'Quality assurance and compliance engine', radius: 38, color: 'hsl(175, 60%, 45%)', href: 'https://qualyx.cropxon.com', external: true },
-  { id: 'huminex', name: 'Huminex', category: 'Human Systems', description: 'Workforce intelligence and talent management', radius: 38, color: 'hsl(340, 65%, 55%)', href: 'https://huminex.cropxon.com', external: true },
-  { id: 'traceflow', name: 'TraceFlow', category: 'Traceability', description: 'End-to-end supply chain traceability', radius: 38, color: 'hsl(200, 70%, 50%)', href: 'https://traceflow.cropxon.com', external: true },
-  { id: 'zenith-core', name: 'Zenith Core', category: 'Foundation', description: 'Core infrastructure and platform services', radius: 38, color: 'hsl(280, 55%, 55%)', href: 'https://zenith.cropxon.com', external: true },
+  { id: 'cognix', name: 'Cognix', category: 'Intelligence', description: 'Enterprise cognition and AI decision systems', radius: 38, color: 'hsl(220, 70%, 55%)', href: '/cognix', external: false },
+  { id: 'opzenix', name: 'OpZeniX', category: 'Operations', description: 'Intelligent operations management platform', radius: 38, color: 'hsl(260, 60%, 58%)', href: '/opzenix', external: false },
+  { id: 'qualyx', name: 'Qualyx', category: 'Quality', description: 'Quality assurance and compliance engine', radius: 38, color: 'hsl(175, 60%, 45%)', href: '/qualyx', external: false },
+  { id: 'huminex', name: 'Huminex', category: 'Human Systems', description: 'Workforce intelligence and talent management', radius: 38, color: 'hsl(340, 65%, 55%)', href: '/huminex', external: false },
+  { id: 'traceflow', name: 'TraceFlow', category: 'Traceability', description: 'End-to-end supply chain traceability', radius: 38, color: 'hsl(200, 70%, 50%)', href: '/traceflow', external: false },
+  { id: 'zenith-core', name: 'Zenith Studio', category: 'Foundation', description: 'Core infrastructure and platform services', radius: 38, color: 'hsl(280, 55%, 55%)', href: '/zenith-studio', external: false },
   { id: 'zenith-institute', name: 'Zenith Institute', category: 'Education', description: 'Industry-backed engineering education', radius: 38, color: 'hsl(145, 55%, 45%)', href: '/zenith-institute', external: false },
-  { id: 'originx-labs', name: 'OriginX Labs', category: 'Research', description: 'Experimental research and innovation lab', radius: 38, color: 'hsl(25, 75%, 52%)', href: 'https://originxlabs.com', external: true },
+  { id: 'originx-labs', name: 'OriginX Labs', category: 'Research', description: 'Experimental research and innovation lab', radius: 38, color: 'hsl(25, 75%, 52%)', href: '/originx-labs', external: false },
 ];
 
 interface EcosystemCanvasProps {
@@ -61,6 +73,7 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
   const animationRef = useRef<number>();
   const interactionRef = useRef({ x: 0, y: 0, active: false });
   const butterflyRef = useRef<Butterfly | null>(null);
+  const electricSignalRef = useRef<ElectricSignal | null>(null);
   const logoImageRef = useRef<HTMLImageElement | null>(null);
   const [hoveredPlatform, setHoveredPlatform] = useState<string | null>(null);
   const [focusedIndex, setFocusedIndex] = useState<number>(-1);
@@ -71,10 +84,9 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isDark, setIsDark] = useState(true);
   
-  // Spin mode state
-  const [isSpinning, setIsSpinning] = useState(true);
-  const spinAngleRef = useRef(0);
-  const spinSpeedRef = useRef(0.006);
+  // Current platform index for butterfly loop
+  const currentPlatformIndexRef = useRef(0);
+  const dashboardCenterRef = useRef({ x: 0, y: 0 });
   
   const navigate = useNavigate();
 
@@ -98,15 +110,14 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
     return () => observer.disconnect();
   }, []);
 
-  // Initialize platforms with perfect circular layout - compact version
+  // Initialize platforms with perfect circular layout
   const initializePlatforms = useCallback((width: number, height: number) => {
     const centerX = width / 2;
     const centerY = height / 2;
     const isMobileView = width < 768;
-    const isCompact = width < 400; // For compact sidebar view
+    const isCompact = width < 400;
     setIsMobile(isMobileView);
     
-    // Smaller orbit radius for compact layout
     const orbitRadius = isCompact 
       ? Math.min(width * 0.38, 100) 
       : isMobileView 
@@ -114,11 +125,9 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
         : Math.min(width * 0.32, 120);
 
     platformsRef.current = platformsData.map((p, i) => {
-      // Equal spacing around the circle
       const baseAngle = (i / platformsData.length) * Math.PI * 2 - Math.PI / 2;
-      const angle = baseAngle + spinAngleRef.current;
-      const x = centerX + Math.cos(angle) * orbitRadius;
-      const y = centerY + Math.sin(angle) * orbitRadius;
+      const x = centerX + Math.cos(baseAngle) * orbitRadius;
+      const y = centerY + Math.sin(baseAngle) * orbitRadius;
       const scaledRadius = isCompact ? p.radius * 0.55 : isMobileView ? p.radius * 0.65 : p.radius * 0.7;
       return {
         ...p,
@@ -130,24 +139,28 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
       };
     });
 
-    // Initialize single butterfly
-    if (!butterflyRef.current) {
+    // Initialize butterfly to first platform
+    const firstPlatform = platformsRef.current[0];
+    if (!butterflyRef.current && firstPlatform) {
       butterflyRef.current = {
-        x: centerX + (Math.random() - 0.5) * 100,
-        y: centerY - 100 + (Math.random() - 0.5) * 30,
-        targetX: centerX,
-        targetY: centerY - 80,
+        x: firstPlatform.x,
+        y: firstPlatform.y - firstPlatform.radius - 18,
+        targetX: firstPlatform.x,
+        targetY: firstPlatform.y - firstPlatform.radius - 18,
         vx: 0, vy: 0,
-        wingAngle: Math.random() * Math.PI * 2,
+        wingAngle: 0,
         wingSpeed: 0.12,
         size: isMobileView ? 14 : 18,
-        color: platformsData[0].color,
-        targetPlatform: -1,
-        state: 'waiting',
-        restTimer: 0,
+        color: firstPlatform.color,
+        targetPlatform: 0,
+        state: 'resting',
+        restTimer: 180,
         angle: 0,
       };
     }
+
+    // Dashboard center position (right side)
+    dashboardCenterRef.current = { x: width + 100, y: height / 2 };
   }, []);
 
   useEffect(() => {
@@ -177,13 +190,11 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
         case 'ArrowDown':
           e.preventDefault();
           setFocusedIndex(prev => (prev + 1) % numPlatforms);
-          setIsSpinning(false);
           break;
         case 'ArrowLeft':
         case 'ArrowUp':
           e.preventDefault();
           setFocusedIndex(prev => prev <= 0 ? numPlatforms - 1 : prev - 1);
-          setIsSpinning(false);
           break;
         case 'Enter':
         case ' ':
@@ -198,12 +209,6 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
         case 'Escape':
           e.preventDefault();
           setFocusedIndex(-1);
-          setIsSpinning(true);
-          break;
-        case 's':
-        case 'S':
-          e.preventDefault();
-          setIsSpinning(prev => !prev);
           break;
       }
     };
@@ -218,6 +223,34 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
       setHoveredPlatform(platformsData[focusedIndex].id);
     }
   }, [focusedIndex]);
+
+  // Generate electric signal path
+  const generateElectricPath = (startX: number, startY: number, endX: number, endY: number, color: string): ElectricSignal => {
+    const segments: { x: number; y: number }[] = [];
+    const numSegments = 12;
+    
+    for (let i = 0; i <= numSegments; i++) {
+      const t = i / numSegments;
+      const x = startX + (endX - startX) * t;
+      const y = startY + (endY - startY) * t;
+      
+      // Add jagged offset for electric effect (except start and end)
+      if (i > 0 && i < numSegments) {
+        const offset = (Math.random() - 0.5) * 30;
+        segments.push({ x: x + offset * (1 - Math.abs(t - 0.5) * 2), y: y + offset * 0.5 });
+      } else {
+        segments.push({ x, y });
+      }
+    }
+    
+    return {
+      startX, startY, endX, endY,
+      progress: 0,
+      segments,
+      active: true,
+      color,
+    };
+  };
 
   // Draw realistic butterfly
   const drawButterfly = (ctx: CanvasRenderingContext2D, butterfly: Butterfly) => {
@@ -301,31 +334,22 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
     ctx.stroke();
     ctx.restore();
     
-    // Lower left wing
+    // Lower wings
     ctx.save();
     ctx.scale(1, 0.75 + wingFlap * 0.25);
     ctx.beginPath();
     ctx.moveTo(-size * 0.08, size * 0.1);
-    ctx.bezierCurveTo(
-      -wingWidth * 0.5, size * 0.1,
-      -wingWidth * 0.55, size * 0.5,
-      -wingWidth * 0.25, size * 0.55
-    );
+    ctx.bezierCurveTo(-wingWidth * 0.5, size * 0.1, -wingWidth * 0.55, size * 0.5, -wingWidth * 0.25, size * 0.55);
     ctx.quadraticCurveTo(-size * 0.1, size * 0.35, -size * 0.08, size * 0.1);
     ctx.fillStyle = color.replace(')', ', 0.85)');
     ctx.fill();
     ctx.restore();
     
-    // Lower right wing
     ctx.save();
     ctx.scale(1, 0.75 + wingFlap * 0.25);
     ctx.beginPath();
     ctx.moveTo(size * 0.08, size * 0.1);
-    ctx.bezierCurveTo(
-      wingWidth * 0.5, size * 0.1,
-      wingWidth * 0.55, size * 0.5,
-      wingWidth * 0.25, size * 0.55
-    );
+    ctx.bezierCurveTo(wingWidth * 0.5, size * 0.1, wingWidth * 0.55, size * 0.5, wingWidth * 0.25, size * 0.55);
     ctx.quadraticCurveTo(size * 0.1, size * 0.35, size * 0.08, size * 0.1);
     ctx.fillStyle = color.replace(')', ', 0.85)');
     ctx.fill();
@@ -347,6 +371,52 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
       glowGrad.addColorStop(1, 'transparent');
       ctx.arc(0, 0, size * 2, 0, Math.PI * 2);
       ctx.fillStyle = glowGrad;
+      ctx.fill();
+    }
+    
+    ctx.restore();
+  };
+
+  // Draw electric signal
+  const drawElectricSignal = (ctx: CanvasRenderingContext2D, signal: ElectricSignal) => {
+    if (!signal.active || signal.segments.length < 2) return;
+    
+    const visibleLength = Math.floor(signal.segments.length * signal.progress);
+    if (visibleLength < 2) return;
+    
+    // Main electric bolt
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(signal.segments[0].x, signal.segments[0].y);
+    
+    for (let i = 1; i < visibleLength; i++) {
+      ctx.lineTo(signal.segments[i].x, signal.segments[i].y);
+    }
+    
+    ctx.strokeStyle = signal.color;
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.shadowColor = signal.color;
+    ctx.shadowBlur = 15;
+    ctx.stroke();
+    
+    // Glow effect
+    ctx.strokeStyle = signal.color.replace(')', ', 0.5)');
+    ctx.lineWidth = 6;
+    ctx.shadowBlur = 25;
+    ctx.stroke();
+    
+    // Energy point at the end
+    if (visibleLength > 0) {
+      const endPoint = signal.segments[visibleLength - 1];
+      const gradient = ctx.createRadialGradient(endPoint.x, endPoint.y, 0, endPoint.x, endPoint.y, 12);
+      gradient.addColorStop(0, signal.color);
+      gradient.addColorStop(0.5, signal.color.replace(')', ', 0.5)'));
+      gradient.addColorStop(1, 'transparent');
+      ctx.beginPath();
+      ctx.arc(endPoint.x, endPoint.y, 12, 0, Math.PI * 2);
+      ctx.fillStyle = gradient;
       ctx.fill();
     }
     
@@ -382,11 +452,6 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
     const animate = () => {
       ctx.clearRect(0, 0, dimensions.width, dimensions.height);
 
-      // Update spin
-      if (isSpinning) {
-        spinAngleRef.current += spinSpeedRef.current;
-      }
-
       // Draw subtle grid
       ctx.strokeStyle = gridColor;
       ctx.lineWidth = 1;
@@ -404,7 +469,7 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
         ctx.stroke();
       }
 
-      // Draw perfect circle orbit
+      // Draw orbit circle
       ctx.beginPath();
       ctx.arc(centerX, centerY, orbitRadius, 0, Math.PI * 2);
       ctx.strokeStyle = isDark ? 'rgba(99, 102, 241, 0.1)' : 'rgba(79, 70, 229, 0.12)';
@@ -413,24 +478,11 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
       ctx.stroke();
       ctx.setLineDash([]);
 
-      // Update platform positions based on spin
-      platformsRef.current.forEach((platform, i) => {
-        const angle = platform.baseAngle + spinAngleRef.current;
+      // Update platform positions (static)
+      platformsRef.current.forEach((platform) => {
+        const angle = platform.baseAngle;
         platform.targetX = centerX + Math.cos(angle) * orbitRadius;
         platform.targetY = centerY + Math.sin(angle) * orbitRadius;
-
-        if (interactionRef.current.active && !isSpinning) {
-          const dx = interactionRef.current.x - platform.x;
-          const dy = interactionRef.current.y - platform.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          const interactionRadius = isMobile ? 90 : 140;
-          
-          if (distance < interactionRadius && distance > 0) {
-            const force = ((interactionRadius - distance) / interactionRadius) * 0.25;
-            platform.vx += (dx / distance) * force;
-            platform.vy += (dy / distance) * force;
-          }
-        }
 
         const springForce = 0.08;
         const damping = 0.88;
@@ -453,13 +505,10 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
           const maxDistance = isMobile ? 180 : 320;
 
           if (distance < maxDistance) {
-            const baseOpacity = interactionRef.current.active ? 0.18 : 0.08;
-            const opacity = baseOpacity * (1 - distance / maxDistance);
-
+            const opacity = 0.08 * (1 - distance / maxDistance);
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
-            
             const gradient = ctx.createLinearGradient(p1.x, p1.y, p2.x, p2.y);
             gradient.addColorStop(0, p1.color.replace(')', `, ${opacity})`));
             gradient.addColorStop(1, p2.color.replace(')', `, ${opacity})`));
@@ -473,7 +522,6 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
       // Draw center with logo
       const centerRadius = isCompact ? 40 : isMobile ? 55 : 50;
       
-      // Center glow
       const centerGlow = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, centerRadius * 1.5);
       centerGlow.addColorStop(0, isDark ? 'rgba(99, 102, 241, 0.15)' : 'rgba(79, 70, 229, 0.1)');
       centerGlow.addColorStop(0.6, isDark ? 'rgba(99, 102, 241, 0.05)' : 'rgba(79, 70, 229, 0.03)');
@@ -483,7 +531,6 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
       ctx.fillStyle = centerGlow;
       ctx.fill();
 
-      // Center circle background
       const centerBg = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, centerRadius);
       if (isDark) {
         centerBg.addColorStop(0, 'rgba(30, 30, 50, 0.95)');
@@ -496,25 +543,15 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
       ctx.arc(centerX, centerY, centerRadius, 0, Math.PI * 2);
       ctx.fillStyle = centerBg;
       ctx.fill();
-      
-      // Center border
       ctx.strokeStyle = isDark ? 'rgba(99, 102, 241, 0.25)' : 'rgba(79, 70, 229, 0.2)';
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      // Draw logo if loaded
       if (logoImageRef.current) {
         const logoSize = isCompact ? 24 : isMobile ? 32 : 28;
-        ctx.drawImage(
-          logoImageRef.current,
-          centerX - logoSize / 2,
-          centerY - logoSize / 2 - 6,
-          logoSize,
-          logoSize
-        );
+        ctx.drawImage(logoImageRef.current, centerX - logoSize / 2, centerY - logoSize / 2 - 6, logoSize, logoSize);
       }
 
-      // Center text
       ctx.save();
       const brandSize = isCompact ? 8 : isMobile ? 11 : 10;
       ctx.font = `700 ${brandSize}px 'Space Grotesk', sans-serif`;
@@ -522,7 +559,6 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText('CROPXON', centerX, centerY + (isCompact ? 14 : isMobile ? 18 : 16));
-      
       const subSize = isCompact ? 5 : isMobile ? 6 : 6;
       ctx.font = `500 ${subSize}px 'Inter', sans-serif`;
       ctx.fillStyle = `${textColor}, 0.5)`;
@@ -533,7 +569,8 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
       platformsRef.current.forEach((platform, index) => {
         const isHovered = hoveredPlatform === platform.id;
         const isFocused = focusedIndex === index;
-        const isActive = isHovered || isFocused;
+        const isButterflyTarget = butterflyRef.current?.targetPlatform === index && butterflyRef.current?.state === 'resting';
+        const isActive = isHovered || isFocused || isButterflyTarget;
         const scale = isActive ? 1.15 : 1;
         const radius = platform.radius * scale;
 
@@ -548,7 +585,7 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
         ctx.fillStyle = glowGradient;
         ctx.fill();
 
-        // Node background - perfect circle
+        // Node background
         const nodeGradient = ctx.createRadialGradient(
           platform.x - radius * 0.2, platform.y - radius * 0.2, 0,
           platform.x, platform.y, radius
@@ -567,7 +604,6 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
         ctx.fillStyle = nodeGradient;
         ctx.fill();
         
-        // Focus ring for keyboard navigation
         if (isFocused) {
           ctx.strokeStyle = platform.color;
           ctx.lineWidth = 3;
@@ -575,9 +611,7 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
           ctx.stroke();
           ctx.setLineDash([]);
         } else {
-          ctx.strokeStyle = isActive 
-            ? platform.color 
-            : platform.color.replace(')', isDark ? ', 0.4)' : ', 0.5)');
+          ctx.strokeStyle = isActive ? platform.color : platform.color.replace(')', isDark ? ', 0.4)' : ', 0.5)');
           ctx.lineWidth = isActive ? 2.5 : 1.5;
           ctx.stroke();
         }
@@ -590,7 +624,6 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(platform.name.toUpperCase(), platform.x, platform.y - 2);
-
         const catSize = isCompact ? 4 : isMobile ? 5 : 5;
         ctx.font = `400 ${catSize}px 'Inter', sans-serif`;
         ctx.fillStyle = isActive ? `${textColor}, 0.65)` : `${textColor}, 0.45)`;
@@ -598,89 +631,106 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
         ctx.restore();
       });
 
-      // Update and draw single butterfly
+      // Update and draw butterfly (loop through platforms)
       const butterfly = butterflyRef.current;
       if (butterfly) {
         butterfly.wingAngle += butterfly.wingSpeed;
         let restingButterflyData: { platform: PlatformData; x: number; y: number } | null = null;
         
-        if (butterfly.state === 'waiting') {
-          // Float around center while spinning
-          butterfly.x += Math.sin(butterfly.wingAngle * 0.25) * 0.6;
-          butterfly.y += Math.cos(butterfly.wingAngle * 0.15) * 0.3;
-          butterfly.angle = Math.sin(butterfly.wingAngle * 0.08) * 0.2;
-          
-          // When spinning stops, pick a target
-          if (!isSpinning) {
-            const targetIdx = Math.floor(Math.random() * platformsRef.current.length);
-            butterfly.targetPlatform = targetIdx;
-            butterfly.color = platformsRef.current[targetIdx].color;
-            butterfly.state = 'flying';
-          }
-        } else if (butterfly.state === 'flying') {
+        if (butterfly.state === 'flying') {
           const targetPlatform = platformsRef.current[butterfly.targetPlatform];
-          butterfly.targetX = targetPlatform.x;
-          butterfly.targetY = targetPlatform.y - targetPlatform.radius - 18;
-          
-          const dx = butterfly.targetX - butterfly.x;
-          const dy = butterfly.targetY - butterfly.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          
-          butterfly.angle = Math.atan2(dy, dx) + Math.PI / 2;
-          
-          if (distance < 8) {
-            butterfly.state = 'landing';
-          } else {
-            const speed = 1.0;
-            butterfly.vx += (dx / distance) * speed * 0.1;
-            butterfly.vy += (dy / distance) * speed * 0.1;
-            butterfly.vx *= 0.95;
-            butterfly.vy *= 0.95;
-            butterfly.x += butterfly.vx + Math.sin(butterfly.wingAngle * 0.4) * 0.4;
-            butterfly.y += butterfly.vy + Math.cos(butterfly.wingAngle * 0.25) * 0.3;
+          if (targetPlatform) {
+            butterfly.targetX = targetPlatform.x;
+            butterfly.targetY = targetPlatform.y - targetPlatform.radius - 18;
+            
+            const dx = butterfly.targetX - butterfly.x;
+            const dy = butterfly.targetY - butterfly.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            butterfly.angle = Math.atan2(dy, dx) + Math.PI / 2;
+            
+            if (distance < 8) {
+              butterfly.state = 'landing';
+            } else {
+              const speed = 1.2;
+              butterfly.vx += (dx / distance) * speed * 0.1;
+              butterfly.vy += (dy / distance) * speed * 0.1;
+              butterfly.vx *= 0.95;
+              butterfly.vy *= 0.95;
+              butterfly.x += butterfly.vx + Math.sin(butterfly.wingAngle * 0.4) * 0.4;
+              butterfly.y += butterfly.vy + Math.cos(butterfly.wingAngle * 0.25) * 0.3;
+            }
           }
         } else if (butterfly.state === 'landing') {
           const targetPlatform = platformsRef.current[butterfly.targetPlatform];
-          butterfly.x = targetPlatform.x;
-          butterfly.y = targetPlatform.y - targetPlatform.radius - 18;
-          butterfly.vx = 0;
-          butterfly.vy = 0;
-          butterfly.angle = 0;
-          butterfly.state = 'resting';
-          butterfly.restTimer = 180 + Math.random() * 120;
+          if (targetPlatform) {
+            butterfly.x = targetPlatform.x;
+            butterfly.y = targetPlatform.y - targetPlatform.radius - 18;
+            butterfly.vx = 0;
+            butterfly.vy = 0;
+            butterfly.angle = 0;
+            butterfly.state = 'resting';
+            butterfly.restTimer = 150 + Math.random() * 60;
+            
+            // Trigger electric signal to dashboard
+            electricSignalRef.current = generateElectricPath(
+              butterfly.x,
+              butterfly.y,
+              dimensions.width + 50,
+              dimensions.height / 2,
+              targetPlatform.color
+            );
+            
+            // Notify parent of platform change
+            onPlatformHover?.(targetPlatform.id);
+          }
         } else if (butterfly.state === 'resting') {
           const targetPlatform = platformsRef.current[butterfly.targetPlatform];
-          butterfly.restTimer--;
-          butterfly.x = targetPlatform.x + Math.sin(butterfly.wingAngle * 0.08) * 1.2;
-          butterfly.y = targetPlatform.y - targetPlatform.radius - 18;
-          
-          restingButterflyData = { platform: targetPlatform, x: butterfly.x, y: butterfly.y - 30 };
-          
-          if (butterfly.restTimer <= 0) {
-            if (isSpinning) {
-              butterfly.state = 'waiting';
-              butterfly.targetX = centerX;
-              butterfly.targetY = centerY - 80;
-            } else {
-              let newTarget = Math.floor(Math.random() * platformsRef.current.length);
-              while (newTarget === butterfly.targetPlatform && platformsRef.current.length > 1) {
-                newTarget = Math.floor(Math.random() * platformsRef.current.length);
-              }
-              butterfly.targetPlatform = newTarget;
-              // Color changes based on new platform
-              butterfly.color = platformsRef.current[newTarget].color;
+          if (targetPlatform) {
+            butterfly.restTimer--;
+            butterfly.x = targetPlatform.x + Math.sin(butterfly.wingAngle * 0.08) * 1.2;
+            butterfly.y = targetPlatform.y - targetPlatform.radius - 18;
+            
+            restingButterflyData = { platform: targetPlatform, x: butterfly.x, y: butterfly.y - 30 };
+            
+            if (butterfly.restTimer <= 0) {
+              // Move to next platform in sequence
+              currentPlatformIndexRef.current = (currentPlatformIndexRef.current + 1) % platformsRef.current.length;
+              butterfly.targetPlatform = currentPlatformIndexRef.current;
+              butterfly.color = platformsRef.current[currentPlatformIndexRef.current].color;
               butterfly.state = 'flying';
             }
           }
         }
         
+        // Draw electric signal
+        if (electricSignalRef.current) {
+          electricSignalRef.current.progress += 0.04;
+          if (electricSignalRef.current.progress >= 1) {
+            electricSignalRef.current.progress = 1;
+            // Regenerate segments for next pulse
+            if (butterfly.state === 'resting' && Math.random() < 0.02) {
+              const targetPlatform = platformsRef.current[butterfly.targetPlatform];
+              if (targetPlatform) {
+                electricSignalRef.current = generateElectricPath(
+                  butterfly.x,
+                  butterfly.y,
+                  dimensions.width + 50,
+                  dimensions.height / 2,
+                  targetPlatform.color
+                );
+              }
+            }
+          }
+          drawElectricSignal(ctx, electricSignalRef.current);
+        }
+        
         drawButterfly(ctx, butterfly);
 
-        // Update popup state and notify parent
-        if (restingButterflyData && !isSpinning) {
+        // Update popup state
+        if (restingButterflyData) {
           setButterflyPlatform(restingButterflyData.platform);
           setPopupPosition({ x: restingButterflyData.x, y: restingButterflyData.y });
-          onPlatformHover?.(restingButterflyData.platform.id);
         } else if (!hoveredPlatform) {
           setButterflyPlatform(null);
         }
@@ -696,7 +746,7 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [dimensions, hoveredPlatform, focusedIndex, isMobile, isDark, isSpinning]);
+  }, [dimensions, hoveredPlatform, focusedIndex, isMobile, isDark, onPlatformHover]);
 
   const getInteractionPosition = (e: React.MouseEvent | React.TouchEvent) => {
     const canvas = canvasRef.current;
@@ -728,11 +778,7 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
   };
 
   const handlePlatformClick = useCallback((platform: Platform) => {
-    if (platform.external) {
-      window.open(platform.href, '_blank', 'noopener,noreferrer');
-    } else {
-      navigate(platform.href);
-    }
+    navigate(platform.href);
   }, [navigate]);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -742,7 +788,6 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
     const platform = findPlatformAtPosition(pos.x, pos.y);
     if (platform) {
       setHoveredPlatform(platform.id);
-      setIsSpinning(false);
       onPlatformHover?.(platform.id);
     } else {
       setHoveredPlatform(null);
@@ -760,8 +805,6 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
     const platform = findPlatformAtPosition(pos.x, pos.y);
     if (platform) {
       handlePlatformClick(platform);
-    } else {
-      setIsSpinning(prev => !prev);
     }
   }, [handlePlatformClick]);
 
@@ -772,7 +815,6 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
     const platform = findPlatformAtPosition(pos.x, pos.y);
     if (platform) {
       setHoveredPlatform(platform.id);
-      setIsSpinning(false);
     }
   }, []);
 
@@ -811,18 +853,8 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
-        aria-label="Ecosystem canvas - Use arrow keys to navigate, Enter to select, S to toggle spin"
+        aria-label="Ecosystem canvas - Use arrow keys to navigate, Enter to select"
       />
-      
-      {/* Spin indicator */}
-      <div className="absolute top-4 right-4 flex items-center gap-2">
-        <button
-          onClick={() => setIsSpinning(prev => !prev)}
-          className="px-3 py-1.5 text-[10px] font-medium tracking-wide uppercase bg-card/80 backdrop-blur-sm border border-border/30 rounded-full text-muted-foreground hover:text-foreground hover:border-primary/40 transition-all"
-        >
-          {isSpinning ? 'Pause' : 'Spin'}
-        </button>
-      </div>
 
       {/* Keyboard hint */}
       <div className="absolute bottom-4 left-4 hidden sm:flex items-center gap-2 text-[10px] text-muted-foreground/60">
@@ -830,8 +862,6 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
         <span>Navigate</span>
         <kbd className="px-1.5 py-0.5 bg-muted/50 rounded border border-border/30 font-mono ml-2">Enter</kbd>
         <span>Select</span>
-        <kbd className="px-1.5 py-0.5 bg-muted/50 rounded border border-border/30 font-mono ml-2">S</kbd>
-        <span>Spin</span>
       </div>
       
       {/* Butterfly platform popup */}
