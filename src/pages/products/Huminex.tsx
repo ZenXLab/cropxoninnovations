@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import Navigation from '@/components/layout/Navigation';
 import Footer from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
-import { Users, Network, Target, BarChart3, Brain, Lightbulb, ArrowRight, ExternalLink, CheckCircle2, TrendingUp, Building, User, Briefcase, Star } from 'lucide-react';
+import { Users, Network, Target, BarChart3, Brain, Lightbulb, ArrowRight, ExternalLink, CheckCircle2, TrendingUp } from 'lucide-react';
 
 const features = [
   {
@@ -44,42 +44,10 @@ const metrics = [
   { label: 'Retention Rate', value: '94.8', unit: '%' },
 ];
 
-// Org chart data
-const orgChartData = {
-  ceo: { name: 'Sarah Chen', role: 'CEO', level: 0, skills: 98 },
-  departments: [
-    {
-      head: { name: 'Michael Park', role: 'CTO', level: 1, skills: 95 },
-      teams: [
-        { name: 'Engineering', members: 45, efficiency: 94, lead: 'Alex Kim' },
-        { name: 'Product', members: 18, efficiency: 91, lead: 'Emma Wilson' },
-        { name: 'DevOps', members: 12, efficiency: 97, lead: 'James Liu' },
-      ]
-    },
-    {
-      head: { name: 'Lisa Wong', role: 'COO', level: 1, skills: 92 },
-      teams: [
-        { name: 'Operations', members: 32, efficiency: 89, lead: 'David Chen' },
-        { name: 'Support', members: 24, efficiency: 93, lead: 'Maria Garcia' },
-      ]
-    },
-    {
-      head: { name: 'John Miller', role: 'CFO', level: 1, skills: 90 },
-      teams: [
-        { name: 'Finance', members: 15, efficiency: 96, lead: 'Rachel Brown' },
-        { name: 'Legal', members: 8, efficiency: 94, lead: 'Tom Anderson' },
-      ]
-    },
-  ]
-};
-
 const Huminex = () => {
   const [animatedMetrics, setAnimatedMetrics] = useState<number[]>([0, 0, 0, 0]);
   const [chartProgress, setChartProgress] = useState(0);
   const [flowIndex, setFlowIndex] = useState(0);
-  const [orgProgress, setOrgProgress] = useState(0);
-  const [activeDept, setActiveDept] = useState<number | null>(null);
-  const [pulsingNode, setPulsingNode] = useState(0);
 
   useEffect(() => {
     const duration = 1500;
@@ -99,7 +67,6 @@ const Huminex = () => {
         Math.round(94.8 * eased),
       ]);
       setChartProgress(eased);
-      setOrgProgress(eased);
 
       if (step >= steps) clearInterval(timer);
     }, interval);
@@ -111,14 +78,6 @@ const Huminex = () => {
     const timer = setInterval(() => {
       setFlowIndex(prev => (prev + 1) % 5);
     }, 1500);
-    return () => clearInterval(timer);
-  }, []);
-
-  // Pulsing animation for org chart nodes
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setPulsingNode(prev => (prev + 1) % (orgChartData.departments.length + 1));
-    }, 1200);
     return () => clearInterval(timer);
   }, []);
 
@@ -281,202 +240,8 @@ const Huminex = () => {
             </div>
           </section>
 
-          {/* Org Chart Visualization Section */}
-          <section className="py-16 lg:py-24 bg-muted/20">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-12">
-              <div className="text-center mb-12">
-                <p className="font-display text-[10px] sm:text-[11px] font-medium text-muted-foreground tracking-[0.25em] uppercase mb-3">
-                  Live Organization
-                </p>
-                <h2 className="font-display text-2xl lg:text-3xl font-bold text-foreground mb-4">
-                  Interactive Org Chart
-                </h2>
-                <p className="text-muted-foreground max-w-2xl mx-auto">
-                  Visualize your entire organization with real-time workforce intelligence and skill mapping
-                </p>
-              </div>
-
-              <div className="max-w-5xl mx-auto">
-                <div className="p-6 lg:p-8 bg-card/80 backdrop-blur-xl rounded-2xl border border-border/40 overflow-hidden">
-                  {/* CEO Level */}
-                  <div className="flex justify-center mb-8">
-                    <div 
-                      className={`relative p-4 rounded-xl border-2 bg-card transition-all duration-500 ${
-                        pulsingNode === 0 ? 'scale-105 shadow-xl' : ''
-                      }`}
-                      style={{
-                        borderColor: 'hsl(340, 65%, 55%)',
-                        opacity: orgProgress,
-                        boxShadow: pulsingNode === 0 ? '0 0 30px hsl(340 65% 55% / 0.4)' : undefined,
-                      }}
-                    >
-                      {pulsingNode === 0 && (
-                        <div className="absolute inset-0 rounded-xl animate-ping" style={{ 
-                          backgroundColor: 'hsl(340, 65%, 55%)',
-                          opacity: 0.2,
-                          animationDuration: '1.5s'
-                        }} />
-                      )}
-                      <div className="relative flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: 'hsl(340, 65%, 55%)' }}>
-                          <Star className="w-6 h-6 text-white" />
-                        </div>
-                        <div>
-                          <p className="font-display text-sm font-bold text-foreground">{orgChartData.ceo.name}</p>
-                          <p className="text-xs text-muted-foreground">{orgChartData.ceo.role}</p>
-                          <div className="flex items-center gap-1 mt-1">
-                            <div className="h-1 flex-1 bg-muted rounded-full overflow-hidden w-16">
-                              <div 
-                                className="h-full rounded-full transition-all duration-500"
-                                style={{ 
-                                  width: `${orgChartData.ceo.skills * orgProgress}%`,
-                                  backgroundColor: 'hsl(340, 65%, 55%)'
-                                }}
-                              />
-                            </div>
-                            <span className="text-[9px] text-muted-foreground">{Math.round(orgChartData.ceo.skills * orgProgress)}%</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Connecting Lines */}
-                  <div className="flex justify-center mb-4">
-                    <div 
-                      className="w-0.5 h-8 transition-all duration-500"
-                      style={{ 
-                        backgroundColor: 'hsl(340, 65%, 55%)',
-                        opacity: 0.3 * orgProgress
-                      }} 
-                    />
-                  </div>
-
-                  {/* Department Heads */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                    {orgChartData.departments.map((dept, deptIndex) => {
-                      const isActive = activeDept === deptIndex;
-                      const isPulsing = pulsingNode === deptIndex + 1;
-                      
-                      return (
-                        <div 
-                          key={dept.head.role}
-                          className="relative"
-                          onMouseEnter={() => setActiveDept(deptIndex)}
-                          onMouseLeave={() => setActiveDept(null)}
-                        >
-                          {/* Department Head Card */}
-                          <div 
-                            className={`p-4 rounded-xl border-2 bg-card transition-all duration-500 cursor-pointer ${
-                              isActive || isPulsing ? 'scale-105 shadow-lg' : 'hover:scale-102'
-                            }`}
-                            style={{
-                              borderColor: isActive || isPulsing ? 'hsl(340, 65%, 55%)' : 'hsl(var(--border) / 0.5)',
-                              opacity: 0.2 + (orgProgress * 0.8),
-                              transitionDelay: `${deptIndex * 100}ms`,
-                              boxShadow: isPulsing ? '0 0 25px hsl(340 65% 55% / 0.3)' : undefined,
-                            }}
-                          >
-                            {isPulsing && (
-                              <div className="absolute inset-0 rounded-xl animate-ping" style={{ 
-                                backgroundColor: 'hsl(340, 65%, 55%)',
-                                opacity: 0.15,
-                                animationDuration: '1.5s'
-                              }} />
-                            )}
-                            <div className="relative flex items-center gap-3 mb-3">
-                              <div 
-                                className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300"
-                                style={{ 
-                                  backgroundColor: isActive || isPulsing ? 'hsl(340, 65%, 55%)' : 'hsl(340, 65%, 55% / 0.2)'
-                                }}
-                              >
-                                <Building className={`w-5 h-5 ${isActive || isPulsing ? 'text-white' : 'text-foreground'}`} />
-                              </div>
-                              <div>
-                                <p className="font-display text-xs font-bold text-foreground">{dept.head.name}</p>
-                                <p className="text-[10px] text-muted-foreground">{dept.head.role}</p>
-                              </div>
-                            </div>
-                            
-                            {/* Teams */}
-                            <div className="space-y-2">
-                              {dept.teams.map((team, teamIndex) => (
-                                <div 
-                                  key={team.name}
-                                  className="p-2 bg-muted/30 rounded-lg transition-all duration-300"
-                                  style={{
-                                    opacity: isActive ? 1 : 0.7,
-                                    transform: isActive ? 'translateX(4px)' : 'translateX(0)',
-                                    transitionDelay: `${teamIndex * 50}ms`
-                                  }}
-                                >
-                                  <div className="flex items-center justify-between mb-1">
-                                    <div className="flex items-center gap-2">
-                                      <Briefcase className="w-3 h-3 text-muted-foreground" />
-                                      <span className="text-[10px] font-medium text-foreground">{team.name}</span>
-                                    </div>
-                                    <div className="flex items-center gap-1">
-                                      <User className="w-3 h-3 text-muted-foreground" />
-                                      <span className="text-[9px] text-muted-foreground">{Math.round(team.members * orgProgress)}</span>
-                                    </div>
-                                  </div>
-                                  <div className="flex items-center gap-2">
-                                    <div className="h-1 flex-1 bg-muted rounded-full overflow-hidden">
-                                      <div 
-                                        className="h-full rounded-full transition-all duration-500"
-                                        style={{ 
-                                          width: `${team.efficiency * orgProgress}%`,
-                                          backgroundColor: team.efficiency >= 95 ? 'hsl(145, 60%, 45%)' : 
-                                                          team.efficiency >= 90 ? 'hsl(80, 55%, 45%)' : 'hsl(45, 70%, 50%)'
-                                        }}
-                                      />
-                                    </div>
-                                    <span className="text-[9px] text-muted-foreground">{Math.round(team.efficiency * orgProgress)}%</span>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  {/* Summary Stats */}
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-border/30">
-                    <div className="text-center">
-                      <p className="font-display text-2xl font-bold text-foreground">
-                        {Math.round(154 * orgProgress)}
-                      </p>
-                      <p className="text-xs text-muted-foreground">Total Employees</p>
-                    </div>
-                    <div className="text-center">
-                      <p className="font-display text-2xl font-bold" style={{ color: 'hsl(340, 65%, 55%)' }}>
-                        {Math.round(7 * orgProgress)}
-                      </p>
-                      <p className="text-xs text-muted-foreground">Teams</p>
-                    </div>
-                    <div className="text-center">
-                      <p className="font-display text-2xl font-bold" style={{ color: 'hsl(145, 60%, 45%)' }}>
-                        {Math.round(93 * orgProgress)}%
-                      </p>
-                      <p className="text-xs text-muted-foreground">Avg Efficiency</p>
-                    </div>
-                    <div className="text-center">
-                      <p className="font-display text-2xl font-bold text-foreground">
-                        {Math.round(3 * orgProgress)}
-                      </p>
-                      <p className="text-xs text-muted-foreground">Departments</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
           {/* Features Section */}
-          <section className="py-20">
+          <section className="py-20 bg-muted/30">
             <div className="container mx-auto px-4 sm:px-6 lg:px-12">
               <div className="text-center mb-12">
                 <h2 className="font-display text-2xl lg:text-3xl font-bold text-foreground mb-4">
@@ -511,7 +276,7 @@ const Huminex = () => {
           </section>
 
           {/* Use Cases Section */}
-          <section className="py-20 bg-muted/30">
+          <section className="py-20">
             <div className="container mx-auto px-4 sm:px-6 lg:px-12">
               <div className="grid lg:grid-cols-2 gap-12 items-center">
                 <div>
@@ -564,7 +329,7 @@ const Huminex = () => {
           </section>
 
           {/* CTA Section */}
-          <section className="py-20">
+          <section className="py-20 bg-muted/30">
             <div className="container mx-auto px-4 sm:px-6 lg:px-12 text-center">
               <h2 className="font-display text-2xl lg:text-3xl font-bold text-foreground mb-4">
                 Ready to transform your workforce management?

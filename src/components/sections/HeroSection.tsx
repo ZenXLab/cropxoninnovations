@@ -3,15 +3,13 @@ import { ChevronDown } from "lucide-react";
 import EcosystemCanvas from "./EcosystemCanvas";
 import { PlatformDashboard, platformsData } from "./PlatformDashboard";
 import FullscreenDashboardModal from "@/components/modals/FullscreenDashboardModal";
-import PlatformDemoModal from "@/components/modals/PlatformDemoModal";
 import type { PlatformData } from "./PlatformDashboard";
 
 const HeroSection = () => {
   const [showContent, setShowContent] = useState(false);
-  const [selectedPlatformId, setSelectedPlatformId] = useState<string | null>('cognix');
+  const [selectedPlatformId, setSelectedPlatformId] = useState<string | null>(null);
   const [modalPlatform, setModalPlatform] = useState<PlatformData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [demoPlatformId, setDemoPlatformId] = useState<string | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setShowContent(true), 100);
@@ -39,14 +37,6 @@ const HeroSection = () => {
     setModalPlatform(null);
   }, []);
 
-  const handlePlatformDemo = useCallback((platformId: string) => {
-    setDemoPlatformId(platformId);
-  }, []);
-
-  const handleCloseDemoModal = useCallback(() => {
-    setDemoPlatformId(null);
-  }, []);
-
   return (
     <section className="relative min-h-screen flex flex-col bg-background overflow-hidden">
       {/* Gradient background */}
@@ -59,6 +49,12 @@ const HeroSection = () => {
               radial-gradient(ellipse 80% 50% at 85% 100%, hsl(var(--accent) / 0.05) 0%, transparent 50%),
               radial-gradient(ellipse 70% 40% at 10% 90%, hsl(var(--secondary) / 0.06) 0%, transparent 50%)
             `,
+          }}
+        />
+        <div 
+          className="absolute inset-0 opacity-[0.012] dark:opacity-[0.018]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
           }}
         />
       </div>
@@ -83,21 +79,18 @@ const HeroSection = () => {
 
       {/* Main Content - Split Layout */}
       <div className={`flex-1 relative flex flex-col lg:flex-row lg:items-stretch lg:px-4 xl:px-8 lg:max-w-[1800px] lg:mx-auto lg:w-full transition-all duration-1000 delay-200 ease-out ${showContent ? 'opacity-100 scale-100' : 'opacity-0 scale-[0.98]'}`}>
-        {/* Left Side - Ecosystem Canvas */}
+        {/* Left Side - Ecosystem Canvas (Compact & Fixed Width) */}
         <div className="lg:w-[280px] xl:w-[320px] shrink-0 relative min-h-[300px] sm:min-h-[340px] lg:min-h-0 lg:py-4">
           <div className="h-full w-full lg:border-r lg:border-border/20 lg:pr-4">
-            <EcosystemCanvas 
-              onPlatformHover={handlePlatformSelect} 
-              onPlatformDemo={handlePlatformDemo}
-            />
+            <EcosystemCanvas onPlatformHover={handlePlatformSelect} />
           </div>
         </div>
 
-        {/* Right Side - Platform Dashboard */}
+        {/* Right Side - Platform Dashboard (Expanded - Takes remaining space) */}
         <div className="hidden lg:flex flex-1 py-4 pl-4 min-h-[480px]">
           <div className={`w-full h-full transition-all duration-500 ${selectedPlatformId ? 'opacity-100 translate-x-0' : 'opacity-80'}`}>
             <PlatformDashboard 
-              platformId={selectedPlatformId || 'cognix'} 
+              platformId={selectedPlatformId || 'traceflow'} 
               onOpenFullscreen={handleOpenFullscreen}
               expanded
             />
@@ -128,13 +121,6 @@ const HeroSection = () => {
         platform={modalPlatform}
         isOpen={isModalOpen}
         onClose={handleCloseModal}
-      />
-
-      {/* Platform Demo Modal */}
-      <PlatformDemoModal
-        isOpen={!!demoPlatformId}
-        onClose={handleCloseDemoModal}
-        platformId={demoPlatformId}
       />
     </section>
   );

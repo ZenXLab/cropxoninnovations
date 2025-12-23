@@ -1,91 +1,18 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Brain, ShieldCheck, Users, Settings, Boxes, Building2, GraduationCap, FlaskConical, Check, Minus, ArrowUpRight, Sparkles, Zap, Lock, Globe, Layers, Wrench, BookOpen, Microscope } from 'lucide-react';
+import { Brain, ShieldCheck, Users, Settings, Boxes, Building2, GraduationCap, FlaskConical, Check, Minus, ArrowUpRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 
-// Platform data with distinctive icons and colors
 const platforms = [
-  { 
-    id: 'cognix', 
-    name: 'Cognix', 
-    icon: Brain, 
-    secondaryIcon: Sparkles,
-    color: 'hsl(220, 70%, 55%)', 
-    link: '/cognix', 
-    status: 'Idea & Locked',
-    tagline: 'Software Cognition'
-  },
-  { 
-    id: 'qualyx', 
-    name: 'Qualyx', 
-    icon: ShieldCheck, 
-    secondaryIcon: Zap,
-    color: 'hsl(175, 60%, 45%)', 
-    link: '/qualyx', 
-    status: 'Idea & Locked',
-    tagline: 'Quality Intelligence'
-  },
-  { 
-    id: 'huminex', 
-    name: 'Huminex', 
-    icon: Users, 
-    secondaryIcon: Layers,
-    color: 'hsl(340, 65%, 55%)', 
-    link: '/huminex', 
-    status: 'Idea & Locked',
-    tagline: 'Workforce OS'
-  },
-  { 
-    id: 'opzenix', 
-    name: 'OpZeniX', 
-    icon: Settings, 
-    secondaryIcon: Wrench,
-    color: 'hsl(260, 60%, 58%)', 
-    link: '/opzenix', 
-    status: 'Development',
-    tagline: 'DevOps Platform'
-  },
-  { 
-    id: 'traceflow', 
-    name: 'TraceFlow', 
-    icon: Boxes, 
-    secondaryIcon: Lock,
-    color: 'hsl(200, 70%, 50%)', 
-    link: '/traceflow', 
-    status: 'LIVE',
-    tagline: 'Digital Cognition'
-  },
-  { 
-    id: 'zenith-studio', 
-    name: 'Zenith Studio', 
-    icon: Building2, 
-    secondaryIcon: Globe,
-    color: 'hsl(280, 55%, 55%)', 
-    link: '/zenith-studio', 
-    status: 'LIVE · MVP',
-    tagline: 'Creation Platform'
-  },
-  { 
-    id: 'zenith-institute', 
-    name: 'Zenith Institute', 
-    icon: GraduationCap, 
-    secondaryIcon: BookOpen,
-    color: 'hsl(145, 55%, 45%)', 
-    link: '/zenith-institute', 
-    status: 'LIVE · MVP',
-    tagline: 'Learning Platform'
-  },
-  { 
-    id: 'originx-labs', 
-    name: 'OriginX Labs', 
-    icon: FlaskConical, 
-    secondaryIcon: Microscope,
-    color: 'hsl(25, 75%, 52%)', 
-    link: '/originx-labs', 
-    status: 'LIVE',
-    tagline: 'Research Division'
-  },
+  { id: 'cognix', name: 'Cognix', icon: Brain, color: 'hsl(220, 70%, 55%)', link: '/cognix', status: 'Idea & Locked' },
+  { id: 'qualyx', name: 'Qualyx', icon: ShieldCheck, color: 'hsl(175, 60%, 45%)', link: '/qualyx', status: 'Idea & Locked' },
+  { id: 'huminex', name: 'Huminex', icon: Users, color: 'hsl(340, 65%, 55%)', link: '/huminex', status: 'Idea & Locked' },
+  { id: 'opzenix', name: 'OpZeniX', icon: Settings, color: 'hsl(260, 60%, 58%)', link: '/opzenix', status: 'Development' },
+  { id: 'traceflow', name: 'TraceFlow', icon: Boxes, color: 'hsl(200, 70%, 50%)', link: '/traceflow', status: 'LIVE' },
+  { id: 'zenith-studio', name: 'Zenith Studio', icon: Building2, color: 'hsl(280, 55%, 55%)', link: '/zenith-studio', status: 'LIVE · MVP' },
+  { id: 'zenith-institute', name: 'Zenith Institute', icon: GraduationCap, color: 'hsl(145, 55%, 45%)', link: '/zenith-institute', status: 'LIVE · MVP' },
+  { id: 'originx-labs', name: 'OriginX Labs', icon: FlaskConical, color: 'hsl(25, 75%, 52%)', link: '/originx-labs', status: 'LIVE' },
 ];
 
 const features = [
@@ -133,7 +60,6 @@ const PlatformComparisonTable = () => {
               </div>
               {platforms.map((platform) => {
                 const Icon = platform.icon;
-                const SecondaryIcon = platform.secondaryIcon;
                 const isHovered = hoveredPlatform === platform.id;
                 return (
                   <div
@@ -143,31 +69,15 @@ const PlatformComparisonTable = () => {
                     onMouseLeave={() => setHoveredPlatform(null)}
                   >
                     <Link to={platform.link} className="flex flex-col items-center gap-2 group">
-                      <div className="relative">
-                        <div
-                          className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 ${isHovered ? 'scale-110' : ''}`}
-                          style={{ backgroundColor: isHovered ? platform.color : `${platform.color.replace(')', ' / 0.15)')}` }}
-                        >
-                          <Icon className={`w-5 h-5 ${isHovered ? 'text-white' : ''}`} style={{ color: isHovered ? 'white' : platform.color }} />
-                        </div>
-                        {/* Secondary icon badge */}
-                        <div 
-                          className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center transition-all duration-300 ${
-                            isHovered ? 'opacity-100 scale-100' : 'opacity-60 scale-90'
-                          }`}
-                          style={{ backgroundColor: isHovered ? platform.color : 'hsl(var(--muted))' }}
-                        >
-                          <SecondaryIcon className={`w-2.5 h-2.5 ${isHovered ? 'text-white' : 'text-muted-foreground'}`} />
-                        </div>
+                      <div
+                        className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 ${isHovered ? 'scale-110' : ''}`}
+                        style={{ backgroundColor: isHovered ? platform.color : `${platform.color.replace(')', ' / 0.15)')}` }}
+                      >
+                        <Icon className={`w-4 h-4 ${isHovered ? 'text-white' : ''}`} style={{ color: isHovered ? 'white' : platform.color }} />
                       </div>
-                      <div className="text-center">
-                        <span className="text-[10px] font-bold text-center text-foreground group-hover:text-primary transition-colors block">
-                          {platform.name}
-                        </span>
-                        <span className="text-[8px] text-muted-foreground">
-                          {platform.tagline}
-                        </span>
-                      </div>
+                      <span className="text-[10px] font-medium text-center text-foreground group-hover:text-primary transition-colors">
+                        {platform.name}
+                      </span>
                     </Link>
                   </div>
                 );
@@ -190,12 +100,7 @@ const PlatformComparisonTable = () => {
                     onMouseLeave={() => setHoveredPlatform(null)}
                   >
                     {value ? (
-                      <div 
-                        className="w-5 h-5 rounded-full flex items-center justify-center"
-                        style={{ backgroundColor: `${platforms[i].color.replace(')', ' / 0.15)')}` }}
-                      >
-                        <Check className="w-3 h-3" style={{ color: platforms[i].color }} />
-                      </div>
+                      <Check className="w-4 h-4 text-green-500" />
                     ) : (
                       <Minus className="w-4 h-4 text-muted-foreground/30" />
                     )}
@@ -254,54 +159,44 @@ const PlatformComparisonTable = () => {
         <div className="lg:hidden grid sm:grid-cols-2 gap-4">
           {platforms.map((platform) => {
             const Icon = platform.icon;
-            const SecondaryIcon = platform.secondaryIcon;
+            const platformFeatures = features.filter((f, i) => f.values[platforms.findIndex(p => p.id === platform.id)]);
             
             return (
               <Link
                 key={platform.id}
                 to={platform.link}
-                className="p-4 bg-card/60 backdrop-blur-xl rounded-xl border border-border/40 hover:border-primary/30 transition-all duration-300 group"
+                className="p-4 bg-card/60 backdrop-blur-xl rounded-xl border border-border/40 hover:border-primary/30 transition-all duration-300"
               >
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="relative">
-                    <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform"
-                      style={{ backgroundColor: `${platform.color.replace(')', ' / 0.15)')}` }}
-                    >
-                      <Icon className="w-5 h-5" style={{ color: platform.color }} />
-                    </div>
-                    <div 
-                      className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center bg-muted"
-                    >
-                      <SecondaryIcon className="w-2.5 h-2.5 text-muted-foreground" />
-                    </div>
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center"
+                    style={{ backgroundColor: `${platform.color.replace(')', ' / 0.15)')}` }}
+                  >
+                    <Icon className="w-5 h-5" style={{ color: platform.color }} />
                   </div>
                   <div>
                     <h3 className="font-display text-sm font-bold text-foreground">{platform.name}</h3>
-                    <p className="text-[10px] text-muted-foreground">{platform.tagline}</p>
+                    <span
+                      className="text-[9px] px-2 py-0.5 rounded-full font-mono"
+                      style={{
+                        backgroundColor: platform.status.includes('LIVE') ? 'hsl(145 70% 45% / 0.15)' : 
+                                         platform.status === 'Development' ? 'hsl(45 90% 50% / 0.15)' : 'hsl(220 15% 50% / 0.15)',
+                        color: platform.status.includes('LIVE') ? 'hsl(145, 70%, 45%)' : 
+                               platform.status === 'Development' ? 'hsl(45, 90%, 50%)' : 'hsl(220, 15%, 50%)',
+                      }}
+                    >
+                      {platform.status}
+                    </span>
                   </div>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span
-                    className="text-[9px] px-2 py-0.5 rounded-full font-mono"
-                    style={{
-                      backgroundColor: platform.status.includes('LIVE') ? 'hsl(145 70% 45% / 0.15)' : 
-                                       platform.status === 'Development' ? 'hsl(45 90% 50% / 0.15)' : 'hsl(220 15% 50% / 0.15)',
-                      color: platform.status.includes('LIVE') ? 'hsl(145, 70%, 45%)' : 
-                             platform.status === 'Development' ? 'hsl(45, 90%, 50%)' : 'hsl(220, 15%, 50%)',
-                    }}
-                  >
-                    {platform.status}
-                  </span>
-                  <div className="flex flex-wrap gap-1">
-                    {features.slice(0, 3).map((f) => (
-                      f.values[platforms.findIndex(p => p.id === platform.id)] && (
-                        <span key={f.name} className="text-[8px] px-1.5 py-0.5 bg-muted/50 rounded-full text-muted-foreground">
-                          {f.name}
-                        </span>
-                      )
-                    ))}
-                  </div>
+                <div className="flex flex-wrap gap-1">
+                  {features.slice(0, 4).map((f, i) => (
+                    f.values[platforms.findIndex(p => p.id === platform.id)] && (
+                      <span key={f.name} className="text-[9px] px-2 py-0.5 bg-muted/50 rounded-full text-muted-foreground">
+                        {f.name}
+                      </span>
+                    )
+                  ))}
                 </div>
               </Link>
             );
