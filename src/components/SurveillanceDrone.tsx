@@ -25,7 +25,7 @@ const SurveillanceDrone = () => {
       setPosition((prev) => {
         const dx = targetRef.current.x - prev.x;
         const dy = targetRef.current.y - prev.y;
-        const ease = 0.03;
+        const ease = 0.025;
         return {
           x: prev.x + dx * ease,
           y: prev.y + dy * ease,
@@ -47,19 +47,12 @@ const SurveillanceDrone = () => {
     return (
       <button
         onClick={() => setIsEnabled(true)}
-        className="fixed bottom-4 right-4 z-50 p-2 bg-card/90 backdrop-blur-sm border border-border/50 rounded-full shadow-lg hover:bg-card transition-colors"
-        title="Enable Drone Companion"
+        className="fixed bottom-4 right-4 z-50 p-1.5 bg-card/80 backdrop-blur-sm border border-border/40 rounded-full shadow-md hover:bg-card transition-colors"
+        title="Enable Drone"
       >
-        <svg
-          className="w-5 h-5 text-muted-foreground"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-        >
-          <circle cx="12" cy="12" r="3" />
-          <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
-          <path d="M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+        <svg className="w-3.5 h-3.5 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <circle cx="12" cy="12" r="2" />
+          <path d="M12 2v3M12 19v3M2 12h3M19 12h3" />
         </svg>
       </button>
     );
@@ -69,35 +62,29 @@ const SurveillanceDrone = () => {
     <div
       className="fixed pointer-events-none z-40"
       style={{
-        left: position.x - 20,
-        top: position.y - 60,
-        transition: "transform 0.1s ease-out",
+        left: position.x - 12,
+        top: position.y - 35,
       }}
     >
-      {/* Drone Body */}
+      {/* Tiny Drone */}
       <div
         className="relative pointer-events-auto cursor-pointer"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={() => setIsEnabled(false)}
-        title="Click to disable drone"
+        title="Click to hide"
       >
-        {/* Main Body */}
-        <div className="relative">
-          {/* Rotor Arms */}
-          <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-10 h-0.5 bg-muted-foreground/40 rounded-full" />
-          <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-0.5 h-10 bg-muted-foreground/40 rounded-full rotate-90" style={{ transform: 'translateX(-50%) rotate(90deg)', top: '0px' }} />
-          
-          {/* Spinning Rotors */}
+        <div className="relative w-6 h-4">
+          {/* Rotors */}
           {[
-            { x: -16, y: -6 },
-            { x: 16, y: -6 },
-            { x: -16, y: 6 },
-            { x: 16, y: 6 },
+            { x: -8, y: -2 },
+            { x: 8, y: -2 },
+            { x: -8, y: 4 },
+            { x: 8, y: 4 },
           ].map((pos, i) => (
             <div
               key={i}
-              className="absolute w-6 h-6"
+              className="absolute w-3 h-3"
               style={{
                 left: `calc(50% + ${pos.x}px)`,
                 top: `calc(50% + ${pos.y}px)`,
@@ -105,70 +92,33 @@ const SurveillanceDrone = () => {
               }}
             >
               <div
-                className="w-full h-full rounded-full border border-primary/30"
-                style={{
-                  animation: `spin ${0.15 + i * 0.02}s linear infinite`,
-                }}
+                className="w-full h-full rounded-full border border-primary/40"
+                style={{ animation: `spin ${0.12 + i * 0.01}s linear infinite` }}
               >
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-4 h-0.5 bg-primary/50 rounded-full" />
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center rotate-90">
-                  <div className="w-4 h-0.5 bg-primary/50 rounded-full" />
+                  <div className="w-2 h-px bg-primary/60 rounded-full" />
                 </div>
               </div>
             </div>
           ))}
 
-          {/* Central Body */}
-          <div className="w-8 h-5 bg-gradient-to-b from-muted to-muted/80 rounded-lg border border-border/50 shadow-lg flex items-center justify-center">
-            {/* Camera Lens */}
-            <div className="w-2.5 h-2.5 rounded-full bg-background border border-border/50 flex items-center justify-center">
-              <div 
-                className="w-1.5 h-1.5 rounded-full"
-                style={{
-                  background: isHovered 
-                    ? "hsl(var(--destructive))" 
-                    : "hsl(var(--primary))",
-                  boxShadow: isHovered 
-                    ? "0 0 8px hsl(var(--destructive))" 
-                    : "0 0 6px hsl(var(--primary))",
-                  animation: "pulse 2s ease-in-out infinite",
-                }}
-              />
-            </div>
+          {/* Body */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-2.5 bg-gradient-to-b from-muted to-muted/70 rounded border border-border/40 flex items-center justify-center">
+            <div
+              className="w-1.5 h-1.5 rounded-full"
+              style={{
+                background: isHovered ? "hsl(var(--destructive))" : "hsl(var(--primary))",
+                boxShadow: isHovered ? "0 0 4px hsl(var(--destructive))" : "0 0 3px hsl(var(--primary))",
+              }}
+            />
           </div>
-
-          {/* Status LEDs */}
-          <div className="absolute -bottom-0.5 left-1 w-1 h-1 rounded-full bg-green-500" style={{ animation: "blink 1.5s ease-in-out infinite" }} />
-          <div className="absolute -bottom-0.5 right-1 w-1 h-1 rounded-full bg-primary" style={{ animation: "blink 2s ease-in-out infinite 0.5s" }} />
         </div>
-
-        {/* Shadow */}
-        <div
-          className="absolute top-12 left-1/2 -translate-x-1/2 w-4 h-1 bg-foreground/10 rounded-full blur-sm"
-          style={{
-            animation: "shadowPulse 2s ease-in-out infinite",
-          }}
-        />
       </div>
 
       <style>{`
         @keyframes spin {
           from { transform: rotate(0deg); }
           to { transform: rotate(360deg); }
-        }
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.5; }
-        }
-        @keyframes blink {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-        @keyframes shadowPulse {
-          0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.3; }
-          50% { transform: translateX(-50%) scale(1.2); opacity: 0.15; }
         }
       `}</style>
     </div>
