@@ -613,143 +613,176 @@ const PlatformDashboard = ({ platformId, onOpenFullscreen, expanded = false }: P
                     </svg>
                   )}
 
-                  {/* Qualyx - Quality Area Chart with Flow */}
+                  {/* Qualyx - Enhanced Quality Area Chart with Grid */}
                   {currentPlatform.id === 'qualyx' && (
                     <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
                       <defs>
                         <linearGradient id="qualyxGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor={currentPlatform.color} stopOpacity="0.5" />
-                          <stop offset="100%" stopColor={currentPlatform.color} stopOpacity="0" />
+                          <stop offset="0%" stopColor={currentPlatform.color} stopOpacity="0.6" />
+                          <stop offset="100%" stopColor={currentPlatform.color} stopOpacity="0.05" />
                         </linearGradient>
+                        <filter id="qualyxGlow">
+                          <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                          <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                        </filter>
                       </defs>
+                      {/* Grid */}
+                      {[...Array(4)].map((_, i) => (
+                        <line key={`h${i}`} x1="0" y1={`${25 + i * 18}%`} x2="100%" y2={`${25 + i * 18}%`} stroke="hsl(var(--border))" strokeWidth="0.5" opacity="0.15" strokeDasharray="3 3" />
+                      ))}
+                      {/* Animated area */}
                       <path
                         d={`M 0,100 ${liveBarHeights.map((h, i) => `L ${(i / 23) * 100},${100 - h * 0.8}`).join(' ')} L 100,100 Z`}
                         fill="url(#qualyxGradient)"
-                        className="transition-all duration-150"
+                        style={{ animation: 'areaFloat 3s ease-in-out infinite' }}
                       />
+                      {/* Main line with glow */}
                       <path
                         d={`M 0,${100 - liveBarHeights[0] * 0.8} ${liveBarHeights.map((h, i) => `L ${(i / 23) * 100},${100 - h * 0.8}`).join(' ')}`}
                         fill="none"
                         stroke={currentPlatform.color}
-                        strokeWidth="2.5"
+                        strokeWidth="3"
                         strokeLinecap="round"
-                        className="transition-all duration-150"
+                        filter="url(#qualyxGlow)"
                       />
-                      {/* Data points */}
-                      {liveBarHeights.filter((_, i) => i % 4 === 0).map((h, i) => (
-                        <circle
-                          key={i}
-                          cx={`${(i * 4 / 23) * 100}%`}
-                          cy={`${100 - h * 0.8}%`}
-                          r="4"
-                          fill={currentPlatform.color}
-                          className="animate-pulse"
-                          style={{ animationDelay: `${i * 0.2}s` }}
-                        />
+                      {/* Animated data points */}
+                      {liveBarHeights.filter((_, i) => i % 3 === 0).map((h, i) => (
+                        <g key={i}>
+                          <circle cx={`${(i * 3 / 23) * 100}%`} cy={`${100 - h * 0.8}%`} r="5" fill="hsl(var(--background))" stroke={currentPlatform.color} strokeWidth="2" />
+                          <circle cx={`${(i * 3 / 23) * 100}%`} cy={`${100 - h * 0.8}%`} r="2.5" fill={currentPlatform.color} className="animate-pulse" style={{ animationDelay: `${i * 0.15}s` }} />
+                        </g>
                       ))}
+                      <style>{`@keyframes areaFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1px); } }`}</style>
                     </svg>
                   )}
 
-                  {/* Huminex - Workforce Bubble Flow */}
+                  {/* Huminex - Enhanced Workforce Bubble Matrix */}
                   {currentPlatform.id === 'huminex' && (
                     <div className="absolute inset-0 overflow-hidden">
-                      {liveBarHeights.slice(0, 18).map((h, i) => (
+                      {liveBarHeights.slice(0, 20).map((h, i) => (
                         <div
                           key={i}
                           className="absolute rounded-full"
                           style={{
-                            left: `${(i * 5.5) + (h % 5)}%`,
-                            bottom: `${10 + (h * 0.6)}%`,
-                            width: `${8 + (h / 12)}px`,
-                            height: `${8 + (h / 12)}px`,
-                            background: `radial-gradient(circle at 30% 30%, ${currentPlatform.color}, ${currentPlatform.color.replace(')', ' / 0.5)')})`,
-                            opacity: 0.5 + (i % 4) * 0.12,
-                            animation: `floatUp ${3 + (i % 3)}s ease-in-out infinite`,
-                            animationDelay: `${i * 0.15}s`,
-                            boxShadow: `0 4px 12px ${currentPlatform.color.replace(')', ' / 0.2)')}`
+                            left: `${(i * 4.8) + ((h * 0.1) % 8)}%`,
+                            bottom: `${12 + (h * 0.65)}%`,
+                            width: `${10 + (h / 10)}px`,
+                            height: `${10 + (h / 10)}px`,
+                            background: `radial-gradient(circle at 30% 30%, ${currentPlatform.color}, ${currentPlatform.color.replace(')', ' / 0.4)')})`,
+                            border: `1.5px solid ${currentPlatform.color}`,
+                            opacity: 0.5 + (i % 5) * 0.1,
+                            animation: `bubbleRise ${2.5 + (i % 4) * 0.4}s ease-in-out infinite, bubbleGlow ${2 + i * 0.15}s ease-in-out infinite`,
+                            animationDelay: `${i * 0.12}s`,
+                            boxShadow: `0 4px 16px ${currentPlatform.color.replace(')', ' / 0.3)')}`
                           }}
                         />
                       ))}
                       <style>{`
-                        @keyframes floatUp { 
-                          0%, 100% { transform: translateY(0) scale(1); } 
-                          50% { transform: translateY(-8px) scale(1.05); } 
+                        @keyframes bubbleRise { 
+                          0%, 100% { transform: translateY(0) scale(1); opacity: 0.7; } 
+                          50% { transform: translateY(-12px) scale(1.1); opacity: 1; } 
+                        }
+                        @keyframes bubbleGlow {
+                          0%, 100% { filter: brightness(1); }
+                          50% { filter: brightness(1.3); }
                         }
                       `}</style>
                     </div>
                   )}
 
-                  {/* OpZeniX - Pipeline Stream */}
+                  {/* OpZeniX - Enhanced DevOps Pipeline with Progress */}
                   {currentPlatform.id === 'opzenix' && (
                     <div className="absolute inset-0 flex flex-col justify-center gap-3 px-4">
-                      {[...Array(4)].map((_, rowIdx) => (
-                        <div key={rowIdx} className="relative h-3 bg-muted/30 rounded-full overflow-hidden">
+                      {[...Array(5)].map((_, rowIdx) => (
+                        <div key={rowIdx} className="relative h-3 bg-muted/40 rounded-full overflow-hidden border border-border/20">
                           <div
                             className="absolute inset-y-0 left-0 rounded-full"
                             style={{
-                              width: `${60 + liveBarHeights[rowIdx * 3] * 0.4}%`,
-                              background: `linear-gradient(90deg, ${currentPlatform.color.replace(')', ' / 0.3)')}, ${currentPlatform.color})`,
-                              animation: `pipeFlow ${2 + rowIdx * 0.5}s ease-in-out infinite`,
-                              animationDelay: `${rowIdx * 0.3}s`
+                              width: `${55 + liveBarHeights[rowIdx * 3] * 0.45}%`,
+                              background: `linear-gradient(90deg, ${currentPlatform.color.replace(')', ' / 0.4)')}, ${currentPlatform.color}, ${currentPlatform.color.replace(')', ' / 0.6)')})`,
+                              animation: `pipelinePulse ${2 + rowIdx * 0.4}s ease-in-out infinite`,
+                              animationDelay: `${rowIdx * 0.25}s`,
+                              boxShadow: `0 0 12px ${currentPlatform.color.replace(')', ' / 0.4)')}`
                             }}
                           />
+                          {/* Moving indicator */}
                           <div
-                            className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full"
+                            className="absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full"
                             style={{
+                              left: `${50 + liveBarHeights[rowIdx * 3] * 0.45}%`,
                               backgroundColor: currentPlatform.color,
-                              boxShadow: `0 0 8px ${currentPlatform.color}`,
-                              animation: `pulse 1s ease-in-out infinite`,
+                              boxShadow: `0 0 10px ${currentPlatform.color}`,
+                              animation: `indicatorPulse 0.8s ease-in-out infinite`,
                               animationDelay: `${rowIdx * 0.2}s`
                             }}
                           />
+                          {/* Progress percentage */}
+                          <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[8px] font-mono text-muted-foreground/60">
+                            {Math.round(55 + liveBarHeights[rowIdx * 3] * 0.45)}%
+                          </span>
                         </div>
                       ))}
                       <style>{`
-                        @keyframes pipeFlow { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
+                        @keyframes pipelinePulse { 0%, 100% { opacity: 0.75; } 50% { opacity: 1; } }
+                        @keyframes indicatorPulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.3); } }
                       `}</style>
                     </div>
                   )}
 
-                  {/* TraceFlow - Network Nodes */}
+                  {/* TraceFlow - Enhanced Network Intelligence Graph */}
                   {currentPlatform.id === 'traceflow' && (
                     <svg className="absolute inset-0 w-full h-full">
                       <defs>
-                        <filter id="glow">
-                          <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                        <filter id="traceGlow">
+                          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
                           <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
                         </filter>
+                        <radialGradient id="traceNodeGrad">
+                          <stop offset="0%" stopColor={currentPlatform.color} stopOpacity="1" />
+                          <stop offset="100%" stopColor={currentPlatform.color} stopOpacity="0.3" />
+                        </radialGradient>
                       </defs>
-                      {/* Animated connections */}
-                      {[...Array(6)].map((_, i) => {
-                        const angle1 = (i / 6) * Math.PI * 2;
-                        const angle2 = ((i + 1) / 6) * Math.PI * 2;
+                      {/* Animated mesh connections */}
+                      {[...Array(8)].map((_, i) => {
+                        const angle1 = (i / 8) * Math.PI * 2;
+                        const angle2 = ((i + 2) / 8) * Math.PI * 2;
                         return (
                           <line
-                            key={i}
-                            x1={`${50 + Math.cos(angle1) * 35}%`}
-                            y1={`${50 + Math.sin(angle1) * 35}%`}
-                            x2={`${50 + Math.cos(angle2) * 35}%`}
-                            y2={`${50 + Math.sin(angle2) * 35}%`}
+                            key={`mesh-${i}`}
+                            x1={`${50 + Math.cos(angle1) * 36}%`}
+                            y1={`${50 + Math.sin(angle1) * 36}%`}
+                            x2={`${50 + Math.cos(angle2) * 36}%`}
+                            y2={`${50 + Math.sin(angle2) * 36}%`}
                             stroke={currentPlatform.color}
-                            strokeWidth="1.5"
-                            opacity="0.4"
-                            strokeDasharray="8 4"
-                            style={{ animation: `dashFlow 2s linear infinite`, animationDelay: `${i * 0.3}s` }}
+                            strokeWidth="1"
+                            opacity="0.25"
+                            strokeDasharray="6 3"
+                            style={{ animation: `dashFlow 2.5s linear infinite`, animationDelay: `${i * 0.2}s` }}
                           />
                         );
                       })}
-                      {/* Hub connections */}
-                      {[...Array(6)].map((_, i) => {
-                        const angle = (i / 6) * Math.PI * 2;
+                      {/* Hub connections with data packets */}
+                      {[...Array(8)].map((_, i) => {
+                        const angle = (i / 8) * Math.PI * 2;
                         return (
                           <g key={i}>
-                            <line x1="50%" y1="50%" x2={`${50 + Math.cos(angle) * 35}%`} y2={`${50 + Math.sin(angle) * 35}%`} stroke={currentPlatform.color} strokeWidth="1" opacity="0.3" />
-                            <circle cx={`${50 + Math.cos(angle) * 35}%`} cy={`${50 + Math.sin(angle) * 35}%`} r="6" fill={currentPlatform.color} opacity="0.8" filter="url(#glow)" className="animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />
+                            <line x1="50%" y1="50%" x2={`${50 + Math.cos(angle) * 36}%`} y2={`${50 + Math.sin(angle) * 36}%`} stroke={currentPlatform.color} strokeWidth="2" opacity="0.5" />
+                            {/* Data packet animation */}
+                            <circle r="3" fill={currentPlatform.color} filter="url(#traceGlow)">
+                              <animateMotion
+                                path={`M 50,50 L ${50 + Math.cos(angle) * 36},${50 + Math.sin(angle) * 36}`}
+                                dur="2s"
+                                repeatCount="indefinite"
+                                begin={`${i * 0.25}s`}
+                              />
+                            </circle>
+                            {/* Node */}
+                            <circle cx={`${50 + Math.cos(angle) * 36}%`} cy={`${50 + Math.sin(angle) * 36}%`} r="8" fill="url(#traceNodeGrad)" filter="url(#traceGlow)" className="animate-pulse" style={{ animationDelay: `${i * 0.15}s` }} />
                           </g>
                         );
                       })}
-                      <circle cx="50%" cy="50%" r="10" fill={currentPlatform.color} filter="url(#glow)" />
-                      <style>{`@keyframes dashFlow { to { stroke-dashoffset: -24; } }`}</style>
+                      <circle cx="50%" cy="50%" r="14" fill="url(#traceNodeGrad)" filter="url(#traceGlow)" className="animate-pulse" />
+                      <style>{`@keyframes dashFlow { to { stroke-dashoffset: -18; } }`}</style>
                     </svg>
                   )}
 
