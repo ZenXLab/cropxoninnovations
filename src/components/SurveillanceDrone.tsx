@@ -5,7 +5,6 @@ interface Particle {
   x: number;
   y: number;
   opacity: number;
-  size: number;
 }
 
 const SurveillanceDrone = () => {
@@ -40,21 +39,20 @@ const SurveillanceDrone = () => {
         const newX = prev.x + dx * ease;
         const newY = prev.y + dy * ease;
 
-        // Add particle trail every 50ms
-        if (timestamp - lastParticleTimeRef.current > 50) {
+        // Add particle trail every 80ms (reduced frequency)
+        if (timestamp - lastParticleTimeRef.current > 80) {
           const speed = Math.sqrt(dx * dx + dy * dy);
-          if (speed > 5) {
+          if (speed > 8) {
             lastParticleTimeRef.current = timestamp;
             setParticles((prev) => {
               const newParticle: Particle = {
                 id: particleIdRef.current++,
                 x: newX,
                 y: newY - 20,
-                opacity: 0.6,
-                size: Math.random() * 2 + 1,
+                opacity: 0.5,
               };
-              // Keep only last 12 particles
-              return [...prev.slice(-11), newParticle];
+              // Keep only last 6 particles for better performance
+              return [...prev.slice(-5), newParticle];
             });
           }
         }
@@ -62,10 +60,10 @@ const SurveillanceDrone = () => {
         return { x: newX, y: newY };
       });
 
-      // Fade out particles
+      // Fade out particles faster
       setParticles((prev) =>
         prev
-          .map((p) => ({ ...p, opacity: p.opacity - 0.04 }))
+          .map((p) => ({ ...p, opacity: p.opacity - 0.06 }))
           .filter((p) => p.opacity > 0)
       );
 
@@ -98,27 +96,19 @@ const SurveillanceDrone = () => {
 
   return (
     <>
-      {/* Particle Trail */}
+      {/* Particle Trail - Optimized */}
       {particles.map((particle) => (
         <div
           key={particle.id}
-          className="fixed pointer-events-none z-30"
+          className="fixed pointer-events-none z-30 w-1.5 h-1.5 rounded-full bg-primary/60"
           style={{
             left: particle.x,
             top: particle.y,
             opacity: particle.opacity,
             transform: "translate(-50%, -50%)",
+            boxShadow: "0 0 4px hsl(var(--primary) / 0.4)",
           }}
-        >
-          <div
-            className="rounded-full bg-primary"
-            style={{
-              width: particle.size,
-              height: particle.size,
-              boxShadow: `0 0 ${particle.size * 2}px hsl(var(--primary) / 0.5)`,
-            }}
-          />
-        </div>
+        />
       ))}
 
       <div

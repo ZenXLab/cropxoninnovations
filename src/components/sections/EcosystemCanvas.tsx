@@ -130,8 +130,9 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
       };
     });
 
-    // Initialize single butterfly
+    // Initialize single butterfly - starts flying to first node
     if (!butterflyRef.current) {
+      const firstTarget = Math.floor(Math.random() * platformsData.length);
       butterflyRef.current = {
         x: centerX + (Math.random() - 0.5) * 100,
         y: centerY - 100 + (Math.random() - 0.5) * 30,
@@ -141,10 +142,10 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
         wingAngle: Math.random() * Math.PI * 2,
         wingSpeed: 0.12,
         size: isMobileView ? 14 : 18,
-        color: platformsData[0].color,
-        targetPlatform: -1,
-        state: 'waiting',
-        restTimer: 0,
+        color: platformsData[firstTarget].color,
+        targetPlatform: firstTarget,
+        state: 'flying',
+        restTimer: 60,
         angle: 0,
       };
     }
@@ -598,20 +599,21 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
         ctx.restore();
       });
 
-      // Update and draw single butterfly
+      // Update and draw single butterfly - auto visits nodes every 2 seconds
       const butterfly = butterflyRef.current;
       if (butterfly) {
         butterfly.wingAngle += butterfly.wingSpeed;
         let restingButterflyData: { platform: PlatformData; x: number; y: number } | null = null;
         
         if (butterfly.state === 'waiting') {
-          // Float around center while spinning
+          // Float around center briefly then pick a target
           butterfly.x += Math.sin(butterfly.wingAngle * 0.25) * 0.6;
           butterfly.y += Math.cos(butterfly.wingAngle * 0.15) * 0.3;
           butterfly.angle = Math.sin(butterfly.wingAngle * 0.08) * 0.2;
           
-          // When spinning stops, pick a target
-          if (!isSpinning) {
+          // Auto pick a target after a short wait
+          butterfly.restTimer--;
+          if (butterfly.restTimer <= 0) {
             const targetIdx = Math.floor(Math.random() * platformsRef.current.length);
             butterfly.targetPlatform = targetIdx;
             butterfly.color = platformsRef.current[targetIdx].color;
@@ -631,11 +633,11 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
           if (distance < 8) {
             butterfly.state = 'landing';
           } else {
-            const speed = 1.0;
-            butterfly.vx += (dx / distance) * speed * 0.1;
-            butterfly.vy += (dy / distance) * speed * 0.1;
-            butterfly.vx *= 0.95;
-            butterfly.vy *= 0.95;
+            const speed = 1.5;
+            butterfly.vx += (dx / distance) * speed * 0.12;
+            butterfly.vy += (dy / distance) * speed * 0.12;
+            butterfly.vx *= 0.94;
+            butterfly.vy *= 0.94;
             butterfly.x += butterfly.vx + Math.sin(butterfly.wingAngle * 0.4) * 0.4;
             butterfly.y += butterfly.vy + Math.cos(butterfly.wingAngle * 0.25) * 0.3;
           }
@@ -647,7 +649,8 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
           butterfly.vy = 0;
           butterfly.angle = 0;
           butterfly.state = 'resting';
-          butterfly.restTimer = 180 + Math.random() * 120;
+          // Rest for ~2 seconds (120 frames at 60fps)
+          butterfly.restTimer = 120;
         } else if (butterfly.state === 'resting') {
           const targetPlatform = platformsRef.current[butterfly.targetPlatform];
           butterfly.restTimer--;
@@ -657,32 +660,27 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
           restingButterflyData = { platform: targetPlatform, x: butterfly.x, y: butterfly.y - 30 };
           
           if (butterfly.restTimer <= 0) {
-            if (isSpinning) {
-              butterfly.state = 'waiting';
-              butterfly.targetX = centerX;
-              butterfly.targetY = centerY - 80;
-            } else {
-              let newTarget = Math.floor(Math.random() * platformsRef.current.length);
-              while (newTarget === butterfly.targetPlatform && platformsRef.current.length > 1) {
-                newTarget = Math.floor(Math.random() * platformsRef.current.length);
-              }
-              butterfly.targetPlatform = newTarget;
-              // Color changes based on new platform
-              butterfly.color = platformsRef.current[newTarget].color;
-              butterfly.state = 'flying';
+            // Pick next node
+            let newTarget = Math.floor(Math.random() * platformsRef.current.length);
+            while (newTarget === butterfly.targetPlatform && platformsRef.current.length > 1) {
+              newTarget = Math.floor(Math.random() * platformsRef.current.length);
             }
+            butterfly.targetPlatform = newTarget;
+            butterfly.color = platformsRef.current[newTarget].color;
+            butterfly.state = 'flying';
           }
         }
         
         drawButterfly(ctx, butterfly);
 
-        // Update popup state and notify parent
-        if (restingButterflyData && !isSpinning) {
+        // Update popup state and notify parent - always show when butterfly rests
+        if (restingButterflyData) {
           setButterflyPlatform(restingButterflyData.platform);
           setPopupPosition({ x: restingButterflyData.x, y: restingButterflyData.y });
           onPlatformHover?.(restingButterflyData.platform.id);
         } else if (!hoveredPlatform) {
           setButterflyPlatform(null);
+          onPlatformHover?.(null);
         }
       }
 
