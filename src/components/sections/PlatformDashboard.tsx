@@ -562,205 +562,278 @@ const PlatformDashboard = ({ platformId, onOpenFullscreen, expanded = false }: P
                 ))}
               </div>
 
-              {/* Live Data Visualization - Different for each platform */}
+              {/* Live Data Visualization - Enhanced flowing animations */}
               <div className="p-5 bg-muted/20 rounded-xl border border-border/30 flex-1">
                 <div className="flex items-center justify-between mb-4">
-                  <p className="text-sm font-medium text-foreground">Real-time Data Stream</p>
+                  <p className="text-sm font-medium text-foreground">Real-time Analytics</p>
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: currentPlatform.color }} />
                     <span className="text-xs text-muted-foreground">Live</span>
                   </div>
                 </div>
-                <div className="relative h-32 overflow-hidden rounded-lg bg-muted/30 border border-border/20">
-                  {/* Different visualization based on platform */}
+                <div className="relative h-32 overflow-hidden rounded-lg bg-gradient-to-b from-muted/20 to-muted/40 border border-border/20">
+                  {/* Grid overlay */}
+                  <svg className="absolute inset-0 w-full h-full opacity-20">
+                    {[...Array(5)].map((_, i) => (
+                      <line key={`h-${i}`} x1="0" y1={`${20 * (i + 1)}%`} x2="100%" y2={`${20 * (i + 1)}%`} stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 4" />
+                    ))}
+                    {[...Array(8)].map((_, i) => (
+                      <line key={`v-${i}`} x1={`${12.5 * (i + 1)}%`} y1="0" x2={`${12.5 * (i + 1)}%`} y2="100%" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 4" />
+                    ))}
+                  </svg>
+
+                  {/* Cognix - Neural Wave Pattern */}
                   {currentPlatform.id === 'cognix' && (
-                    /* Neural Network Pattern */
-                    <svg className="w-full h-full">
-                      {[...Array(20)].map((_, i) => (
-                        <g key={i}>
-                          <line
-                            x1={`${(i * 5) % 100}%`}
-                            y1={`${20 + Math.sin(i * 0.5) * 30}%`}
-                            x2={`${((i + 1) * 5) % 100}%`}
-                            y2={`${20 + Math.sin((i + 1) * 0.5) * 30}%`}
+                    <svg className="absolute inset-0 w-full h-full">
+                      <defs>
+                        <linearGradient id="cognixGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stopColor={currentPlatform.color} stopOpacity="0" />
+                          <stop offset="50%" stopColor={currentPlatform.color} stopOpacity="0.8" />
+                          <stop offset="100%" stopColor={currentPlatform.color} stopOpacity="0" />
+                        </linearGradient>
+                      </defs>
+                      {[...Array(3)].map((_, waveIdx) => (
+                        <g key={waveIdx}>
+                          <path
+                            d={`M -100,${40 + waveIdx * 20} ${[...Array(30)].map((_, i) => `Q ${i * 20 + 10},${40 + waveIdx * 20 + Math.sin(i * 0.8 + waveIdx) * 25} ${i * 20 + 20},${40 + waveIdx * 20}`).join(' ')}`}
+                            fill="none"
                             stroke={currentPlatform.color}
-                            strokeWidth="2"
-                            opacity={0.3 + (i % 3) * 0.2}
-                            className="animate-pulse"
-                            style={{ animationDelay: `${i * 0.1}s` }}
+                            strokeWidth={2 - waveIdx * 0.3}
+                            opacity={0.6 - waveIdx * 0.15}
+                            style={{ 
+                              animation: `flowRight ${6 + waveIdx}s linear infinite`,
+                              animationDelay: `${waveIdx * 0.5}s`
+                            }}
                           />
-                          <circle
-                            cx={`${(i * 5) % 100}%`}
-                            cy={`${20 + Math.sin(i * 0.5) * 30}%`}
-                            r="3"
-                            fill={currentPlatform.color}
-                            opacity={0.6}
+                        </g>
+                      ))}
+                      <style>{`
+                        @keyframes flowRight { from { transform: translateX(-200px); } to { transform: translateX(100px); } }
+                      `}</style>
+                    </svg>
+                  )}
+
+                  {/* Qualyx - Quality Area Chart with Flow */}
+                  {currentPlatform.id === 'qualyx' && (
+                    <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
+                      <defs>
+                        <linearGradient id="qualyxGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stopColor={currentPlatform.color} stopOpacity="0.5" />
+                          <stop offset="100%" stopColor={currentPlatform.color} stopOpacity="0" />
+                        </linearGradient>
+                      </defs>
+                      <path
+                        d={`M 0,100 ${liveBarHeights.map((h, i) => `L ${(i / 23) * 100},${100 - h * 0.8}`).join(' ')} L 100,100 Z`}
+                        fill="url(#qualyxGradient)"
+                        className="transition-all duration-150"
+                      />
+                      <path
+                        d={`M 0,${100 - liveBarHeights[0] * 0.8} ${liveBarHeights.map((h, i) => `L ${(i / 23) * 100},${100 - h * 0.8}`).join(' ')}`}
+                        fill="none"
+                        stroke={currentPlatform.color}
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        className="transition-all duration-150"
+                      />
+                      {/* Data points */}
+                      {liveBarHeights.filter((_, i) => i % 4 === 0).map((h, i) => (
+                        <circle
+                          key={i}
+                          cx={`${(i * 4 / 23) * 100}%`}
+                          cy={`${100 - h * 0.8}%`}
+                          r="4"
+                          fill={currentPlatform.color}
+                          className="animate-pulse"
+                          style={{ animationDelay: `${i * 0.2}s` }}
+                        />
+                      ))}
+                    </svg>
+                  )}
+
+                  {/* Huminex - Workforce Bubble Flow */}
+                  {currentPlatform.id === 'huminex' && (
+                    <div className="absolute inset-0 overflow-hidden">
+                      {liveBarHeights.slice(0, 18).map((h, i) => (
+                        <div
+                          key={i}
+                          className="absolute rounded-full"
+                          style={{
+                            left: `${(i * 5.5) + (h % 5)}%`,
+                            bottom: `${10 + (h * 0.6)}%`,
+                            width: `${8 + (h / 12)}px`,
+                            height: `${8 + (h / 12)}px`,
+                            background: `radial-gradient(circle at 30% 30%, ${currentPlatform.color}, ${currentPlatform.color.replace(')', ' / 0.5)')})`,
+                            opacity: 0.5 + (i % 4) * 0.12,
+                            animation: `floatUp ${3 + (i % 3)}s ease-in-out infinite`,
+                            animationDelay: `${i * 0.15}s`,
+                            boxShadow: `0 4px 12px ${currentPlatform.color.replace(')', ' / 0.2)')}`
+                          }}
+                        />
+                      ))}
+                      <style>{`
+                        @keyframes floatUp { 
+                          0%, 100% { transform: translateY(0) scale(1); } 
+                          50% { transform: translateY(-8px) scale(1.05); } 
+                        }
+                      `}</style>
+                    </div>
+                  )}
+
+                  {/* OpZeniX - Pipeline Stream */}
+                  {currentPlatform.id === 'opzenix' && (
+                    <div className="absolute inset-0 flex flex-col justify-center gap-3 px-4">
+                      {[...Array(4)].map((_, rowIdx) => (
+                        <div key={rowIdx} className="relative h-3 bg-muted/30 rounded-full overflow-hidden">
+                          <div
+                            className="absolute inset-y-0 left-0 rounded-full"
+                            style={{
+                              width: `${60 + liveBarHeights[rowIdx * 3] * 0.4}%`,
+                              background: `linear-gradient(90deg, ${currentPlatform.color.replace(')', ' / 0.3)')}, ${currentPlatform.color})`,
+                              animation: `pipeFlow ${2 + rowIdx * 0.5}s ease-in-out infinite`,
+                              animationDelay: `${rowIdx * 0.3}s`
+                            }}
                           />
+                          <div
+                            className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full"
+                            style={{
+                              backgroundColor: currentPlatform.color,
+                              boxShadow: `0 0 8px ${currentPlatform.color}`,
+                              animation: `pulse 1s ease-in-out infinite`,
+                              animationDelay: `${rowIdx * 0.2}s`
+                            }}
+                          />
+                        </div>
+                      ))}
+                      <style>{`
+                        @keyframes pipeFlow { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
+                      `}</style>
+                    </div>
+                  )}
+
+                  {/* TraceFlow - Network Nodes */}
+                  {currentPlatform.id === 'traceflow' && (
+                    <svg className="absolute inset-0 w-full h-full">
+                      <defs>
+                        <filter id="glow">
+                          <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                          <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                        </filter>
+                      </defs>
+                      {/* Animated connections */}
+                      {[...Array(6)].map((_, i) => {
+                        const angle1 = (i / 6) * Math.PI * 2;
+                        const angle2 = ((i + 1) / 6) * Math.PI * 2;
+                        return (
+                          <line
+                            key={i}
+                            x1={`${50 + Math.cos(angle1) * 35}%`}
+                            y1={`${50 + Math.sin(angle1) * 35}%`}
+                            x2={`${50 + Math.cos(angle2) * 35}%`}
+                            y2={`${50 + Math.sin(angle2) * 35}%`}
+                            stroke={currentPlatform.color}
+                            strokeWidth="1.5"
+                            opacity="0.4"
+                            strokeDasharray="8 4"
+                            style={{ animation: `dashFlow 2s linear infinite`, animationDelay: `${i * 0.3}s` }}
+                          />
+                        );
+                      })}
+                      {/* Hub connections */}
+                      {[...Array(6)].map((_, i) => {
+                        const angle = (i / 6) * Math.PI * 2;
+                        return (
+                          <g key={i}>
+                            <line x1="50%" y1="50%" x2={`${50 + Math.cos(angle) * 35}%`} y2={`${50 + Math.sin(angle) * 35}%`} stroke={currentPlatform.color} strokeWidth="1" opacity="0.3" />
+                            <circle cx={`${50 + Math.cos(angle) * 35}%`} cy={`${50 + Math.sin(angle) * 35}%`} r="6" fill={currentPlatform.color} opacity="0.8" filter="url(#glow)" className="animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />
+                          </g>
+                        );
+                      })}
+                      <circle cx="50%" cy="50%" r="10" fill={currentPlatform.color} filter="url(#glow)" />
+                      <style>{`@keyframes dashFlow { to { stroke-dashoffset: -24; } }`}</style>
+                    </svg>
+                  )}
+
+                  {/* Zenith Core - Stacked Performance Bars */}
+                  {currentPlatform.id === 'zenith-core' && (
+                    <div className="absolute inset-0 flex items-end gap-1 px-3 pb-2">
+                      {liveBarHeights.map((h, i) => (
+                        <div key={i} className="flex-1 flex flex-col-reverse gap-0.5" style={{ animation: `growUp 0.5s ease-out forwards`, animationDelay: `${i * 30}ms` }}>
+                          {[...Array(4)].map((_, layer) => (
+                            <div
+                              key={layer}
+                              className="w-full rounded-sm"
+                              style={{
+                                height: `${(h / 4.5) * chartProgress}%`,
+                                background: `linear-gradient(180deg, ${currentPlatform.color}, ${currentPlatform.color.replace(')', ' / 0.6)')})`,
+                                opacity: 0.4 + layer * 0.2,
+                              }}
+                            />
+                          ))}
+                        </div>
+                      ))}
+                      <style>{`@keyframes growUp { from { transform: scaleY(0); } to { transform: scaleY(1); } }`}</style>
+                    </div>
+                  )}
+
+                  {/* Zenith Institute - Learning Progress */}
+                  {currentPlatform.id === 'zenith-institute' && (
+                    <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
+                      <defs>
+                        <linearGradient id="instituteGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stopColor={currentPlatform.color} stopOpacity="0.3" />
+                          <stop offset="100%" stopColor={currentPlatform.color} stopOpacity="0" />
+                        </linearGradient>
+                      </defs>
+                      {/* Step chart area */}
+                      <path
+                        d={`M 0,100 ${liveBarHeights.slice(0, 12).map((h, i) => `L ${(i / 11) * 100},${100 - h * 0.8} L ${((i + 0.9) / 11) * 100},${100 - h * 0.8}`).join(' ')} L 100,100 Z`}
+                        fill="url(#instituteGrad)"
+                      />
+                      {/* Step line */}
+                      <path
+                        d={`M 0,${100 - liveBarHeights[0] * 0.8} ${liveBarHeights.slice(0, 12).map((h, i) => `L ${(i / 11) * 100},${100 - h * 0.8} L ${((i + 0.9) / 11) * 100},${100 - h * 0.8}`).join(' ')}`}
+                        fill="none"
+                        stroke={currentPlatform.color}
+                        strokeWidth="2.5"
+                      />
+                      {/* Milestone dots */}
+                      {liveBarHeights.slice(0, 12).filter((_, i) => i % 3 === 0).map((h, i) => (
+                        <g key={i}>
+                          <circle cx={`${(i * 3 / 11) * 100}%`} cy={`${100 - h * 0.8}%`} r="6" fill="hsl(var(--background))" stroke={currentPlatform.color} strokeWidth="2" />
+                          <circle cx={`${(i * 3 / 11) * 100}%`} cy={`${100 - h * 0.8}%`} r="3" fill={currentPlatform.color} className="animate-pulse" />
                         </g>
                       ))}
                     </svg>
                   )}
-                  {currentPlatform.id === 'qualyx' && (
-                    /* Quality Metrics - Area Chart */
-                    <svg className="w-full h-full" preserveAspectRatio="none">
-                      <defs>
-                        <linearGradient id="qualyxGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor={currentPlatform.color} stopOpacity="0.4" />
-                          <stop offset="100%" stopColor={currentPlatform.color} stopOpacity="0.05" />
-                        </linearGradient>
-                      </defs>
-                      <path
-                        d={`M 0,${50 + liveBarHeights[0] * 0.3} ${liveBarHeights.map((h, i) => `L ${(i / 23) * 100},${50 + h * 0.3}`).join(' ')} L 100,100 L 0,100 Z`}
-                        fill="url(#qualyxGrad)"
-                        stroke={currentPlatform.color}
-                        strokeWidth="2"
-                      />
-                    </svg>
-                  )}
-                  {currentPlatform.id === 'huminex' && (
-                    /* Workforce Data - Scatter Plot */
-                    <div className="relative w-full h-full">
-                      {liveBarHeights.slice(0, 15).map((h, i) => (
-                        <div
-                          key={i}
-                          className="absolute rounded-full animate-pulse"
-                          style={{
-                            left: `${(i * 6.5)}%`,
-                            top: `${h * 0.7}%`,
-                            width: `${6 + (h / 10)}px`,
-                            height: `${6 + (h / 10)}px`,
-                            backgroundColor: currentPlatform.color,
-                            opacity: 0.4 + (i % 3) * 0.2,
-                            animationDelay: `${i * 0.15}s`,
-                            animationDuration: '2s',
-                          }}
-                        />
-                      ))}
-                    </div>
-                  )}
-                  {currentPlatform.id === 'opzenix' && (
-                    /* Operations - Pipeline Flow */
-                    <div className="relative w-full h-full flex flex-col justify-around py-2">
-                      {[...Array(4)].map((_, rowIdx) => (
-                        <div key={rowIdx} className="relative h-2 flex items-center gap-1">
-                          {[...Array(12)].map((_, i) => (
-                            <div
-                              key={i}
-                              className="flex-1 h-full rounded-full"
-                              style={{
-                                backgroundColor: currentPlatform.color,
-                                opacity: 0.2 + Math.sin((i + rowIdx) * 0.5) * 0.3,
-                                animation: `pulse ${1.5 + rowIdx * 0.3}s ease-in-out infinite`,
-                                animationDelay: `${i * 0.1}s`,
-                              }}
-                            />
-                          ))}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  {currentPlatform.id === 'traceflow' && (
-                    /* Supply Chain - Network Graph */
-                    <svg className="w-full h-full">
-                      {[...Array(8)].map((_, i) => {
-                        const angle = (i / 8) * Math.PI * 2;
-                        const x = 50 + Math.cos(angle) * 35;
-                        const y = 50 + Math.sin(angle) * 35;
-                        return (
-                          <g key={i}>
-                            <line
-                              x1="50%"
-                              y1="50%"
-                              x2={`${x}%`}
-                              y2={`${y}%`}
-                              stroke={currentPlatform.color}
-                              strokeWidth="1.5"
-                              opacity={0.3}
-                              className="animate-pulse"
-                              style={{ animationDelay: `${i * 0.2}s`, animationDuration: '2s' }}
-                            />
-                            <circle
-                              cx={`${x}%`}
-                              cy={`${y}%`}
-                              r="4"
-                              fill={currentPlatform.color}
-                              opacity={0.6 + (i % 2) * 0.2}
-                            />
-                          </g>
-                        );
-                      })}
-                      <circle cx="50%" cy="50%" r="6" fill={currentPlatform.color} opacity="0.8" />
-                    </svg>
-                  )}
-                  {currentPlatform.id === 'zenith-core' && (
-                    /* Infrastructure - Stacked Bars */
-                    <div className="relative h-full flex items-end gap-1 px-2">
-                      {liveBarHeights.map((h, i) => (
-                        <div key={i} className="flex-1 flex flex-col-reverse gap-0.5">
-                          {[...Array(3)].map((_, layer) => (
-                            <div
-                              key={layer}
-                              className="w-full rounded-sm transition-all duration-300"
-                              style={{
-                                height: `${(h / 3) * chartProgress}%`,
-                                backgroundColor: currentPlatform.color,
-                                opacity: 0.3 + layer * 0.25,
-                              }}
-                            />
-                          ))}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  {currentPlatform.id === 'zenith-institute' && (
-                    /* Learning Progress - Step Chart */
-                    <svg className="w-full h-full" preserveAspectRatio="none">
-                      <path
-                        d={liveBarHeights.slice(0, 12).map((h, i) => 
-                          `${i === 0 ? 'M' : 'L'} ${(i / 11) * 100},${100 - h * 0.7} L ${((i + 1) / 11) * 100},${100 - h * 0.7}`
-                        ).join(' ')}
-                        fill="none"
-                        stroke={currentPlatform.color}
-                        strokeWidth="3"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        opacity="0.6"
-                      />
-                      {liveBarHeights.slice(0, 12).map((h, i) => (
-                        <circle
-                          key={i}
-                          cx={`${(i / 11) * 100}%`}
-                          cy={`${100 - h * 0.7}%`}
-                          r="3"
-                          fill={currentPlatform.color}
-                          className="animate-pulse"
-                          style={{ animationDelay: `${i * 0.15}s` }}
-                        />
-                      ))}
-                    </svg>
-                  )}
+
+                  {/* OriginX Labs - Research Waveforms */}
                   {currentPlatform.id === 'originx-labs' && (
-                    /* Research - Waveform Pattern */
-                    <svg className="w-full h-full">
+                    <svg className="absolute inset-0 w-full h-full">
+                      <defs>
+                        {[0, 1, 2].map(i => (
+                          <linearGradient key={i} id={`labsGrad${i}`} x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor={currentPlatform.color} stopOpacity="0" />
+                            <stop offset="30%" stopColor={currentPlatform.color} stopOpacity={0.6 - i * 0.15} />
+                            <stop offset="70%" stopColor={currentPlatform.color} stopOpacity={0.6 - i * 0.15} />
+                            <stop offset="100%" stopColor={currentPlatform.color} stopOpacity="0" />
+                          </linearGradient>
+                        ))}
+                      </defs>
                       {[...Array(3)].map((_, waveIdx) => (
                         <path
                           key={waveIdx}
-                          d={liveBarHeights.map((h, i) => 
-                            `${i === 0 ? 'M' : 'L'} ${(i / 23) * 100},${30 + waveIdx * 20 + Math.sin(i * 0.5 + waveIdx) * 15}`
-                          ).join(' ')}
+                          d={`M 0,${50 + waveIdx * 15} ${[...Array(25)].map((_, i) => `Q ${i * 8 + 4},${50 + waveIdx * 15 + Math.sin(i * 0.6 + waveIdx * 2) * (15 - waveIdx * 3)} ${i * 8 + 8},${50 + waveIdx * 15}`).join(' ')}`}
                           fill="none"
-                          stroke={currentPlatform.color}
-                          strokeWidth="2"
-                          opacity={0.3 + waveIdx * 0.2}
-                          className="animate-pulse"
-                          style={{ animationDelay: `${waveIdx * 0.3}s`, animationDuration: '3s' }}
+                          stroke={`url(#labsGrad${waveIdx})`}
+                          strokeWidth={2.5 - waveIdx * 0.5}
+                          style={{ animation: `waveScroll ${5 + waveIdx}s linear infinite`, animationDelay: `${waveIdx * 0.5}s` }}
                         />
                       ))}
+                      <style>{`@keyframes waveScroll { from { transform: translateX(-50px); } to { transform: translateX(50px); } }`}</style>
                     </svg>
                   )}
                 </div>
               </div>
-
               {/* Flow Pipeline */}
               <div className="p-5 bg-muted/20 rounded-xl border border-border/30">
                 <p className="text-sm font-medium text-foreground mb-4">Data Flow Pipeline</p>

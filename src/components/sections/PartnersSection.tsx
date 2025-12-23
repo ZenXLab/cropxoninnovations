@@ -78,54 +78,107 @@ const PartnersSection = () => {
             return (
               <div
                 key={index}
-                className={`group relative flex flex-col items-center justify-center p-4 lg:p-6 rounded-xl border bg-card/50 backdrop-blur-sm transition-all duration-500 ${
+                className={`group relative flex flex-col items-center justify-center p-5 lg:p-6 rounded-2xl transition-all duration-500 cursor-pointer ${
                   gridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                } ${isActive ? 'border-primary/40 shadow-xl scale-105 bg-card' : 'border-border/50 hover:border-primary/30 hover:shadow-lg hover:bg-card'}`}
+                }`}
                 style={{ transitionDelay: getStaggerDelay(index, 40) }}
                 onMouseEnter={() => setActiveIndustry(index)}
                 onMouseLeave={() => setActiveIndustry(null)}
               >
-                {/* Background glow */}
+                {/* Outer glow ring on hover */}
                 <div 
-                  className={`absolute inset-0 rounded-xl transition-all duration-500 ${
+                  className={`absolute inset-0 rounded-2xl transition-all duration-500 ${
                     isActive ? 'opacity-100' : 'opacity-0'
                   }`}
                   style={{ 
-                    background: `radial-gradient(circle at center, ${industry.color.replace(')', ' / 0.12)')}, transparent 70%)`
+                    background: `radial-gradient(circle at center, ${industry.color.replace(')', ' / 0.08)')}, transparent 70%)`,
+                    boxShadow: isActive ? `0 0 40px ${industry.color.replace(')', ' / 0.15)')}` : 'none'
                   }}
                 />
 
-                {/* Industry Icon with unique color */}
-                <div 
-                  className={`relative w-12 h-12 lg:w-14 lg:h-14 rounded-xl flex items-center justify-center mb-3 transition-all duration-500 ${
-                    isActive ? 'scale-110' : 'group-hover:scale-105'
-                  }`}
-                  style={{ 
-                    backgroundColor: isActive ? industry.color : `${industry.color.replace(')', ' / 0.1)')}`,
-                    boxShadow: isActive ? `0 8px 24px ${industry.color.replace(')', ' / 0.35)')}` : 'none'
-                  }}
-                >
-                  <IconComponent 
-                    className={`w-5 h-5 lg:w-6 lg:h-6 transition-all duration-300 ${isActive ? 'text-white' : ''}`}
-                    style={{ color: isActive ? 'white' : industry.color }}
-                    strokeWidth={1.5} 
+                {/* Professional Icon Container with Gradient Border */}
+                <div className="relative mb-3">
+                  {/* Animated ring */}
+                  <div 
+                    className={`absolute -inset-1 rounded-full transition-all duration-500 ${
+                      isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
+                    }`}
+                    style={{ 
+                      background: `conic-gradient(from 0deg, transparent, ${industry.color.replace(')', ' / 0.4)')}, transparent)`,
+                      animation: isActive ? 'spin 3s linear infinite' : 'none'
+                    }}
                   />
+                  
+                  {/* Icon background with gradient */}
+                  <div 
+                    className={`relative w-14 h-14 lg:w-16 lg:h-16 rounded-full flex items-center justify-center transition-all duration-500 ${
+                      isActive ? 'scale-110' : 'group-hover:scale-105'
+                    }`}
+                    style={{ 
+                      background: isActive 
+                        ? `linear-gradient(135deg, ${industry.color}, ${industry.color.replace(')', ' / 0.7)')})`
+                        : `linear-gradient(135deg, ${industry.color.replace(')', ' / 0.15)')}, ${industry.color.replace(')', ' / 0.05)')})`,
+                      boxShadow: isActive 
+                        ? `0 8px 32px ${industry.color.replace(')', ' / 0.3)')}, inset 0 1px 0 rgba(255,255,255,0.2)` 
+                        : `inset 0 1px 0 ${industry.color.replace(')', ' / 0.1)')}`
+                    }}
+                  >
+                    {/* Inner subtle ring */}
+                    <div 
+                      className={`absolute inset-1 rounded-full transition-all duration-300 ${
+                        isActive ? 'opacity-0' : 'opacity-100'
+                      }`}
+                      style={{ 
+                        border: `1px solid ${industry.color.replace(')', ' / 0.2)')}`
+                      }}
+                    />
+                    
+                    <IconComponent 
+                      className={`w-6 h-6 lg:w-7 lg:h-7 transition-all duration-300 relative z-10 ${
+                        isActive ? 'text-white drop-shadow-lg' : ''
+                      }`}
+                      style={{ 
+                        color: isActive ? 'white' : industry.color,
+                        filter: isActive ? 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))' : 'none'
+                      }}
+                      strokeWidth={isActive ? 2 : 1.5} 
+                    />
+                  </div>
+
+                  {/* Floating particles on active */}
+                  {isActive && (
+                    <>
+                      {[...Array(3)].map((_, i) => (
+                        <div
+                          key={i}
+                          className="absolute w-1 h-1 rounded-full animate-ping"
+                          style={{
+                            backgroundColor: industry.color,
+                            left: `${30 + i * 20}%`,
+                            top: `${20 + i * 25}%`,
+                            animationDelay: `${i * 0.3}s`,
+                            animationDuration: '1.5s'
+                          }}
+                        />
+                      ))}
+                    </>
+                  )}
                 </div>
                 
-                {/* Industry Name */}
-                <span className={`relative font-mono text-[9px] lg:text-[10px] uppercase tracking-wider text-center transition-colors duration-300 ${
-                  isActive ? 'text-foreground' : 'text-muted-foreground group-hover:text-foreground'
-                }`}>
-                  {industry.name}
-                </span>
-
-                {/* Active indicator dot */}
-                <div 
-                  className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full transition-all duration-300 ${
-                    isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
-                  }`}
-                  style={{ backgroundColor: industry.color }}
-                />
+                {/* Industry Name with underline animation */}
+                <div className="relative overflow-hidden">
+                  <span className={`font-mono text-[9px] lg:text-[10px] uppercase tracking-wider text-center transition-all duration-300 block ${
+                    isActive ? 'text-foreground font-medium' : 'text-muted-foreground group-hover:text-foreground'
+                  }`}>
+                    {industry.name}
+                  </span>
+                  <div 
+                    className={`absolute bottom-0 left-0 h-px transition-all duration-500 ${
+                      isActive ? 'w-full' : 'w-0'
+                    }`}
+                    style={{ backgroundColor: industry.color }}
+                  />
+                </div>
               </div>
             );
           })}
