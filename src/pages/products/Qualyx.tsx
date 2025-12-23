@@ -44,10 +44,29 @@ const metrics = [
   { label: 'Quality Score', value: '98.7', unit: '%' },
 ];
 
+// Heatmap data for test coverage visualization
+const heatmapModules = [
+  { name: 'Auth', tests: 48, passed: 47, coverage: 98 },
+  { name: 'API', tests: 124, passed: 121, coverage: 94 },
+  { name: 'UI', tests: 89, passed: 86, coverage: 91 },
+  { name: 'DB', tests: 67, passed: 65, coverage: 95 },
+  { name: 'Core', tests: 156, passed: 154, coverage: 99 },
+  { name: 'Utils', tests: 34, passed: 34, coverage: 100 },
+  { name: 'Events', tests: 45, passed: 42, coverage: 88 },
+  { name: 'Cache', tests: 28, passed: 27, coverage: 96 },
+  { name: 'Queue', tests: 52, passed: 50, coverage: 93 },
+  { name: 'Webhook', tests: 31, passed: 29, coverage: 87 },
+  { name: 'Payment', tests: 78, passed: 76, coverage: 97 },
+  { name: 'Email', tests: 23, passed: 23, coverage: 100 },
+];
+
 const Qualyx = () => {
   const [animatedMetrics, setAnimatedMetrics] = useState<number[]>([0, 0, 0, 0]);
   const [chartProgress, setChartProgress] = useState(0);
   const [flowIndex, setFlowIndex] = useState(0);
+  const [heatmapProgress, setHeatmapProgress] = useState(0);
+  const [activeModule, setActiveModule] = useState<number | null>(null);
+  const [scanningIndex, setScanningIndex] = useState(0);
 
   useEffect(() => {
     const duration = 1500;
@@ -67,6 +86,7 @@ const Qualyx = () => {
         Math.round(98.7 * eased),
       ]);
       setChartProgress(eased);
+      setHeatmapProgress(eased);
 
       if (step >= steps) clearInterval(timer);
     }, interval);
@@ -81,6 +101,14 @@ const Qualyx = () => {
     return () => clearInterval(timer);
   }, []);
 
+  // Scanning animation for heatmap
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setScanningIndex(prev => (prev + 1) % heatmapModules.length);
+    }, 800);
+    return () => clearInterval(timer);
+  }, []);
+
   const flowSteps = [
     { label: 'Test Suite', icon: Layers },
     { label: 'Run Pipeline', icon: Workflow },
@@ -89,6 +117,14 @@ const Qualyx = () => {
   ];
 
   const chartData = [92, 88, 94, 91, 96, 93, 97, 95, 98, 96, 99, 98];
+
+  const getHeatColor = (coverage: number, isActive: boolean, isScanning: boolean) => {
+    if (isScanning) return 'hsl(175, 70%, 50%)';
+    if (coverage >= 98) return isActive ? 'hsl(145, 70%, 50%)' : 'hsl(145, 60%, 45%)';
+    if (coverage >= 93) return isActive ? 'hsl(80, 70%, 50%)' : 'hsl(80, 55%, 45%)';
+    if (coverage >= 88) return isActive ? 'hsl(45, 80%, 55%)' : 'hsl(45, 70%, 50%)';
+    return isActive ? 'hsl(15, 80%, 55%)' : 'hsl(15, 70%, 50%)';
+  };
 
   return (
     <>
@@ -240,8 +276,144 @@ const Qualyx = () => {
             </div>
           </section>
 
+          {/* Test Pipeline Heatmap Section */}
+          <section className="py-16 lg:py-24 bg-muted/20">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+              <div className="text-center mb-12">
+                <p className="font-display text-[10px] sm:text-[11px] font-medium text-muted-foreground tracking-[0.25em] uppercase mb-3">
+                  Real-Time Coverage
+                </p>
+                <h2 className="font-display text-2xl lg:text-3xl font-bold text-foreground mb-4">
+                  Test Pipeline Heatmap
+                </h2>
+                <p className="text-muted-foreground max-w-2xl mx-auto">
+                  Visualize test coverage across your entire codebase with intelligent quality scoring
+                </p>
+              </div>
+
+              <div className="max-w-5xl mx-auto">
+                <div className="p-6 lg:p-8 bg-card/80 backdrop-blur-xl rounded-2xl border border-border/40 overflow-hidden">
+                  {/* Heatmap Header */}
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'hsl(175, 60%, 45%)' }}>
+                        <BarChart3 className="w-4 h-4 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="font-display text-sm font-bold text-foreground">Module Coverage Matrix</h3>
+                        <p className="text-xs text-muted-foreground">Live scanning in progress...</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded" style={{ backgroundColor: 'hsl(145, 60%, 45%)' }} />
+                        <span className="text-[10px] text-muted-foreground">≥98%</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded" style={{ backgroundColor: 'hsl(80, 55%, 45%)' }} />
+                        <span className="text-[10px] text-muted-foreground">93-97%</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded" style={{ backgroundColor: 'hsl(45, 70%, 50%)' }} />
+                        <span className="text-[10px] text-muted-foreground">88-92%</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded" style={{ backgroundColor: 'hsl(15, 70%, 50%)' }} />
+                        <span className="text-[10px] text-muted-foreground">&lt;88%</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Heatmap Grid */}
+                  <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 mb-6">
+                    {heatmapModules.map((module, index) => {
+                      const isActive = activeModule === index;
+                      const isScanning = scanningIndex === index;
+                      const animatedCoverage = Math.round(module.coverage * heatmapProgress);
+                      
+                      return (
+                        <div
+                          key={module.name}
+                          className={`relative p-4 rounded-xl cursor-pointer transition-all duration-300 ${
+                            isActive ? 'scale-105 shadow-lg' : 'hover:scale-102'
+                          } ${isScanning ? 'ring-2 ring-offset-2 ring-offset-background ring-[hsl(175,60%,45%)]' : ''}`}
+                          style={{
+                            backgroundColor: getHeatColor(module.coverage, isActive, isScanning),
+                            opacity: 0.15 + (heatmapProgress * 0.85),
+                          }}
+                          onMouseEnter={() => setActiveModule(index)}
+                          onMouseLeave={() => setActiveModule(null)}
+                        >
+                          {/* Scanning pulse effect */}
+                          {isScanning && (
+                            <div 
+                              className="absolute inset-0 rounded-xl animate-ping"
+                              style={{ 
+                                backgroundColor: 'hsl(175, 60%, 45%)',
+                                opacity: 0.3,
+                                animationDuration: '1s'
+                              }}
+                            />
+                          )}
+                          
+                          <div className="relative z-10">
+                            <p className="font-mono text-xs font-bold text-white mb-1 drop-shadow-md">
+                              {module.name}
+                            </p>
+                            <p className="font-display text-2xl font-bold text-white drop-shadow-md">
+                              {animatedCoverage}%
+                            </p>
+                            <p className="text-[10px] text-white/80 mt-1">
+                              {Math.round(module.passed * heatmapProgress)}/{Math.round(module.tests * heatmapProgress)} tests
+                            </p>
+                          </div>
+                          
+                          {/* Coverage bar */}
+                          <div className="absolute bottom-0 left-0 right-0 h-1 bg-black/20 rounded-b-xl overflow-hidden">
+                            <div 
+                              className="h-full bg-white/50 transition-all duration-500"
+                              style={{ width: `${animatedCoverage}%` }}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Summary Stats */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-border/30">
+                    <div className="text-center">
+                      <p className="font-display text-2xl font-bold text-foreground">
+                        {Math.round(775 * heatmapProgress)}
+                      </p>
+                      <p className="text-xs text-muted-foreground">Total Tests</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="font-display text-2xl font-bold" style={{ color: 'hsl(145, 60%, 45%)' }}>
+                        {Math.round(754 * heatmapProgress)}
+                      </p>
+                      <p className="text-xs text-muted-foreground">Passing</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="font-display text-2xl font-bold" style={{ color: 'hsl(45, 70%, 50%)' }}>
+                        {Math.round(21 * heatmapProgress)}
+                      </p>
+                      <p className="text-xs text-muted-foreground">Needs Attention</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="font-display text-2xl font-bold text-foreground">
+                        {(94.8 * heatmapProgress).toFixed(1)}%
+                      </p>
+                      <p className="text-xs text-muted-foreground">Avg Coverage</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* Features Section */}
-          <section className="py-20 bg-muted/30">
+          <section className="py-20">
             <div className="container mx-auto px-4 sm:px-6 lg:px-12">
               <div className="text-center mb-12">
                 <h2 className="font-display text-2xl lg:text-3xl font-bold text-foreground mb-4">
@@ -276,7 +448,7 @@ const Qualyx = () => {
           </section>
 
           {/* Use Cases Section */}
-          <section className="py-20">
+          <section className="py-20 bg-muted/30">
             <div className="container mx-auto px-4 sm:px-6 lg:px-12">
               <div className="grid lg:grid-cols-2 gap-12 items-center">
                 <div>
@@ -329,7 +501,7 @@ const Qualyx = () => {
           </section>
 
           {/* CTA Section */}
-          <section className="py-20 bg-muted/30">
+          <section className="py-20">
             <div className="container mx-auto px-4 sm:px-6 lg:px-12 text-center">
               <h2 className="font-display text-2xl lg:text-3xl font-bold text-foreground mb-4">
                 Ready to transform your testing?
