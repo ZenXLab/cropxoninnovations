@@ -12,7 +12,8 @@ interface Product {
   description: string;
   capabilities: string[];
   status: string;
-  statusDate: string;
+  statusColor: string;
+  borderColor: string;
   link: string;
   externalUrl: string;
   icon: React.ElementType;
@@ -26,8 +27,9 @@ const products: Product[] = [
     tagline: "Software Cognition & Architecture Intelligence",
     description: "AI-powered platform that understands codebases, architectures, and business workflows at a system level.",
     capabilities: ["Codebase Analysis", "Architecture Maps", "Risk Detection", "Migration Guide"],
-    status: "BETA",
-    statusDate: "Q1 2025",
+    status: "Idea & Locked",
+    statusColor: "hsl(220, 15%, 50%)",
+    borderColor: "hsl(220, 15%, 40%)",
     link: "/cognix",
     externalUrl: "https://getcognix.io",
     icon: Brain,
@@ -39,8 +41,9 @@ const products: Product[] = [
     tagline: "QA Automation & Quality Intelligence",
     description: "Intelligent QA automation platform that transforms testing into a continuous quality feedback system.",
     capabilities: ["Test Generation", "Regression Detection", "Pattern Learning", "CI/CD Integration"],
-    status: "LIVE",
-    statusDate: "Q4 2024",
+    status: "Idea & Locked",
+    statusColor: "hsl(220, 15%, 50%)",
+    borderColor: "hsl(220, 15%, 40%)",
     link: "/qualyx",
     externalUrl: "https://getqualyx.com",
     icon: ShieldCheck,
@@ -52,8 +55,9 @@ const products: Product[] = [
     tagline: "Workforce OS & Human Intelligence",
     description: "Modern workforce operating system that manages people, roles, skills, and organizational intelligence.",
     capabilities: ["HRMS & Payroll", "Org Structure", "Skill Mapping", "Workforce Analytics"],
-    status: "BETA",
-    statusDate: "Q1 2025",
+    status: "Idea & Locked",
+    statusColor: "hsl(220, 15%, 50%)",
+    borderColor: "hsl(220, 15%, 40%)",
     link: "/huminex",
     externalUrl: "https://gethuminex.com",
     icon: Users,
@@ -65,8 +69,9 @@ const products: Product[] = [
     tagline: "DevOps · DevSecOps · MLOps · AIOps · LLMOps",
     description: "Intelligent operations and execution platform for modern software and AI systems.",
     capabilities: ["CI/CD Orchestration", "Infra Management", "Security Automation", "ML Lifecycle"],
-    status: "LIVE",
-    statusDate: "Live",
+    status: "Development",
+    statusColor: "hsl(45, 90%, 50%)",
+    borderColor: "hsl(45, 90%, 45%)",
     link: "/opzenix",
     externalUrl: "https://opzenix.com",
     icon: Settings,
@@ -79,7 +84,8 @@ const products: Product[] = [
     description: "Unifies every digital signal into a single, trusted intelligence layer for mission-critical systems.",
     capabilities: ["Signal Ingestion", "Cross-Layer Correlation", "Zero-Trust Access", "Hybrid Cloud"],
     status: "LIVE",
-    statusDate: "Q4 2024",
+    statusColor: "hsl(145, 70%, 45%)",
+    borderColor: "hsl(145, 70%, 40%)",
     link: "/traceflow",
     externalUrl: "https://traceflow.cropxon.com",
     icon: Boxes,
@@ -91,8 +97,9 @@ const products: Product[] = [
     tagline: "Business & Content Creation Platform",
     description: "Multi-tenant creation platform for building digital business experiences with CMS, LMS, and canvas builders.",
     capabilities: ["CMS & LMS", "Canvas Builders", "Workflow Automation", "API Extensible"],
-    status: "LIVE",
-    statusDate: "Live",
+    status: "LIVE · MVP",
+    statusColor: "hsl(145, 70%, 45%)",
+    borderColor: "hsl(145, 70%, 40%)",
     link: "/zenith-studio",
     externalUrl: "https://getzenith.io",
     icon: Building2,
@@ -104,8 +111,9 @@ const products: Product[] = [
     tagline: "Learning, Enablement & Certification",
     description: "Learning and development arm focused on upskilling professionals and organizations with certified programs.",
     capabilities: ["Learning Paths", "Certifications", "Labs & Projects", "Mentorship"],
-    status: "ACTIVE",
-    statusDate: "Enrolling Now",
+    status: "LIVE · MVP",
+    statusColor: "hsl(145, 70%, 45%)",
+    borderColor: "hsl(145, 70%, 40%)",
     link: "/zenith-institute",
     externalUrl: "https://zenithinstitute.in",
     icon: GraduationCap,
@@ -117,8 +125,9 @@ const products: Product[] = [
     tagline: "Research & Advanced Innovation Division",
     description: "Deep-tech research and innovation lab for AI agents, system cognition, and future technology incubation.",
     capabilities: ["AI Agent Research", "System Cognition", "Experimentation", "Tech Incubation"],
-    status: "ACTIVE",
-    statusDate: "Active R&D",
+    status: "LIVE",
+    statusColor: "hsl(145, 70%, 45%)",
+    borderColor: "hsl(145, 70%, 40%)",
     link: "/originx-labs",
     externalUrl: "https://originxlabs.com",
     icon: FlaskConical,
@@ -136,9 +145,34 @@ const EcosystemSection = () => {
     setTransitionProduct(product);
   };
 
+  const getStatusStyles = (product: Product, isActive: boolean) => {
+    const isLive = product.status.includes('LIVE');
+    const isDevelopment = product.status === 'Development';
+    const isLocked = product.status === 'Idea & Locked';
+    
+    if (isActive) {
+      return {
+        borderColor: product.borderColor,
+        boxShadow: `0 0 20px ${product.borderColor.replace(')', ' / 0.3)')}`
+      };
+    }
+    
+    if (isLive) {
+      return { borderColor: 'hsl(145, 70%, 40% / 0.5)' };
+    }
+    if (isDevelopment) {
+      return { borderColor: 'hsl(45, 90%, 45% / 0.4)' };
+    }
+    if (isLocked) {
+      return { borderColor: 'hsl(220, 15%, 40% / 0.3)' };
+    }
+    
+    return {};
+  };
+
   return (
     <>
-      <section id="ecosystem" className="py-16 lg:py-24 relative bg-background overflow-hidden">
+      <section id="ecosystem" className="py-12 sm:py-16 lg:py-24 relative bg-background overflow-hidden">
         {/* Background gradient */}
         <div className="absolute inset-0 pointer-events-none">
           <div 
@@ -153,17 +187,17 @@ const EcosystemSection = () => {
           {/* Section Header */}
           <div
             ref={headerRef}
-            className={`text-center mb-12 lg:mb-16 transition-all duration-700 ${
+            className={`text-center mb-8 sm:mb-12 lg:mb-16 transition-all duration-700 ${
               headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            <p className="font-display text-[10px] sm:text-[11px] font-medium text-muted-foreground tracking-[0.25em] uppercase mb-4">
+            <p className="font-display text-[10px] sm:text-[11px] font-medium text-muted-foreground tracking-[0.25em] uppercase mb-3 sm:mb-4">
               Product Portfolio
             </p>
-            <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight mb-4 text-foreground">
+            <h2 className="font-display text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight mb-3 sm:mb-4 text-foreground">
               THE CROPXON ECOSYSTEM
             </h2>
-            <p className="text-sm lg:text-base max-w-2xl mx-auto text-muted-foreground">
+            <p className="text-xs sm:text-sm lg:text-base max-w-2xl mx-auto text-muted-foreground px-4">
               8 foundational platforms powering enterprise digital transformation
             </p>
           </div>
@@ -171,11 +205,13 @@ const EcosystemSection = () => {
           {/* Products Grid */}
           <div 
             ref={contentRef}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6"
           >
             {products.map((product, index) => {
               const Icon = product.icon;
               const isActive = activeProduct?.id === product.id;
+              const statusStyles = getStatusStyles(product, isActive);
+              const isLive = product.status.includes('LIVE');
               
               return (
                 <div
@@ -188,11 +224,15 @@ const EcosystemSection = () => {
                   onMouseLeave={() => setActiveProduct(null)}
                 >
                   <div
-                    className={`relative p-5 lg:p-6 rounded-2xl border bg-card/80 backdrop-blur-sm transition-all duration-500 h-full overflow-hidden ${
+                    className={`relative p-4 sm:p-5 lg:p-6 rounded-xl sm:rounded-2xl border-2 bg-card/80 backdrop-blur-sm transition-all duration-500 h-full overflow-hidden ${
                       isActive 
-                        ? "border-primary/50 shadow-2xl scale-[1.02]" 
-                        : "border-border/50 hover:border-primary/30 hover:shadow-lg"
+                        ? "shadow-2xl scale-[1.02]" 
+                        : "hover:shadow-lg"
                     }`}
+                    style={{
+                      borderColor: statusStyles.borderColor || 'hsl(var(--border) / 0.5)',
+                      boxShadow: statusStyles.boxShadow || undefined,
+                    }}
                   >
                     {/* Animated background glow */}
                     <div 
@@ -223,59 +263,66 @@ const EcosystemSection = () => {
                     )}
 
                     {/* Header */}
-                    <div className="relative flex items-start justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <div 
-                          className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-500 ${
-                            isActive ? 'scale-110' : 'group-hover:scale-105'
-                          }`}
-                          style={{ 
-                            backgroundColor: isActive ? product.color : `${product.color.replace(')', ' / 0.15)')}`,
-                            boxShadow: isActive ? `0 8px 24px ${product.color.replace(')', ' / 0.35)')}` : 'none'
-                          }}
-                        >
-                          <Icon className={`w-5 h-5 transition-colors ${isActive ? 'text-white' : 'text-foreground'}`} />
-                        </div>
-                        <div>
-                          <h3 className="font-display text-sm font-bold text-foreground">
-                            {product.name}
-                          </h3>
-                          <p className="font-mono text-[9px] text-muted-foreground leading-tight">
-                            {product.tagline}
-                          </p>
-                        </div>
+                    <div className="relative flex items-start gap-2 sm:gap-3 mb-3 sm:mb-4">
+                      <div 
+                        className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-500 shrink-0 ${
+                          isActive ? 'scale-110' : 'group-hover:scale-105'
+                        }`}
+                        style={{ 
+                          backgroundColor: isActive ? product.color : `${product.color.replace(')', ' / 0.15)')}`,
+                          boxShadow: isActive ? `0 8px 24px ${product.color.replace(')', ' / 0.35)')}` : 'none'
+                        }}
+                      >
+                        <Icon className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors ${isActive ? 'text-white' : 'text-foreground'}`} />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="font-display text-xs sm:text-sm font-bold text-foreground truncate">
+                          {product.name}
+                        </h3>
+                        <p className="font-mono text-[8px] sm:text-[9px] text-muted-foreground leading-tight line-clamp-2">
+                          {product.tagline}
+                        </p>
                       </div>
                     </div>
 
                     {/* Status Badge */}
-                    <span 
-                      className={`inline-block text-[9px] px-2 py-1 rounded-full font-mono font-medium mb-3 transition-all duration-300 ${
-                        isActive 
-                          ? 'bg-primary/20 text-primary border border-primary/30' 
-                          : 'bg-muted/50 text-muted-foreground border border-border/50'
-                      }`}
-                    >
-                      {product.status} · {product.statusDate}
-                    </span>
+                    <div className="relative flex items-center gap-2 mb-3">
+                      {isLive && (
+                        <span 
+                          className="w-2 h-2 rounded-full animate-pulse"
+                          style={{ backgroundColor: product.statusColor }}
+                        />
+                      )}
+                      <span 
+                        className="text-[9px] sm:text-[10px] px-2 py-0.5 rounded-full font-mono font-medium transition-all duration-300"
+                        style={{
+                          backgroundColor: `${product.statusColor.replace(')', ' / 0.15)')}`,
+                          color: product.statusColor,
+                          border: `1px solid ${product.statusColor.replace(')', ' / 0.3)')}`
+                        }}
+                      >
+                        {product.status}
+                      </span>
+                    </div>
 
                     {/* Description */}
-                    <p className="relative text-xs text-muted-foreground mb-4 leading-relaxed line-clamp-2">
+                    <p className="relative text-[10px] sm:text-xs text-muted-foreground mb-3 sm:mb-4 leading-relaxed line-clamp-2">
                       {product.description}
                     </p>
 
                     {/* Capabilities with micro-animations */}
-                    <ul className="relative space-y-1.5 mb-5">
+                    <ul className="relative space-y-1 sm:space-y-1.5 mb-4 sm:mb-5">
                       {product.capabilities.slice(0, 3).map((cap, i) => (
                         <li 
                           key={i} 
-                          className={`flex items-center gap-2 text-[11px] transition-all duration-300`}
+                          className="flex items-center gap-1.5 sm:gap-2 text-[9px] sm:text-[11px] transition-all duration-300"
                           style={{
                             transitionDelay: isActive ? `${i * 50}ms` : '0ms',
                             transform: isActive ? 'translateX(4px)' : 'translateX(0)'
                           }}
                         >
                           <Sparkles 
-                            className={`w-2.5 h-2.5 shrink-0 transition-all duration-300 ${
+                            className={`w-2 h-2 sm:w-2.5 sm:h-2.5 shrink-0 transition-all duration-300 ${
                               isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
                             }`}
                             style={{ color: product.color, transitionDelay: `${i * 50}ms` }}
@@ -298,24 +345,24 @@ const EcosystemSection = () => {
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className={`text-[10px] flex-1 h-8 group/btn transition-all duration-300 ${
+                        className={`text-[9px] sm:text-[10px] flex-1 h-7 sm:h-8 group/btn transition-all duration-300 ${
                           isActive ? 'border-primary/30 hover:bg-primary/5' : ''
                         }`} 
                         asChild
                       >
                         <Link to={product.link}>
                           Learn More
-                          <ArrowUpRight className="w-3 h-3 ml-1 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+                          <ArrowUpRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 ml-1 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
                         </Link>
                       </Button>
                       <Button 
                         variant="default"
                         size="sm"
-                        className="text-[10px] flex-1 h-8 group/btn"
+                        className="text-[9px] sm:text-[10px] flex-1 h-7 sm:h-8 group/btn"
                         onClick={() => handleAccessClick(product)}
                       >
                         Access
-                        <ArrowUpRight className="w-3 h-3 ml-1 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+                        <ArrowUpRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 ml-1 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
                       </Button>
                     </div>
                   </div>

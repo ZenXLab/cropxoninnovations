@@ -90,6 +90,11 @@ const AnimatedRoutes = () => {
           <Route path="/cropxon-cloud" element={<CropxonCloud />} />
           <Route path="/robotics" element={<Robotics />} />
           <Route path="/zenith-institute" element={<ZenithInstitute />} />
+          <Route path="/cognix" element={<Cognix />} />
+          <Route path="/qualyx" element={<Qualyx />} />
+          <Route path="/huminex" element={<Huminex />} />
+          <Route path="/opzenix" element={<Opzenix />} />
+          <Route path="/zenith-studio" element={<ZenithStudio />} />
           <Route path="/terms" element={<TermsAndConditions />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/refund-policy" element={<RefundPolicy />} />
