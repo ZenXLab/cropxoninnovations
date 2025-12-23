@@ -98,15 +98,20 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
     return () => observer.disconnect();
   }, []);
 
-  // Initialize platforms with perfect circular layout
+  // Initialize platforms with perfect circular layout - compact version
   const initializePlatforms = useCallback((width: number, height: number) => {
     const centerX = width / 2;
     const centerY = height / 2;
     const isMobileView = width < 768;
+    const isCompact = width < 400; // For compact sidebar view
     setIsMobile(isMobileView);
     
-    // Perfect circle radius - same for all platforms
-    const orbitRadius = isMobileView ? Math.min(width * 0.35, 145) : Math.min(width * 0.28, 240);
+    // Smaller orbit radius for compact layout
+    const orbitRadius = isCompact 
+      ? Math.min(width * 0.38, 100) 
+      : isMobileView 
+        ? Math.min(width * 0.35, 145) 
+        : Math.min(width * 0.32, 120);
 
     platformsRef.current = platformsData.map((p, i) => {
       // Equal spacing around the circle
@@ -114,7 +119,7 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
       const angle = baseAngle + spinAngleRef.current;
       const x = centerX + Math.cos(angle) * orbitRadius;
       const y = centerY + Math.sin(angle) * orbitRadius;
-      const scaledRadius = isMobileView ? p.radius * 0.65 : p.radius;
+      const scaledRadius = isCompact ? p.radius * 0.55 : isMobileView ? p.radius * 0.65 : p.radius * 0.7;
       return {
         ...p,
         radius: scaledRadius,
@@ -362,8 +367,13 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
 
     const centerX = dimensions.width / 2;
     const centerY = dimensions.height / 2;
+    const isCompact = dimensions.width < 400;
     
-    const orbitRadius = isMobile ? Math.min(dimensions.width * 0.35, 145) : Math.min(dimensions.width * 0.28, 240);
+    const orbitRadius = isCompact 
+      ? Math.min(dimensions.width * 0.38, 100)
+      : isMobile 
+        ? Math.min(dimensions.width * 0.35, 145) 
+        : Math.min(dimensions.width * 0.32, 120);
 
     const textColor = isDark ? 'rgba(255, 255, 255' : 'rgba(15, 23, 42';
     const gridColor = isDark ? 'rgba(255, 255, 255, 0.015)' : 'rgba(0, 0, 0, 0.02)';
@@ -461,7 +471,7 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
       });
 
       // Draw center with logo
-      const centerRadius = isMobile ? 55 : 75;
+      const centerRadius = isCompact ? 40 : isMobile ? 55 : 50;
       
       // Center glow
       const centerGlow = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, centerRadius * 1.5);
@@ -494,11 +504,11 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
 
       // Draw logo if loaded
       if (logoImageRef.current) {
-        const logoSize = isMobile ? 32 : 42;
+        const logoSize = isCompact ? 24 : isMobile ? 32 : 28;
         ctx.drawImage(
           logoImageRef.current,
           centerX - logoSize / 2,
-          centerY - logoSize / 2 - 8,
+          centerY - logoSize / 2 - 6,
           logoSize,
           logoSize
         );
@@ -506,17 +516,17 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
 
       // Center text
       ctx.save();
-      const brandSize = isMobile ? 11 : 14;
+      const brandSize = isCompact ? 8 : isMobile ? 11 : 10;
       ctx.font = `700 ${brandSize}px 'Space Grotesk', sans-serif`;
       ctx.fillStyle = `${textColor}, 0.95)`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText('CROPXON', centerX, centerY + (isMobile ? 18 : 24));
+      ctx.fillText('CROPXON', centerX, centerY + (isCompact ? 14 : isMobile ? 18 : 16));
       
-      const subSize = isMobile ? 6 : 7;
+      const subSize = isCompact ? 5 : isMobile ? 6 : 6;
       ctx.font = `500 ${subSize}px 'Inter', sans-serif`;
       ctx.fillStyle = `${textColor}, 0.5)`;
-      ctx.fillText('ECOSYSTEM', centerX, centerY + (isMobile ? 28 : 35));
+      ctx.fillText('ECOSYSTEM', centerX, centerY + (isCompact ? 22 : isMobile ? 28 : 25));
       ctx.restore();
 
       // Draw platforms
@@ -574,17 +584,17 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
 
         // Platform name
         ctx.save();
-        const nameSize = isMobile ? (isActive ? 8 : 7) : (isActive ? 10 : 9);
+        const nameSize = isCompact ? 6 : isMobile ? (isActive ? 8 : 7) : (isActive ? 8 : 7);
         ctx.font = `600 ${nameSize}px 'Space Grotesk', sans-serif`;
         ctx.fillStyle = isActive ? `${textColor}, 1)` : `${textColor}, 0.85)`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(platform.name.toUpperCase(), platform.x, platform.y - 2);
 
-        const catSize = isMobile ? 5 : 6;
+        const catSize = isCompact ? 4 : isMobile ? 5 : 5;
         ctx.font = `400 ${catSize}px 'Inter', sans-serif`;
         ctx.fillStyle = isActive ? `${textColor}, 0.65)` : `${textColor}, 0.45)`;
-        ctx.fillText(platform.category, platform.x, platform.y + 9);
+        ctx.fillText(platform.category, platform.x, platform.y + 7);
         ctx.restore();
       });
 
@@ -786,7 +796,7 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
   return (
     <div 
       ref={containerRef} 
-      className="relative w-full h-full min-h-[400px] sm:min-h-[480px] lg:min-h-[540px]"
+      className="relative w-full h-full min-h-[300px] sm:min-h-[340px] lg:min-h-[400px]"
       role="application"
       aria-label="CropXon Ecosystem - Interactive platform navigation"
     >
