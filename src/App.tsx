@@ -32,6 +32,10 @@ import Qualyx from "./pages/products/Qualyx";
 import Huminex from "./pages/products/Huminex";
 import Opzenix from "./pages/products/Opzenix";
 import ZenithStudio from "./pages/products/ZenithStudio";
+import Proxinex from "./pages/products/Proxinex";
+import Chronyx from "./pages/products/Chronyx";
+import Convertix from "./pages/products/Convertix";
+import Finioraa from "./pages/products/Finioraa";
 import NotFound from "./pages/NotFound";
 import Blog from "./pages/Blog";
 import BlogArticle from "./pages/BlogArticle";
@@ -98,7 +102,10 @@ const AnimatedRoutes = () => {
           <Route path="/huminex" element={<Huminex />} />
           <Route path="/opzenix" element={<Opzenix />} />
           <Route path="/zenith-studio" element={<ZenithStudio />} />
-          <Route path="/blog" element={<Blog />} />
+          <Route path="/proxinex" element={<Proxinex />} />
+          <Route path="/chronyx" element={<Chronyx />} />
+          <Route path="/convertix" element={<Convertix />} />
+          <Route path="/finioraa" element={<Finioraa />} />
           <Route path="/blog/:slug" element={<BlogArticle />} />
           <Route path="/search" element={<Search />} />
           <Route path="/terms" element={<TermsAndConditions />} />

@@ -1,17 +1,21 @@
 import { useState, useEffect } from 'react';
-import { Brain, ShieldCheck, Users, Settings, Boxes, Building2, GraduationCap, FlaskConical } from 'lucide-react';
+import { Brain, ShieldCheck, Users, Settings, Boxes, Building2, GraduationCap, FlaskConical, Zap, Clock, RefreshCw, Wallet } from 'lucide-react';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { PlatformDashboard } from './PlatformDashboard';
 
 const platforms = [
   { id: 'cognix', name: 'Cognix', icon: Brain, color: 'hsl(220, 70%, 55%)', angle: 0 },
-  { id: 'qualyx', name: 'Qualyx', icon: ShieldCheck, color: 'hsl(175, 60%, 45%)', angle: 45 },
-  { id: 'traceflow', name: 'TraceFlow', icon: Boxes, color: 'hsl(200, 70%, 50%)', angle: 90 },
-  { id: 'originx-labs', name: 'OriginX', icon: FlaskConical, color: 'hsl(25, 75%, 52%)', angle: 135 },
-  { id: 'zenith-core', name: 'Zenith Studio', icon: Building2, color: 'hsl(280, 55%, 55%)', angle: 180 },
-  { id: 'zenith-institute', name: 'Zenith Institute', icon: GraduationCap, color: 'hsl(145, 55%, 45%)', angle: 225 },
-  { id: 'huminex', name: 'Huminex', icon: Users, color: 'hsl(340, 65%, 55%)', angle: 270 },
-  { id: 'opzenix', name: 'OpZeniX', icon: Settings, color: 'hsl(260, 60%, 58%)', angle: 315 },
+  { id: 'qualyx', name: 'Qualyx', icon: ShieldCheck, color: 'hsl(175, 60%, 45%)', angle: 30 },
+  { id: 'traceflow', name: 'TraceFlow', icon: Boxes, color: 'hsl(200, 70%, 50%)', angle: 60 },
+  { id: 'originx-labs', name: 'OriginX', icon: FlaskConical, color: 'hsl(25, 75%, 52%)', angle: 90 },
+  { id: 'zenith-core', name: 'Zenith Studio', icon: Building2, color: 'hsl(280, 55%, 55%)', angle: 120 },
+  { id: 'zenith-institute', name: 'Zenith Institute', icon: GraduationCap, color: 'hsl(145, 55%, 45%)', angle: 150 },
+  { id: 'huminex', name: 'Huminex', icon: Users, color: 'hsl(340, 65%, 55%)', angle: 180 },
+  { id: 'opzenix', name: 'OpZeniX', icon: Settings, color: 'hsl(260, 60%, 58%)', angle: 210 },
+  { id: 'proxinex', name: 'Proxinex', icon: Zap, color: 'hsl(45, 85%, 50%)', angle: 240 },
+  { id: 'chronyx', name: 'Chronyx', icon: Clock, color: 'hsl(190, 70%, 50%)', angle: 270 },
+  { id: 'convertix', name: 'Convertix', icon: RefreshCw, color: 'hsl(320, 70%, 55%)', angle: 300 },
+  { id: 'finioraa', name: 'Finioraa', icon: Wallet, color: 'hsl(130, 65%, 45%)', angle: 330 },
 ];
 
 const dataFlows = [
@@ -22,7 +26,11 @@ const dataFlows = [
   { from: 'originx-labs', to: 'zenith-core', label: 'AI Models' },
   { from: 'zenith-core', to: 'zenith-institute', label: 'Content' },
   { from: 'zenith-institute', to: 'huminex', label: 'Learning Paths' },
-  { from: 'huminex', to: 'cognix', label: 'Workforce Data' },
+  { from: 'huminex', to: 'proxinex', label: 'Workforce Data' },
+  { from: 'proxinex', to: 'chronyx', label: 'AI Routing' },
+  { from: 'chronyx', to: 'convertix', label: 'Personal Data' },
+  { from: 'convertix', to: 'finioraa', label: 'Document Flow' },
+  { from: 'finioraa', to: 'cognix', label: 'Finance Insights' },
 ];
 
 const EcosystemInterconnection = () => {
@@ -248,7 +256,7 @@ const EcosystemInterconnection = () => {
         >
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
             <div>
-              <p className="text-2xl sm:text-3xl font-bold text-foreground">8</p>
+              <p className="text-2xl sm:text-3xl font-bold text-foreground">12</p>
               <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Platforms</p>
             </div>
             <div>

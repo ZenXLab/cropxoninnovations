@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { Play, Pause, Cpu, Settings, ShieldCheck, Users, Boxes, GraduationCap, FlaskConical, Building2, TrendingUp, BarChart3, PieChart, Activity, Zap, Database, Globe, Lock, ArrowRight, CheckCircle2, Clock, AlertCircle, Layers, Network, GitBranch, Workflow, FileSearch, Brain, Shield, Server, Cloud, Code, Target, Rocket, BookOpen, Award, Microscope, Lightbulb, ExternalLink, Maximize2 } from 'lucide-react';
+import { Play, Pause, Cpu, Settings, ShieldCheck, Users, Boxes, GraduationCap, FlaskConical, Building2, TrendingUp, BarChart3, PieChart, Activity, Zap, Database, Globe, Lock, ArrowRight, CheckCircle2, Clock, AlertCircle, Layers, Network, GitBranch, Workflow, FileSearch, Brain, Shield, Server, Cloud, Code, Target, Rocket, BookOpen, Award, Microscope, Lightbulb, ExternalLink, Maximize2, RefreshCw, Wallet, FileText, DollarSign, LineChart, Calculator, CreditCard, PiggyBank } from 'lucide-react';
 
 interface PlatformData {
   id: string;
@@ -300,6 +300,138 @@ const platformsData: PlatformData[] = [
       { label: 'Experiment', icon: FlaskConical, active: true },
       { label: 'Validate', icon: CheckCircle2, active: true },
       { label: 'Incubate', icon: Rocket, active: false },
+    ],
+  },
+  {
+    id: 'proxinex',
+    name: 'Proxinex',
+    domain: 'proxinex.com',
+    icon: Zap,
+    color: 'hsl(45, 85%, 50%)',
+    tagline: 'Control Intelligence · AI Model Routing',
+    description: 'Route queries to the best AI models. See exactly what you\'re paying. Verify every answer. All in one platform.',
+    whoFor: ['AI Teams', 'Developers', 'Enterprises', 'Cost-Conscious Teams'],
+    metrics: [
+      { label: 'Models Routed', value: '47', trend: 'up', change: '+12' },
+      { label: 'Cost Savings', value: '68%', trend: 'up', change: '+8%' },
+      { label: 'Queries/Day', value: '2.4M', trend: 'up', change: '+18%' },
+      { label: 'Accuracy', value: '99.2%', trend: 'up', change: '+0.3%' },
+    ],
+    capabilities: [
+      { icon: Zap, label: 'AI Model Routing', status: 'streaming' },
+      { icon: DollarSign, label: 'Cost Transparency', status: 'active' },
+      { icon: CheckCircle2, label: 'Answer Verification', status: 'active' },
+      { icon: Layers, label: 'Unified Platform', status: 'processing' },
+    ],
+    liveData: [
+      { label: 'Routing Accuracy', value: 98, max: 100, unit: '%' },
+      { label: 'Cost Efficiency', value: 92, max: 100, unit: '%' },
+      { label: 'Model Coverage', value: 87, max: 100, unit: '%' },
+    ],
+    flowSteps: [
+      { label: 'Query In', icon: Brain, active: true },
+      { label: 'Route', icon: Zap, active: true },
+      { label: 'Process', icon: Cpu, active: true },
+      { label: 'Verify', icon: CheckCircle2, active: false },
+    ],
+  },
+  {
+    id: 'chronyx',
+    name: 'Chronyx',
+    domain: 'getchronyx.com',
+    icon: Clock,
+    color: 'hsl(190, 70%, 50%)',
+    tagline: 'Personal Quiet Space (PQS)',
+    description: 'All Personal details at one place including Todos, Finance, Study, Note Taking, Grocery Lists, Networth, Personal Memories.',
+    whoFor: ['Individuals', 'Professionals', 'Students', 'Families'],
+    metrics: [
+      { label: 'Tasks Tracked', value: '12.4K', trend: 'up', change: '+847' },
+      { label: 'Notes Created', value: '8,420', trend: 'up', change: '+524' },
+      { label: 'Memories Saved', value: '3,240', trend: 'up', change: '+156' },
+      { label: 'Life Score', value: '94.8%', trend: 'up', change: '+2.1%' },
+    ],
+    capabilities: [
+      { icon: CheckCircle2, label: 'Todos & Notes', status: 'active' },
+      { icon: DollarSign, label: 'Finance Tracking', status: 'streaming' },
+      { icon: BookOpen, label: 'Study Management', status: 'active' },
+      { icon: Clock, label: 'Personal Memories', status: 'processing' },
+    ],
+    liveData: [
+      { label: 'Organization', value: 89, max: 100, unit: '%' },
+      { label: 'Productivity', value: 82, max: 100, unit: '%' },
+      { label: 'Memory Index', value: 94, max: 100, unit: '%' },
+    ],
+    flowSteps: [
+      { label: 'Capture', icon: FileText, active: true },
+      { label: 'Organize', icon: Layers, active: true },
+      { label: 'Track', icon: Clock, active: true },
+      { label: 'Remember', icon: Brain, active: false },
+    ],
+  },
+  {
+    id: 'convertix',
+    name: 'Convertix',
+    domain: 'getconvertix.com',
+    icon: RefreshCw,
+    color: 'hsl(320, 70%, 55%)',
+    tagline: 'Conversion Operating Studio (COS)',
+    description: 'All conversion tools for PDF/Documents, Image, Media, and Developer utilities in one unified platform.',
+    whoFor: ['Developers', 'Designers', 'Content Creators', 'Businesses'],
+    metrics: [
+      { label: 'Files Converted', value: '847K', trend: 'up', change: '+24K' },
+      { label: 'Formats Supported', value: '156', trend: 'up', change: '+12' },
+      { label: 'Processing Speed', value: '2.4s', trend: 'down', change: '-0.8s' },
+      { label: 'Success Rate', value: '99.7%', trend: 'up', change: '+0.2%' },
+    ],
+    capabilities: [
+      { icon: FileText, label: 'PDF Conversion', status: 'streaming' },
+      { icon: PieChart, label: 'Image Tools', status: 'active' },
+      { icon: Activity, label: 'Media Processing', status: 'active' },
+      { icon: Code, label: 'Developer Utils', status: 'processing' },
+    ],
+    liveData: [
+      { label: 'Conversion Queue', value: 78, max: 100, unit: '%' },
+      { label: 'Format Coverage', value: 96, max: 100, unit: '%' },
+      { label: 'Quality Index', value: 99, max: 100, unit: '%' },
+    ],
+    flowSteps: [
+      { label: 'Upload', icon: Layers, active: true },
+      { label: 'Analyze', icon: FileSearch, active: true },
+      { label: 'Convert', icon: RefreshCw, active: true },
+      { label: 'Download', icon: ArrowRight, active: false },
+    ],
+  },
+  {
+    id: 'finioraa',
+    name: 'Finioraa',
+    domain: 'finioraa.com',
+    icon: Wallet,
+    color: 'hsl(130, 65%, 45%)',
+    tagline: 'Personal Finance Operating System (PFOS)',
+    description: 'Track, Understand, Optimize Finances, Insurances, Stocks, Tax, Loans, EMIs, AI Insights, Predictions, Investments.',
+    whoFor: ['Individuals', 'Investors', 'Families', 'Financial Planners'],
+    metrics: [
+      { label: 'Assets Tracked', value: '$2.4M', trend: 'up', change: '+$156K' },
+      { label: 'Investments', value: '347', trend: 'up', change: '+28' },
+      { label: 'Tax Savings', value: '$24K', trend: 'up', change: '+$3.2K' },
+      { label: 'Financial Score', value: '94.2%', trend: 'up', change: '+2.1%' },
+    ],
+    capabilities: [
+      { icon: DollarSign, label: 'Finance Tracking', status: 'active' },
+      { icon: LineChart, label: 'Investment Insights', status: 'streaming' },
+      { icon: Calculator, label: 'Tax & Loans', status: 'active' },
+      { icon: Brain, label: 'AI Predictions', status: 'processing' },
+    ],
+    liveData: [
+      { label: 'Portfolio Health', value: 92, max: 100, unit: '%' },
+      { label: 'Budget Adherence', value: 87, max: 100, unit: '%' },
+      { label: 'Growth Trajectory', value: 94, max: 100, unit: '%' },
+    ],
+    flowSteps: [
+      { label: 'Connect', icon: CreditCard, active: true },
+      { label: 'Analyze', icon: PieChart, active: true },
+      { label: 'Optimize', icon: TrendingUp, active: true },
+      { label: 'Grow', icon: PiggyBank, active: false },
     ],
   },
 ];
