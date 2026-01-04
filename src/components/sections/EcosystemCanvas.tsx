@@ -41,14 +41,18 @@ interface Butterfly {
 }
 
 const platformsData: PlatformData[] = [
-  { id: 'cognix', name: 'Cognix', category: 'Intelligence', description: 'Enterprise cognition and AI decision systems', radius: 38, color: 'hsl(220, 70%, 55%)', href: 'https://cognix.cropxon.com', external: true },
-  { id: 'opzenix', name: 'OpZeniX', category: 'Operations', description: 'Intelligent operations management platform', radius: 38, color: 'hsl(260, 60%, 58%)', href: 'https://opzenix.com', external: true },
-  { id: 'qualyx', name: 'Qualyx', category: 'Quality', description: 'Quality assurance and compliance engine', radius: 38, color: 'hsl(175, 60%, 45%)', href: 'https://qualyx.cropxon.com', external: true },
-  { id: 'huminex', name: 'Huminex', category: 'Human Systems', description: 'Workforce intelligence and talent management', radius: 38, color: 'hsl(340, 65%, 55%)', href: 'https://huminex.cropxon.com', external: true },
-  { id: 'traceflow', name: 'TraceFlow', category: 'Traceability', description: 'End-to-end supply chain traceability', radius: 38, color: 'hsl(200, 70%, 50%)', href: 'https://traceflow.cropxon.com', external: true },
-  { id: 'zenith-core', name: 'Zenith Core', category: 'Foundation', description: 'Core infrastructure and platform services', radius: 38, color: 'hsl(280, 55%, 55%)', href: 'https://zenith.cropxon.com', external: true },
-  { id: 'zenith-institute', name: 'Zenith Institute', category: 'Education', description: 'Industry-backed engineering education', radius: 38, color: 'hsl(145, 55%, 45%)', href: '/zenith-institute', external: false },
-  { id: 'originx-labs', name: 'OriginX Labs', category: 'Research', description: 'Experimental research and innovation lab', radius: 38, color: 'hsl(25, 75%, 52%)', href: 'https://originxlabs.com', external: true },
+  { id: 'cognix', name: 'Cognix', category: 'Intelligence', description: 'Enterprise cognition and AI decision systems', radius: 36, color: 'hsl(220, 70%, 55%)', href: 'https://cognix.cropxon.com', external: true },
+  { id: 'opzenix', name: 'OpZeniX', category: 'Operations', description: 'Intelligent operations management platform', radius: 36, color: 'hsl(260, 60%, 58%)', href: 'https://opzenix.com', external: true },
+  { id: 'qualyx', name: 'Qualyx', category: 'Quality', description: 'Quality assurance and compliance engine', radius: 36, color: 'hsl(175, 60%, 45%)', href: 'https://qualyx.cropxon.com', external: true },
+  { id: 'huminex', name: 'Huminex', category: 'Human Systems', description: 'Workforce intelligence and talent management', radius: 36, color: 'hsl(340, 65%, 55%)', href: 'https://huminex.cropxon.com', external: true },
+  { id: 'traceflow', name: 'TraceFlow', category: 'Traceability', description: 'End-to-end supply chain traceability', radius: 36, color: 'hsl(200, 70%, 50%)', href: 'https://traceflow.cropxon.com', external: true },
+  { id: 'zenith-core', name: 'Zenith Core', category: 'Foundation', description: 'Core infrastructure and platform services', radius: 36, color: 'hsl(280, 55%, 55%)', href: 'https://zenith.cropxon.com', external: true },
+  { id: 'zenith-institute', name: 'Zenith Institute', category: 'Education', description: 'Industry-backed engineering education', radius: 36, color: 'hsl(145, 55%, 45%)', href: '/zenith-institute', external: false },
+  { id: 'originx-labs', name: 'OriginX Labs', category: 'Research', description: 'Experimental research and innovation lab', radius: 36, color: 'hsl(25, 75%, 52%)', href: 'https://originxlabs.com', external: true },
+  { id: 'proxinex', name: 'Proxinex', category: 'AI Routing', description: 'Control Intelligence - Route queries to best AI models', radius: 36, color: 'hsl(45, 85%, 50%)', href: 'http://proxinex.com', external: true },
+  { id: 'chronyx', name: 'Chronyx', category: 'Personal Space', description: 'Personal Quiet Space for all life management', radius: 36, color: 'hsl(190, 70%, 50%)', href: 'https://www.getchronyx.com', external: true },
+  { id: 'convertix', name: 'Convertix', category: 'Conversion', description: 'Conversion Operating Studio for all file types', radius: 36, color: 'hsl(320, 70%, 55%)', href: 'https://www.getconvertix.com', external: true },
+  { id: 'finioraa', name: 'Finioraa', category: 'Finance', description: 'Personal Finance Operating System', radius: 36, color: 'hsl(130, 65%, 45%)', href: 'https://www.finioraa.com', external: true },
 ];
 
 interface EcosystemCanvasProps {

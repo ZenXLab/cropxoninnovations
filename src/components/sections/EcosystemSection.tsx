@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useScrollReveal, getStaggerDelay } from "@/hooks/useScrollReveal";
 import ProductTransition from "@/components/ProductTransition";
-import { Brain, ShieldCheck, Users, Settings, Boxes, Building2, GraduationCap, FlaskConical, ArrowUpRight, Sparkles } from "lucide-react";
+import { Brain, ShieldCheck, Users, Settings, Boxes, Building2, GraduationCap, FlaskConical, ArrowUpRight, Sparkles, Zap, Clock, RefreshCw, Wallet } from "lucide-react";
 
 interface Product {
   id: string;
@@ -18,6 +18,7 @@ interface Product {
   externalUrl: string;
   icon: React.ElementType;
   color: string;
+  isNew?: boolean;
 }
 
 const products: Product[] = [
@@ -133,6 +134,66 @@ const products: Product[] = [
     icon: FlaskConical,
     color: "hsl(25, 75%, 52%)",
   },
+  {
+    id: "proxinex",
+    name: "PROXINEX",
+    tagline: "Control Intelligence · AI Model Routing",
+    description: "Route queries to the best AI models. See exactly what you're paying. Verify every answer. All in one platform.",
+    capabilities: ["AI Model Routing", "Cost Transparency", "Answer Verification", "Unified Platform"],
+    status: "New",
+    statusColor: "hsl(280, 80%, 55%)",
+    borderColor: "hsl(280, 80%, 50%)",
+    link: "/proxinex",
+    externalUrl: "http://proxinex.com",
+    icon: Zap,
+    color: "hsl(45, 85%, 50%)",
+    isNew: true,
+  },
+  {
+    id: "chronyx",
+    name: "CHRONYX",
+    tagline: "Personal Quiet Space (PQS)",
+    description: "All Personal details at one place including Todos, Finance, Study, Note Taking, Grocery Lists, Networth, Personal Memories.",
+    capabilities: ["Todos & Notes", "Finance Tracking", "Study Management", "Personal Memories"],
+    status: "New",
+    statusColor: "hsl(280, 80%, 55%)",
+    borderColor: "hsl(280, 80%, 50%)",
+    link: "/chronyx",
+    externalUrl: "https://www.getchronyx.com",
+    icon: Clock,
+    color: "hsl(190, 70%, 50%)",
+    isNew: true,
+  },
+  {
+    id: "convertix",
+    name: "CONVERTIX",
+    tagline: "Conversion Operating Studio (COS)",
+    description: "All conversion tools for PDF/Documents, Image, Media, and Developer utilities in one unified platform.",
+    capabilities: ["PDF Conversion", "Image Tools", "Media Processing", "Developer Utils"],
+    status: "New",
+    statusColor: "hsl(280, 80%, 55%)",
+    borderColor: "hsl(280, 80%, 50%)",
+    link: "/convertix",
+    externalUrl: "https://www.getconvertix.com",
+    icon: RefreshCw,
+    color: "hsl(320, 70%, 55%)",
+    isNew: true,
+  },
+  {
+    id: "finioraa",
+    name: "FINIORAA",
+    tagline: "Personal Finance Operating System (PFOS)",
+    description: "Track, Understand, Optimize Finances, Insurances, Stocks, Tax, Loans, EMIs, AI Insights, Predictions, Investments.",
+    capabilities: ["Finance Tracking", "Investment Insights", "Tax & Loans", "AI Predictions"],
+    status: "New",
+    statusColor: "hsl(280, 80%, 55%)",
+    borderColor: "hsl(280, 80%, 50%)",
+    link: "/finioraa",
+    externalUrl: "https://www.finioraa.com",
+    icon: Wallet,
+    color: "hsl(130, 65%, 45%)",
+    isNew: true,
+  },
 ];
 
 const EcosystemSection = () => {
@@ -198,7 +259,7 @@ const EcosystemSection = () => {
               THE CROPXON ECOSYSTEM
             </h2>
             <p className="text-xs sm:text-sm lg:text-base max-w-2xl mx-auto text-muted-foreground px-4">
-              8 foundational platforms powering enterprise digital transformation
+              12 foundational platforms powering enterprise digital transformation
             </p>
           </div>
 
@@ -287,6 +348,11 @@ const EcosystemSection = () => {
 
                     {/* Status Badge */}
                     <div className="relative flex items-center gap-2 mb-3">
+                      {product.isNew && (
+                        <span className="text-[8px] px-1.5 py-0.5 rounded-full font-mono font-bold bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+                          NEW
+                        </span>
+                      )}
                       {isLive && (
                         <span 
                           className="w-2 h-2 rounded-full animate-pulse"
