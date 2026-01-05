@@ -7,7 +7,7 @@ import BackToTop from "@/components/BackToTop";
 import { useScrollReveal, getStaggerDelay } from "@/hooks/useScrollReveal";
 import ProductTransition from "@/components/ProductTransition";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, Sparkles, Brain, ShieldCheck, Users, Settings, Boxes, Building2, GraduationCap, FlaskConical } from "lucide-react";
+import { ArrowUpRight, Sparkles, Brain, ShieldCheck, Users, Settings, Boxes, Building2, GraduationCap, FlaskConical, Zap, Clock, RefreshCw, Wallet } from "lucide-react";
 
 interface Platform {
   id: string;
@@ -136,6 +136,62 @@ const platforms: Platform[] = [
     externalUrl: "https://originxlabs.com",
     icon: FlaskConical,
     color: "hsl(25, 75%, 52%)",
+  },
+  {
+    id: "proxinex",
+    name: "PROXINEX",
+    tagline: "Control Intelligence · AI Routing Platform",
+    description: "Route queries to the best AI models. See exactly what you're paying. Verify every answer. All in one platform.",
+    capabilities: ["AI Model Routing", "Cost Transparency", "Answer Verification", "Multi-Model Access"],
+    status: "NEW",
+    statusColor: "hsl(280, 70%, 55%)",
+    borderColor: "hsl(280, 70%, 50%)",
+    link: "/proxinex",
+    externalUrl: "https://proxinex.com",
+    icon: Zap,
+    color: "hsl(280, 70%, 55%)",
+  },
+  {
+    id: "chronyx",
+    name: "CHRONYX",
+    tagline: "Personal Quiet Space (PQS)",
+    description: "All personal details at one place including Todos, Finance, Study, Note Taking, Grocery Lists, Networth, Personal Memories.",
+    capabilities: ["Todo Management", "Finance Tracking", "Note Taking", "Personal Memories"],
+    status: "NEW",
+    statusColor: "hsl(175, 70%, 45%)",
+    borderColor: "hsl(175, 70%, 40%)",
+    link: "/chronyx",
+    externalUrl: "https://getchronyx.com",
+    icon: Clock,
+    color: "hsl(175, 70%, 45%)",
+  },
+  {
+    id: "convertix",
+    name: "CONVERTIX",
+    tagline: "Conversion Operating Studio (COS)",
+    description: "All conversion tools for PDF/Documents, Image, Media, and Developer utilities in one unified platform.",
+    capabilities: ["PDF Conversion", "Image Tools", "Media Processing", "Developer Utils"],
+    status: "NEW",
+    statusColor: "hsl(15, 80%, 55%)",
+    borderColor: "hsl(15, 80%, 50%)",
+    link: "/convertix",
+    externalUrl: "https://getconvertix.com",
+    icon: RefreshCw,
+    color: "hsl(15, 80%, 55%)",
+  },
+  {
+    id: "finioraa",
+    name: "FINIORAA",
+    tagline: "Personal Finance Operating System (PFOS)",
+    description: "Track, understand, optimize finances, insurances, stocks, tax, loans, EMIs, finance docs, AI insights, predictions.",
+    capabilities: ["Finance Tracking", "Investment Analytics", "Tax Management", "AI Predictions"],
+    status: "NEW",
+    statusColor: "hsl(145, 65%, 42%)",
+    borderColor: "hsl(145, 65%, 38%)",
+    link: "/finioraa",
+    externalUrl: "https://finioraa.com",
+    icon: Wallet,
+    color: "hsl(145, 65%, 42%)",
   },
 ];
 

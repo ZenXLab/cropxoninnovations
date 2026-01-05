@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Brain, ShieldCheck, Users, Settings, Boxes, Building2, GraduationCap, FlaskConical, Check, Minus, ArrowUpRight } from 'lucide-react';
+import { Brain, ShieldCheck, Users, Settings, Boxes, Building2, GraduationCap, FlaskConical, Check, Minus, ArrowUpRight, Zap, Clock, RefreshCw, Wallet } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 
@@ -12,17 +12,21 @@ const platforms = [
   { id: 'zenith-studio', name: 'Zenith Studio', icon: Building2, color: 'hsl(280, 55%, 55%)', link: '/zenith-studio', status: 'LIVE · MVP' },
   { id: 'zenith-institute', name: 'Zenith Institute', icon: GraduationCap, color: 'hsl(145, 55%, 45%)', link: '/zenith-institute', status: 'LIVE · MVP' },
   { id: 'originx-labs', name: 'OriginX Labs', icon: FlaskConical, color: 'hsl(25, 75%, 52%)', link: '/originx-labs', status: 'LIVE' },
+  { id: 'proxinex', name: 'Proxinex', icon: Zap, color: 'hsl(280, 70%, 55%)', link: '/proxinex', status: 'NEW' },
+  { id: 'chronyx', name: 'Chronyx', icon: Clock, color: 'hsl(175, 70%, 45%)', link: '/chronyx', status: 'NEW' },
+  { id: 'convertix', name: 'Convertix', icon: RefreshCw, color: 'hsl(15, 80%, 55%)', link: '/convertix', status: 'NEW' },
+  { id: 'finioraa', name: 'Finioraa', icon: Wallet, color: 'hsl(145, 65%, 42%)', link: '/finioraa', status: 'NEW' },
 ];
 
 const features = [
-  { name: 'AI-Powered', values: [true, true, true, true, true, true, false, true] },
-  { name: 'Real-time Analytics', values: [true, true, true, true, true, true, true, true] },
-  { name: 'Enterprise Ready', values: [true, true, true, true, true, true, true, true] },
-  { name: 'API Access', values: [true, true, true, true, true, true, false, true] },
-  { name: 'Multi-tenant', values: [false, false, true, true, true, true, true, false] },
-  { name: 'Compliance Tools', values: [true, true, true, true, true, false, true, false] },
-  { name: 'Custom Integrations', values: [true, true, true, true, true, true, false, true] },
-  { name: 'White-label', values: [false, false, false, false, false, true, true, false] },
+  { name: 'AI-Powered', values: [true, true, true, true, true, true, false, true, true, true, true, true] },
+  { name: 'Real-time Analytics', values: [true, true, true, true, true, true, true, true, true, true, false, true] },
+  { name: 'Enterprise Ready', values: [true, true, true, true, true, true, true, true, true, false, true, true] },
+  { name: 'API Access', values: [true, true, true, true, true, true, false, true, true, false, true, true] },
+  { name: 'Multi-tenant', values: [false, false, true, true, true, true, true, false, false, false, false, false] },
+  { name: 'Compliance Tools', values: [true, true, true, true, true, false, true, false, true, false, false, true] },
+  { name: 'Custom Integrations', values: [true, true, true, true, true, true, false, true, true, true, true, true] },
+  { name: 'White-label', values: [false, false, false, false, false, true, true, false, false, false, false, false] },
 ];
 
 const PlatformComparisonTable = () => {
@@ -44,15 +48,15 @@ const PlatformComparisonTable = () => {
             Compare All Platforms
           </h2>
           <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl mx-auto">
-            Explore features across all 8 Cropxon ecosystem platforms
+            Explore features across all 12 Cropxon ecosystem platforms
           </p>
         </div>
 
         {/* Desktop Table */}
         <div className="hidden lg:block overflow-x-auto">
-          <div className="min-w-[900px] bg-card/60 backdrop-blur-xl rounded-2xl border border-border/40 overflow-hidden">
+          <div className="min-w-[1200px] bg-card/60 backdrop-blur-xl rounded-2xl border border-border/40 overflow-hidden">
             {/* Header */}
-            <div className="grid grid-cols-9 gap-px bg-border/20">
+            <div className="grid grid-cols-13 gap-px bg-border/20">
               <div className="p-4 bg-card/80 font-display text-sm font-semibold text-foreground">
                 Features
               </div>
@@ -83,7 +87,7 @@ const PlatformComparisonTable = () => {
 
             {/* Rows */}
             {features.map((feature, index) => (
-              <div key={feature.name} className={`grid grid-cols-9 gap-px ${index % 2 === 0 ? 'bg-muted/10' : 'bg-transparent'}`}>
+              <div key={feature.name} className={`grid grid-cols-13 gap-px ${index % 2 === 0 ? 'bg-muted/10' : 'bg-transparent'}`}>
                 <div className="p-3 bg-card/40 text-xs text-muted-foreground font-medium">
                   {feature.name}
                 </div>
@@ -107,7 +111,7 @@ const PlatformComparisonTable = () => {
             ))}
 
             {/* Status Row */}
-            <div className="grid grid-cols-9 gap-px bg-border/20 mt-px">
+            <div className="grid grid-cols-13 gap-px bg-border/20 mt-px">
               <div className="p-3 bg-card/80 text-xs font-semibold text-foreground">
                 Status
               </div>
@@ -120,9 +124,11 @@ const PlatformComparisonTable = () => {
                     className="text-[9px] px-2 py-0.5 rounded-full font-mono"
                     style={{
                       backgroundColor: platform.status.includes('LIVE') ? 'hsl(145 70% 45% / 0.15)' : 
-                                       platform.status === 'Development' ? 'hsl(45 90% 50% / 0.15)' : 'hsl(220 15% 50% / 0.15)',
+                                       platform.status === 'Development' ? 'hsl(45 90% 50% / 0.15)' :
+                                       platform.status === 'NEW' ? 'hsl(280 70% 55% / 0.15)' : 'hsl(220 15% 50% / 0.15)',
                       color: platform.status.includes('LIVE') ? 'hsl(145, 70%, 45%)' : 
-                             platform.status === 'Development' ? 'hsl(45, 90%, 50%)' : 'hsl(220, 15%, 50%)',
+                             platform.status === 'Development' ? 'hsl(45, 90%, 50%)' :
+                             platform.status === 'NEW' ? 'hsl(280, 70%, 55%)' : 'hsl(220, 15%, 50%)',
                     }}
                   >
                     {platform.status}
@@ -132,7 +138,7 @@ const PlatformComparisonTable = () => {
             </div>
 
             {/* Action Row */}
-            <div className="grid grid-cols-9 gap-px">
+            <div className="grid grid-cols-13 gap-px">
               <div className="p-3 bg-card/60" />
               {platforms.map((platform) => (
                 <div key={platform.id} className="p-3 bg-card/60 flex items-center justify-center">
@@ -173,10 +179,12 @@ const PlatformComparisonTable = () => {
                     <span
                       className="text-[9px] px-2 py-0.5 rounded-full font-mono"
                       style={{
-                        backgroundColor: platform.status.includes('LIVE') ? 'hsl(145 70% 45% / 0.15)' : 
-                                         platform.status === 'Development' ? 'hsl(45 90% 50% / 0.15)' : 'hsl(220 15% 50% / 0.15)',
+                      backgroundColor: platform.status.includes('LIVE') ? 'hsl(145 70% 45% / 0.15)' : 
+                                         platform.status === 'Development' ? 'hsl(45 90% 50% / 0.15)' :
+                                         platform.status === 'NEW' ? 'hsl(280 70% 55% / 0.15)' : 'hsl(220 15% 50% / 0.15)',
                         color: platform.status.includes('LIVE') ? 'hsl(145, 70%, 45%)' : 
-                               platform.status === 'Development' ? 'hsl(45, 90%, 50%)' : 'hsl(220, 15%, 50%)',
+                               platform.status === 'Development' ? 'hsl(45, 90%, 50%)' :
+                               platform.status === 'NEW' ? 'hsl(280, 70%, 55%)' : 'hsl(220, 15%, 50%)',
                       }}
                     >
                       {platform.status}
