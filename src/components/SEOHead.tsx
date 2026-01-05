@@ -24,6 +24,10 @@ const ogImageMap: Record<string, string> = {
   '/originx-labs': 'https://cropxon.com/og/originx-labs-og.png',
   '/robotics': 'https://cropxon.com/og/robotics-og.png',
   '/blog': 'https://cropxon.com/og/blog-og.png',
+  '/proxinex': 'https://cropxon.com/og/proxinex-og.png',
+  '/chronyx': 'https://cropxon.com/og/chronyx-og.png',
+  '/convertix': 'https://cropxon.com/og/convertix-og.png',
+  '/finioraa': 'https://cropxon.com/og/finioraa-og.png',
 };
 
 const SEOHead = ({
