@@ -183,13 +183,19 @@ const Navigation = () => {
 
             {/* Right Side */}
             <div className="flex items-center gap-4 sm:gap-5">
-              <Link
-                to="/search"
-                className="p-2 rounded-lg hover:bg-muted/50 transition-colors group"
-                title="Search"
+              <button
+                onClick={() => {
+                  const event = new KeyboardEvent('keydown', { key: 'k', metaKey: true, bubbles: true });
+                  document.dispatchEvent(event);
+                }}
+                className="p-2 rounded-lg hover:bg-muted/50 transition-colors group flex items-center gap-2"
+                title="Search (⌘K)"
               >
                 <Search className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
-              </Link>
+                <span className="hidden md:flex items-center gap-1 text-[10px] text-muted-foreground/60">
+                  <kbd className="px-1.5 py-0.5 bg-muted/50 rounded text-[10px] font-mono">⌘K</kbd>
+                </span>
+              </button>
 
               <div className="hidden sm:block">
                 <ThemeSelector />

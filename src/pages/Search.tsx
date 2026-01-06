@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Search as SearchIcon, Filter, X, ArrowRight, FileText, Box, Users, Building2, BookOpen } from "lucide-react";
 import { blogPosts } from "@/data/blogPosts";
 
-// All searchable content
+// All searchable content - All 12 platforms
 const platforms = [
   { type: "platform", title: "Cognix", description: "AI-powered software cognition and architecture intelligence platform", href: "/cognix", category: "AI Platform" },
   { type: "platform", title: "OpZeniX", description: "DevOps, DevSecOps, MLOps, AIOps, and LLMOps operations platform", href: "/opzenix", category: "Operations" },
@@ -22,6 +22,10 @@ const platforms = [
   { type: "platform", title: "Zenith Studio", description: "Business and content creation platform", href: "/zenith-studio", category: "Creation" },
   { type: "platform", title: "Zenith Institute", description: "Learning, enablement and certification programs", href: "/zenith-institute", category: "Education" },
   { type: "platform", title: "OriginX Labs", description: "Deep-tech research and innovation division", href: "/originx-labs", category: "Research" },
+  { type: "platform", title: "Proxinex", description: "Control Intelligence - Route queries to the best AI models with full visibility", href: "/proxinex", category: "AI Platform" },
+  { type: "platform", title: "Chronyx", description: "Personal Quiet Space (PQS) - All personal details in one place", href: "/chronyx", category: "Productivity" },
+  { type: "platform", title: "Convertix", description: "Conversion Operating Studio (COS) - All conversion tools for documents, media, and more", href: "/convertix", category: "Tools" },
+  { type: "platform", title: "Finioraa", description: "Personal Finance Operating System (PFOS) - Track, understand, and optimize finances", href: "/finioraa", category: "Finance" },
 ];
 
 const pages = [
