@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -51,18 +51,41 @@ import DataProcessingAgreement from "./pages/policies/DataProcessingAgreement";
 
 const queryClient = new QueryClient();
 
-// Page transition wrapper with loading screen
+// Page transition wrapper with smooth transitions between product pages
 const AnimatedRoutes = () => {
   const location = useLocation();
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [showContent, setShowContent] = useState(true);
+  const [isProductTransition, setIsProductTransition] = useState(false);
+  const prevPathRef = React.useRef(location.pathname);
 
+  // Check if transitioning between product pages for smoother transitions
+  const productRoutes = ['/cognix', '/qualyx', '/huminex', '/opzenix', '/traceflow', '/zenith-studio', '/zenith-institute', '/originx-labs', '/proxinex', '/chronyx', '/convertix', '/finioraa', '/atlas', '/cropxon-cloud', '/robotics'];
+  
   useEffect(() => {
-    // Show loading screen on route change (except initial load)
-    setIsPageLoading(true);
-    setShowContent(false);
-    // Scroll to top on route change
-    window.scrollTo(0, 0);
+    const prevPath = prevPathRef.current;
+    const isFromProduct = productRoutes.some(route => prevPath.startsWith(route));
+    const isToProduct = productRoutes.some(route => location.pathname.startsWith(route));
+    
+    // Faster transition between product pages
+    if (isFromProduct && isToProduct && prevPath !== location.pathname) {
+      setIsProductTransition(true);
+      setShowContent(false);
+      window.scrollTo(0, 0);
+      
+      // Quick fade for product-to-product navigation
+      setTimeout(() => {
+        setShowContent(true);
+        setIsProductTransition(false);
+      }, 150);
+    } else if (prevPath !== location.pathname) {
+      // Full loading screen for other navigations
+      setIsPageLoading(true);
+      setShowContent(false);
+      window.scrollTo(0, 0);
+    }
+    
+    prevPathRef.current = location.pathname;
   }, [location.pathname]);
 
   const handleLoadingComplete = () => {
@@ -72,13 +95,13 @@ const AnimatedRoutes = () => {
 
   return (
     <>
-      {isPageLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
+      {isPageLoading && !isProductTransition && <LoadingScreen onComplete={handleLoadingComplete} />}
       <div 
         key={location.pathname}
-        className={`transition-all duration-500 ease-[cubic-bezier(0.645,0.045,0.355,1)] ${
+        className={`transition-all ${isProductTransition ? 'duration-200' : 'duration-500'} ease-[cubic-bezier(0.645,0.045,0.355,1)] ${
           showContent 
             ? 'opacity-100 translate-y-0 scale-100' 
-            : 'opacity-0 translate-y-3 scale-[0.995]'
+            : `opacity-0 ${isProductTransition ? 'translate-x-2' : 'translate-y-3'} scale-[0.998]`
         }`}
       >
         <Routes location={location}>
