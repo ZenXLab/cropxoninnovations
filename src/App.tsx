@@ -12,6 +12,8 @@ import ScrollToTop from "@/components/ScrollToTop";
 import PWAInstallBanner from "@/components/PWAInstallBanner";
 import PushNotificationPrompt from "@/components/PushNotificationPrompt";
 import SurveillanceDrone from "@/components/SurveillanceDrone";
+import CommandPalette from "@/components/CommandPalette";
+import PlatformQuickNav from "@/components/PlatformQuickNav";
 import Index from "./pages/Index";
 import CompanyProfile from "./pages/CompanyProfile";
 import HowWeThink from "./pages/HowWeThink";
@@ -159,6 +161,8 @@ const App = () => {
             <Toaster />
             <Sonner />
             <BrowserRouter>
+              {!isInitialLoading && <CommandPalette />}
+              {!isInitialLoading && <PlatformQuickNav />}
               {!isInitialLoading && <AnimatedRoutes />}
               {!isInitialLoading && <PWAInstallBanner />}
               {!isInitialLoading && <PushNotificationPrompt />}
