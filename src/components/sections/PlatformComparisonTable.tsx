@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Brain, ShieldCheck, Users, Settings, Boxes, Building2, GraduationCap, FlaskConical, Check, Minus, ArrowUpRight, Zap, Clock, RefreshCw, Wallet } from 'lucide-react';
+import { Brain, ShieldCheck, Users, Settings, Boxes, Building2, GraduationCap, FlaskConical, Check, Minus, ArrowUpRight, Zap, Clock, RefreshCw, Wallet, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 
@@ -12,10 +12,10 @@ const platforms = [
   { id: 'zenith-studio', name: 'Zenith Studio', shortName: 'ZST', icon: Building2, color: 'hsl(280, 55%, 55%)', link: '/zenith-studio', status: 'LIVE · MVP' },
   { id: 'zenith-institute', name: 'Zenith Inst.', shortName: 'ZIN', icon: GraduationCap, color: 'hsl(145, 55%, 45%)', link: '/zenith-institute', status: 'LIVE · MVP' },
   { id: 'originx-labs', name: 'OriginX Labs', shortName: 'OXL', icon: FlaskConical, color: 'hsl(25, 75%, 52%)', link: '/originx-labs', status: 'LIVE' },
-  { id: 'proxinex', name: 'Proxinex', shortName: 'PXN', icon: Zap, color: 'hsl(280, 70%, 55%)', link: '/proxinex', status: 'NEW' },
-  { id: 'chronyx', name: 'Chronyx', shortName: 'CRX', icon: Clock, color: 'hsl(175, 70%, 45%)', link: '/chronyx', status: 'NEW' },
-  { id: 'convertix', name: 'Convertix', shortName: 'CVX', icon: RefreshCw, color: 'hsl(15, 80%, 55%)', link: '/convertix', status: 'NEW' },
-  { id: 'finioraa', name: 'Finioraa', shortName: 'FNA', icon: Wallet, color: 'hsl(145, 65%, 42%)', link: '/finioraa', status: 'NEW' },
+  { id: 'proxinex', name: 'Proxinex', shortName: 'PXN', icon: Zap, color: 'hsl(45, 85%, 50%)', link: '/proxinex', status: 'NEW' },
+  { id: 'chronyx', name: 'Chronyx', shortName: 'CRX', icon: Clock, color: 'hsl(190, 70%, 50%)', link: '/chronyx', status: 'NEW' },
+  { id: 'convertix', name: 'Convertix', shortName: 'CVX', icon: RefreshCw, color: 'hsl(320, 70%, 55%)', link: '/convertix', status: 'NEW' },
+  { id: 'finioraa', name: 'Finioraa', shortName: 'FNA', icon: Wallet, color: 'hsl(130, 65%, 45%)', link: '/finioraa', status: 'NEW' },
 ];
 
 const features = [
@@ -28,6 +28,12 @@ const features = [
   { name: 'Custom Integrations', values: [true, true, true, true, true, true, false, true, true, true, true, true] },
   { name: 'White-label', values: [false, false, false, false, false, true, true, false, false, false, false, false] },
 ];
+
+const openWizard = () => {
+  if ((window as any).openPlatformWizard) {
+    (window as any).openPlatformWizard();
+  }
+};
 
 const PlatformComparisonTable = () => {
   const { ref, isVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.1 });
@@ -47,9 +53,17 @@ const PlatformComparisonTable = () => {
           <h2 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight mb-3 sm:mb-4 text-foreground">
             Compare All 12 Platforms
           </h2>
-          <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl mx-auto mb-6">
             Explore features across the entire Cropxon ecosystem
           </p>
+          <Button 
+            onClick={openWizard}
+            className="gap-2 bg-primary/10 text-primary hover:bg-primary/20 border border-primary/20"
+            variant="outline"
+          >
+            <Sparkles className="w-4 h-4" />
+            Find Your Perfect Platform
+          </Button>
         </div>
 
         {/* Desktop Table */}

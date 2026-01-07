@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Cpu, Settings, ShieldCheck, Users, Boxes, GraduationCap, FlaskConical, Building2 } from "lucide-react";
+import { ArrowUpRight, Cpu, Settings, ShieldCheck, Users, Boxes, GraduationCap, FlaskConical, Building2, Zap, Clock, RefreshCw, Wallet } from "lucide-react";
 
 interface Platform {
   id: string;
@@ -66,7 +66,7 @@ const ecosystemPlatforms: Platform[] = [
   },
   {
     id: 'zenith-core',
-    name: 'Zenith Core',
+    name: 'Zenith Studio',
     category: 'Enterprise Foundation',
     description: 'Secure, scalable core infrastructure powering all platform services',
     href: 'https://zenith.cropxon.com',
@@ -93,6 +93,46 @@ const ecosystemPlatforms: Platform[] = [
     external: true,
     color: 'hsl(25, 75%, 52%)',
     icon: FlaskConical,
+  },
+  {
+    id: 'proxinex',
+    name: 'Proxinex',
+    category: 'AI Control Intelligence',
+    description: 'Route queries to the best AI models with cost transparency and answer verification',
+    href: '/proxinex',
+    external: false,
+    color: 'hsl(45, 85%, 50%)',
+    icon: Zap,
+  },
+  {
+    id: 'chronyx',
+    name: 'Chronyx',
+    category: 'Personal Space',
+    description: 'Personal quiet space for todos, finance, notes, memories and life management',
+    href: '/chronyx',
+    external: false,
+    color: 'hsl(190, 70%, 50%)',
+    icon: Clock,
+  },
+  {
+    id: 'convertix',
+    name: 'Convertix',
+    category: 'Conversion Studio',
+    description: 'All-in-one conversion tools for PDF, documents, images, and media files',
+    href: '/convertix',
+    external: false,
+    color: 'hsl(320, 70%, 55%)',
+    icon: RefreshCw,
+  },
+  {
+    id: 'finioraa',
+    name: 'Finioraa',
+    category: 'Financial Intelligence',
+    description: 'Comprehensive financial management, analytics, and business intelligence',
+    href: '/finioraa',
+    external: false,
+    color: 'hsl(130, 65%, 45%)',
+    icon: Wallet,
   },
 ];
 
@@ -181,7 +221,7 @@ const MegaMenu = ({ isOpen, onClose }: MegaMenuProps) => {
         </div>
 
         {/* Platform Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-3">
           {ecosystemPlatforms.map((platform, index) => (
             <PlatformCard
               key={platform.id}
