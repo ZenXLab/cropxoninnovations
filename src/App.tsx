@@ -14,6 +14,7 @@ import PushNotificationPrompt from "@/components/PushNotificationPrompt";
 import SurveillanceDrone from "@/components/SurveillanceDrone";
 import CommandPalette from "@/components/CommandPalette";
 import PlatformQuickNav from "@/components/PlatformQuickNav";
+import PlatformWizard from "@/components/PlatformWizard";
 import Index from "./pages/Index";
 import CompanyProfile from "./pages/CompanyProfile";
 import HowWeThink from "./pages/HowWeThink";
@@ -150,6 +151,15 @@ const AnimatedRoutes = () => {
 
 const App = () => {
   const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [isWizardOpen, setIsWizardOpen] = useState(false);
+
+  // Expose wizard opener globally
+  useEffect(() => {
+    (window as any).openPlatformWizard = () => setIsWizardOpen(true);
+    return () => {
+      delete (window as any).openPlatformWizard;
+    };
+  }, []);
 
   return (
     <HelmetProvider>
@@ -163,6 +173,7 @@ const App = () => {
             <BrowserRouter>
               {!isInitialLoading && <CommandPalette />}
               {!isInitialLoading && <PlatformQuickNav />}
+              {!isInitialLoading && <PlatformWizard isOpen={isWizardOpen} onClose={() => setIsWizardOpen(false)} />}
               {!isInitialLoading && <AnimatedRoutes />}
               {!isInitialLoading && <PWAInstallBanner />}
               {!isInitialLoading && <PushNotificationPrompt />}
