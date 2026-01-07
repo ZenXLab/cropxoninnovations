@@ -16,6 +16,7 @@ import CommandPalette from "@/components/CommandPalette";
 import PlatformQuickNav from "@/components/PlatformQuickNav";
 import PlatformWizard from "@/components/PlatformWizard";
 import Index from "./pages/Index";
+import PlatformShowcase from "./pages/PlatformShowcase";
 import CompanyProfile from "./pages/CompanyProfile";
 import HowWeThink from "./pages/HowWeThink";
 import DesignPrinciples from "./pages/DesignPrinciples";
@@ -109,6 +110,7 @@ const AnimatedRoutes = () => {
       >
         <Routes location={location}>
           <Route path="/" element={<Index />} />
+          <Route path="/showcase" element={<PlatformShowcase />} />
           <Route path="/company" element={<CompanyProfile />} />
           <Route path="/how-we-think" element={<HowWeThink />} />
           <Route path="/design-principles" element={<DesignPrinciples />} />
