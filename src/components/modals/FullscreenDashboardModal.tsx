@@ -1,20 +1,30 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { X, TrendingUp, BarChart3, Activity, Zap, Globe, ExternalLink, ChevronLeft, ChevronRight, Maximize2, Minimize2, Play, Pause, ArrowRight, CheckCircle2, Clock, AlertCircle, Download, Share2, Settings } from 'lucide-react';
-import { PlatformData } from '@/components/sections/PlatformDashboard';
+import { PlatformData, platformsData } from '@/components/sections/PlatformDashboard';
 
 interface FullscreenDashboardModalProps {
-  platform: PlatformData | null;
+  platform?: PlatformData | null;
   isOpen: boolean;
   onClose: () => void;
+  initialPlatform?: string;
 }
 
-const FullscreenDashboardModal = ({ platform, isOpen, onClose }: FullscreenDashboardModalProps) => {
+const FullscreenDashboardModal = ({ platform: externalPlatform, isOpen, onClose, initialPlatform }: FullscreenDashboardModalProps) => {
   const [animatedValues, setAnimatedValues] = useState<number[]>([0, 0, 0]);
   const [chartProgress, setChartProgress] = useState(0);
   const [flowIndex, setFlowIndex] = useState(0);
   const [activeTab, setActiveTab] = useState<'overview' | 'metrics' | 'flow'>('overview');
   const [isLiveMode, setIsLiveMode] = useState(true);
+  
+  // Derive platform from either external prop or initialPlatform string
+  const platform = useMemo(() => {
+    if (externalPlatform) return externalPlatform;
+    if (initialPlatform) {
+      return platformsData.find(p => p.id === initialPlatform) || null;
+    }
+    return null;
+  }, [externalPlatform, initialPlatform]);
   
   const chartData = [40, 55, 45, 60, 75, 65, 80, 85, 78, 90, 88, 95, 92, 98, 94, 97];
   

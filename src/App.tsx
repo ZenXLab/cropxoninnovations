@@ -30,7 +30,7 @@ import Traceflow from "./pages/products/Traceflow";
 import OriginxLabs from "./pages/products/OriginxLabs";
 import CropxonCloud from "./pages/products/CropxonCloud";
 import Robotics from "./pages/products/Robotics";
-import ZenithInstitute from "./pages/products/ZenithInstitute";
+import StackCraft from "./pages/products/StackCraft";
 import Cognix from "./pages/products/Cognix";
 import Qualyx from "./pages/products/Qualyx";
 import Huminex from "./pages/products/Huminex";
@@ -64,7 +64,7 @@ const AnimatedRoutes = () => {
   const prevPathRef = React.useRef(location.pathname);
 
   // Check if transitioning between product pages for smoother transitions
-  const productRoutes = ['/cognix', '/qualyx', '/huminex', '/opzenix', '/traceflow', '/zenith-studio', '/zenith-institute', '/originx-labs', '/proxinex', '/chronyx', '/convertix', '/finioraa', '/atlas', '/cropxon-cloud', '/robotics'];
+  const productRoutes = ['/cognix', '/qualyx', '/huminex', '/opzenix', '/traceflow', '/zenith-studio', '/stackcraft', '/originx-labs', '/proxinex', '/chronyx', '/convertix', '/finioraa', '/atlas', '/cropxon-cloud', '/robotics'];
   
   useEffect(() => {
     const prevPath = prevPathRef.current;
@@ -124,7 +124,7 @@ const AnimatedRoutes = () => {
           <Route path="/originx-labs" element={<OriginxLabs />} />
           <Route path="/cropxon-cloud" element={<CropxonCloud />} />
           <Route path="/robotics" element={<Robotics />} />
-          <Route path="/zenith-institute" element={<ZenithInstitute />} />
+          <Route path="/stackcraft" element={<StackCraft />} />
           <Route path="/cognix" element={<Cognix />} />
           <Route path="/qualyx" element={<Qualyx />} />
           <Route path="/huminex" element={<Huminex />} />
