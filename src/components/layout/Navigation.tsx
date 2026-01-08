@@ -16,6 +16,13 @@ interface NavItem {
 const navItems: NavItem[] = [
   { label: "ECOSYSTEM", isMegaMenu: true },
   {
+    label: "EXPLORE",
+    children: [
+      { label: "Platform Showcase", href: "/showcase" },
+      { label: "All Platforms", href: "/platforms" },
+    ],
+  },
+  {
     label: "PHILOSOPHY",
     children: [
       { label: "How We Think", href: "/how-we-think" },
