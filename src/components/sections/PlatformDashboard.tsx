@@ -940,8 +940,8 @@ const PlatformDashboard = ({ platformId, onOpenFullscreen, expanded = false }: P
                     </div>
                   )}
 
-                  {/* Zenith Institute - Learning Progress */}
-                  {currentPlatform.id === 'zenith-institute' && (
+                  {/* StackCraft - Learning Progress */}
+                  {currentPlatform.id === 'stackcraft' && (
                     <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
                       <defs>
                         <linearGradient id="instituteGrad" x1="0%" y1="0%" x2="0%" y2="100%">

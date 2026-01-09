@@ -98,7 +98,7 @@ const questions: Question[] = [
       { 
         label: 'Learning & Growth', 
         description: 'Education and skill development',
-        platforms: ['zenith-institute', 'originx-labs']
+        platforms: ['stackcraft', 'originx-labs']
       },
     ],
   },
@@ -125,7 +125,7 @@ const questions: Question[] = [
       { 
         label: 'No specific integration needed', 
         description: 'Standalone solution',
-        platforms: ['chronyx', 'convertix', 'zenith-institute', 'proxinex']
+        platforms: ['chronyx', 'convertix', 'stackcraft', 'proxinex']
       },
     ],
   },
@@ -138,7 +138,7 @@ const platforms = [
   { id: 'opzenix', name: 'OpZeniX', icon: Settings, color: 'hsl(260, 60%, 58%)', href: '/opzenix', description: 'DevOps, MLOps & AIOps platform' },
   { id: 'traceflow', name: 'TraceFlow', icon: Boxes, color: 'hsl(200, 70%, 50%)', href: '/traceflow', description: 'Digital cognition & infrastructure' },
   { id: 'zenith-core', name: 'Zenith Studio', icon: Building2, color: 'hsl(280, 55%, 55%)', href: '/zenith-studio', description: 'Business & content creation platform' },
-  { id: 'zenith-institute', name: 'Zenith Institute', icon: GraduationCap, color: 'hsl(145, 55%, 45%)', href: '/zenith-institute', description: 'Learning & certification programs' },
+  { id: 'stackcraft', name: 'StackCraft', icon: GraduationCap, color: 'hsl(145, 55%, 45%)', href: '/stackcraft', description: 'Engineering knowledge platform' },
   { id: 'originx-labs', name: 'OriginX Labs', icon: FlaskConical, color: 'hsl(25, 75%, 52%)', href: '/originx-labs', description: 'Research & advanced innovation' },
   { id: 'proxinex', name: 'Proxinex', icon: Zap, color: 'hsl(45, 85%, 50%)', href: '/proxinex', description: 'AI model routing & control' },
   { id: 'chronyx', name: 'Chronyx', icon: Clock, color: 'hsl(190, 70%, 50%)', href: '/chronyx', description: 'Personal quiet space (PQS)' },
