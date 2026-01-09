@@ -10,7 +10,7 @@ const platforms = [
   { id: 'opzenix', name: 'OpZeniX', shortName: 'OZX', icon: Settings, color: 'hsl(260, 60%, 58%)', link: '/opzenix', status: 'Development' },
   { id: 'traceflow', name: 'TraceFlow', shortName: 'TRF', icon: Boxes, color: 'hsl(200, 70%, 50%)', link: '/traceflow', status: 'LIVE' },
   { id: 'zenith-studio', name: 'Zenith Studio', shortName: 'ZST', icon: Building2, color: 'hsl(280, 55%, 55%)', link: '/zenith-studio', status: 'LIVE · MVP' },
-  { id: 'zenith-institute', name: 'Zenith Inst.', shortName: 'ZIN', icon: GraduationCap, color: 'hsl(145, 55%, 45%)', link: '/zenith-institute', status: 'LIVE · MVP' },
+  { id: 'stackcraft', name: 'StackCraft', shortName: 'SCF', icon: GraduationCap, color: 'hsl(145, 55%, 45%)', link: '/stackcraft', status: 'LIVE · MVP' },
   { id: 'originx-labs', name: 'OriginX Labs', shortName: 'OXL', icon: FlaskConical, color: 'hsl(25, 75%, 52%)', link: '/originx-labs', status: 'LIVE' },
   { id: 'proxinex', name: 'Proxinex', shortName: 'PXN', icon: Zap, color: 'hsl(45, 85%, 50%)', link: '/proxinex', status: 'NEW' },
   { id: 'chronyx', name: 'Chronyx', shortName: 'CRX', icon: Clock, color: 'hsl(190, 70%, 50%)', link: '/chronyx', status: 'NEW' },

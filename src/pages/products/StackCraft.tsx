@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
 import BackToTop from "@/components/BackToTop";
+import StackCraftBlogSection from "@/components/sections/StackCraftBlogSection";
 import useScrollAnimation from "@/hooks/useScrollAnimation";
 import { 
   GraduationCap, Users, Globe, Award, Briefcase, Target, BookOpen, Layers, CheckCircle, Building2, ArrowRight, Sparkles
@@ -162,6 +163,9 @@ const StackCraft = () => {
             </div>
           </div>
         </section>
+
+        {/* Blog Section */}
+        <StackCraftBlogSection />
 
         {/* CTA Section */}
         <section ref={ctaRef} className="py-16 lg:py-24">

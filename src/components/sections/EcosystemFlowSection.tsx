@@ -166,16 +166,16 @@ const platforms: PlatformDashboard[] = [
     ],
   },
   {
-    id: 'zenith-institute',
-    name: 'Zenith Institute',
+    id: 'stackcraft',
+    name: 'StackCraft',
     icon: GraduationCap,
     color: 'hsl(145, 55%, 45%)',
-    tagline: 'Engineering Education',
+    tagline: 'Engineering Knowledge Platform',
     metrics: [
-      { label: 'Active Learners', value: '8,420', trend: 'up', change: '+524' },
-      { label: 'Courses', value: '156', trend: 'up', change: '+12' },
+      { label: 'Active Engineers', value: '8,420', trend: 'up', change: '+524' },
+      { label: 'Playbooks', value: '156', trend: 'up', change: '+12' },
       { label: 'Completion', value: '78.4%', trend: 'up', change: '+3.2%' },
-      { label: 'Placements', value: '94.2%', trend: 'up', change: '+1.8%' },
+      { label: 'Skill Mastery', value: '94.2%', trend: 'up', change: '+1.8%' },
     ],
     features: [
       { icon: GraduationCap, label: 'Learning Paths', status: 'active' },
