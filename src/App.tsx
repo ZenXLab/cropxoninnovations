@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Toaster } from "@/components/ui/toaster";
+import StackCraftBlog from "@/pages/StackCraftBlog";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -125,6 +126,7 @@ const AnimatedRoutes = () => {
           <Route path="/cropxon-cloud" element={<CropxonCloud />} />
           <Route path="/robotics" element={<Robotics />} />
           <Route path="/stackcraft" element={<StackCraft />} />
+          <Route path="/stackcraft/blog" element={<StackCraftBlog />} />
           <Route path="/cognix" element={<Cognix />} />
           <Route path="/qualyx" element={<Qualyx />} />
           <Route path="/huminex" element={<Huminex />} />

@@ -29,7 +29,7 @@ const Footer = () => {
       { label: "Qualyx", href: "/qualyx" },
       { label: "Huminex", href: "/huminex" },
       { label: "Zenith Studio", href: "/zenith-studio" },
-      { label: "Zenith Institute", href: "/zenith-institute" },
+      { label: "StackCraft", href: "/stackcraft" },
       { label: "OriginX Labs", href: "/originx-labs" },
       { label: "Proxinex", href: "/proxinex" },
       { label: "Chronyx", href: "/chronyx" },

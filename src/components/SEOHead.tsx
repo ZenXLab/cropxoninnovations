@@ -20,7 +20,7 @@ const ogImageMap: Record<string, string> = {
   '/opzenix': 'https://cropxon.com/og/opzenix-og.png',
   '/atlas': 'https://cropxon.com/og/atlas-og.png',
   '/zenith-studio': 'https://cropxon.com/og/zenith-studio-og.png',
-  '/zenith-institute': 'https://cropxon.com/og/zenith-institute-og.png',
+  '/stackcraft': 'https://cropxon.com/og/stackcraft-og.png',
   '/originx-labs': 'https://cropxon.com/og/originx-labs-og.png',
   '/robotics': 'https://cropxon.com/og/robotics-og.png',
   '/blog': 'https://cropxon.com/og/blog-og.png',

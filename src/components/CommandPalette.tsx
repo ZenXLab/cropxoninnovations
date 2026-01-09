@@ -46,7 +46,7 @@ const platforms = [
   { name: "Cropxon Cloud", description: "Unified cloud platform", href: "/cropxon-cloud", icon: Cloud, category: "Cloud" },
   { name: "Robotics", description: "Autonomous systems and robotics", href: "/robotics", icon: Bot, category: "Robotics" },
   { name: "Zenith Studio", description: "Business and content creation", href: "/zenith-studio", icon: Palette, category: "Creation" },
-  { name: "Zenith Institute", description: "Learning and certification", href: "/zenith-institute", icon: GraduationCap, category: "Education" },
+  { name: "StackCraft", description: "Engineering knowledge platform", href: "/stackcraft", icon: GraduationCap, category: "Learning" },
   { name: "OriginX Labs", description: "Deep-tech research and innovation", href: "/originx-labs", icon: FlaskConical, category: "Research" },
   { name: "Proxinex", description: "Control Intelligence - AI routing", href: "/proxinex", icon: Zap, category: "AI Platform" },
   { name: "Chronyx", description: "Personal Quiet Space (PQS)", href: "/chronyx", icon: Clock, category: "Productivity" },
