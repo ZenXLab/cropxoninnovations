@@ -34,49 +34,112 @@ const companyDetails = [
 // Divisions Data
 const divisions = [
   {
-    name: "TRACEFLOW",
+    name: "Cognix",
+    tagline: "Enterprise AI & Cognition Platform",
+    description: "Advanced AI/ML processing with neural networks and predictive analytics",
+    industries: "Enterprise, Healthcare, Finance",
+    status: "Beta",
+    statusColor: "bg-accent/20 text-accent",
+    link: "/cognix",
+  },
+  {
+    name: "TraceFlow",
     tagline: "Digital Cognition Infrastructure",
-    description: "Enterprise observability and experience intelligence",
-    industries: "Banking, Healthcare, Insurance, Telecom",
-    status: "Beta / Early Access",
+    description: "Enterprise observability and supply chain traceability",
+    industries: "Banking, Healthcare, Logistics",
+    status: "Beta",
     statusColor: "bg-accent/20 text-accent",
     link: "/traceflow",
   },
   {
-    name: "ATLAS",
-    tagline: "Workforce Operating System",
-    description: "AI-enabled workforce management and productivity platform",
-    industries: null,
-    status: "Beta / Early Access",
+    name: "Huminex",
+    tagline: "Workforce Intelligence OS",
+    description: "AI-enabled workforce management and human intelligence platform",
+    industries: "Enterprise HR, Consulting",
+    status: "Early Access",
+    statusColor: "bg-primary/20 text-primary",
+    link: "/huminex",
+  },
+  {
+    name: "OpZeniX",
+    tagline: "Intelligent Operations Platform",
+    description: "Process automation and resource optimization at scale",
+    industries: "Manufacturing, Operations",
+    status: "Beta",
     statusColor: "bg-accent/20 text-accent",
-    link: "/atlas",
+    link: "/opzenix",
+  },
+  {
+    name: "Qualyx",
+    tagline: "Quality & Compliance Intelligence",
+    description: "Audit management, risk assessment, and compliance monitoring",
+    industries: "Regulated Industries",
+    status: "Beta",
+    statusColor: "bg-accent/20 text-accent",
+    link: "/qualyx",
+  },
+  {
+    name: "Proxinex",
+    tagline: "AI Model Routing & Control",
+    description: "Intelligent LLM orchestration with cost transparency",
+    industries: "AI/ML Teams, Developers",
+    status: "Early Access",
+    statusColor: "bg-primary/20 text-primary",
+    link: "/proxinex",
+  },
+  {
+    name: "Chronyx",
+    tagline: "Personal Quiet Space (PQS)",
+    description: "Life management app for todos, notes, and memories",
+    industries: "Consumer, Personal",
+    status: "Early Access",
+    statusColor: "bg-primary/20 text-primary",
+    link: "/chronyx",
+  },
+  {
+    name: "Convertix",
+    tagline: "Conversion Operating Studio",
+    description: "Universal file conversion with 150+ format support",
+    industries: "Developers, Creators",
+    status: "Beta",
+    statusColor: "bg-accent/20 text-accent",
+    link: "/convertix",
+  },
+  {
+    name: "Finioraa",
+    tagline: "Personal Finance OS",
+    description: "AI-powered financial tracking and investment insights",
+    industries: "Personal Finance",
+    status: "Early Access",
+    statusColor: "bg-primary/20 text-primary",
+    link: "/finioraa",
+  },
+  {
+    name: "Zenith Studio",
+    tagline: "Design-to-Code Platform",
+    description: "AI-assisted design system and component generation",
+    industries: "Design, Development",
+    status: "Beta",
+    statusColor: "bg-accent/20 text-accent",
+    link: "/zenith-studio",
+  },
+  {
+    name: "StackCraft",
+    tagline: "Engineering Knowledge Platform",
+    description: "Playbooks, tutorials, and certification for engineers",
+    industries: "Engineering Teams",
+    status: "Live",
+    statusColor: "bg-green-500/20 text-green-500",
+    link: "/stackcraft",
   },
   {
     name: "OriginX Labs",
-    tagline: "Research & Product Innovation Division",
-    description: "Focus: AI/ML, advanced computing, emerging technologies",
-    industries: null,
-    status: "Beta / Early Access",
-    statusColor: "bg-accent/20 text-accent",
+    tagline: "Research & Innovation Division",
+    description: "AI/ML research, patents, and emerging technologies",
+    industries: "R&D, Innovation",
+    status: "Active",
+    statusColor: "bg-green-500/20 text-green-500",
     link: "/originx-labs",
-  },
-  {
-    name: "CropXon Cloud",
-    tagline: "Infrastructure as a Service (IaaS)",
-    description: "Target: Individuals, startups, and SMBs",
-    industries: null,
-    status: "Beta / Early Access",
-    statusColor: "bg-accent/20 text-accent",
-    link: "/cropxon-cloud",
-  },
-  {
-    name: "CropXon Robotics",
-    tagline: "Advanced Robotics Division",
-    description: "Focus: Autonomous systems, industrial automation",
-    industries: null,
-    status: "Planned (Future)",
-    statusColor: "bg-muted text-muted-foreground",
-    link: "/robotics",
   },
 ];
 
@@ -199,13 +262,13 @@ const CompanyProfile = () => {
               </div>
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
                 <AnimatedCounter 
-                  end={5}
+                  end={12}
                   suffix="+"
                   label="Products"
-                  description="Platforms in development"
+                  description="Live & Beta platforms"
                 />
                 <AnimatedCounter 
-                  end={15}
+                  end={25}
                   suffix="+"
                   label="Team Members"
                   description="Engineers & specialists"

@@ -398,13 +398,19 @@ const EcosystemFlowSection = () => {
       <div className="relative max-w-7xl mx-auto px-6 sm:px-8">
         {/* Header */}
         <div className={`text-center mb-10 sm:mb-14 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <p className="font-display text-[10px] sm:text-[11px] font-medium text-muted-foreground tracking-[0.25em] uppercase mb-4">
-            Live Platform Preview
-          </p>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
+            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            <span className="font-mono text-[10px] sm:text-[11px] font-medium text-primary tracking-wide uppercase">
+              12 Live Platforms
+            </span>
+          </div>
           <h2 className="font-display font-bold text-foreground leading-tight" style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)", letterSpacing: "-0.02em" }}>
-            <span className="block">See How Each Platform</span>
-            <span className="block text-primary">Powers Your Enterprise</span>
+            <span className="block">Experience Our Platform</span>
+            <span className="block text-primary">Ecosystem in Action</span>
           </h2>
+          <p className="mt-4 text-sm text-muted-foreground max-w-2xl mx-auto">
+            Interactive preview of all 12 platforms powering enterprise operations, from AI cognition to personal productivity
+          </p>
         </div>
 
         {/* Platform Tabs */}
@@ -690,9 +696,18 @@ const EcosystemFlowSection = () => {
 
         {/* Platform name indicator */}
         <div className={`mt-6 text-center transition-all duration-700 delay-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-          <p className="text-sm text-muted-foreground">
-            Viewing <span className="font-medium text-foreground">{currentPlatform.name}</span> • {selectedPlatform + 1} of {platforms.length}
-          </p>
+          <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-card/50 backdrop-blur-sm border border-border/30">
+            <div 
+              className="w-3 h-3 rounded-full animate-pulse"
+              style={{ backgroundColor: currentPlatform.color }}
+            />
+            <p className="text-sm text-muted-foreground">
+              Viewing <span className="font-semibold text-foreground">{currentPlatform.name}</span>
+            </p>
+            <span className="text-xs text-muted-foreground/60 font-mono">
+              {selectedPlatform + 1}/{platforms.length}
+            </span>
+          </div>
         </div>
       </div>
 
