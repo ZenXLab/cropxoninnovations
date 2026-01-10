@@ -13,71 +13,106 @@ const timelineEvents: TimelineEvent[] = [
   {
     quarter: "Q1",
     year: "2026",
-    title: "ATLAS Public Beta",
-    description: "Workforce Operating System opens to early enterprise adopters",
+    title: "Huminex Public Beta",
+    description: "Workforce Intelligence OS opens to early enterprise adopters with AI-powered HR insights",
+    status: "current"
+  },
+  {
+    quarter: "Q1",
+    year: "2026",
+    title: "TraceFlow v2.0",
+    description: "Major platform update with enhanced observability and supply chain traceability features",
     status: "upcoming"
   },
   {
     quarter: "Q1",
     year: "2026",
-    title: "Traceflow v2.0",
-    description: "Major platform update with enhanced observability features",
+    title: "Proxinex Launch",
+    description: "AI Model Routing & Cost Transparency platform for intelligent LLM orchestration",
     status: "upcoming"
   },
   {
     quarter: "Q2",
     year: "2026",
     title: "CropXon Cloud Expansion",
-    description: "Enterprise-grade cloud infrastructure rollout",
+    description: "Enterprise-grade cloud infrastructure rollout with multi-region support",
     status: "upcoming"
   },
   {
     quarter: "Q2",
     year: "2026",
-    title: "OriginX Labs AI Suite",
-    description: "First commercial AI/ML products from research division",
+    title: "Chronyx Beta",
+    description: "Personal Quiet Space (PQS) app launch for life management and digital wellbeing",
+    status: "upcoming"
+  },
+  {
+    quarter: "Q2",
+    year: "2026",
+    title: "Convertix Studio",
+    description: "Conversion Operating Studio with 150+ format support and developer utilities",
+    status: "upcoming"
+  },
+  {
+    quarter: "Q3",
+    year: "2026",
+    title: "Finioraa Platform",
+    description: "Personal Finance OS with AI-powered investment insights and tax optimization",
+    status: "upcoming"
+  },
+  {
+    quarter: "Q3",
+    year: "2026",
+    title: "StackCraft Academy",
+    description: "Engineering Knowledge Platform with certification programs and mentorship",
     status: "upcoming"
   },
   {
     quarter: "Q3",
     year: "2026",
     title: "Global Data Centers",
-    description: "Multi-region infrastructure deployment for low-latency services",
+    description: "Multi-region infrastructure deployment for low-latency services across continents",
     status: "upcoming"
   },
   {
     quarter: "Q4",
     year: "2026",
-    title: "Enterprise Partnerships",
-    description: "Strategic alliances with Fortune 500 organizations",
+    title: "Cognix Enterprise",
+    description: "Advanced AI cognition platform with custom model training for enterprises",
+    status: "upcoming"
+  },
+  {
+    quarter: "Q4",
+    year: "2026",
+    title: "OpZeniX v3.0",
+    description: "Next-gen operations automation with predictive workflow optimization",
     status: "upcoming"
   },
   {
     quarter: "Q1",
     year: "2027",
     title: "Robotics R&D Launch",
-    description: "Formal establishment of autonomous systems division",
+    description: "Formal establishment of autonomous systems and industrial automation division",
     status: "upcoming"
   },
   {
     quarter: "Q2",
     year: "2027",
     title: "Government Contracts",
-    description: "Public sector infrastructure deployment begins",
+    description: "Public sector infrastructure deployment and digital transformation initiatives",
     status: "upcoming"
   },
   {
     quarter: "Q3",
     year: "2027",
-    title: "Robotics Prototypes",
-    description: "First autonomous system prototypes for industrial testing",
+    title: "Zenith Studio Pro",
+    description: "Advanced design-to-code platform with AI-assisted component generation",
     status: "upcoming"
   },
   {
     quarter: "Q4",
     year: "2027",
-    title: "Platform Integration",
-    description: "Unified ecosystem connecting all CropXon divisions",
+    title: "Unified Ecosystem",
+    description: "Complete platform integration connecting all 12 CropXon divisions seamlessly",
     status: "upcoming"
   },
 ];
@@ -118,11 +153,22 @@ const InteractiveTimeline = () => {
   const getStatusColor = (status: TimelineEvent["status"]) => {
     switch (status) {
       case "completed":
-        return "bg-accent";
+        return "bg-green-500";
       case "current":
         return "bg-accent animate-pulse";
       case "upcoming":
         return "bg-muted-foreground/30";
+    }
+  };
+
+  const getStatusLabel = (status: TimelineEvent["status"]) => {
+    switch (status) {
+      case "completed":
+        return "Completed";
+      case "current":
+        return "In Progress";
+      case "upcoming":
+        return "Upcoming";
     }
   };
 
@@ -132,8 +178,8 @@ const InteractiveTimeline = () => {
       <button
         onClick={() => scroll("left")}
         disabled={!canScrollLeft}
-        className={`absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center bg-card border border-border rounded-sm transition-opacity ${
-          canScrollLeft ? "opacity-100 hover:bg-muted" : "opacity-30 cursor-not-allowed"
+        className={`absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center bg-card border border-border rounded-lg transition-all ${
+          canScrollLeft ? "opacity-100 hover:bg-muted hover:scale-105" : "opacity-30 cursor-not-allowed"
         }`}
         aria-label="Scroll left"
       >
@@ -143,8 +189,8 @@ const InteractiveTimeline = () => {
       <button
         onClick={() => scroll("right")}
         disabled={!canScrollRight}
-        className={`absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center bg-card border border-border rounded-sm transition-opacity ${
-          canScrollRight ? "opacity-100 hover:bg-muted" : "opacity-30 cursor-not-allowed"
+        className={`absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center bg-card border border-border rounded-lg transition-all ${
+          canScrollRight ? "opacity-100 hover:bg-muted hover:scale-105" : "opacity-30 cursor-not-allowed"
         }`}
         aria-label="Scroll right"
       >
@@ -162,51 +208,83 @@ const InteractiveTimeline = () => {
             <button
               key={index}
               onClick={() => setActiveIndex(index)}
-              className={`relative flex-shrink-0 w-48 p-4 rounded-sm border transition-all duration-300 text-left ${
+              className={`relative flex-shrink-0 w-56 p-5 rounded-xl border transition-all duration-300 text-left group ${
                 activeIndex === index
-                  ? "bg-card border-accent"
-                  : "bg-background border-border hover:border-muted-foreground/50"
+                  ? "bg-card border-accent shadow-lg shadow-accent/10"
+                  : "bg-background border-border hover:border-muted-foreground/50 hover:bg-card/50"
               }`}
             >
               {/* Status Indicator */}
-              <div className={`absolute top-4 right-4 w-2 h-2 rounded-full ${getStatusColor(event.status)}`} />
+              <div className="absolute top-4 right-4 flex items-center gap-2">
+                <div className={`w-2 h-2 rounded-full ${getStatusColor(event.status)}`} />
+                <span className={`text-[9px] uppercase tracking-wide ${
+                  event.status === 'current' ? 'text-accent' : 'text-muted-foreground/60'
+                }`}>
+                  {getStatusLabel(event.status)}
+                </span>
+              </div>
 
               {/* Quarter/Year */}
               <div className="mb-3">
-                <span className="font-mono text-xs text-accent">{event.quarter}</span>
-                <span className="font-mono text-xs text-muted-foreground ml-1">{event.year}</span>
+                <span className="font-mono text-sm font-bold text-accent">{event.quarter}</span>
+                <span className="font-mono text-sm text-muted-foreground ml-1.5">{event.year}</span>
               </div>
 
               {/* Title */}
               <h4 className={`font-display text-sm font-bold mb-2 transition-colors ${
-                activeIndex === index ? "text-foreground" : "text-muted-foreground"
+                activeIndex === index ? "text-foreground" : "text-muted-foreground group-hover:text-foreground"
               }`}>
                 {event.title}
               </h4>
 
-              {/* Description - Only visible when active */}
+              {/* Description */}
               <p className={`text-xs text-muted-foreground leading-relaxed transition-opacity duration-300 ${
                 activeIndex === index ? "opacity-100" : "opacity-60"
               }`}>
                 {event.description}
               </p>
+
+              {/* Active indicator line */}
+              <div className={`absolute bottom-0 left-0 right-0 h-0.5 rounded-b-xl transition-all duration-300 ${
+                activeIndex === index ? 'bg-accent' : 'bg-transparent'
+              }`} />
             </button>
           ))}
         </div>
       </div>
 
       {/* Progress Bar */}
-      <div className="flex justify-center gap-1 mt-4">
-        {timelineEvents.map((_, index) => (
+      <div className="flex justify-center gap-1.5 mt-4">
+        {timelineEvents.map((event, index) => (
           <button
             key={index}
             onClick={() => setActiveIndex(index)}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-              activeIndex === index ? "bg-accent w-6" : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+            className={`h-2 rounded-full transition-all duration-300 ${
+              activeIndex === index 
+                ? "bg-accent w-8" 
+                : event.status === 'current'
+                  ? "bg-accent/50 w-3"
+                  : "bg-muted-foreground/30 w-2 hover:bg-muted-foreground/50"
             }`}
-            aria-label={`Go to event ${index + 1}`}
+            aria-label={`Go to ${event.title}`}
           />
         ))}
+      </div>
+
+      {/* Timeline Legend */}
+      <div className="flex justify-center gap-6 mt-6">
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-green-500" />
+          <span className="text-xs text-muted-foreground">Completed</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+          <span className="text-xs text-muted-foreground">In Progress</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-muted-foreground/30" />
+          <span className="text-xs text-muted-foreground">Upcoming</span>
+        </div>
       </div>
     </div>
   );
