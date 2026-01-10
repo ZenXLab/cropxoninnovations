@@ -6,7 +6,7 @@ import {
   ArrowRight, ArrowLeft, CheckCircle2, X, Sparkles
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Progress } from '@/components/ui/progress';
 
 interface Question {
@@ -178,6 +178,11 @@ const PlatformWizard = ({ isOpen, onClose }: PlatformWizardProps) => {
     setShowResults(false);
   };
 
+  const handleClose = () => {
+    handleReset();
+    onClose();
+  };
+
   // Calculate recommended platforms based on answers
   const getRecommendedPlatforms = () => {
     const scores: Record<string, number> = {};
@@ -204,24 +209,37 @@ const PlatformWizard = ({ isOpen, onClose }: PlatformWizardProps) => {
   const recommendedPlatforms = showResults ? getRecommendedPlatforms() : [];
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-auto bg-card/98 backdrop-blur-xl border-border/30">
-        <DialogHeader>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-auto bg-card border-border [&>button]:hidden">
+        <DialogHeader className="pb-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-primary" />
-              <DialogTitle className="font-display text-lg font-semibold">
-                Platform Discovery Wizard
-              </DialogTitle>
+              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                <Sparkles className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <DialogTitle className="font-display text-lg font-semibold text-foreground">
+                  Platform Discovery Wizard
+                </DialogTitle>
+                <DialogDescription className="text-xs text-muted-foreground">
+                  Find the perfect Cropxon platform for your needs
+                </DialogDescription>
+              </div>
             </div>
-            <Button variant="ghost" size="icon" onClick={onClose}>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={handleClose}
+              className="rounded-full hover:bg-muted"
+            >
               <X className="w-4 h-4" />
+              <span className="sr-only">Close</span>
             </Button>
           </div>
         </DialogHeader>
 
         {!showResults ? (
-          <div className="space-y-6">
+          <div className="space-y-6 pt-2">
             {/* Progress */}
             <div className="space-y-2">
               <div className="flex justify-between text-xs text-muted-foreground">
@@ -250,7 +268,7 @@ const PlatformWizard = ({ isOpen, onClose }: PlatformWizardProps) => {
                   className={`group relative p-4 rounded-xl border text-left transition-all duration-300 ${
                     answers[currentQuestion.id] === index
                       ? 'border-primary bg-primary/5 ring-2 ring-primary/20'
-                      : 'border-border/30 hover:border-border/60 hover:bg-muted/30'
+                      : 'border-border hover:border-primary/40 hover:bg-muted/30'
                   }`}
                 >
                   <div className="flex items-start gap-3">
@@ -273,7 +291,7 @@ const PlatformWizard = ({ isOpen, onClose }: PlatformWizardProps) => {
             </div>
 
             {/* Navigation */}
-            <div className="flex justify-between pt-4 border-t border-border/20">
+            <div className="flex justify-between pt-4 border-t border-border">
               <Button
                 variant="ghost"
                 onClick={handleBack}
@@ -289,7 +307,7 @@ const PlatformWizard = ({ isOpen, onClose }: PlatformWizardProps) => {
             </div>
           </div>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-6 pt-2">
             {/* Results Header */}
             <div className="text-center space-y-2">
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-2">
@@ -313,8 +331,8 @@ const PlatformWizard = ({ isOpen, onClose }: PlatformWizardProps) => {
                   <Link
                     key={platform.id}
                     to={platform.href}
-                    onClick={onClose}
-                    className="group relative p-4 rounded-xl border border-border/30 hover:border-border/60 bg-background/50 hover:bg-muted/30 transition-all duration-300"
+                    onClick={handleClose}
+                    className="group relative p-4 rounded-xl border border-border hover:border-primary/40 bg-card hover:bg-muted/30 transition-all duration-300"
                   >
                     <div className="flex items-center gap-4">
                       <div 
@@ -355,12 +373,12 @@ const PlatformWizard = ({ isOpen, onClose }: PlatformWizardProps) => {
             </div>
 
             {/* Actions */}
-            <div className="flex justify-center gap-3 pt-4 border-t border-border/20">
+            <div className="flex justify-center gap-3 pt-4 border-t border-border">
               <Button variant="outline" onClick={handleReset} className="gap-2">
                 <ArrowLeft className="w-4 h-4" />
                 Retake Quiz
               </Button>
-              <Link to="/platforms" onClick={onClose}>
+              <Link to="/platforms" onClick={handleClose}>
                 <Button className="gap-2">
                   View All Platforms
                   <ArrowRight className="w-4 h-4" />

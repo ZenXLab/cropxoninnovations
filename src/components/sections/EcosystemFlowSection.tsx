@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Play, Pause, ChevronLeft, ChevronRight, Cpu, Settings, ShieldCheck, Users, Boxes, GraduationCap, FlaskConical, Building2, TrendingUp, BarChart3, PieChart, Activity, Zap, Database, Globe, Lock, ArrowRight, CheckCircle2, Clock, AlertCircle } from 'lucide-react';
+import { Play, Pause, ChevronLeft, ChevronRight, Cpu, Settings, ShieldCheck, Users, Boxes, GraduationCap, FlaskConical, Building2, TrendingUp, BarChart3, PieChart, Activity, Zap, Database, Globe, Lock, ArrowRight, CheckCircle2, Clock, AlertCircle, RefreshCw, Wallet, DollarSign } from 'lucide-react';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 
 interface PlatformDashboard {
@@ -142,7 +142,7 @@ const platforms: PlatformDashboard[] = [
   },
   {
     id: 'zenith-core',
-    name: 'Zenith Core',
+    name: 'Zenith Studio',
     icon: Building2,
     color: 'hsl(280, 55%, 55%)',
     tagline: 'Platform Infrastructure',
@@ -214,7 +214,107 @@ const platforms: PlatformDashboard[] = [
       { label: 'Resource Alloc', value: 84, max: 100 },
       { label: 'Impact Score', value: 91, max: 100 },
     ],
-  }
+  },
+  {
+    id: 'proxinex',
+    name: 'Proxinex',
+    icon: Zap,
+    color: 'hsl(45, 85%, 50%)',
+    tagline: 'AI Model Routing & Control',
+    metrics: [
+      { label: 'Models Routed', value: '47', trend: 'up', change: '+12' },
+      { label: 'Cost Savings', value: '68%', trend: 'up', change: '+8%' },
+      { label: 'Queries/Day', value: '2.4M', trend: 'up', change: '+18%' },
+      { label: 'Accuracy', value: '99.2%', trend: 'up', change: '+0.3%' },
+    ],
+    features: [
+      { icon: Zap, label: 'AI Model Routing', status: 'active' },
+      { icon: DollarSign, label: 'Cost Transparency', status: 'active' },
+      { icon: CheckCircle2, label: 'Answer Verification', status: 'processing' },
+      { icon: Activity, label: 'Real-time Analytics', status: 'active' },
+    ],
+    chartData: [45, 52, 58, 65, 72, 68, 78, 82, 75, 88, 92, 96],
+    liveStats: [
+      { label: 'Routing Accuracy', value: 98, max: 100 },
+      { label: 'Cost Efficiency', value: 92, max: 100 },
+      { label: 'Model Coverage', value: 87, max: 100 },
+    ],
+  },
+  {
+    id: 'chronyx',
+    name: 'Chronyx',
+    icon: Clock,
+    color: 'hsl(190, 70%, 50%)',
+    tagline: 'Personal Quiet Space (PQS)',
+    metrics: [
+      { label: 'Tasks Tracked', value: '12.4K', trend: 'up', change: '+847' },
+      { label: 'Notes Created', value: '8,420', trend: 'up', change: '+524' },
+      { label: 'Memories Saved', value: '3,240', trend: 'up', change: '+156' },
+      { label: 'Life Score', value: '94.8%', trend: 'up', change: '+2.1%' },
+    ],
+    features: [
+      { icon: CheckCircle2, label: 'Todos & Notes', status: 'active' },
+      { icon: DollarSign, label: 'Finance Tracking', status: 'active' },
+      { icon: Activity, label: 'Study Management', status: 'processing' },
+      { icon: Clock, label: 'Personal Memories', status: 'active' },
+    ],
+    chartData: [35, 42, 48, 52, 58, 55, 65, 68, 62, 75, 78, 82],
+    liveStats: [
+      { label: 'Organization', value: 89, max: 100 },
+      { label: 'Productivity', value: 82, max: 100 },
+      { label: 'Memory Index', value: 94, max: 100 },
+    ],
+  },
+  {
+    id: 'convertix',
+    name: 'Convertix',
+    icon: RefreshCw,
+    color: 'hsl(320, 70%, 55%)',
+    tagline: 'Conversion Operating Studio',
+    metrics: [
+      { label: 'Files Converted', value: '847K', trend: 'up', change: '+24K' },
+      { label: 'Formats', value: '156', trend: 'up', change: '+12' },
+      { label: 'Speed', value: '2.4s', trend: 'down', change: '-0.8s' },
+      { label: 'Success Rate', value: '99.7%', trend: 'up', change: '+0.2%' },
+    ],
+    features: [
+      { icon: RefreshCw, label: 'PDF Conversion', status: 'active' },
+      { icon: PieChart, label: 'Image Tools', status: 'active' },
+      { icon: Activity, label: 'Media Processing', status: 'processing' },
+      { icon: Database, label: 'Developer Utils', status: 'active' },
+    ],
+    chartData: [55, 62, 58, 68, 75, 72, 82, 85, 78, 92, 88, 95],
+    liveStats: [
+      { label: 'Conversion Queue', value: 78, max: 100 },
+      { label: 'Format Coverage', value: 96, max: 100 },
+      { label: 'Quality Index', value: 99, max: 100 },
+    ],
+  },
+  {
+    id: 'finioraa',
+    name: 'Finioraa',
+    icon: Wallet,
+    color: 'hsl(130, 65%, 45%)',
+    tagline: 'Personal Finance OS',
+    metrics: [
+      { label: 'Assets Tracked', value: '$2.4M', trend: 'up', change: '+$156K' },
+      { label: 'Investments', value: '347', trend: 'up', change: '+28' },
+      { label: 'Tax Savings', value: '$24K', trend: 'up', change: '+$3.2K' },
+      { label: 'Financial Score', value: '94.2%', trend: 'up', change: '+2.1%' },
+    ],
+    features: [
+      { icon: DollarSign, label: 'Finance Tracking', status: 'active' },
+      { icon: TrendingUp, label: 'Investment Insights', status: 'active' },
+      { icon: PieChart, label: 'Tax & Loans', status: 'processing' },
+      { icon: Activity, label: 'AI Predictions', status: 'active' },
+    ],
+    chartData: [42, 48, 55, 62, 68, 65, 75, 78, 72, 85, 82, 92],
+    liveStats: [
+      { label: 'Portfolio Health', value: 92, max: 100 },
+      { label: 'Budget Adherence', value: 87, max: 100 },
+      { label: 'Growth Trajectory', value: 94, max: 100 },
+    ],
+  },
 ];
 
 const EcosystemFlowSection = () => {
