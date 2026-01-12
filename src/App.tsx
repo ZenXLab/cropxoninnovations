@@ -41,6 +41,7 @@ import Proxinex from "./pages/products/Proxinex";
 import Chronyx from "./pages/products/Chronyx";
 import Convertix from "./pages/products/Convertix";
 import Finioraa from "./pages/products/Finioraa";
+import NewStack from "./pages/NewStack";
 import NotFound from "./pages/NotFound";
 import Blog from "./pages/Blog";
 import BlogArticle from "./pages/BlogArticle";
@@ -65,7 +66,7 @@ const AnimatedRoutes = () => {
   const prevPathRef = React.useRef(location.pathname);
 
   // Check if transitioning between product pages for smoother transitions
-  const productRoutes = ['/cognix', '/qualyx', '/huminex', '/opzenix', '/traceflow', '/zenith-studio', '/stackcraft', '/originx-labs', '/proxinex', '/chronyx', '/convertix', '/finioraa', '/atlas', '/cropxon-cloud', '/robotics'];
+  const productRoutes = ['/cognix', '/qualyx', '/huminex', '/opzenix', '/traceflow', '/zenith-studio', '/stackcraft', '/originx-labs', '/proxinex', '/chronyx', '/convertix', '/finioraa', '/atlas', '/cropxon-cloud', '/robotics', '/newstack'];
   
   useEffect(() => {
     const prevPath = prevPathRef.current;
@@ -136,6 +137,7 @@ const AnimatedRoutes = () => {
           <Route path="/chronyx" element={<Chronyx />} />
           <Route path="/convertix" element={<Convertix />} />
           <Route path="/finioraa" element={<Finioraa />} />
+          <Route path="/newstack" element={<NewStack />} />
           <Route path="/blog/:slug" element={<BlogArticle />} />
           <Route path="/search" element={<Search />} />
           <Route path="/terms" element={<TermsAndConditions />} />

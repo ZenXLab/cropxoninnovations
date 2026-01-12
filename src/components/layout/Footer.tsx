@@ -49,6 +49,10 @@ const Footer = () => {
       { label: "Platform Showcase", href: "/platforms" },
       { label: "How We Think", href: "/how-we-think" },
     ],
+    media: [
+      { label: "NewStack", href: "/newstack", isNew: true },
+      { label: "Open Source News", href: "https://www.newstack.live/", external: true },
+    ],
     legal: [
       { label: "Privacy", href: "/privacy" },
       { label: "Terms", href: "/terms" },
@@ -106,7 +110,7 @@ const Footer = () => {
 
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 py-12 lg:py-16">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 lg:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-8 lg:gap-5">
           {/* Brand Column */}
           <div className="col-span-2 sm:col-span-3 lg:col-span-2">
             <Link to="/" className="inline-flex items-center gap-3 group">
@@ -209,6 +213,44 @@ const Footer = () => {
                     <span className="w-1 h-1 rounded-full bg-muted-foreground/30 group-hover:bg-primary transition-colors" />
                     {link.label}
                   </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Media */}
+          <div>
+            <h4 className="font-display text-[10px] font-semibold text-foreground/80 tracking-[0.15em] uppercase mb-4">
+              Media
+            </h4>
+            <ul className="space-y-2.5">
+              {footerLinks.media.map((link) => (
+                <li key={link.label}>
+                  {link.external ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1.5 group"
+                    >
+                      <span className="w-1 h-1 rounded-full bg-muted-foreground/30 group-hover:bg-primary transition-colors" />
+                      {link.label}
+                      {link.isNew && (
+                        <span className="ml-1.5 px-1.5 py-0.5 text-[8px] font-bold bg-primary/20 text-primary rounded-full uppercase tracking-wide">New</span>
+                      )}
+                    </a>
+                  ) : (
+                    <Link
+                      to={link.href}
+                      className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1.5 group"
+                    >
+                      <span className="w-1 h-1 rounded-full bg-muted-foreground/30 group-hover:bg-primary transition-colors" />
+                      {link.label}
+                      {link.isNew && (
+                        <span className="ml-1.5 px-1.5 py-0.5 text-[8px] font-bold bg-primary/20 text-primary rounded-full uppercase tracking-wide">New</span>
+                      )}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
