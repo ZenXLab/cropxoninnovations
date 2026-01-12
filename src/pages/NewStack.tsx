@@ -2,9 +2,11 @@ import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
+import NewsTicker from "@/components/NewsTicker";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import rssPipelineImage from "@/assets/rss-pipeline-flow.png";
 import { 
   Globe, 
   MapPin, 
@@ -22,7 +24,10 @@ import {
   Filter,
   TrendingUp,
   Radio,
-  Wifi
+  Wifi,
+  Database,
+  Cpu,
+  ArrowRight
 } from "lucide-react";
 
 const NewStack = () => {
@@ -98,9 +103,14 @@ const NewStack = () => {
 
       <div className="min-h-screen bg-background">
         <Navigation />
+
+        {/* News Ticker */}
+        <div className="pt-16">
+          <NewsTicker />
+        </div>
         
         {/* Hero Section */}
-        <section className="relative pt-24 pb-16 overflow-hidden">
+        <section className="relative pt-12 pb-16 overflow-hidden">
           <div className="absolute inset-0 pointer-events-none">
             <div 
               className="absolute inset-0"
@@ -349,6 +359,62 @@ const NewStack = () => {
                     </div>
                   ))}
                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* RSS Processing Pipeline - Architecture */}
+        <section className="py-16 bg-muted/30 overflow-hidden">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+            <div className="text-center mb-12">
+              <Badge variant="outline" className="mb-4">
+                <Database className="w-3 h-3 mr-2" />
+                Data Architecture
+              </Badge>
+              <h2 className="font-display text-3xl font-bold text-foreground mb-4">
+                From Raw Feed to Refined Story
+              </h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Our intelligent RSS processing pipeline transforms raw news feeds into verified, structured stories through 12 sophisticated stages.
+              </p>
+            </div>
+
+            {/* Pipeline Image */}
+            <div className="max-w-5xl mx-auto">
+              <div className="relative rounded-2xl overflow-hidden border border-border/50 bg-card/50 backdrop-blur-sm shadow-xl">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
+                <img 
+                  src={rssPipelineImage} 
+                  alt="RSS Processing Pipeline - From Raw Feed to Refined Story" 
+                  className="w-full h-auto relative z-10"
+                />
+              </div>
+
+              {/* Pipeline Steps Summary */}
+              <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {[
+                  { icon: Radio, title: "Ingest", description: "RSS feeds from 50K+ sources" },
+                  { icon: Cpu, title: "Process", description: "Extract, clean, validate content" },
+                  { icon: Database, title: "Analyze", description: "Cluster, dedupe, score confidence" },
+                  { icon: Globe, title: "Deliver", description: "Render structured stories" },
+                ].map((step, idx) => (
+                  <div 
+                    key={step.title}
+                    className="flex items-center gap-4 p-4 rounded-xl bg-card border border-border/50 group hover:border-primary/30 transition-all"
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                      <step.icon className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-semibold text-foreground text-sm">{step.title}</p>
+                      <p className="text-xs text-muted-foreground">{step.description}</p>
+                    </div>
+                    {idx < 3 && (
+                      <ArrowRight className="w-4 h-4 text-muted-foreground/50 hidden lg:block" />
+                    )}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
