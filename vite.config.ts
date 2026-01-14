@@ -18,7 +18,8 @@ export default defineConfig(({ mode }) => ({
       includeAssets: ["favicon.png", "assets/cropxon-logo-full.png"],
       manifest: false, // Using public/manifest.json
       workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
+        globPatterns: ["**/*.{js,css,html,ico,svg,woff2}"],
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB limit
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
