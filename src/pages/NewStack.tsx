@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
 import NewsTicker from "@/components/NewsTicker";
+import InteractiveWorldMap from "@/components/InteractiveWorldMap";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -18,16 +19,17 @@ import {
   Eye,
   CheckCircle2,
   Scale,
-  Users,
   Zap,
   Search,
-  Filter,
-  TrendingUp,
   Radio,
-  Wifi,
   Database,
   Cpu,
-  ArrowRight
+  Map,
+  TrendingUp,
+  Filter,
+  Wifi,
+  ArrowRight,
+  Users
 } from "lucide-react";
 
 const NewStack = () => {
@@ -208,6 +210,29 @@ const NewStack = () => {
                   ))}
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Interactive World Map */}
+        <section className="py-16">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+            <div className="text-center mb-12">
+              <Badge variant="outline" className="mb-4">
+                <Map className="w-3 h-3 mr-2" />
+                Interactive Explorer
+              </Badge>
+              <h2 className="font-display text-3xl font-bold text-foreground mb-4">
+                Navigate the World's News
+              </h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Click through regions to drill down from global headlines to hyperlocal stories. 
+                Explore news at any level with full multilingual support.
+              </p>
+            </div>
+
+            <div className="max-w-5xl mx-auto">
+              <InteractiveWorldMap />
             </div>
           </div>
         </section>
