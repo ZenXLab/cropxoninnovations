@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { X, ChevronDown } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import officialLogo from "@/assets/cropxon-logo-official.png";
+import originxLogo from "@/assets/originx-logo.png";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -24,10 +24,10 @@ const navSections: NavSection[] = [
   {
     label: "ECOSYSTEM",
     children: [
-      { label: "ATLAS", href: "https://atlas.cropxon.com", external: true },
-      { label: "TRACEFLOW", href: "https://traceflow.cropxon.com", external: true },
+      { label: "ATLAS", href: "https://atlas.originxlabs.com", external: true },
+      { label: "TRACEFLOW", href: "https://traceflow.originxlabs.com", external: true },
       { label: "OriginX Labs", href: "https://originxlabs.com", external: true },
-      { label: "CropXon Cloud", href: "https://cropxoncloud.com", external: true },
+      { label: "OriginX Cloud", href: "https://originxcloud.com", external: true },
       { label: "OpZeniX", href: "https://opzenix.com", external: true },
       { label: "StackCraft", href: "/stackcraft" },
     ],
@@ -62,7 +62,7 @@ const navSections: NavSection[] = [
     children: [
       { label: "Open Roles", href: "/careers#positions" },
       { label: "Culture", href: "/careers" },
-      { label: "Working at CropXon", href: "/careers" },
+      { label: "Working at OriginX", href: "/careers" },
     ],
   },
 ];
@@ -98,12 +98,12 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
           className="flex items-center justify-between px-6 border-b border-foreground/[0.06]"
           style={{ height: "56px" }}
         >
-          {/* Brand Lockup - Official Logo */}
+          {/* Brand Lockup */}
           <Link to="/" onClick={onClose} className="flex items-center gap-2">
             <img 
-              src={officialLogo} 
-              alt="CropXon Innovations logo" 
-              className="h-7 w-auto dark:brightness-0 dark:invert"
+              src={originxLogo} 
+              alt="OriginX Labs logo" 
+              className="h-7 w-auto"
             />
             <div className="flex flex-col leading-none">
               <span
@@ -115,7 +115,7 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
                   letterSpacing: "0.02em",
                 }}
               >
-                CropXon
+                OriginX Labs
               </span>
               <span
                 className="text-muted-foreground"
@@ -128,7 +128,7 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
                   marginTop: "1px",
                 }}
               >
-                Innovations Pvt. Ltd.
+                Pvt. Ltd.
               </span>
             </div>
           </Link>
@@ -215,7 +215,7 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
             ))}
           </div>
 
-          {/* PLATFORMS CTA - Links to Consoles Page */}
+          {/* PLATFORMS CTA */}
           <div className="mt-8 pt-6 border-t border-foreground/[0.06]">
             <Link
               to="/platforms"

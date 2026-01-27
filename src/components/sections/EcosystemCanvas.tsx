@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import cropxonLogo from "@/assets/cropxon-logo-official.png";
+import originxLogo from "@/assets/originx-logo.png";
 
 interface PlatformData {
   id: string;
@@ -85,7 +85,7 @@ const EcosystemCanvas = ({ onPlatformHover }: EcosystemCanvasProps) => {
   // Load logo image
   useEffect(() => {
     const img = new Image();
-    img.src = cropxonLogo;
+    img.src = originxLogo;
     img.onload = () => {
       logoImageRef.current = img;
     };

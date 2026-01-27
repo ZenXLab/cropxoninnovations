@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import officialLogo from "@/assets/cropxon-logo-official.png";
+import originxLogo from "@/assets/originx-logo.png";
 
 interface LoadingScreenProps {
   onComplete: () => void;
@@ -68,26 +68,44 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
             showLogo ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
           }`}
         >
-          {/* Glow effect behind logo */}
+          {/* Animated glow ring */}
           <div 
-            className="absolute inset-0 blur-3xl opacity-30"
+            className="absolute inset-0 rounded-full animate-pulse"
             style={{
-              background: 'radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)',
-              transform: 'scale(2)',
+              background: 'radial-gradient(circle, hsl(var(--primary) / 0.15) 0%, transparent 70%)',
+              transform: 'scale(2.5)',
+              animationDuration: '2s',
             }}
           />
           
-          {/* Logo */}
+          {/* Rotating ring animation */}
+          <div 
+            className="absolute inset-0 rounded-full"
+            style={{
+              width: '140px',
+              height: '140px',
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
+              border: '1px solid hsl(var(--primary) / 0.2)',
+              animation: 'spin 8s linear infinite',
+            }}
+          />
+          
+          {/* Logo - No background, just the icon */}
           <img 
-            src={officialLogo} 
-            alt="CropXon" 
-            className="relative w-20 h-20 sm:w-24 sm:h-24 object-contain dark:brightness-0 dark:invert"
+            src={originxLogo} 
+            alt="OriginX Labs" 
+            className="relative w-24 h-24 sm:w-28 sm:h-28 object-contain"
+            style={{
+              animation: showLogo ? 'logoFloat 3s ease-in-out infinite' : 'none',
+            }}
           />
         </div>
 
         {/* Brand text */}
         <div 
-          className={`mt-6 text-center transition-all duration-700 delay-200 ease-out ${
+          className={`mt-8 text-center transition-all duration-700 delay-200 ease-out ${
             showText ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
@@ -95,13 +113,13 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
             className="font-display font-bold text-foreground tracking-wide"
             style={{ fontSize: 'clamp(1.25rem, 4vw, 1.75rem)' }}
           >
-            CROPXON
+            ORIGINX LABS
           </h1>
           <p 
             className="mt-1 text-muted-foreground/60 tracking-[0.2em] uppercase"
             style={{ fontSize: '10px' }}
           >
-            Innovations
+            Pvt. Ltd.
           </p>
         </div>
 
@@ -139,9 +157,20 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           className="text-muted-foreground/30 tracking-[0.1em]"
           style={{ fontSize: '8px' }}
         >
-          © {new Date().getFullYear()} CROPXON INNOVATIONS PVT LTD
+          © 2026 ORIGINX LABS PVT. LTD.
         </p>
       </div>
+
+      <style>{`
+        @keyframes logoFloat {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+        @keyframes spin {
+          from { transform: translate(-50%, -50%) rotate(0deg); }
+          to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 };

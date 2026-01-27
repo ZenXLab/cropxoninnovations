@@ -62,7 +62,7 @@ const WhyCropxonSection = () => {
           }`}
         >
           <p className="font-display text-[10px] sm:text-[11px] font-medium text-primary tracking-[0.25em] uppercase mb-4">
-            Why Cropxon
+            Why OriginX
           </p>
           <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-foreground tracking-tight">
             FOUNDATIONAL PRINCIPLES

@@ -3,7 +3,6 @@ import { ChevronDown } from "lucide-react";
 import EcosystemCanvas from "./EcosystemCanvas";
 import { PlatformDashboard, platformsData } from "./PlatformDashboard";
 import FullscreenDashboardModal from "@/components/modals/FullscreenDashboardModal";
-import FloatingParticles from "@/components/visuals/FloatingParticles";
 import type { PlatformData } from "./PlatformDashboard";
 
 const HeroSection = () => {
@@ -11,21 +10,11 @@ const HeroSection = () => {
   const [selectedPlatformId, setSelectedPlatformId] = useState<string | null>(null);
   const [modalPlatform, setModalPlatform] = useState<PlatformData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setShowContent(true), 100);
     return () => clearTimeout(timer);
-  }, []);
-
-  // Parallax scroll effect
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const scrollToNextSection = () => {
@@ -49,66 +38,21 @@ const HeroSection = () => {
     setModalPlatform(null);
   }, []);
 
-  // Calculate parallax values
-  const parallaxOffset = scrollY * 0.3;
-  const opacityFade = Math.max(0, 1 - scrollY / 600);
-  const scaleEffect = 1 + scrollY * 0.0002;
-
   return (
     <section ref={sectionRef} className="relative min-h-screen flex flex-col bg-background overflow-hidden">
-      {/* Floating Particles Background */}
-      <FloatingParticles />
-
-      {/* Animated Gradient background with parallax */}
-      <div 
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          transform: `translateY(${parallaxOffset * 0.5}px)`,
-        }}
-      >
+      {/* Subtle gradient background - Apple-level clean */}
+      <div className="absolute inset-0 pointer-events-none">
         <div 
           className="absolute inset-0 dark:opacity-100 opacity-50"
           style={{
             background: `
-              radial-gradient(ellipse 100% 60% at 50% -10%, hsl(var(--primary) / 0.15) 0%, transparent 60%),
-              radial-gradient(ellipse 80% 50% at 85% 100%, hsl(var(--accent) / 0.08) 0%, transparent 50%),
-              radial-gradient(ellipse 70% 40% at 10% 90%, hsl(var(--secondary) / 0.1) 0%, transparent 50%)
+              radial-gradient(ellipse 100% 60% at 50% -10%, hsl(var(--primary) / 0.08) 0%, transparent 60%),
+              radial-gradient(ellipse 80% 50% at 85% 100%, hsl(var(--accent) / 0.05) 0%, transparent 50%)
             `,
           }}
         />
         
-        {/* Animated orbs */}
-        <div 
-          className="absolute w-[600px] h-[600px] rounded-full blur-[120px] opacity-20 dark:opacity-30"
-          style={{
-            background: 'hsl(var(--primary) / 0.3)',
-            top: '-20%',
-            left: '10%',
-            transform: `translate(${Math.sin(scrollY * 0.002) * 30}px, ${parallaxOffset * 0.3}px)`,
-            transition: 'transform 0.1s ease-out',
-          }}
-        />
-        <div 
-          className="absolute w-[400px] h-[400px] rounded-full blur-[100px] opacity-15 dark:opacity-25"
-          style={{
-            background: 'hsl(var(--accent) / 0.4)',
-            bottom: '10%',
-            right: '5%',
-            transform: `translate(${Math.cos(scrollY * 0.002) * 25}px, ${-parallaxOffset * 0.2}px)`,
-            transition: 'transform 0.1s ease-out',
-          }}
-        />
-        <div 
-          className="absolute w-[300px] h-[300px] rounded-full blur-[80px] opacity-10 dark:opacity-20"
-          style={{
-            background: 'hsl(var(--secondary) / 0.5)',
-            top: '40%',
-            left: '60%',
-            transform: `translate(${Math.sin(scrollY * 0.003) * 20}px, ${parallaxOffset * 0.15}px)`,
-            transition: 'transform 0.1s ease-out',
-          }}
-        />
-
+        {/* Subtle noise texture */}
         <div 
           className="absolute inset-0 opacity-[0.015] dark:opacity-[0.02]"
           style={{
@@ -117,15 +61,11 @@ const HeroSection = () => {
         />
       </div>
 
-      {/* Header content with parallax */}
+      {/* Header content */}
       <div 
         className={`pt-20 sm:pt-24 pb-2 px-4 sm:px-6 text-center lg:text-left lg:px-8 lg:max-w-7xl lg:mx-auto lg:w-full transition-all duration-1000 ease-out ${
           showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
         }`}
-        style={{
-          transform: `translateY(${parallaxOffset * 0.1}px) scale(${scaleEffect})`,
-          opacity: opacityFade,
-        }}
       >
         <p className="font-display text-[10px] sm:text-[11px] font-medium text-muted-foreground tracking-[0.25em] uppercase mb-3">
           Deep Technology Infrastructure

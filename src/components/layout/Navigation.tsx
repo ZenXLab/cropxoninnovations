@@ -4,7 +4,7 @@ import { ChevronDown, Search } from "lucide-react";
 import { ThemeSelector } from "@/components/ThemeSelector";
 import MobileMenu from "./MobileMenu";
 import MegaMenu from "./MegaMenu";
-import officialLogo from "@/assets/cropxon-logo-official.png";
+import originxLogo from "@/assets/originx-logo.png";
 
 interface NavItem {
   label: string;
@@ -52,7 +52,7 @@ const navItems: NavItem[] = [
     children: [
       { label: "Open Roles", href: "/careers#positions" },
       { label: "Culture", href: "/careers" },
-      { label: "Working at CropXon", href: "/careers" },
+      { label: "Working at OriginX", href: "/careers" },
     ],
   },
 ];
@@ -110,16 +110,16 @@ const Navigation = () => {
             {/* Brand */}
             <Link to="/" className="flex items-center gap-3 group">
               <img 
-                src={officialLogo} 
-                alt="CropXon" 
-                className="h-8 w-auto dark:brightness-0 dark:invert transition-opacity group-hover:opacity-80"
+                src={originxLogo} 
+                alt="OriginX Labs" 
+                className="h-8 w-auto transition-opacity group-hover:opacity-80"
               />
               <div className="hidden sm:flex flex-col leading-none">
                 <span className="font-display font-bold text-foreground text-[14px] tracking-wide group-hover:text-foreground/80 transition-colors">
-                  CropXon
+                  OriginX Labs
                 </span>
                 <span className="text-muted-foreground/60 text-[8px] tracking-[0.12em] uppercase mt-0.5">
-                  Innovations
+                  Pvt. Ltd.
                 </span>
               </div>
             </Link>
