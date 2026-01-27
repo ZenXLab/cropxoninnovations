@@ -14,16 +14,16 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>Cropxon Innovations — Building Foundational Systems</title>
+        <title>OriginX Labs — Building Foundational Systems</title>
         <meta
           name="description"
-          content="Cropxon Innovations is a deep-technology company building operating systems, cognition platforms, and infrastructure layers for enterprise and government."
+          content="OriginX Labs is a deep-technology company building operating systems, cognition platforms, and infrastructure layers for enterprise and government."
         />
         <meta
           name="keywords"
           content="enterprise technology, infrastructure, operating systems, cognition platforms, deep tech"
         />
-        <link rel="canonical" href="https://cropxon.com" />
+        <link rel="canonical" href="https://originxlabs.com" />
       </Helmet>
 
       <div className="min-h-screen bg-background">

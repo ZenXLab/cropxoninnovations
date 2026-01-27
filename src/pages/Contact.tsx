@@ -32,26 +32,26 @@ const contactInfo = [
   { 
     icon: Mail, 
     label: "General Inquiries", 
-    value: "office@cropxon.com",
-    href: "mailto:office@cropxon.com"
+    value: "office@originxlabs.com",
+    href: "mailto:office@originxlabs.com"
   },
   { 
     icon: Mail, 
     label: "Business Development", 
-    value: "business@cropxon.com",
-    href: "mailto:business@cropxon.com"
+    value: "business@originxlabs.com",
+    href: "mailto:business@originxlabs.com"
   },
   { 
     icon: Mail, 
     label: "Technical Support", 
-    value: "support@cropxon.com",
-    href: "mailto:support@cropxon.com"
+    value: "support@originxlabs.com",
+    href: "mailto:support@originxlabs.com"
   },
   { 
     icon: Mail, 
     label: "Careers", 
-    value: "careers@cropxon.com",
-    href: "mailto:careers@cropxon.com"
+    value: "careers@originxlabs.com",
+    href: "mailto:careers@originxlabs.com"
   },
 ];
 
@@ -118,10 +118,10 @@ const Contact = () => {
   return (
     <>
       <Helmet>
-        <title>Contact — CropXon Innovations</title>
+        <title>Contact — OriginX Labs</title>
         <meta
           name="description"
-          content="Get in touch with CropXon Innovations. Contact us for business inquiries, partnerships, technical support, or career opportunities."
+          content="Get in touch with OriginX Labs. Contact us for business inquiries, partnerships, technical support, or career opportunities."
         />
       </Helmet>
 
@@ -299,7 +299,7 @@ const Contact = () => {
                     <div className="flex items-start gap-3 mb-4">
                       <MapPin className="w-4 h-4 text-muted-foreground mt-0.5 flex-shrink-0" />
                       <p className="text-muted-foreground text-sm">
-                        CropXon Innovations Private Limited<br />
+                        OriginX Labs Pvt. Ltd.<br />
                         Odisha, India
                       </p>
                     </div>
@@ -333,8 +333,8 @@ const Contact = () => {
                 <p className="text-muted-foreground mb-8">
                   We aim to respond to all inquiries within 24-48 business hours. 
                   For urgent technical support, please email{" "}
-                  <a href="mailto:support@cropxon.com" className="text-accent hover:underline">
-                    support@cropxon.com
+                  <a href="mailto:support@originxlabs.com" className="text-accent hover:underline">
+                    support@originxlabs.com
                   </a>{" "}
                   with "URGENT" in the subject line.
                 </p>

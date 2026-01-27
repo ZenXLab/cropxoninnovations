@@ -182,10 +182,10 @@ const Careers = () => {
   return (
     <>
       <Helmet>
-        <title>Careers — Join CropXon Innovations</title>
+        <title>Careers — Join OriginX Labs</title>
         <meta
           name="description"
-          content="Join CropXon Innovations and help build foundational technology platforms. Explore open positions in engineering, product, design, and more."
+          content="Join OriginX Labs and help build foundational technology platforms. Explore open positions in engineering, product, design, and more."
         />
       </Helmet>
 
@@ -302,8 +302,8 @@ const Careers = () => {
                 <p className="text-muted-foreground max-w-2xl mx-auto">
                   We're always looking for talented individuals. If you don't see a role that fits, 
                   send your resume to{" "}
-                  <a href="mailto:careers@cropxon.com" className="text-accent hover:underline">
-                    careers@cropxon.com
+                  <a href="mailto:careers@originxlabs.com" className="text-accent hover:underline">
+                    careers@originxlabs.com
                   </a>
                 </p>
               </div>
@@ -385,7 +385,7 @@ const Careers = () => {
                         </div>
 
                         <Button variant="heroPrimary" size="lg" asChild>
-                          <a href={`mailto:careers@cropxon.com?subject=Application: ${job.title}`}>
+                          <a href={`mailto:careers@originxlabs.com?subject=Application: ${job.title}`}>
                             Apply Now
                             <ExternalLink className="w-4 h-4 ml-2" />
                           </a>
@@ -409,7 +409,7 @@ const Careers = () => {
                 how you'd like to contribute to our mission.
               </p>
               <Button variant="hero" size="xl" asChild>
-                <a href="mailto:careers@cropxon.com">
+                <a href="mailto:careers@originxlabs.com">
                   Send Your Resume
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </a>

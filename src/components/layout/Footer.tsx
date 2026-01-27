@@ -4,7 +4,7 @@ import { Send, Twitter, Linkedin, Github, Youtube, Instagram, Facebook } from "l
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import officialLogo from "@/assets/cropxon-logo-official.png";
+import originxLogo from "@/assets/originx-logo.png";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -64,12 +64,12 @@ const Footer = () => {
   };
 
   const socialLinks = [
-    { label: "X", href: "https://x.com/CropxonAI", icon: Twitter },
-    { label: "LinkedIn", href: "https://www.linkedin.com/company/cropxon", icon: Linkedin },
-    { label: "GitHub", href: "https://github.com/cropxon", icon: Github },
-    { label: "YouTube", href: "https://www.youtube.com/@CropXon", icon: Youtube },
-    { label: "Instagram", href: "https://instagram.com/cropxon", icon: Instagram },
-    { label: "Facebook", href: "https://facebook.com/cropxon", icon: Facebook },
+    { label: "X", href: "https://x.com/OriginXLabs", icon: Twitter },
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/originxlabs", icon: Linkedin },
+    { label: "GitHub", href: "https://github.com/originxlabs", icon: Github },
+    { label: "YouTube", href: "https://www.youtube.com/@OriginXLabs", icon: Youtube },
+    { label: "Instagram", href: "https://instagram.com/originxlabs", icon: Instagram },
+    { label: "Facebook", href: "https://facebook.com/originxlabs", icon: Facebook },
   ];
 
   return (
@@ -115,16 +115,16 @@ const Footer = () => {
           <div className="col-span-2 sm:col-span-3 lg:col-span-2">
             <Link to="/" className="inline-flex items-center gap-3 group">
               <img 
-                src={officialLogo} 
-                alt="CropXon" 
-                className="h-10 w-auto dark:brightness-0 dark:invert transition-opacity group-hover:opacity-80"
+                src={originxLogo} 
+                alt="OriginX Labs" 
+                className="h-10 w-auto transition-opacity group-hover:opacity-80"
               />
               <div className="flex flex-col leading-none">
                 <span className="font-display font-bold text-foreground text-base tracking-wide">
-                  CropXon
+                  OriginX Labs
                 </span>
                 <span className="text-muted-foreground text-[9px] tracking-[0.12em] uppercase">
-                  Innovations Pvt. Ltd.
+                  Pvt. Ltd.
                 </span>
               </div>
             </Link>
@@ -304,7 +304,7 @@ const Footer = () => {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-1">
               <span className="text-xs text-muted-foreground">
-                CropXon Innovations Pvt. Ltd.
+                OriginX Labs Pvt. Ltd.
               </span>
               <span className="hidden sm:inline text-muted-foreground/30">·</span>
               <span className="font-mono text-[10px] text-muted-foreground/70">
@@ -318,11 +318,11 @@ const Footer = () => {
             
             <div className="flex items-center gap-4">
               <span className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
                 <span className="text-xs text-muted-foreground">All systems operational</span>
               </span>
               <p className="text-xs text-muted-foreground/70">
-                © {new Date().getFullYear()} All rights reserved.
+                © 2026 All rights reserved.
               </p>
             </div>
           </div>

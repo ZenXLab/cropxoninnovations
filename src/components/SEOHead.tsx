@@ -11,23 +11,23 @@ interface SEOHeadProps {
 
 // Map of page paths to their OG images
 const ogImageMap: Record<string, string> = {
-  '/': 'https://cropxon.com/og/cropxon-og.png',
-  '/cognix': 'https://cropxon.com/og/cognix-og.png',
-  '/cropxon-cloud': 'https://cropxon.com/og/cropxon-cloud-og.png',
-  '/traceflow': 'https://cropxon.com/og/traceflow-og.png',
-  '/qualyx': 'https://cropxon.com/og/qualyx-og.png',
-  '/huminex': 'https://cropxon.com/og/huminex-og.png',
-  '/opzenix': 'https://cropxon.com/og/opzenix-og.png',
-  '/atlas': 'https://cropxon.com/og/atlas-og.png',
-  '/zenith-studio': 'https://cropxon.com/og/zenith-studio-og.png',
-  '/stackcraft': 'https://cropxon.com/og/stackcraft-og.png',
-  '/originx-labs': 'https://cropxon.com/og/originx-labs-og.png',
-  '/robotics': 'https://cropxon.com/og/robotics-og.png',
-  '/blog': 'https://cropxon.com/og/blog-og.png',
-  '/proxinex': 'https://cropxon.com/og/proxinex-og.png',
-  '/chronyx': 'https://cropxon.com/og/chronyx-og.png',
-  '/convertix': 'https://cropxon.com/og/convertix-og.png',
-  '/finioraa': 'https://cropxon.com/og/finioraa-og.png',
+  '/': 'https://originxlabs.com/og/originx-og.png',
+  '/cognix': 'https://originxlabs.com/og/cognix-og.png',
+  '/originx-cloud': 'https://originxlabs.com/og/originx-cloud-og.png',
+  '/traceflow': 'https://originxlabs.com/og/traceflow-og.png',
+  '/qualyx': 'https://originxlabs.com/og/qualyx-og.png',
+  '/huminex': 'https://originxlabs.com/og/huminex-og.png',
+  '/opzenix': 'https://originxlabs.com/og/opzenix-og.png',
+  '/atlas': 'https://originxlabs.com/og/atlas-og.png',
+  '/zenith-studio': 'https://originxlabs.com/og/zenith-studio-og.png',
+  '/stackcraft': 'https://originxlabs.com/og/stackcraft-og.png',
+  '/originx-labs': 'https://originxlabs.com/og/originx-labs-og.png',
+  '/robotics': 'https://originxlabs.com/og/robotics-og.png',
+  '/blog': 'https://originxlabs.com/og/blog-og.png',
+  '/proxinex': 'https://originxlabs.com/og/proxinex-og.png',
+  '/chronyx': 'https://originxlabs.com/og/chronyx-og.png',
+  '/convertix': 'https://originxlabs.com/og/convertix-og.png',
+  '/finioraa': 'https://originxlabs.com/og/finioraa-og.png',
 };
 
 const SEOHead = ({
@@ -35,14 +35,14 @@ const SEOHead = ({
   description,
   keywords = '',
   image,
-  url = 'https://cropxon.com',
+  url = 'https://originxlabs.com',
   type = 'website'
 }: SEOHeadProps) => {
-  const fullTitle = title.includes('Cropxon') ? title : `${title} | Cropxon`;
+  const fullTitle = title.includes('OriginX') ? title : `${title} | OriginX Labs`;
   
   // Get OG image from map based on URL path, or use provided image, or default
-  const urlPath = url.replace('https://cropxon.com', '');
-  const ogImage = image || ogImageMap[urlPath] || 'https://cropxon.com/og/cropxon-og.png';
+  const urlPath = url.replace('https://originxlabs.com', '');
+  const ogImage = image || ogImageMap[urlPath] || 'https://originxlabs.com/og/originx-og.png';
   
   return (
     <Helmet>
@@ -62,13 +62,13 @@ const SEOHead = ({
       <meta property="og:image" content={ogImage} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
-      <meta property="og:site_name" content="Cropxon Innovations" />
+      <meta property="og:site_name" content="OriginX Labs" />
       <meta property="og:locale" content="en_US" />
       
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@CropxonAI" />
-      <meta name="twitter:creator" content="@CropxonAI" />
+      <meta name="twitter:site" content="@OriginXLabs" />
+      <meta name="twitter:creator" content="@OriginXLabs" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage} />
