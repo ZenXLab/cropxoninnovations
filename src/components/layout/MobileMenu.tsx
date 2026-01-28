@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { X, ChevronDown } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import originxLogo from "@/assets/originx-logo.png";
+import OriginXLogo from "@/components/OriginXLogo";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -99,38 +99,8 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
           style={{ height: "56px" }}
         >
           {/* Brand Lockup */}
-          <Link to="/" onClick={onClose} className="flex items-center gap-2">
-            <img 
-              src={originxLogo} 
-              alt="OriginX Labs logo" 
-              className="h-7 w-auto"
-            />
-            <div className="flex flex-col leading-none">
-              <span
-                className="text-foreground"
-                style={{
-                  fontFamily: "'Space Grotesk', Inter, system-ui, sans-serif",
-                  fontWeight: 700,
-                  fontSize: "13px",
-                  letterSpacing: "0.02em",
-                }}
-              >
-                OriginX Labs
-              </span>
-              <span
-                className="text-muted-foreground"
-                style={{
-                  fontFamily: "Inter, system-ui, sans-serif",
-                  fontWeight: 400,
-                  fontSize: "8px",
-                  letterSpacing: "0.06em",
-                  textTransform: "uppercase",
-                  marginTop: "1px",
-                }}
-              >
-                Pvt. Ltd.
-              </span>
-            </div>
+          <Link to="/" onClick={onClose}>
+            <OriginXLogo size="sm" showText />
           </Link>
 
           <button

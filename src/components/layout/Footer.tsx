@@ -4,7 +4,7 @@ import { Send, Twitter, Linkedin, Github, Youtube, Instagram, Facebook } from "l
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import originxLogo from "@/assets/originx-logo.png";
+import OriginXLogo from "@/components/OriginXLogo";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -113,20 +113,8 @@ const Footer = () => {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-8 lg:gap-5">
           {/* Brand Column */}
           <div className="col-span-2 sm:col-span-3 lg:col-span-2">
-            <Link to="/" className="inline-flex items-center gap-3 group">
-              <img 
-                src={originxLogo} 
-                alt="OriginX Labs" 
-                className="h-10 w-auto transition-opacity group-hover:opacity-80"
-              />
-              <div className="flex flex-col leading-none">
-                <span className="font-display font-bold text-foreground text-base tracking-wide">
-                  OriginX Labs
-                </span>
-                <span className="text-muted-foreground text-[9px] tracking-[0.12em] uppercase">
-                  Pvt. Ltd.
-                </span>
-              </div>
+            <Link to="/" className="inline-block group">
+              <OriginXLogo size="md" showText className="group-hover:opacity-80 transition-opacity" />
             </Link>
             
             <p className="mt-5 text-sm text-muted-foreground leading-relaxed max-w-sm">
