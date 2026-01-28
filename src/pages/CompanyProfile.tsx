@@ -16,11 +16,11 @@ import {
 } from "lucide-react";
 import InteractiveTimeline from "@/components/sections/InteractiveTimeline";
 import AnimatedCounter from "@/components/sections/AnimatedCounter";
-import officialLogo from "@/assets/cropxon-logo-official.png";
+import OriginXLogo from "@/components/OriginXLogo";
 
 // Company Details Data
 const companyDetails = [
-  { label: "Legal Name", value: "CropXon Innovations Private Limited" },
+  { label: "Legal Name", value: "OriginX Labs Pvt. Ltd." },
   { label: "CIN", value: "U62010OD2025PTC051089" },
   { label: "GSTIN", value: "21AANCC1954F1ZW" },
   { label: "PAN", value: "AANCC1954F" },
@@ -143,16 +143,6 @@ const divisions = [
   },
 ];
 
-// Timeline Data
-const timeline = [
-  { date: "Oct 2025", event: "Company Incorporation" },
-  { date: "Q4 2025", event: "Traceflow Launch" },
-  { date: "Q1 2026", event: "ATLAS Beta" },
-  { date: "Q2 2026", event: "CropXon Cloud Expansion" },
-  { date: "2026+", event: "Robotics Division Development" },
-  { date: "2027", event: "Enterprise Cloud Roadmap" },
-];
-
 // Values Data
 const values = [
   { title: "Ethical AI", description: "Building responsible and transparent artificial intelligence systems" },
@@ -167,8 +157,8 @@ const certifications = [
   { name: "DPIIT Startup India Recognition", validity: "Valid till 2035" },
   { name: "MCA Registered Company", validity: null },
   { name: "Udyam MSME Certified", validity: null },
-  { name: "Registered Trademark: CropXon™", validity: null },
-  { name: "Technology Innovation Award", validity: "2025" },
+  { name: "Registered Trademark: OriginX™", validity: null },
+  { name: "Technology Innovation Award", validity: "2026" },
 ];
 
 // Compliance Data
@@ -190,31 +180,20 @@ const techCompliance = [
 
 // Contact Data
 const contacts = [
-  { label: "General Inquiries", email: "office@cropxon.com" },
-  { label: "Legal", email: "legal@cropxon.com" },
-  { label: "Compliance", email: "compliance@cropxon.com" },
-  { label: "Support", email: "support@cropxon.com" },
+  { label: "General Inquiries", email: "office@originxlabs.com" },
+  { label: "Legal", email: "legal@originxlabs.com" },
+  { label: "Compliance", email: "compliance@originxlabs.com" },
+  { label: "Support", email: "support@originxlabs.com" },
 ];
-
-// Official Logo Component - Theme Aware
-const OfficialLogoMark = ({ className = "w-20 h-20" }: { className?: string }) => (
-  <div className={`${className} flex items-center justify-center`}>
-    <img 
-      src={officialLogo} 
-      alt="CropXon Innovations logo" 
-      className="w-full h-full object-contain dark:brightness-0 dark:invert"
-    />
-  </div>
-);
 
 const CompanyProfile = () => {
   return (
     <>
       <Helmet>
-        <title>Company Profile — CropXon Innovations Private Limited</title>
+        <title>Company Profile — OriginX Labs Pvt. Ltd.</title>
         <meta
           name="description"
-          content="CropXon Innovations Private Limited is a multi-division technology company building foundational platforms across digital cognition, workforce systems, cloud infrastructure, and advanced research."
+          content="OriginX Labs Pvt. Ltd. is a multi-division technology company building foundational platforms across digital cognition, workforce systems, cloud infrastructure, and advanced research."
         />
       </Helmet>
 
@@ -239,10 +218,10 @@ const CompanyProfile = () => {
             <div className="container mx-auto px-6 lg:px-12 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
               <div className="flex justify-center mb-8">
-                <OfficialLogoMark className="w-24 h-24 md:w-28 md:h-28" />
+                <OriginXLogo size="xl" />
               </div>
               <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-wide mb-6">
-                CropXon Innovations Private Limited
+                OriginX Labs Pvt. Ltd.
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
                 A multi-division technology company building foundational platforms across digital cognition, workforce systems, cloud infrastructure, and advanced research.
@@ -326,13 +305,13 @@ const CompanyProfile = () => {
                 </h2>
                 <div className="space-y-6 text-muted-foreground leading-relaxed">
                   <p>
-                    CropXon Innovations Private Limited is a legally registered Indian deep-technology company operating multiple technology divisions across SaaS, cloud infrastructure, research & development, and future robotics initiatives.
+                    OriginX Labs Pvt. Ltd. is a legally registered Indian deep-technology company operating multiple technology divisions across SaaS, cloud infrastructure, research & development, and future robotics initiatives.
                   </p>
                   <p>
-                    Unlike point-solution providers, CropXon operates as a parent technology institution building foundational systems designed to serve as infrastructure layers for enterprise, government, and regulated industries. Our multi-division structure enables focused execution while maintaining architectural consistency across all platforms.
+                    Unlike point-solution providers, OriginX Labs operates as a parent technology institution building foundational systems designed to serve as infrastructure layers for enterprise, government, and regulated industries. Our multi-division structure enables focused execution while maintaining architectural consistency across all platforms.
                   </p>
                   <p>
-                    We are committed to building technology that outlasts market cycles—platforms designed for permanence, not pivots. Our approach combines rigorous engineering discipline with long-term strategic thinking, positioning CropXon as a trusted infrastructure partner for organizations requiring stability, security, and scale.
+                    We are committed to building technology that outlasts market cycles—platforms designed for permanence, not pivots. Our approach combines rigorous engineering discipline with long-term strategic thinking, positioning OriginX Labs as a trusted infrastructure partner for organizations requiring stability, security, and scale.
                   </p>
                 </div>
               </div>
@@ -355,9 +334,9 @@ const CompanyProfile = () => {
                 {/* Central Node */}
                 <div className="flex justify-center mb-12">
                   <div className="px-8 py-4 bg-card border border-border rounded-sm inline-flex items-center gap-4">
-                    <OfficialLogoMark className="w-10 h-10" />
+                    <OriginXLogo size="sm" />
                     <div>
-                      <h3 className="font-display font-bold text-foreground">CropXon Innovations</h3>
+                      <h3 className="font-display font-bold text-foreground">OriginX Labs</h3>
                       <span className="font-mono text-xs text-muted-foreground">Parent Company</span>
                     </div>
                   </div>
@@ -501,7 +480,7 @@ const CompanyProfile = () => {
               <div className="max-w-6xl">
                 <p className="text-muted-foreground mb-8 max-w-2xl">
                   Our strategic roadmap outlines key milestones from Q1 2026 onwards, 
-                  charting the growth trajectory across all CropXon divisions.
+                  charting the growth trajectory across all OriginX divisions.
                 </p>
                 <InteractiveTimeline />
               </div>
@@ -565,7 +544,7 @@ const CompanyProfile = () => {
                     <h3 className="font-display font-bold text-foreground">Registered Office</h3>
                   </div>
                   <p className="text-muted-foreground">
-                    CropXon Innovations Private Limited<br />
+                    OriginX Labs Pvt. Ltd.<br />
                     Odisha, India
                   </p>
                   <div className="mt-6 pt-6 border-t border-border">

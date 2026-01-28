@@ -4,7 +4,7 @@ import { ChevronDown, Search } from "lucide-react";
 import { ThemeSelector } from "@/components/ThemeSelector";
 import MobileMenu from "./MobileMenu";
 import MegaMenu from "./MegaMenu";
-import originxLogo from "@/assets/originx-logo.png";
+import OriginXLogo from "@/components/OriginXLogo";
 
 interface NavItem {
   label: string;
@@ -107,21 +107,9 @@ const Navigation = () => {
       >
         <nav className="h-full max-w-[1400px] mx-auto px-6 sm:px-8">
           <div className="flex items-center justify-between h-full">
-            {/* Brand */}
+            {/* Brand - Pure SVG Logo */}
             <Link to="/" className="flex items-center gap-3 group">
-              <img 
-                src={originxLogo} 
-                alt="OriginX Labs" 
-                className="h-8 w-auto transition-opacity group-hover:opacity-80"
-              />
-              <div className="hidden sm:flex flex-col leading-none">
-                <span className="font-display font-bold text-foreground text-[14px] tracking-wide group-hover:text-foreground/80 transition-colors">
-                  OriginX Labs
-                </span>
-                <span className="text-muted-foreground/60 text-[8px] tracking-[0.12em] uppercase mt-0.5">
-                  Pvt. Ltd.
-                </span>
-              </div>
+              <OriginXLogo size="sm" showText className="group-hover:opacity-80 transition-opacity" />
             </Link>
 
             {/* Desktop Nav */}

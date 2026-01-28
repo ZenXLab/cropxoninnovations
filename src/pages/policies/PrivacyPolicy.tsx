@@ -7,8 +7,8 @@ const PrivacyPolicy = () => {
   return (
     <>
       <Helmet>
-        <title>Privacy Policy — CropXon Innovations</title>
-        <meta name="description" content="Privacy Policy describing how CropXon Innovations collects, uses, and protects your personal information." />
+        <title>Privacy Policy — OriginX Labs</title>
+        <meta name="description" content="Privacy Policy describing how OriginX Labs collects, uses, and protects your personal information." />
       </Helmet>
 
       <div className="min-h-screen bg-background">
@@ -23,7 +23,7 @@ const PrivacyPolicy = () => {
                 Privacy Policy
               </h1>
               <p className="text-muted-foreground">
-                Last updated: December 14, 2025
+                Last updated: January 28, 2026
               </p>
             </div>
 
@@ -32,7 +32,7 @@ const PrivacyPolicy = () => {
               <section>
                 <h2 className="font-display text-xl font-bold text-foreground mb-4">1. Introduction</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  CropXon Innovations Private Limited ("CropXon," "we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our services, platforms, and websites.
+                  OriginX Labs Pvt. Ltd. ("OriginX Labs," "we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our services, platforms, and websites.
                 </p>
                 <p className="text-muted-foreground leading-relaxed mt-4">
                   We are committed to complying with the Digital Personal Data Protection Act (DPDP) 2023, Information Technology Act 2000, and other applicable data protection regulations.
@@ -63,7 +63,7 @@ const PrivacyPolicy = () => {
 
                 <h3 className="font-semibold text-foreground mt-6 mb-3">2.3 Enterprise Data</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  For enterprise clients using our platforms (ATLAS, TRACEFLOW, CropXon Cloud), we may process business data as a data processor in accordance with separate Data Processing Agreements.
+                  For enterprise clients using our platforms (Cognix, TraceFlow, Huminex), we may process business data as a data processor in accordance with separate Data Processing Agreements.
                 </p>
               </section>
 
@@ -153,9 +153,9 @@ const PrivacyPolicy = () => {
                 </p>
                 <div className="mt-4 p-4 bg-card border border-border rounded-sm">
                   <p className="text-foreground font-medium">Data Protection Officer</p>
-                  <p className="text-foreground font-medium">CropXon Innovations Private Limited</p>
-                  <p className="text-muted-foreground text-sm mt-2">Email: privacy@cropxon.com</p>
-                  <p className="text-muted-foreground text-sm">Legal: legal@cropxon.com</p>
+                  <p className="text-foreground font-medium">OriginX Labs Pvt. Ltd.</p>
+                  <p className="text-muted-foreground text-sm mt-2">Email: privacy@originxlabs.com</p>
+                  <p className="text-muted-foreground text-sm">Legal: legal@originxlabs.com</p>
                   <p className="text-muted-foreground text-sm">Registered Office: Odisha, India</p>
                 </div>
               </section>

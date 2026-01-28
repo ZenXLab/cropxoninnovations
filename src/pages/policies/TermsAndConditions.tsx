@@ -7,8 +7,8 @@ const TermsAndConditions = () => {
   return (
     <>
       <Helmet>
-        <title>Terms and Conditions — CropXon Innovations</title>
-        <meta name="description" content="Terms and Conditions governing the use of CropXon Innovations platforms, services, and products." />
+        <title>Terms and Conditions — OriginX Labs</title>
+        <meta name="description" content="Terms and Conditions governing the use of OriginX Labs platforms, services, and products." />
       </Helmet>
 
       <div className="min-h-screen bg-background">
@@ -23,7 +23,7 @@ const TermsAndConditions = () => {
                 Terms and Conditions
               </h1>
               <p className="text-muted-foreground">
-                Last updated: December 14, 2025
+                Last updated: January 28, 2026
               </p>
             </div>
 
@@ -32,17 +32,17 @@ const TermsAndConditions = () => {
               <section>
                 <h2 className="font-display text-xl font-bold text-foreground mb-4">1. Acceptance of Terms</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  By accessing or using any services, platforms, or products provided by CropXon Innovations Private Limited ("CropXon," "we," "us," or "our"), you agree to be bound by these Terms and Conditions. If you do not agree to these terms, you must not access or use our services.
+                  By accessing or using any services, platforms, or products provided by OriginX Labs Pvt. Ltd. ("OriginX Labs," "we," "us," or "our"), you agree to be bound by these Terms and Conditions. If you do not agree to these terms, you must not access or use our services.
                 </p>
                 <p className="text-muted-foreground leading-relaxed mt-4">
-                  These terms apply to all visitors, users, and others who access or use our services, including but not limited to ATLAS, TRACEFLOW, CropXon Cloud, OriginX Labs, and OpZeniX platforms.
+                  These terms apply to all visitors, users, and others who access or use our services, including but not limited to Cognix, TraceFlow, Huminex, OpZeniX, and other OriginX platforms.
                 </p>
               </section>
 
               <section>
                 <h2 className="font-display text-xl font-bold text-foreground mb-4">2. Definitions</h2>
                 <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-                  <li><strong className="text-foreground">"Services"</strong> refers to all platforms, software, APIs, and products offered by CropXon Innovations.</li>
+                  <li><strong className="text-foreground">"Services"</strong> refers to all platforms, software, APIs, and products offered by OriginX Labs.</li>
                   <li><strong className="text-foreground">"User"</strong> refers to any individual or entity accessing or using our Services.</li>
                   <li><strong className="text-foreground">"Content"</strong> refers to all information, data, text, software, graphics, or other materials uploaded, downloaded, or appearing on our Services.</li>
                   <li><strong className="text-foreground">"Enterprise Client"</strong> refers to organizations with separate enterprise agreements.</li>
@@ -76,10 +76,10 @@ const TermsAndConditions = () => {
               <section>
                 <h2 className="font-display text-xl font-bold text-foreground mb-4">4. Intellectual Property</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  All intellectual property rights in our Services, including but not limited to software, designs, trademarks, and content, are owned by CropXon Innovations or its licensors. You are granted a limited, non-exclusive, non-transferable license to use our Services in accordance with these Terms.
+                  All intellectual property rights in our Services, including but not limited to software, designs, trademarks, and content, are owned by OriginX Labs or its licensors. You are granted a limited, non-exclusive, non-transferable license to use our Services in accordance with these Terms.
                 </p>
                 <p className="text-muted-foreground leading-relaxed mt-4">
-                  The CropXon name, logo, and all related names, logos, product and service names, designs, and slogans are trademarks of CropXon Innovations Private Limited. You may not use such marks without our prior written permission.
+                  The OriginX Labs name, logo, and all related names, logos, product and service names, designs, and slogans are trademarks of OriginX Labs Pvt. Ltd. You may not use such marks without our prior written permission.
                 </p>
               </section>
 
@@ -93,14 +93,14 @@ const TermsAndConditions = () => {
               <section>
                 <h2 className="font-display text-xl font-bold text-foreground mb-4">6. Limitation of Liability</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  TO THE MAXIMUM EXTENT PERMITTED BY LAW, CROPXON INNOVATIONS SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS OR REVENUES, WHETHER INCURRED DIRECTLY OR INDIRECTLY, OR ANY LOSS OF DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES.
+                  TO THE MAXIMUM EXTENT PERMITTED BY LAW, ORIGINX LABS SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS OR REVENUES, WHETHER INCURRED DIRECTLY OR INDIRECTLY, OR ANY LOSS OF DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES.
                 </p>
               </section>
 
               <section>
                 <h2 className="font-display text-xl font-bold text-foreground mb-4">7. Indemnification</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  You agree to indemnify, defend, and hold harmless CropXon Innovations and its officers, directors, employees, and agents from and against any claims, liabilities, damages, losses, and expenses arising out of or in any way connected with your access to or use of our Services.
+                  You agree to indemnify, defend, and hold harmless OriginX Labs and its officers, directors, employees, and agents from and against any claims, liabilities, damages, losses, and expenses arising out of or in any way connected with your access to or use of our Services.
                 </p>
               </section>
 
@@ -124,8 +124,8 @@ const TermsAndConditions = () => {
                   For questions about these Terms and Conditions, please contact us at:
                 </p>
                 <div className="mt-4 p-4 bg-card border border-border rounded-sm">
-                  <p className="text-foreground font-medium">CropXon Innovations Private Limited</p>
-                  <p className="text-muted-foreground text-sm mt-2">Email: legal@cropxon.com</p>
+                  <p className="text-foreground font-medium">OriginX Labs Pvt. Ltd.</p>
+                  <p className="text-muted-foreground text-sm mt-2">Email: legal@originxlabs.com</p>
                   <p className="text-muted-foreground text-sm">Registered Office: Odisha, India</p>
                   <p className="text-muted-foreground text-sm">CIN: U62010OD2025PTC051089</p>
                 </div>
