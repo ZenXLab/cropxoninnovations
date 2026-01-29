@@ -44,8 +44,8 @@ const Atlas = () => {
       <SEOHead
         title="ATLAS — AI Workforce Operating System & Management Platform"
         description="ATLAS is an AI-enabled workforce management and productivity platform designed for enterprise organizations. Smart scheduling, automated workflows, and real-time analytics."
-        keywords="workforce management, workforce operating system, AI scheduling, enterprise HR, team management, resource allocation, productivity platform, Cropxon Atlas"
-        url="https://cropxon.com/atlas"
+        keywords="workforce management, workforce operating system, AI scheduling, enterprise HR, team management, resource allocation, productivity platform, OriginX Atlas"
+        url="https://originxlabs.com/atlas"
         type="product"
       />
 
@@ -86,7 +86,7 @@ const Atlas = () => {
 
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button variant="heroPrimary" size="xl" asChild>
-                    <a href="https://atlas.cropxon.com" target="_blank" rel="noopener noreferrer">
+                    <a href="https://atlas.originxlabs.com" target="_blank" rel="noopener noreferrer">
                       Try ATLAS
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </a>
@@ -140,7 +140,7 @@ const Atlas = () => {
                 Join the beta program and be among the first to experience the future of workforce management.
               </p>
               <Button variant="heroPrimary" size="xl" asChild>
-                <a href="https://atlas.cropxon.com" target="_blank" rel="noopener noreferrer">
+                <a href="https://atlas.originxlabs.com" target="_blank" rel="noopener noreferrer">
                   Request Early Access
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </a>

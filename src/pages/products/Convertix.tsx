@@ -95,8 +95,8 @@ const Convertix = () => {
       <SEOHead
         title="Convertix — Conversion Operating Studio (COS) · File Conversion Platform"
         description="All conversion tools for PDF/Documents, Image, Media, and Developer utilities in one unified platform. The ultimate Conversion Operating Studio."
-        keywords="file conversion, PDF converter, image converter, media converter, document conversion, developer tools, Convertix"
-        url="https://cropxon.com/convertix"
+        keywords="file conversion, PDF converter, image converter, media converter, document conversion, developer tools, OriginX Convertix"
+        url="https://originxlabs.com/convertix"
         type="product"
       />
 

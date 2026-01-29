@@ -95,8 +95,8 @@ const Proxinex = () => {
       <SEOHead
         title="Proxinex — Control Intelligence & AI Model Routing Platform"
         description="Route queries to the best AI models. See exactly what you're paying. Verify every answer. All in one platform. Control Intelligence for enterprises."
-        keywords="AI model routing, control intelligence, AI cost optimization, model orchestration, AI verification, multi-model AI, Proxinex"
-        url="https://cropxon.com/proxinex"
+        keywords="AI model routing, control intelligence, AI cost optimization, model orchestration, AI verification, multi-model AI, OriginX Proxinex"
+        url="https://originxlabs.com/proxinex"
         type="product"
       />
 

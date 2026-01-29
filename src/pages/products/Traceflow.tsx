@@ -151,8 +151,8 @@ const Traceflow = () => {
       <SEOHead
         title="TraceFlow — Digital Cognition & Infrastructure Intelligence Platform"
         description="Unifies every digital signal into a single, trusted intelligence layer for mission-critical systems. Real-time observability, cross-layer correlation, and zero-trust security."
-        keywords="digital cognition, infrastructure intelligence, observability, signal correlation, zero-trust, hybrid cloud, incident detection, security monitoring, Cropxon TraceFlow"
-        url="https://cropxon.com/traceflow"
+        keywords="digital cognition, infrastructure intelligence, observability, signal correlation, zero-trust, hybrid cloud, incident detection, security monitoring, OriginX TraceFlow"
+        url="https://originxlabs.com/traceflow"
         type="product"
       />
 

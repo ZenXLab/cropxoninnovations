@@ -52,8 +52,8 @@ const Robotics = () => {
       <SEOHead
         title="Robotics — Autonomous Systems & Industrial Automation Division"
         description="Advanced autonomous systems and industrial automation solutions for enterprise and government. Computer vision, neural processing, precision mechanics, and swarm intelligence."
-        keywords="autonomous systems, industrial automation, robotics, computer vision, neural processing, precision mechanics, swarm intelligence, Cropxon Robotics"
-        url="https://cropxon.com/robotics"
+        keywords="autonomous systems, industrial automation, robotics, computer vision, neural processing, precision mechanics, swarm intelligence, OriginX Robotics"
+        url="https://originxlabs.com/robotics"
         type="product"
       />
 

@@ -95,8 +95,8 @@ const Qualyx = () => {
       <SEOHead
         title="Qualyx — Intelligent QA Automation & Test Intelligence Platform"
         description="Intelligent QA automation platform that transforms testing into a continuous quality feedback system. Automated test generation, regression detection, and CI/CD integration."
-        keywords="QA automation, test automation, regression testing, software testing, Cropxon Qualyx"
-        url="https://cropxon.com/qualyx"
+        keywords="QA automation, test automation, regression testing, software testing, OriginX Qualyx"
+        url="https://originxlabs.com/qualyx"
         type="product"
       />
 
