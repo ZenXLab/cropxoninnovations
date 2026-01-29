@@ -165,8 +165,8 @@ const Cognix = () => {
       <SEOHead
         title="Cognix — AI Software Cognition & Architecture Intelligence Platform"
         description="AI-powered software cognition platform that understands existing codebases, architectures, and business workflows. Acts as an architectural reasoning assistant for CTOs, architects and senior developers."
-        keywords="software cognition, architecture intelligence, code analysis, AI architecture, legacy modernization, codebase analysis, technical debt, migration planning, Cropxon Cognix"
-        url="https://cropxon.com/cognix"
+        keywords="software cognition, architecture intelligence, code analysis, AI architecture, legacy modernization, codebase analysis, technical debt, migration planning, OriginX Cognix"
+        url="https://originxlabs.com/cognix"
         type="product"
       />
 

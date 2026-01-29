@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 
 const stats = [
-  { icon: Building2, label: "Backed By", value: "CropXon Labs" },
+  { icon: Building2, label: "Backed By", value: "OriginX Labs" },
   { icon: Users, label: "Engineers", value: "500+ Trained" },
   { icon: Globe, label: "Global", value: "Remote Ready" },
   { icon: Award, label: "Certified", value: "Verified Skills" },
@@ -28,7 +28,7 @@ const team = [
   { icon: GraduationCap, title: "Engineering Leadership", role: "Program Design & Curriculum", description: "Senior engineers from top tech companies who design and validate our curriculum." },
   { icon: Users, title: "Lab Mentors", role: "Hands-on Guidance", description: "Experienced practitioners who guide students through real-world projects and challenges." },
   { icon: Briefcase, title: "Industry Partners", role: "Hiring & Placement", description: "Companies who trust StackCraft graduates and actively hire from our programs." },
-  { icon: Building2, title: "CropXon Innovations", role: "Parent Company", description: "The backing organization that provides labs, resources, and industry connections." },
+  { icon: Building2, title: "OriginX Labs", role: "Parent Company", description: "The backing organization that provides labs, resources, and industry connections." },
 ];
 
 const StackCraft = () => {
@@ -43,10 +43,10 @@ const StackCraft = () => {
   return (
     <>
       <SEOHead
-        title="StackCraft — Engineering Knowledge Platform by CropXon"
-        description="StackCraft is a public engineering knowledge platform focused on production-grade software engineering. Playbooks, learning paths, AI-assisted education — a learning division of CropXon Innovations Pvt Ltd."
-        keywords="software engineering, production engineering, learning platform, engineering playbooks, AI learning, platform engineering, CropXon StackCraft"
-        url="https://cropxon.com/stackcraft"
+        title="StackCraft — Engineering Knowledge Platform by OriginX Labs"
+        description="StackCraft is a public engineering knowledge platform focused on production-grade software engineering. Playbooks, learning paths, AI-assisted education — a learning division of OriginX Labs Pvt Ltd."
+        keywords="software engineering, production engineering, learning platform, engineering playbooks, AI learning, platform engineering, OriginX StackCraft"
+        url="https://originxlabs.com/stackcraft"
         type="website"
       />
       <Navigation />
@@ -68,7 +68,7 @@ const StackCraft = () => {
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_auto] animate-[gradient_3s_linear_infinite]">engineering knowledge.</span>
               </h1>
               <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
-                StackCraft is a learning division of CropXon Innovations Pvt Ltd. We create playbooks, learning paths, and AI-assisted education for engineers who build at scale.
+                StackCraft is a learning division of OriginX Labs Pvt Ltd. We create playbooks, learning paths, and AI-assisted education for engineers who build at scale.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Button size="lg" className="group">Explore Learning Paths<ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" /></Button>
@@ -97,7 +97,7 @@ const StackCraft = () => {
         <section ref={missionRef} className="py-16 lg:py-24">
           <div className="container mx-auto px-4 sm:px-6 lg:px-12">
             <div className={`max-w-4xl mx-auto transition-all duration-1000 ${missionVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}>
-              <div className="flex items-center gap-3 mb-6"><div className="h-px flex-1 bg-border" /><span className="text-xs font-mono text-muted-foreground tracking-widest">A LEARNING DIVISION OF CROPXON INNOVATIONS</span><div className="h-px flex-1 bg-border" /></div>
+              <div className="flex items-center gap-3 mb-6"><div className="h-px flex-1 bg-border" /><span className="text-xs font-mono text-muted-foreground tracking-widest">A LEARNING DIVISION OF ORIGINX LABS</span><div className="h-px flex-1 bg-border" /></div>
               <h2 className="font-display text-3xl lg:text-4xl font-bold text-foreground text-center mb-6">Building Engineers</h2>
               <div className="bg-card rounded-2xl border border-border p-8 lg:p-12">
                 <h3 className="font-display text-xl font-semibold text-foreground mb-4 flex items-center gap-3"><Target className="w-6 h-6 text-primary" />Our Mission</h3>
@@ -135,11 +135,11 @@ const StackCraft = () => {
               <div className="bg-gradient-to-br from-primary/5 via-background to-accent/5 rounded-2xl border border-border p-8 lg:p-12 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-40 h-40 bg-primary/10 rounded-full blur-3xl" />
                 <div className="relative z-10">
-                  <div className="flex items-center gap-3 mb-6"><Layers className="w-8 h-8 text-primary" /><h2 className="font-display text-2xl lg:text-3xl font-bold text-foreground">Powered by CropXon Innovations</h2></div>
-                  <p className="text-muted-foreground leading-relaxed mb-6">StackCraft is a learning division of CropXon Innovations Pvt Ltd, a technology company building enterprise software products and solutions.</p>
+                  <div className="flex items-center gap-3 mb-6"><Layers className="w-8 h-8 text-primary" /><h2 className="font-display text-2xl lg:text-3xl font-bold text-foreground">Powered by OriginX Labs</h2></div>
+                  <p className="text-muted-foreground leading-relaxed mb-6">StackCraft is a learning division of OriginX Labs Pvt Ltd, a technology company building enterprise software products and solutions.</p>
                   <div className="flex items-center justify-center gap-4 pt-6 border-t border-border">
                     <div className="text-4xl font-display text-primary">⚡</div>
-                    <div className="text-center"><div className="font-display text-xl font-bold text-foreground">STACKCRAFT™</div><div className="text-xs font-mono text-muted-foreground">by CropXon Innovations Pvt Ltd</div></div>
+                    <div className="text-center"><div className="font-display text-xl font-bold text-foreground">STACKCRAFT™</div><div className="text-xs font-mono text-muted-foreground">by OriginX Labs Pvt Ltd</div></div>
                   </div>
                 </div>
               </div>
@@ -175,7 +175,7 @@ const StackCraft = () => {
               <p className="text-muted-foreground leading-relaxed mb-10">StackCraft exists to fill the gap. We're building a knowledge platform that produces engineers capable of working at any company in the world — or building their own global products.</p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Button size="lg" className="group">Start Your Journey<ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" /></Button>
-                <Button variant="outline" size="lg" asChild><Link to="/">Back to CropXon</Link></Button>
+                <Button variant="outline" size="lg" asChild><Link to="/">Back to OriginX Labs</Link></Button>
               </div>
             </div>
           </div>

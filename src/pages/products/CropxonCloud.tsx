@@ -60,10 +60,10 @@ const CropxonCloud = () => {
   return (
     <>
       <SEOHead
-        title="Cropxon Cloud — Scalable Cloud Infrastructure & IaaS Platform"
-        description="Cropxon Cloud provides scalable infrastructure-as-a-service designed for businesses from individual developers to enterprise. Virtual machines, storage, CDN, and managed security."
-        keywords="cloud infrastructure, IaaS, cloud computing, virtual machines, cloud storage, CDN, managed security, enterprise cloud, Cropxon Cloud"
-        url="https://cropxon.com/cropxon-cloud"
+        title="OriginX Cloud — Scalable Cloud Infrastructure & IaaS Platform"
+        description="OriginX Cloud provides scalable infrastructure-as-a-service designed for businesses from individual developers to enterprise. Virtual machines, storage, CDN, and managed security."
+        keywords="cloud infrastructure, IaaS, cloud computing, virtual machines, cloud storage, CDN, managed security, enterprise cloud, OriginX Cloud"
+        url="https://originxlabs.com/originx-cloud"
         type="product"
       />
 
@@ -93,7 +93,7 @@ const CropxonCloud = () => {
                 </div>
 
                 <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground tracking-wide mb-6">
-                  Cropxon Cloud
+                  OriginX Cloud
                 </h1>
                 <p className="font-mono text-lg text-accent uppercase tracking-wider mb-6">
                   Infrastructure as a Service
@@ -104,7 +104,7 @@ const CropxonCloud = () => {
 
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button variant="heroPrimary" size="xl" asChild>
-                    <a href="https://cloud.cropxon.com" target="_blank" rel="noopener noreferrer">
+                    <a href="https://cloud.originxlabs.com" target="_blank" rel="noopener noreferrer">
                       Get Started
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </a>
@@ -196,7 +196,7 @@ const CropxonCloud = () => {
                 Start with our free tier and scale seamlessly as your business grows. No credit card required.
               </p>
               <Button variant="heroPrimary" size="xl" asChild>
-                <a href="https://cloud.cropxon.com" target="_blank" rel="noopener noreferrer">
+                <a href="https://cloud.originxlabs.com" target="_blank" rel="noopener noreferrer">
                   Create Free Account
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </a>

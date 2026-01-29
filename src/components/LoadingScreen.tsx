@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import originxLogoSvg from '@/assets/originx-logo.svg';
 
 interface LoadingScreenProps {
   onComplete: () => void;
@@ -61,7 +62,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
 
       {/* Center content */}
       <div className="relative flex flex-col items-center">
-        {/* Logo container with animation - Pure SVG, no background */}
+        {/* Logo container with animation - Using actual SVG file */}
         <div 
           className={`relative transition-all duration-700 ease-out ${
             showLogo ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
@@ -91,102 +92,19 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
             }}
           />
           
-          {/* Pure SVG Logo - No white background */}
-          <svg 
-            viewBox="0 0 100 100" 
-            className="relative w-24 h-24 sm:w-28 sm:h-28"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+          {/* Actual SVG Logo - Clean without any background */}
+          <div 
+            className="relative w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center"
             style={{
               animation: showLogo ? 'logoFloat 3s ease-in-out infinite' : 'none',
             }}
           >
-            <defs>
-              {/* Premium metallic gradient */}
-              <linearGradient id="splash-metallic" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="hsl(var(--foreground))" stopOpacity="0.95" />
-                <stop offset="25%" stopColor="hsl(var(--foreground))" stopOpacity="0.75" />
-                <stop offset="50%" stopColor="hsl(var(--foreground))" stopOpacity="1" />
-                <stop offset="75%" stopColor="hsl(var(--foreground))" stopOpacity="0.65" />
-                <stop offset="100%" stopColor="hsl(var(--foreground))" stopOpacity="0.85" />
-              </linearGradient>
-              
-              {/* Primary accent gradient */}
-              <linearGradient id="splash-accent" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.5" />
-                <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.2" />
-              </linearGradient>
-              
-              {/* Glow filter */}
-              <filter id="splash-glow" x="-30%" y="-30%" width="160%" height="160%">
-                <feGaussianBlur stdDeviation="2" result="blur" />
-                <feMerge>
-                  <feMergeNode in="blur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
-
-            {/* Main X shape - Premium intersecting rings */}
-            <g filter="url(#splash-glow)">
-              {/* First ring (tilted left) */}
-              <ellipse 
-                cx="50" 
-                cy="50" 
-                rx="40" 
-                ry="14"
-                fill="none"
-                stroke="url(#splash-metallic)"
-                strokeWidth="5"
-                strokeLinecap="round"
-                transform="rotate(-45 50 50)"
-              />
-              
-              {/* Second ring (tilted right) */}
-              <ellipse 
-                cx="50" 
-                cy="50" 
-                rx="40" 
-                ry="14"
-                fill="none"
-                stroke="url(#splash-metallic)"
-                strokeWidth="5"
-                strokeLinecap="round"
-                transform="rotate(45 50 50)"
-              />
-              
-              {/* Inner accent rings */}
-              <ellipse 
-                cx="50" 
-                cy="50" 
-                rx="37" 
-                ry="11"
-                fill="none"
-                stroke="url(#splash-accent)"
-                strokeWidth="1.5"
-                transform="rotate(-45 50 50)"
-              />
-              
-              <ellipse 
-                cx="50" 
-                cy="50" 
-                rx="37" 
-                ry="11"
-                fill="none"
-                stroke="url(#splash-accent)"
-                strokeWidth="1.5"
-                transform="rotate(45 50 50)"
-              />
-              
-              {/* Center highlight */}
-              <circle 
-                cx="50" 
-                cy="50" 
-                r="4"
-                fill="hsl(var(--foreground))"
-              />
-            </g>
-          </svg>
+            <img 
+              src={originxLogoSvg} 
+              alt="OriginX Labs"
+              className="w-full h-full object-contain"
+            />
+          </div>
         </div>
 
         {/* Brand text */}

@@ -95,8 +95,8 @@ const Chronyx = () => {
       <SEOHead
         title="Chronyx — Personal Quiet Space (PQS) · Life Management Platform"
         description="All personal details at one place including Todos, Finance, Study, Note Taking, Grocery Lists, Networth, Personal Memories. Your Personal Quiet Space."
-        keywords="personal management, life organization, todo app, finance tracking, note taking, memory journal, personal space, Chronyx"
-        url="https://cropxon.com/chronyx"
+        keywords="personal management, life organization, todo app, finance tracking, note taking, memory journal, personal space, OriginX Chronyx"
+        url="https://originxlabs.com/chronyx"
         type="product"
       />
 

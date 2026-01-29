@@ -164,8 +164,8 @@ const Opzenix = () => {
       <SEOHead
         title="OpZeniX — DevOps, DevSecOps, MLOps, AIOps & LLMOps Platform"
         description="Intelligent operations and execution platform for modern software and AI systems. CI/CD orchestration, infrastructure management, security automation, and ML lifecycle."
-        keywords="DevOps, DevSecOps, MLOps, AIOps, LLMOps, CI/CD, infrastructure management, security automation, ML lifecycle, Cropxon OpZeniX"
-        url="https://cropxon.com/opzenix"
+        keywords="DevOps, DevSecOps, MLOps, AIOps, LLMOps, CI/CD, infrastructure management, security automation, ML lifecycle, OriginX OpZeniX"
+        url="https://originxlabs.com/opzenix"
         type="product"
       />
 

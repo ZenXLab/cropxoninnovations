@@ -95,8 +95,8 @@ const Huminex = () => {
       <SEOHead
         title="Huminex — Workforce OS & Human Intelligence Platform"
         description="Modern workforce operating system that manages people, roles, skills, and organizational intelligence. HRMS, payroll, org structure, skill mapping, and workforce analytics."
-        keywords="workforce management, HRMS, human resources, payroll software, org structure, skill mapping, workforce analytics, HR platform, Cropxon Huminex"
-        url="https://cropxon.com/huminex"
+        keywords="workforce management, HRMS, human resources, payroll software, org structure, skill mapping, workforce analytics, HR platform, OriginX Huminex"
+        url="https://originxlabs.com/huminex"
         type="product"
       />
 

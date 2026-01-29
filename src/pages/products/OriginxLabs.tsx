@@ -24,7 +24,7 @@ const researchAreas = [
   {
     icon: GitBranch,
     title: "Platform Engineering",
-    description: "Creating developer tools and platforms that accelerate innovation across all CropXon divisions."
+    description: "Creating developer tools and platforms that accelerate innovation across all OriginX Labs divisions."
   },
   {
     icon: Microscope,
@@ -43,9 +43,9 @@ const OriginxLabs = () => {
     <>
       <SEOHead
         title="OriginX Labs — Research & Product Innovation Division"
-        description="OriginX Labs is Cropxon's research and development division focused on AI/ML, advanced computing, emerging technologies, and applied research."
-        keywords="AI research, ML research, R&D, product innovation, advanced computing, emerging technologies, applied research, Cropxon OriginX Labs"
-        url="https://cropxon.com/originx-labs"
+        description="OriginX Labs is the research and development division focused on AI/ML, advanced computing, emerging technologies, and applied research."
+        keywords="AI research, ML research, R&D, product innovation, advanced computing, emerging technologies, applied research, OriginX Labs"
+        url="https://originxlabs.com/originx-labs"
         type="website"
       />
 
@@ -90,7 +90,7 @@ const OriginxLabs = () => {
 
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button variant="heroPrimary" size="xl" asChild>
-                    <a href="https://labs.cropxon.com" target="_blank" rel="noopener noreferrer">
+                    <a href="https://labs.originxlabs.com" target="_blank" rel="noopener noreferrer">
                       Explore Research
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </a>
@@ -145,10 +145,10 @@ const OriginxLabs = () => {
                   From Research to Reality
                 </h2>
                 <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-                  OriginX Labs bridges the gap between academic research and enterprise-ready solutions. We invest in long-term research that powers the next generation of CropXon products.
+                  OriginX Labs bridges the gap between academic research and enterprise-ready solutions. We invest in long-term research that powers the next generation of OriginX products.
                 </p>
                 <Button variant="heroPrimary" size="xl" asChild>
-                  <a href="https://labs.cropxon.com" target="_blank" rel="noopener noreferrer">
+                  <a href="https://labs.originxlabs.com" target="_blank" rel="noopener noreferrer">
                     View Publications
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </a>

@@ -194,8 +194,8 @@ const ZenithStudio = () => {
       <SEOHead
         title="Zenith Studio — Business & Content Creation Platform"
         description="Multi-tenant creation platform for building digital business experiences with CMS, LMS, canvas builders, and workflow automation. API extensible for unlimited customization."
-        keywords="CMS platform, LMS platform, content management, learning management, workflow automation, no-code builder, multi-tenant SaaS, Cropxon Zenith Studio"
-        url="https://cropxon.com/zenith-studio"
+        keywords="CMS platform, LMS platform, content management, learning management, workflow automation, no-code builder, multi-tenant SaaS, OriginX Zenith Studio"
+        url="https://originxlabs.com/zenith-studio"
         type="product"
       />
 

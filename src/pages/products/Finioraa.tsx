@@ -95,8 +95,8 @@ const Finioraa = () => {
       <SEOHead
         title="Finioraa — Personal Finance Operating System (PFOS)"
         description="Track, Understand, Optimize Finances, Insurances, Stocks, Tax, Loans, EMIs, AI Insights, Predictions, Investments, Subscriptions. Your complete Personal Finance OS."
-        keywords="personal finance, investment tracking, tax planning, finance management, wealth management, AI finance, Finioraa"
-        url="https://cropxon.com/finioraa"
+        keywords="personal finance, investment tracking, tax planning, finance management, wealth management, AI finance, OriginX Finioraa"
+        url="https://originxlabs.com/finioraa"
         type="product"
       />
 
