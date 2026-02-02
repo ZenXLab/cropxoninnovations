@@ -7,8 +7,8 @@ const ServiceLevelAgreement = () => {
   return (
     <>
       <Helmet>
-        <title>Service Level Agreement (SLA) | CropXon Innovations</title>
-        <meta name="description" content="CropXon Innovations Service Level Agreement outlining uptime guarantees, support response times, and service commitments." />
+        <title>Service Level Agreement (SLA) | OriginX Labs</title>
+        <meta name="description" content="OriginX Labs Service Level Agreement outlining uptime guarantees, support response times, and service commitments." />
       </Helmet>
       
       <Navigation />
@@ -24,7 +24,7 @@ const ServiceLevelAgreement = () => {
               Service Level Agreement
             </h1>
             <p className="text-muted-foreground">
-              Effective Date: January 1, 2025 | Version 1.0
+              Effective Date: January 1, 2026 | Version 2.0
             </p>
           </div>
 
@@ -36,13 +36,13 @@ const ServiceLevelAgreement = () => {
                 1. Introduction
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                This Service Level Agreement ("SLA") is entered into between CropXon Innovations Private Limited 
-                ("CropXon," "we," "us," or "our") and the Customer ("you" or "your") and governs the service 
-                levels, uptime commitments, and support standards for all CropXon platforms and services, 
-                including but not limited to ATLAS, TRACEFLOW, CropXon Cloud, and associated products.
+                This Service Level Agreement ("SLA") is entered into between OriginX Labs Private Limited 
+                ("OriginX Labs," "we," "us," or "our") and the Customer ("you" or "your") and governs the service 
+                levels, uptime commitments, and support standards for all OriginX Labs platforms and services, 
+                including but not limited to ATLAS, TRACEFLOW, OriginX Cloud, and associated products.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                This SLA forms an integral part of your Master Service Agreement or Terms of Service with CropXon. 
+                This SLA forms an integral part of your Master Service Agreement or Terms of Service with OriginX Labs. 
                 In case of any conflict between this SLA and the Master Agreement, the Master Agreement shall prevail 
                 unless explicitly stated otherwise.
               </p>
@@ -66,7 +66,7 @@ const ServiceLevelAgreement = () => {
                 3. Service Availability Commitments
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                CropXon commits to the following Monthly Uptime Percentages for each service tier:
+                OriginX Labs commits to the following Monthly Uptime Percentages for each service tier:
               </p>
               
               <div className="overflow-x-auto">
@@ -109,7 +109,7 @@ const ServiceLevelAgreement = () => {
                 4. Support Response Times
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                CropXon provides tiered support based on incident severity and your service plan:
+                OriginX Labs provides tiered support based on incident severity and your service plan:
               </p>
               
               <div className="overflow-x-auto">
@@ -168,7 +168,7 @@ const ServiceLevelAgreement = () => {
                 5. Service Credits
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                If CropXon fails to meet the Monthly Uptime Percentage commitment, you are eligible for Service Credits:
+                If OriginX Labs fails to meet the Monthly Uptime Percentage commitment, you are eligible for Service Credits:
               </p>
               
               <div className="overflow-x-auto">
@@ -199,7 +199,7 @@ const ServiceLevelAgreement = () => {
               <div className="mt-4 space-y-2 text-muted-foreground">
                 <p><strong className="text-foreground">Credit Request Process:</strong></p>
                 <ul className="list-disc pl-6 space-y-1">
-                  <li>Submit credit requests within 30 days of the incident via support@cropxon.com</li>
+                  <li>Submit credit requests within 30 days of the incident via support@originxlabs.com</li>
                   <li>Include affected service, date/time of incident, and impact description</li>
                   <li>Credits are applied to your next billing cycle and are non-transferable</li>
                   <li>Maximum credit per month: 50% of monthly service fees</li>
@@ -213,18 +213,18 @@ const ServiceLevelAgreement = () => {
               </h2>
               <div className="space-y-4 text-muted-foreground">
                 <p className="leading-relaxed">
-                  <strong className="text-foreground">Scheduled Maintenance:</strong> CropXon reserves the right to 
+                  <strong className="text-foreground">Scheduled Maintenance:</strong> OriginX Labs reserves the right to 
                   perform scheduled maintenance during low-traffic periods (typically Sunday 2:00 AM – 6:00 AM IST). 
                   Customers will receive at least 72 hours advance notice via email and dashboard notification.
                 </p>
                 <p className="leading-relaxed">
                   <strong className="text-foreground">Emergency Maintenance:</strong> In cases of critical security 
-                  vulnerabilities or imminent system failures, CropXon may perform emergency maintenance with 
+                  vulnerabilities or imminent system failures, OriginX Labs may perform emergency maintenance with 
                   reasonable notice. We will communicate via status page and email as soon as practicable.
                 </p>
                 <p className="leading-relaxed">
                   <strong className="text-foreground">Status Page:</strong> Real-time service status is available at 
-                  status.cropxon.com, including current incidents, scheduled maintenance, and historical uptime data.
+                  status.originxlabs.com, including current incidents, scheduled maintenance, and historical uptime data.
                 </p>
               </div>
             </section>
@@ -244,7 +244,7 @@ const ServiceLevelAgreement = () => {
                 <li>Issues arising from Customer's failure to implement recommended configurations</li>
                 <li>Beta, preview, or free tier services unless explicitly covered</li>
                 <li>Actions or omissions by Customer that violate the Acceptable Use Policy</li>
-                <li>Issues with third-party integrations not managed by CropXon</li>
+                <li>Issues with third-party integrations not managed by OriginX Labs</li>
               </ul>
             </section>
 
@@ -258,7 +258,7 @@ const ServiceLevelAgreement = () => {
               <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
                 <li>Maintain accurate contact information for incident notifications</li>
                 <li>Report incidents promptly through designated support channels</li>
-                <li>Cooperate with CropXon technical teams during incident investigation</li>
+                <li>Cooperate with OriginX Labs technical teams during incident investigation</li>
                 <li>Implement security patches and updates in a timely manner</li>
                 <li>Monitor resource usage and scale services appropriately</li>
                 <li>Maintain data backups for business continuity</li>
@@ -291,7 +291,7 @@ const ServiceLevelAgreement = () => {
                 10. Amendments
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                CropXon may amend this SLA with 30 days written notice. Changes that materially reduce service 
+                OriginX Labs may amend this SLA with 30 days written notice. Changes that materially reduce service 
                 commitments will not apply to existing contracts until renewal. Continued use of services after 
                 the notice period constitutes acceptance of amended terms.
               </p>
@@ -302,10 +302,10 @@ const ServiceLevelAgreement = () => {
                 Contact Information
               </h2>
               <div className="space-y-2 text-muted-foreground">
-                <p><strong className="text-foreground">Support:</strong> support@cropxon.com</p>
+                <p><strong className="text-foreground">Support:</strong> support@originxlabs.com</p>
                 <p><strong className="text-foreground">Enterprise Support Hotline:</strong> +91-XXXX-XXXXXX</p>
-                <p><strong className="text-foreground">Status Page:</strong> status.cropxon.com</p>
-                <p><strong className="text-foreground">SLA Inquiries:</strong> sla@cropxon.com</p>
+                <p><strong className="text-foreground">Status Page:</strong> status.originxlabs.com</p>
+                <p><strong className="text-foreground">SLA Inquiries:</strong> sla@originxlabs.com</p>
               </div>
             </section>
 
