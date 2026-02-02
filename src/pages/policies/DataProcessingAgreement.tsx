@@ -7,8 +7,8 @@ const DataProcessingAgreement = () => {
   return (
     <>
       <Helmet>
-        <title>Data Processing Agreement (DPA) | CropXon Innovations</title>
-        <meta name="description" content="CropXon Innovations Data Processing Agreement for enterprise clients with GDPR compliance details and data protection commitments." />
+        <title>Data Processing Agreement (DPA) | OriginX Labs</title>
+        <meta name="description" content="OriginX Labs Data Processing Agreement for enterprise clients with GDPR compliance details and data protection commitments." />
       </Helmet>
       
       <Navigation />
@@ -24,7 +24,7 @@ const DataProcessingAgreement = () => {
               Data Processing Agreement
             </h1>
             <p className="text-muted-foreground">
-              Effective Date: January 1, 2025 | Version 1.0 | GDPR Compliant
+              Effective Date: January 1, 2026 | Version 2.0 | GDPR Compliant
             </p>
           </div>
 
@@ -37,14 +37,14 @@ const DataProcessingAgreement = () => {
               </h2>
               <p className="text-muted-foreground leading-relaxed">
                 This Data Processing Agreement ("DPA") forms part of the Master Service Agreement or Terms of 
-                Service ("Agreement") between CropXon Innovations Private Limited, a company registered under the 
-                laws of India with CIN U62010OD2025PTC051089 ("Processor," "we," "us," or "CropXon"), and the 
+                Service ("Agreement") between OriginX Labs Private Limited, a company registered under the 
+                laws of India with CIN U62010OD2026PTC052XXX ("Processor," "we," "us," or "OriginX Labs"), and the 
                 Customer ("Controller," "you," or "your").
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                This DPA applies to the processing of Personal Data by CropXon on behalf of the Controller in 
-                connection with the provision of CropXon services, including but not limited to ATLAS, TRACEFLOW, 
-                CropXon Cloud, and associated platforms.
+                This DPA applies to the processing of Personal Data by OriginX Labs on behalf of the Controller in 
+                connection with the provision of OriginX Labs services, including but not limited to ATLAS, TRACEFLOW, 
+                OriginX Cloud, and associated platforms.
               </p>
               <p className="text-muted-foreground leading-relaxed">
                 This DPA is designed to ensure compliance with the General Data Protection Regulation (EU) 2016/679 
@@ -76,17 +76,17 @@ const DataProcessingAgreement = () => {
               
               <h3 className="text-lg font-medium text-foreground mt-6 mb-3">3.1 Subject Matter and Duration</h3>
               <p className="text-muted-foreground leading-relaxed">
-                The subject matter of data processing is the provision of CropXon services as described in the 
+                The subject matter of data processing is the provision of OriginX Labs services as described in the 
                 Agreement. Processing will continue for the duration of the Agreement and for such additional 
                 period as required by applicable law or as necessary to complete outstanding obligations.
               </p>
 
               <h3 className="text-lg font-medium text-foreground mt-6 mb-3">3.2 Nature and Purpose</h3>
               <p className="text-muted-foreground leading-relaxed mb-3">
-                CropXon processes Personal Data for the following purposes:
+                OriginX Labs processes Personal Data for the following purposes:
               </p>
               <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-                <li>Provision, maintenance, and improvement of CropXon services</li>
+                <li>Provision, maintenance, and improvement of OriginX Labs services</li>
                 <li>Customer account management and authentication</li>
                 <li>Technical support and incident resolution</li>
                 <li>Service analytics and performance optimization</li>
@@ -114,7 +114,7 @@ const DataProcessingAgreement = () => {
 
               <h3 className="text-lg font-medium text-foreground mt-6 mb-3">3.5 Special Categories of Data</h3>
               <p className="text-muted-foreground leading-relaxed">
-                CropXon does not require the processing of special categories of data (as defined in Article 9 GDPR) 
+                OriginX Labs does not require the processing of special categories of data (as defined in Article 9 GDPR) 
                 to provide its services. If Controller submits such data, Controller warrants that it has obtained 
                 appropriate legal basis and explicit consent where required.
               </p>
@@ -125,7 +125,7 @@ const DataProcessingAgreement = () => {
                 4. Processor Obligations
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                CropXon, as Processor, agrees to:
+                OriginX Labs, as Processor, agrees to:
               </p>
               <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
                 <li>Process Personal Data only on documented instructions from the Controller, including with regard to transfers to third countries, unless required by applicable law</li>
@@ -147,13 +147,13 @@ const DataProcessingAgreement = () => {
                 The Controller warrants and agrees to:
               </p>
               <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-                <li>Ensure lawful basis exists for all Personal Data processing instructions provided to CropXon</li>
+                <li>Ensure lawful basis exists for all Personal Data processing instructions provided to OriginX Labs</li>
                 <li>Provide clear, documented instructions regarding Personal Data processing</li>
                 <li>Obtain and maintain all necessary consents from Data Subjects where required</li>
                 <li>Comply with all applicable data protection laws in its use of the services</li>
-                <li>Ensure the accuracy and legality of Personal Data submitted to CropXon</li>
+                <li>Ensure the accuracy and legality of Personal Data submitted to OriginX Labs</li>
                 <li>Implement appropriate security measures for data in transit and at rest</li>
-                <li>Notify CropXon promptly of any Data Subject requests or complaints</li>
+                <li>Notify OriginX Labs promptly of any Data Subject requests or complaints</li>
               </ul>
             </section>
 
@@ -162,7 +162,7 @@ const DataProcessingAgreement = () => {
                 6. Security Measures
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                CropXon implements the following technical and organizational security measures:
+                OriginX Labs implements the following technical and organizational security measures:
               </p>
               
               <h3 className="text-lg font-medium text-foreground mt-6 mb-3">6.1 Technical Measures</h3>
@@ -194,18 +194,18 @@ const DataProcessingAgreement = () => {
                 7. Sub-processors
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                The Controller provides general authorization for CropXon to engage Sub-processors. CropXon maintains 
-                a list of current Sub-processors at privacy.cropxon.com/subprocessors, which includes the Sub-processor's 
+                The Controller provides general authorization for OriginX Labs to engage Sub-processors. OriginX Labs maintains 
+                a list of current Sub-processors at privacy.originxlabs.com/subprocessors, which includes the Sub-processor's 
                 name, location, and processing activities.
               </p>
               <p className="text-muted-foreground leading-relaxed mt-4">
-                CropXon will notify the Controller at least 30 days before adding or replacing any Sub-processor. 
+                OriginX Labs will notify the Controller at least 30 days before adding or replacing any Sub-processor. 
                 The Controller may object to such changes within 14 days of notification. If the Controller reasonably 
                 objects and the parties cannot resolve the matter, either party may terminate the affected service 
                 without penalty.
               </p>
               <p className="text-muted-foreground leading-relaxed mt-4">
-                CropXon imposes data protection obligations on Sub-processors through written contracts that provide 
+                OriginX Labs imposes data protection obligations on Sub-processors through written contracts that provide 
                 at least the same level of protection as this DPA.
               </p>
             </section>
@@ -215,9 +215,9 @@ const DataProcessingAgreement = () => {
                 8. International Data Transfers
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                CropXon primarily processes Personal Data in India. Where transfers to countries outside the 
+                OriginX Labs primarily processes Personal Data in India. Where transfers to countries outside the 
                 European Economic Area (EEA), UK, or jurisdictions deemed adequate by the European Commission 
-                are necessary, CropXon ensures appropriate safeguards through:
+                are necessary, OriginX Labs ensures appropriate safeguards through:
               </p>
               <ul className="list-disc pl-6 space-y-2 text-muted-foreground mt-4">
                 <li>Standard Contractual Clauses (SCCs) as approved by the European Commission (Decision 2021/914)</li>
@@ -226,7 +226,7 @@ const DataProcessingAgreement = () => {
                 <li>Other lawful transfer mechanisms under GDPR Article 46</li>
               </ul>
               <p className="text-muted-foreground leading-relaxed mt-4">
-                The Standard Contractual Clauses are incorporated into this DPA by reference. CropXon conducts 
+                The Standard Contractual Clauses are incorporated into this DPA by reference. OriginX Labs conducts 
                 Transfer Impact Assessments (TIAs) for transfers to third countries and implements supplementary 
                 measures where required.
               </p>
@@ -237,7 +237,7 @@ const DataProcessingAgreement = () => {
                 9. Data Subject Rights
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                CropXon assists the Controller in responding to Data Subject requests to exercise their rights under 
+                OriginX Labs assists the Controller in responding to Data Subject requests to exercise their rights under 
                 applicable data protection laws, including:
               </p>
               <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
@@ -250,7 +250,7 @@ const DataProcessingAgreement = () => {
                 <li><strong className="text-foreground">Rights Related to Automated Decision-Making:</strong> Not be subject to purely automated decisions with legal effects</li>
               </ul>
               <p className="text-muted-foreground leading-relaxed mt-4">
-                CropXon will notify the Controller within 48 hours of receiving any Data Subject request and will 
+                OriginX Labs will notify the Controller within 48 hours of receiving any Data Subject request and will 
                 assist in fulfilling such requests within the timeframes required by law.
               </p>
             </section>
@@ -260,39 +260,37 @@ const DataProcessingAgreement = () => {
                 10. Personal Data Breach Notification
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                CropXon will notify the Controller without undue delay, and in any event within 48 hours, after 
+                OriginX Labs will notify the Controller without undue delay, and in any event within 48 hours, after 
                 becoming aware of a Personal Data Breach. Such notification will include:
               </p>
               <ul className="list-disc pl-6 space-y-2 text-muted-foreground mt-4">
                 <li>Description of the nature of the breach, including categories and approximate number of Data Subjects and records affected</li>
-                <li>Name and contact details of CropXon's Data Protection Officer or other contact point</li>
+                <li>Name and contact details of OriginX Labs' Data Protection Officer or other contact point</li>
                 <li>Description of likely consequences of the breach</li>
                 <li>Description of measures taken or proposed to address the breach and mitigate adverse effects</li>
               </ul>
               <p className="text-muted-foreground leading-relaxed mt-4">
-                CropXon will cooperate with the Controller's investigation and provide reasonable assistance in 
+                OriginX Labs will cooperate with the Controller's investigation and provide reasonable assistance in 
                 notifying supervisory authorities and affected Data Subjects where required by law.
               </p>
             </section>
 
             <section>
               <h2 className="text-xl font-semibold text-foreground mb-4 border-b border-border pb-2">
-                11. Audits and Assessments
+                11. Audits and Inspections
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                CropXon will make available to the Controller all information necessary to demonstrate compliance 
-                with this DPA and applicable data protection laws.
+                OriginX Labs shall make available to the Controller all information necessary to demonstrate compliance 
+                with this DPA and allow for and contribute to audits, including inspections, conducted by the 
+                Controller or an auditor mandated by the Controller.
               </p>
-              <p className="text-muted-foreground leading-relaxed mt-4">
-                <strong className="text-foreground">Audit Rights:</strong> The Controller may conduct audits, including 
-                inspections, subject to: (a) reasonable advance notice of at least 30 days; (b) during normal business 
-                hours; (c) without disrupting CropXon's operations; and (d) subject to confidentiality obligations.
-              </p>
-              <p className="text-muted-foreground leading-relaxed mt-4">
-                <strong className="text-foreground">Third-Party Audits:</strong> CropXon undergoes annual SOC 2 Type II 
-                audits and will provide audit reports to the Controller upon request under appropriate confidentiality 
-                protections.
-              </p>
+              <ul className="list-disc pl-6 space-y-2 text-muted-foreground mt-4">
+                <li>Audits must be conducted with at least 30 days advance written notice</li>
+                <li>Audits shall be conducted during normal business hours and shall not unreasonably interfere with OriginX Labs' operations</li>
+                <li>The Controller shall bear all costs associated with any audit</li>
+                <li>OriginX Labs may require the auditor to sign a confidentiality agreement</li>
+                <li>OriginX Labs provides annual SOC 2 Type II and ISO 27001 audit reports upon request</li>
+              </ul>
             </section>
 
             <section>
@@ -300,67 +298,43 @@ const DataProcessingAgreement = () => {
                 12. Data Retention and Deletion
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                Upon termination of the Agreement or upon Controller's written request, CropXon will:
+                Upon termination of the Agreement, OriginX Labs shall, at the Controller's election, delete or return 
+                all Personal Data and delete existing copies within 90 days, unless applicable law requires retention.
               </p>
-              <ul className="list-disc pl-6 space-y-2 text-muted-foreground mt-4">
-                <li>Return all Personal Data to the Controller in a commonly used, machine-readable format; or</li>
-                <li>Securely delete all Personal Data, including from backup systems, within 90 days</li>
-              </ul>
               <p className="text-muted-foreground leading-relaxed mt-4">
-                CropXon may retain Personal Data where required by applicable law, regulation, or legal proceedings, 
-                in which case CropXon will protect such data and limit processing to compliance with legal requirements.
+                The Controller may request data export in standard formats (JSON, CSV) through the OriginX Labs platform 
+                or by contacting privacy@originxlabs.com. OriginX Labs will provide certification of deletion upon request.
               </p>
             </section>
 
             <section>
               <h2 className="text-xl font-semibold text-foreground mb-4 border-b border-border pb-2">
-                13. Liability
+                13. Governing Law and Jurisdiction
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                Each party's liability under this DPA is subject to the limitations and exclusions set forth in 
-                the Agreement. Nothing in this DPA limits either party's liability for: (a) death or personal injury 
-                caused by negligence; (b) fraud or fraudulent misrepresentation; or (c) any liability that cannot 
-                be limited or excluded by law.
+                This DPA shall be governed by and construed in accordance with the laws of India. Any disputes 
+                arising out of or in connection with this DPA shall be subject to the exclusive jurisdiction of 
+                the courts located in Bhubaneswar, Odisha, India.
               </p>
-            </section>
-
-            <section>
-              <h2 className="text-xl font-semibold text-foreground mb-4 border-b border-border pb-2">
-                14. Governing Law and Jurisdiction
-              </h2>
-              <p className="text-muted-foreground leading-relaxed">
-                This DPA is governed by and construed in accordance with the laws of India, without regard to 
-                conflict of law principles. For disputes involving EU Personal Data, the courts of the member state 
-                where the Controller is established shall have jurisdiction. For all other disputes, the courts of 
-                Bhubaneswar, Odisha, India shall have exclusive jurisdiction.
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-xl font-semibold text-foreground mb-4 border-b border-border pb-2">
-                15. Amendments
-              </h2>
-              <p className="text-muted-foreground leading-relaxed">
-                CropXon may update this DPA to reflect changes in applicable data protection laws or our processing 
-                activities. Material changes will be communicated with at least 30 days' notice. Continued use of 
-                services after the effective date of changes constitutes acceptance of the amended DPA.
+              <p className="text-muted-foreground leading-relaxed mt-4">
+                For matters involving EU/UK data protection law, the provisions of the GDPR and applicable local 
+                law shall apply to the extent they conflict with Indian law.
               </p>
             </section>
 
             <section className="bg-muted/30 border border-border rounded-lg p-6">
               <h2 className="text-xl font-semibold text-foreground mb-4">
-                Data Protection Contact
+                Contact Information
               </h2>
               <div className="space-y-2 text-muted-foreground">
-                <p><strong className="text-foreground">Data Protection Officer:</strong> dpo@cropxon.com</p>
-                <p><strong className="text-foreground">Privacy Inquiries:</strong> privacy@cropxon.com</p>
-                <p><strong className="text-foreground">Sub-processor List:</strong> privacy.cropxon.com/subprocessors</p>
-                <p><strong className="text-foreground">Legal Department:</strong> legal@cropxon.com</p>
-                <p className="mt-4 text-sm">
-                  CropXon Innovations Private Limited<br />
-                  Registered Office: Odisha, India<br />
-                  CIN: U62010OD2025PTC051089
-                </p>
+                <p><strong className="text-foreground">Data Protection Officer:</strong> dpo@originxlabs.com</p>
+                <p><strong className="text-foreground">Privacy Inquiries:</strong> privacy@originxlabs.com</p>
+                <p><strong className="text-foreground">Legal Department:</strong> legal@originxlabs.com</p>
+                <p className="mt-4"><strong className="text-foreground">Mailing Address:</strong></p>
+                <p>OriginX Labs Pvt. Ltd.</p>
+                <p>Data Protection Officer</p>
+                <p>Bhubaneswar, Odisha</p>
+                <p>India</p>
               </div>
             </section>
 
